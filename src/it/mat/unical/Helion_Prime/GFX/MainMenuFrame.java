@@ -97,8 +97,6 @@ public class MainMenuFrame extends JFrame  {
 	
 	public static void main(String[] args) {
 		MainMenuFrame frame = MainMenuFrame.getInstance();
-		LoginInterface login = new LoginValidator();
-		login.doLogin("edge33", "1234");
 		frame.start();
 	}
 

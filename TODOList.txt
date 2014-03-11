@@ -26,3 +26,14 @@ Implementiamo almeno una abilità
 I mostri devono partire sfalzati o si muoveranno tutti nella stessa direzione 
 Troviamo un modo per gestire le sovrapposizioni dei mob sulle celle
 Implementiamo la grafica 
+
+/* Francesco 11/03/2014 */
+il db mysql vienne connesso correttamente, per ora funziona solo sul mio pc, visto che solo io, lo ho attivo!
+ho fornito un interfaccia per il login, basta chiamare il metodo doLogin e passare username e password per usarlo.
+dobbiamo rivedere modalità di gioco affinche abbia senso tenere il punteggio, ad esempio dovremmo mettere la modalità
+"partita completa" <- titolo work in progress, in cui non è possibile scegliere il livello, ma si gioca su tutti in ordine di difficoltà.
+solo in questo caso ha senso salvare il punteggio.
+------
+dovremmo prevedere un sistema per salvare la partita. penso si possa fare in modo che venga salvato l'ultimo livello completato, il punteggio
+e i soldi rimasti.
+

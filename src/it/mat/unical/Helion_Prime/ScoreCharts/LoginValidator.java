@@ -1,5 +1,6 @@
 package it.mat.unical.Helion_Prime.ScoreCharts;
 
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -14,15 +15,21 @@ public class LoginValidator implements LoginInterface{
 			db.DbConnect();
 			
 			 try {
-					Statement statement = DatabaseManager.getInstance().getConnection().createStatement();
 					
-					statement.executeQuery("SELECT * FROM User WHERE Username = '" + username + "' AND Password = '" + password + "' LIMIT 1");
+					String selectStatement = "SELECT * FROM User WHERE Username = ? AND Password = ? LIMIT 1";
 					
-					ResultSet resultSet = statement.getResultSet();
+					PreparedStatement preparedStatement = db.getConnection().prepareStatement(selectStatement);
+					
+					preparedStatement.setString(1,username);
+					preparedStatement.setString(2,password);
+					
+					ResultSet resultSet = preparedStatement.executeQuery();
 					
 					if ( resultSet.next() ) {
 						System.err.println("User Found");
-					} 
+					} else {
+						System.err.println("User NOT Found!!!");
+					}
 					
 					
 				} catch (SQLException e) {
