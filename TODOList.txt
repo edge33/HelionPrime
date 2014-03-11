@@ -1,0 +1,28 @@
+TODO LIST */ creato il 06/11/13 */
+ultimo aggiornamento 08/11/13
+
+
+ridefinire atteggiamenti editor -> bottoni per le dimensioni
+pausa
+salvataggio 
+
+ /* 
+ 	controllare modo in cui i pannelli vengono chiusi, non sono sicuro che funzioni correttamente
+	il MainMenuFrame ha un metodo pubblico switchToMainMenu(), usato in tutti i bottoni per tornare al menu
+	quando viene chiamato dereferenzia i puntatori agli altri frame da parte del mainFrame
+ /*	
+ 
+
+/* MAIDA 07/11/2013 */
+gameOver e via dicendo -> serve un pannello
+modifiche ai frame, adesso c'è un solo frame e switch di tutti i pannelli. V
+
+/* MAIDA 08/11/2013 */
+creiamo un editor di ondate insieme all'editor di livelli,
+lo diamo ad un Ciccio Pasqua qualunque e si diverte a creare livelli V
+
+/* Daniele 21/11/2013 */ 
+Implementiamo almeno una abilità 
+I mostri devono partire sfalzati o si muoveranno tutti nella stessa direzione 
+Troviamo un modo per gestire le sovrapposizioni dei mob sulle celle
+Implementiamo la grafica 

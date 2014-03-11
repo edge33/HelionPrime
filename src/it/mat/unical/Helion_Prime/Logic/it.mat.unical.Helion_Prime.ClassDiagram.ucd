@@ -1,0 +1,608 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<editmodel:ClassDiagramEditModel xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:editmodel="editmodel.xmi" xmlns:options="options.xmi" name="it.mat.unical.Helion_Prime.ClassDiagram" size="2930,2649" metadata="uml2-1.0" initialized="true" zoom="0.75" scrolledX="-23" scrolledY="912" tag="1000" key="32303037303533312D313030302048656C696F6E205072696D652F4672616E636573636F">
+  <children xsi:type="editmodel:ClassEditModel" name="FireTrap" location="1066,2264" size="95,85" id="it.mat.unical.Helion_Prime.Logic/FireTrap" runTimeClassModel="effect(),FireTrap(II)">
+    <children xsi:type="editmodel:CompartmentEditModel" size="0,0"/>
+    <children xsi:type="editmodel:CompartmentEditModel" size="70,36">
+      <children xsi:type="editmodel:MethodEditModel" name="FireTrap" id="it.mat.unical.Helion_Prime.Logic/FireTrap#FireTrap(II)"/>
+      <children xsi:type="editmodel:MethodEditModel" name="effect" id="it.mat.unical.Helion_Prime.Logic/FireTrap#effect()"/>
+    </children>
+    <children xsi:type="editmodel:CompartmentEditModel" size="0,0"/>
+    <classifierPreferences xsi:type="editmodel:UMLClassDiagramClassifierPreference" showStereotype="true" attributeSorter="Natural" methodSorter="Natural" innerClassSorter="Natural" showPublicAttributes="true" showPackageAttributes="true" showStaticAttributes="true" showPublicMethods="true" showPackageMethods="true" showStaticMethods="true" showPublicInnerClasses="true" showPackageInnerClasses="true" showStaticInnerClasses="true" packageIndication="3" showAttributeProperty="true"/>
+  </children>
+  <children xsi:type="editmodel:ClassEditModel" name="SpikeTrap" location="910,2264" size="106,103" id="it.mat.unical.Helion_Prime.Logic/SpikeTrap" runTimeClassModel="effect(),SpikeTrap(II),SpikeTrap()">
+    <children xsi:type="editmodel:CompartmentEditModel" size="0,0"/>
+    <children xsi:type="editmodel:CompartmentEditModel" size="78,54">
+      <children xsi:type="editmodel:MethodEditModel" name="SpikeTrap" location="1838,1669" id="it.mat.unical.Helion_Prime.Logic/SpikeTrap#SpikeTrap(II)"/>
+      <children xsi:type="editmodel:MethodEditModel" name="effect" id="it.mat.unical.Helion_Prime.Logic/SpikeTrap#effect()"/>
+      <children xsi:type="editmodel:MethodEditModel" name="SpikeTrap" id="it.mat.unical.Helion_Prime.Logic/SpikeTrap#SpikeTrap()"/>
+    </children>
+    <children xsi:type="editmodel:CompartmentEditModel" size="0,0"/>
+    <classifierPreferences xsi:type="editmodel:UMLClassDiagramClassifierPreference" showStereotype="true" attributeSorter="Natural" methodSorter="Natural" innerClassSorter="Natural" showPublicAttributes="true" showPackageAttributes="true" showStaticAttributes="true" showPublicMethods="true" showPackageMethods="true" showStaticMethods="true" showPublicInnerClasses="true" showPackageInnerClasses="true" showStaticInnerClasses="true" packageIndication="3" showAttributeProperty="true"/>
+  </children>
+  <children xsi:type="editmodel:ClassEditModel" name="MaidaImpl" location="744,2264" size="180,265" id="it.mat.unical.Helion_Prime.Logic/MaidaImpl" runTimeClassModel="MaidaImpl(),getHeight(),height,getLenght(),getWaveImpl(),getWorld(),update(),getNativeSpawner(),getPlayer(),getElementAt(II),lenght,nativeSpawner">
+    <children xsi:type="editmodel:CompartmentEditModel" size="157,54">
+      <children xsi:type="editmodel:AttributeEditModel" name="height" id="it.mat.unical.Helion_Prime.Logic/MaidaImpl#height"/>
+      <children xsi:type="editmodel:AttributeEditModel" name="lenght" id="it.mat.unical.Helion_Prime.Logic/MaidaImpl#lenght"/>
+      <children xsi:type="editmodel:AttributeEditModel" name="nativeSpawner" id="it.mat.unical.Helion_Prime.Logic/MaidaImpl#nativeSpawner"/>
+    </children>
+    <children xsi:type="editmodel:CompartmentEditModel" size="120,162">
+      <children xsi:type="editmodel:MethodEditModel" name="getWaveImpl" id="it.mat.unical.Helion_Prime.Logic/MaidaImpl#getWaveImpl()"/>
+      <children xsi:type="editmodel:MethodEditModel" name="update" id="it.mat.unical.Helion_Prime.Logic/MaidaImpl#update()"/>
+      <children xsi:type="editmodel:MethodEditModel" name="MaidaImpl" id="it.mat.unical.Helion_Prime.Logic/MaidaImpl#MaidaImpl()"/>
+      <children xsi:type="editmodel:MethodEditModel" name="getHeight" id="it.mat.unical.Helion_Prime.Logic/MaidaImpl#getHeight()"/>
+      <children xsi:type="editmodel:MethodEditModel" name="getWorld" id="it.mat.unical.Helion_Prime.Logic/MaidaImpl#getWorld()"/>
+      <children xsi:type="editmodel:MethodEditModel" name="getLenght" id="it.mat.unical.Helion_Prime.Logic/MaidaImpl#getLenght()"/>
+      <children xsi:type="editmodel:MethodEditModel" name="getElementAt" id="it.mat.unical.Helion_Prime.Logic/MaidaImpl#getElementAt(II)"/>
+      <children xsi:type="editmodel:MethodEditModel" name="getPlayer" id="it.mat.unical.Helion_Prime.Logic/MaidaImpl#getPlayer()"/>
+      <children xsi:type="editmodel:MethodEditModel" name="getNativeSpawner" id="it.mat.unical.Helion_Prime.Logic/MaidaImpl#getNativeSpawner()"/>
+    </children>
+    <children xsi:type="editmodel:CompartmentEditModel" size="0,0"/>
+    <classifierPreferences xsi:type="editmodel:UMLClassDiagramClassifierPreference" showStereotype="true" attributeSorter="Natural" methodSorter="Natural" innerClassSorter="Natural" showPublicAttributes="true" showPackageAttributes="true" showStaticAttributes="true" showPublicMethods="true" showPackageMethods="true" showStaticMethods="true" showPublicInnerClasses="true" showPackageInnerClasses="true" showStaticInnerClasses="true" packageIndication="3" showAttributeProperty="true"/>
+  </children>
+  <children xsi:type="editmodel:ClassEditModel" targetConnections="//@children.8/@sourceConnections.1" name="WorldImpl" location="50,50" size="143,175" id="it.mat.unical.Helion_Prime.Logic/WorldImpl" runTimeClassModel="getHeight(),getLenght(),getWaveImpl(),getWorld(),update(),getNativeSpawner(),getElementAt(II)">
+    <children xsi:type="editmodel:CompartmentEditModel" size="0,0"/>
+    <children xsi:type="editmodel:CompartmentEditModel" size="120,126">
+      <children xsi:type="editmodel:MethodEditModel" name="getWaveImpl" id="it.mat.unical.Helion_Prime.Logic/WorldImpl#getWaveImpl()"/>
+      <children xsi:type="editmodel:MethodEditModel" name="update" id="it.mat.unical.Helion_Prime.Logic/WorldImpl#update()"/>
+      <children xsi:type="editmodel:MethodEditModel" name="getLenght" id="it.mat.unical.Helion_Prime.Logic/WorldImpl#getLenght()"/>
+      <children xsi:type="editmodel:MethodEditModel" name="getHeight" id="it.mat.unical.Helion_Prime.Logic/WorldImpl#getHeight()"/>
+      <children xsi:type="editmodel:MethodEditModel" name="getWorld" id="it.mat.unical.Helion_Prime.Logic/WorldImpl#getWorld()"/>
+      <children xsi:type="editmodel:MethodEditModel" name="getElementAt" id="it.mat.unical.Helion_Prime.Logic/WorldImpl#getElementAt(II)"/>
+      <children xsi:type="editmodel:MethodEditModel" name="getNativeSpawner" id="it.mat.unical.Helion_Prime.Logic/WorldImpl#getNativeSpawner()"/>
+    </children>
+    <children xsi:type="editmodel:CompartmentEditModel" size="0,0"/>
+    <classifierPreferences xsi:type="editmodel:UMLClassDiagramClassifierPreference" showStereotype="true" attributeSorter="Natural" methodSorter="Natural" innerClassSorter="Natural" showPublicAttributes="true" showPackageAttributes="true" showStaticAttributes="true" showPublicMethods="true" showPackageMethods="true" showStaticMethods="true" showPublicInnerClasses="true" showPackageInnerClasses="true" showStaticInnerClasses="true" packageIndication="3" showAttributeProperty="true"/>
+  </children>
+  <children xsi:type="editmodel:InterfaceEditModel" targetConnections="//@children.5/@sourceConnections.0" name="Weapon" location="574,2264" size="95,81" id="it.mat.unical.Helion_Prime.Logic/Weapon" runTimeClassModel="hit()">
+    <children xsi:type="editmodel:CompartmentEditModel" size="0,0"/>
+    <children xsi:type="editmodel:CompartmentEditModel" size="41,18">
+      <children xsi:type="editmodel:MethodEditModel" name="hit" id="it.mat.unical.Helion_Prime.Logic/Weapon#hit()"/>
+    </children>
+    <children xsi:type="editmodel:CompartmentEditModel" size="0,0"/>
+    <classifierPreferences xsi:type="editmodel:UMLClassDiagramClassifierPreference" showStereotype="true" attributeSorter="Natural" methodSorter="Natural" innerClassSorter="Natural" showPublicAttributes="true" showPackageAttributes="true" showStaticAttributes="true" showPublicMethods="true" showPackageMethods="true" showStaticMethods="true" showPublicInnerClasses="true" showPackageInnerClasses="true" showStaticInnerClasses="true" packageIndication="3" showAttributeProperty="true"/>
+  </children>
+  <children xsi:type="editmodel:InterfaceEditModel" targetConnections="//@children.6/@sourceConnections.0" name="RangedWeapon" location="550,2395" size="144,99" id="it.mat.unical.Helion_Prime.Logic/RangedWeapon" runTimeClassModel="hit(),shoot()">
+    <children xsi:type="editmodel:CompartmentEditModel" size="0,0"/>
+    <children xsi:type="editmodel:CompartmentEditModel" size="57,36">
+      <children xsi:type="editmodel:MethodEditModel" name="hit" id="it.mat.unical.Helion_Prime.Logic/RangedWeapon#hit()"/>
+      <children xsi:type="editmodel:MethodEditModel" name="shoot" id="it.mat.unical.Helion_Prime.Logic/RangedWeapon#shoot()"/>
+    </children>
+    <children xsi:type="editmodel:CompartmentEditModel" size="0,0"/>
+    <sourceConnections xsi:type="editmodel:GeneralizationEditModel" autoLocated="true" id="it.mat.unical.Helion_Prime.Logic/Weapon&lt;-it.mat.unical.Helion_Prime.Logic/RangedWeapon" source="//@children.5" target="//@children.4" targetEnd="//@children.5/@sourceConnections.0/@children.1" sourceEnd="//@children.5/@sourceConnections.0/@children.0" connectionRouterKind="Manual">
+      <children xsi:type="editmodel:AssociationEndEditModel" location="71,0" attachSource="true"/>
+      <children xsi:type="editmodel:AssociationEndEditModel" location="47,81"/>
+    </sourceConnections>
+    <classifierPreferences xsi:type="editmodel:UMLClassDiagramClassifierPreference" showStereotype="true" attributeSorter="Natural" methodSorter="Natural" innerClassSorter="Natural" showPublicAttributes="true" showPackageAttributes="true" showStaticAttributes="true" showPublicMethods="true" showPackageMethods="true" showStaticMethods="true" showPublicInnerClasses="true" showPackageInnerClasses="true" showStaticInnerClasses="true" packageIndication="3" showAttributeProperty="true"/>
+  </children>
+  <children xsi:type="editmodel:ClassEditModel" name="SimpleGun" location="565,2544" size="113,85" id="it.mat.unical.Helion_Prime.Logic/SimpleGun" runTimeClassModel="hit(),shoot()">
+    <children xsi:type="editmodel:CompartmentEditModel" size="0,0"/>
+    <children xsi:type="editmodel:CompartmentEditModel" size="57,36">
+      <children xsi:type="editmodel:MethodEditModel" name="hit" id="it.mat.unical.Helion_Prime.Logic/SimpleGun#hit()"/>
+      <children xsi:type="editmodel:MethodEditModel" name="shoot" id="it.mat.unical.Helion_Prime.Logic/SimpleGun#shoot()"/>
+    </children>
+    <children xsi:type="editmodel:CompartmentEditModel" size="0,0"/>
+    <sourceConnections xsi:type="editmodel:GeneralizationEditModel" autoLocated="true" id="it.mat.unical.Helion_Prime.Logic/RangedWeapon&lt;-it.mat.unical.Helion_Prime.Logic/SimpleGun" source="//@children.6" target="//@children.5" targetEnd="//@children.6/@sourceConnections.0/@children.1" sourceEnd="//@children.6/@sourceConnections.0/@children.0" connectionRouterKind="Manual">
+      <children xsi:type="editmodel:AssociationEndEditModel" location="56,0" attachSource="true"/>
+      <children xsi:type="editmodel:AssociationEndEditModel" location="71,99"/>
+    </sourceConnections>
+    <classifierPreferences xsi:type="editmodel:UMLClassDiagramClassifierPreference" showStereotype="true" attributeSorter="Natural" methodSorter="Natural" innerClassSorter="Natural" showPublicAttributes="true" showPackageAttributes="true" showStaticAttributes="true" showPublicMethods="true" showPackageMethods="true" showStaticMethods="true" showPublicInnerClasses="true" showPackageInnerClasses="true" showStaticInnerClasses="true" packageIndication="3" showAttributeProperty="true"/>
+  </children>
+  <children xsi:type="editmodel:InterfaceEditModel" targetConnections="//@children.8/@sourceConnections.0" name="ManagerInterface" location="241,179" size="154,117" id="it.mat.unical.Helion_Prime.Logic/ManagerInterface" runTimeClassModel="endGame(),getWorld(),gameIsOver()">
+    <children xsi:type="editmodel:CompartmentEditModel" size="0,0"/>
+    <children xsi:type="editmodel:CompartmentEditModel" size="88,54">
+      <children xsi:type="editmodel:MethodEditModel" name="gameIsOver" id="it.mat.unical.Helion_Prime.Logic/ManagerInterface#gameIsOver()"/>
+      <children xsi:type="editmodel:MethodEditModel" name="endGame" id="it.mat.unical.Helion_Prime.Logic/ManagerInterface#endGame()"/>
+      <children xsi:type="editmodel:MethodEditModel" name="getWorld" id="it.mat.unical.Helion_Prime.Logic/ManagerInterface#getWorld()"/>
+    </children>
+    <children xsi:type="editmodel:CompartmentEditModel" size="0,0"/>
+    <classifierPreferences xsi:type="editmodel:UMLClassDiagramClassifierPreference" showStereotype="true" attributeSorter="Natural" methodSorter="Natural" innerClassSorter="Natural" showPublicAttributes="true" showPackageAttributes="true" showStaticAttributes="true" showPublicMethods="true" showPackageMethods="true" showStaticMethods="true" showPublicInnerClasses="true" showPackageInnerClasses="true" showStaticInnerClasses="true" packageIndication="3" showAttributeProperty="true"/>
+  </children>
+  <children xsi:type="editmodel:ClassEditModel" name="ManagerImpl" location="255,346" size="126,175" id="it.mat.unical.Helion_Prime.Logic/ManagerImpl" runTimeClassModel="endGame(),movePlayer(I),getWorld(),placeTrap(II),gameIsOver(),canPlaceTrap(II),ManagerImpl()">
+    <children xsi:type="editmodel:CompartmentEditModel" size="0,0"/>
+    <children xsi:type="editmodel:CompartmentEditModel" size="96,126">
+      <children xsi:type="editmodel:MethodEditModel" name="ManagerImpl" id="it.mat.unical.Helion_Prime.Logic/ManagerImpl#ManagerImpl()"/>
+      <children xsi:type="editmodel:MethodEditModel" name="endGame" id="it.mat.unical.Helion_Prime.Logic/ManagerImpl#endGame()"/>
+      <children xsi:type="editmodel:MethodEditModel" name="gameIsOver" id="it.mat.unical.Helion_Prime.Logic/ManagerImpl#gameIsOver()"/>
+      <children xsi:type="editmodel:MethodEditModel" name="getWorld" id="it.mat.unical.Helion_Prime.Logic/ManagerImpl#getWorld()"/>
+      <children xsi:type="editmodel:MethodEditModel" name="movePlayer" id="it.mat.unical.Helion_Prime.Logic/ManagerImpl#movePlayer(I)"/>
+      <children xsi:type="editmodel:MethodEditModel" name="canPlaceTrap" id="it.mat.unical.Helion_Prime.Logic/ManagerImpl#canPlaceTrap(II)"/>
+      <children xsi:type="editmodel:MethodEditModel" name="placeTrap" id="it.mat.unical.Helion_Prime.Logic/ManagerImpl#placeTrap(II)"/>
+    </children>
+    <children xsi:type="editmodel:CompartmentEditModel" size="0,0"/>
+    <sourceConnections xsi:type="editmodel:GeneralizationEditModel" autoLocated="true" id="it.mat.unical.Helion_Prime.Logic/ManagerInterface&lt;-it.mat.unical.Helion_Prime.Logic/ManagerImpl" source="//@children.8" target="//@children.7" targetEnd="//@children.8/@sourceConnections.0/@children.1" sourceEnd="//@children.8/@sourceConnections.0/@children.0" connectionRouterKind="Manual">
+      <children xsi:type="editmodel:AssociationEndEditModel" location="63,0" attachSource="true"/>
+      <children xsi:type="editmodel:AssociationEndEditModel" location="77,117"/>
+    </sourceConnections>
+    <sourceConnections xsi:type="editmodel:AssociationEditModel" autoLocated="true" id="it.mat.unical.Helion_Prime.Logic/WorldImpl@worldImpl+it.mat.unical.Helion_Prime.Logic/ManagerImpl@managerImpl" source="//@children.8" target="//@children.3" targetEnd="//@children.8/@sourceConnections.1/@children.1" label="//@children.8/@sourceConnections.1/@children.2" sourceEnd="//@children.8/@sourceConnections.1/@children.0" connectionRouterKind="Manhattan">
+      <children xsi:type="editmodel:AssociationEndEditModel" name="managerImpl" location="10,0" id="it.mat.unical.Helion_Prime.Logic/WorldImpl@worldImpl+it.mat.unical.Helion_Prime.Logic/ManagerImpl@managerImpl|it.mat.unical.Helion_Prime.Logic/ManagerImpl#managerImpl" attachSource="true"/>
+      <children xsi:type="editmodel:AssociationEndEditModel" name="worldImpl" location="143,165" id="it.mat.unical.Helion_Prime.Logic/WorldImpl@worldImpl+it.mat.unical.Helion_Prime.Logic/ManagerImpl@managerImpl|it.mat.unical.Helion_Prime.Logic/WorldImpl#worldImpl" multiplicityLabel="//@children.8/@sourceConnections.1/@children.1/@children.1" roleLabel="//@children.8/@sourceConnections.1/@children.1/@children.0" aggregationKind="Composition" navigable="true" changeability="2">
+        <children xsi:type="editmodel:LabelEditModel" name=" - worldImpl" location="199,193" size="56,14" anchorKind="LastPart"/>
+        <children xsi:type="editmodel:LabelEditModel" name="1" location="199,221" size="6,14" anchorKind="LastPart"/>
+      </children>
+      <children xsi:type="editmodel:WireLabelEditModel" size="0,14" anchorKind="MiddlePart"/>
+    </sourceConnections>
+    <sourceConnections xsi:type="editmodel:AssociationEditModel" autoLocated="true" id="it.mat.unical.Helion_Prime.Logic/WaveImpl@waveImpl+it.mat.unical.Helion_Prime.Logic/ManagerImpl@managerImpl" source="//@children.8" target="//@children.13" targetEnd="//@children.8/@sourceConnections.2/@children.1" label="//@children.8/@sourceConnections.2/@children.2" sourceEnd="//@children.8/@sourceConnections.2/@children.0" connectionRouterKind="Manhattan">
+      <children xsi:type="editmodel:AssociationEndEditModel" name="managerImpl" location="126,127" id="it.mat.unical.Helion_Prime.Logic/WaveImpl@waveImpl+it.mat.unical.Helion_Prime.Logic/ManagerImpl@managerImpl|it.mat.unical.Helion_Prime.Logic/ManagerImpl#managerImpl" attachSource="true"/>
+      <children xsi:type="editmodel:AssociationEndEditModel" name="waveImpl" location="0,47" id="it.mat.unical.Helion_Prime.Logic/WaveImpl@waveImpl+it.mat.unical.Helion_Prime.Logic/ManagerImpl@managerImpl|it.mat.unical.Helion_Prime.Logic/WaveImpl#waveImpl" multiplicityLabel="//@children.8/@sourceConnections.2/@children.1/@children.1" roleLabel="//@children.8/@sourceConnections.2/@children.1/@children.0" navigable="true">
+        <children xsi:type="editmodel:LabelEditModel" name=" - waveImpl" location="385,451" size="56,14" anchorKind="LastPart"/>
+        <children xsi:type="editmodel:LabelEditModel" name="*" location="437,479" size="4,14" anchorKind="LastPart"/>
+      </children>
+      <children xsi:type="editmodel:WireLabelEditModel" size="0,14" anchorKind="MiddlePart"/>
+    </sourceConnections>
+    <classifierPreferences xsi:type="editmodel:UMLClassDiagramClassifierPreference" showStereotype="true" attributeSorter="Natural" methodSorter="Natural" innerClassSorter="Natural" showPublicAttributes="true" showPackageAttributes="true" showStaticAttributes="true" showPublicMethods="true" showPackageMethods="true" showStaticMethods="true" showPublicInnerClasses="true" showPackageInnerClasses="true" showStaticInnerClasses="true" packageIndication="3" showAttributeProperty="true"/>
+  </children>
+  <children xsi:type="editmodel:ClassEditModel" name="HealAbility" location="253,2395" size="111,85" id="it.mat.unical.Helion_Prime.Logic/HealAbility" runTimeClassModel="getAbility(),Heal()">
+    <children xsi:type="editmodel:CompartmentEditModel" size="0,0"/>
+    <children xsi:type="editmodel:CompartmentEditModel" size="74,36">
+      <children xsi:type="editmodel:MethodEditModel" name="Heal" id="it.mat.unical.Helion_Prime.Logic/HealAbility#Heal()"/>
+      <children xsi:type="editmodel:MethodEditModel" name="getAbility" location="1187,136" id="it.mat.unical.Helion_Prime.Logic/HealAbility#getAbility()"/>
+    </children>
+    <children xsi:type="editmodel:CompartmentEditModel" size="0,0"/>
+    <sourceConnections xsi:type="editmodel:GeneralizationEditModel" autoLocated="true" id="it.mat.unical.Helion_Prime.Logic/AbilityInterface&lt;-it.mat.unical.Helion_Prime.Logic/HealAbility" source="//@children.9" target="//@children.11/@sourceConnections.0" targetEnd="//@children.9/@sourceConnections.0/@children.1" sourceEnd="//@children.9/@sourceConnections.0/@children.0" connectionRouterKind="GeneralizationManhattan">
+      <children xsi:type="editmodel:AssociationEndEditModel" location="55,0" anchorKind="FixedAtEdge" attachSource="true"/>
+      <children xsi:type="editmodel:AssociationEndEditModel" location="97,61"/>
+    </sourceConnections>
+    <classifierPreferences xsi:type="editmodel:UMLClassDiagramClassifierPreference" showStereotype="true" attributeSorter="Natural" methodSorter="Natural" innerClassSorter="Natural" showPublicAttributes="true" showPackageAttributes="true" showStaticAttributes="true" showPublicMethods="true" showPackageMethods="true" showStaticMethods="true" showPublicInnerClasses="true" showPackageInnerClasses="true" showStaticInnerClasses="true" packageIndication="3" showAttributeProperty="true"/>
+  </children>
+  <children xsi:type="editmodel:InterfaceEditModel" targetConnections="//@children.11/@sourceConnections.0" name="AbilityInterface" location="228,2264" size="138,81" id="it.mat.unical.Helion_Prime.Logic/AbilityInterface" runTimeClassModel="getAbility()">
+    <children xsi:type="editmodel:CompartmentEditModel" size="0,0"/>
+    <children xsi:type="editmodel:CompartmentEditModel" size="74,18">
+      <children xsi:type="editmodel:MethodEditModel" name="getAbility" location="600,505" id="it.mat.unical.Helion_Prime.Logic/AbilityInterface#getAbility()"/>
+    </children>
+    <children xsi:type="editmodel:CompartmentEditModel" size="0,0"/>
+    <classifierPreferences xsi:type="editmodel:UMLClassDiagramClassifierPreference" showStereotype="true" attributeSorter="Natural" methodSorter="Natural" innerClassSorter="Natural" showPublicAttributes="true" showPackageAttributes="true" showStaticAttributes="true" showPublicMethods="true" showPackageMethods="true" showStaticMethods="true" showPublicInnerClasses="true" showPackageInnerClasses="true" showStaticInnerClasses="true" packageIndication="3" showAttributeProperty="true"/>
+  </children>
+  <children xsi:type="editmodel:ClassEditModel" name="FirstTrapAvoidAbility" location="50,2395" size="173,85" id="it.mat.unical.Helion_Prime.Logic/FirstTrapAvoidAbility" runTimeClassModel="Jump(),getAbility()">
+    <children xsi:type="editmodel:CompartmentEditModel" size="0,0"/>
+    <children xsi:type="editmodel:CompartmentEditModel" size="74,36">
+      <children xsi:type="editmodel:MethodEditModel" name="Jump" location="251,319" id="it.mat.unical.Helion_Prime.Logic/FirstTrapAvoidAbility#Jump()"/>
+      <children xsi:type="editmodel:MethodEditModel" name="getAbility" location="200,265" id="it.mat.unical.Helion_Prime.Logic/FirstTrapAvoidAbility#getAbility()"/>
+    </children>
+    <children xsi:type="editmodel:CompartmentEditModel" size="0,0"/>
+    <sourceConnections xsi:type="editmodel:GeneralizationEditModel" targetConnections="//@children.9/@sourceConnections.0 //@children.12/@sourceConnections.0" autoLocated="true" id="it.mat.unical.Helion_Prime.Logic/AbilityInterface&lt;-it.mat.unical.Helion_Prime.Logic/FirstTrapAvoidAbility" source="//@children.11" target="//@children.10" targetEnd="//@children.11/@sourceConnections.0/@children.1" sourceEnd="//@children.11/@sourceConnections.0/@children.0" connectionRouterKind="GeneralizationManhattan">
+      <children xsi:type="editmodel:AssociationEndEditModel" location="86,0" anchorKind="FixedAtEdge" attachSource="true"/>
+      <children xsi:type="editmodel:AssociationEndEditModel" location="69,81" anchorKind="FixedAtEdge"/>
+    </sourceConnections>
+    <classifierPreferences xsi:type="editmodel:UMLClassDiagramClassifierPreference" showStereotype="true" attributeSorter="Natural" methodSorter="Natural" innerClassSorter="Natural" showPublicAttributes="true" showPackageAttributes="true" showStaticAttributes="true" showPublicMethods="true" showPackageMethods="true" showStaticMethods="true" showPublicInnerClasses="true" showPackageInnerClasses="true" showStaticInnerClasses="true" packageIndication="3" showAttributeProperty="true"/>
+  </children>
+  <children xsi:type="editmodel:ClassEditModel" name="FlyAbility" location="394,2395" size="101,85" id="it.mat.unical.Helion_Prime.Logic/FlyAbility" runTimeClassModel="getAbility(),fly()">
+    <children xsi:type="editmodel:CompartmentEditModel" size="0,0"/>
+    <children xsi:type="editmodel:CompartmentEditModel" size="74,36">
+      <children xsi:type="editmodel:MethodEditModel" name="fly" id="it.mat.unical.Helion_Prime.Logic/FlyAbility#fly()"/>
+      <children xsi:type="editmodel:MethodEditModel" name="getAbility" id="it.mat.unical.Helion_Prime.Logic/FlyAbility#getAbility()"/>
+    </children>
+    <children xsi:type="editmodel:CompartmentEditModel" size="0,0"/>
+    <sourceConnections xsi:type="editmodel:GeneralizationEditModel" autoLocated="true" id="it.mat.unical.Helion_Prime.Logic/AbilityInterface&lt;-it.mat.unical.Helion_Prime.Logic/FlyAbility" source="//@children.12" target="//@children.11/@sourceConnections.0" targetEnd="//@children.12/@sourceConnections.0/@children.1" sourceEnd="//@children.12/@sourceConnections.0/@children.0" connectionRouterKind="GeneralizationManhattan">
+      <children xsi:type="editmodel:AssociationEndEditModel" location="50,0" anchorKind="FixedAtEdge" attachSource="true"/>
+      <children xsi:type="editmodel:AssociationEndEditModel" location="97,33"/>
+    </sourceConnections>
+    <classifierPreferences xsi:type="editmodel:UMLClassDiagramClassifierPreference" showStereotype="true" attributeSorter="Natural" methodSorter="Natural" innerClassSorter="Natural" showPublicAttributes="true" showPackageAttributes="true" showStaticAttributes="true" showPublicMethods="true" showPackageMethods="true" showStaticMethods="true" showPublicInnerClasses="true" showPackageInnerClasses="true" showStaticInnerClasses="true" packageIndication="3" showAttributeProperty="true"/>
+  </children>
+  <children xsi:type="editmodel:ClassEditModel" targetConnections="//@children.8/@sourceConnections.2" name="WaveImpl" location="449,426" size="238,175" id="it.mat.unical.Helion_Prime.Logic/WaveImpl" runTimeClassModel="WaveImpl(Ljava.util.Collection;),addNative(Lit.mat.unical.Helion_Prime.Logic.AbstractNative;),setNatives(Ljava.util.Collection;),WaveImpl(Lit.mat.unical.Helion_Prime.Logic.World;),natives,getWave(),getNatives()">
+    <children xsi:type="editmodel:CompartmentEditModel" size="215,18">
+      <children xsi:type="editmodel:AttributeEditModel" name="natives" id="it.mat.unical.Helion_Prime.Logic/WaveImpl#natives"/>
+    </children>
+    <children xsi:type="editmodel:CompartmentEditModel" size="81,108">
+      <children xsi:type="editmodel:MethodEditModel" name="WaveImpl" id="it.mat.unical.Helion_Prime.Logic/WaveImpl#WaveImpl(Lit.mat.unical.Helion_Prime.Logic.World;)"/>
+      <children xsi:type="editmodel:MethodEditModel" name="WaveImpl" id="it.mat.unical.Helion_Prime.Logic/WaveImpl#WaveImpl(Ljava.util.Collection;)"/>
+      <children xsi:type="editmodel:MethodEditModel" name="addNative" id="it.mat.unical.Helion_Prime.Logic/WaveImpl#addNative(Lit.mat.unical.Helion_Prime.Logic.AbstractNative;)"/>
+      <children xsi:type="editmodel:MethodEditModel" name="getNatives" id="it.mat.unical.Helion_Prime.Logic/WaveImpl#getNatives()"/>
+      <children xsi:type="editmodel:MethodEditModel" name="getWave" id="it.mat.unical.Helion_Prime.Logic/WaveImpl#getWave()"/>
+      <children xsi:type="editmodel:MethodEditModel" name="setNatives" id="it.mat.unical.Helion_Prime.Logic/WaveImpl#setNatives(Ljava.util.Collection;)"/>
+    </children>
+    <children xsi:type="editmodel:CompartmentEditModel" size="0,0"/>
+    <sourceConnections xsi:type="editmodel:GeneralizationEditModel" autoLocated="true" id="it.mat.unical.Helion_Prime.Logic/Wave&lt;-it.mat.unical.Helion_Prime.Logic/WaveImpl" source="//@children.13" target="//@children.14" targetEnd="//@children.13/@sourceConnections.0/@children.1" sourceEnd="//@children.13/@sourceConnections.0/@children.0" connectionRouterKind="Manual">
+      <children xsi:type="editmodel:AssociationEndEditModel" location="53,0" attachSource="true"/>
+      <children xsi:type="editmodel:AssociationEndEditModel" location="51,135"/>
+    </sourceConnections>
+    <classifierPreferences xsi:type="editmodel:UMLClassDiagramClassifierPreference" showStereotype="true" attributeSorter="Natural" methodSorter="Natural" innerClassSorter="Natural" showPublicAttributes="true" showPackageAttributes="true" showStaticAttributes="true" showPublicMethods="true" showPackageMethods="true" showStaticMethods="true" showPublicInnerClasses="true" showPackageInnerClasses="true" showStaticInnerClasses="true" packageIndication="3" showAttributeProperty="true"/>
+  </children>
+  <children xsi:type="editmodel:InterfaceEditModel" targetConnections="//@children.13/@sourceConnections.0" name="Wave" location="451,277" size="104,135" id="it.mat.unical.Helion_Prime.Logic/Wave" runTimeClassModel="addNative(Lit.mat.unical.Helion_Prime.Logic.AbstractNative;),setNatives(Ljava.util.Collection;),getWave(),getNatives()">
+    <children xsi:type="editmodel:CompartmentEditModel" size="0,0"/>
+    <children xsi:type="editmodel:CompartmentEditModel" size="81,72">
+      <children xsi:type="editmodel:MethodEditModel" name="getWave" id="it.mat.unical.Helion_Prime.Logic/Wave#getWave()"/>
+      <children xsi:type="editmodel:MethodEditModel" name="addNative" id="it.mat.unical.Helion_Prime.Logic/Wave#addNative(Lit.mat.unical.Helion_Prime.Logic.AbstractNative;)"/>
+      <children xsi:type="editmodel:MethodEditModel" name="getNatives" id="it.mat.unical.Helion_Prime.Logic/Wave#getNatives()"/>
+      <children xsi:type="editmodel:MethodEditModel" name="setNatives" id="it.mat.unical.Helion_Prime.Logic/Wave#setNatives(Ljava.util.Collection;)"/>
+    </children>
+    <children xsi:type="editmodel:CompartmentEditModel" size="0,0"/>
+    <classifierPreferences xsi:type="editmodel:UMLClassDiagramClassifierPreference" showStereotype="true" attributeSorter="Natural" methodSorter="Natural" innerClassSorter="Natural" showPublicAttributes="true" showPackageAttributes="true" showStaticAttributes="true" showPublicMethods="true" showPackageMethods="true" showStaticMethods="true" showPublicInnerClasses="true" showPackageInnerClasses="true" showStaticInnerClasses="true" packageIndication="3" showAttributeProperty="true"/>
+  </children>
+  <children xsi:type="editmodel:InterfaceEditModel" targetConnections="//@children.17/@sourceConnections.1" name="HasScore" location="385,1007" size="102,81" id="it.mat.unical.Helion_Prime.Logic/HasScore" runTimeClassModel="getScore()">
+    <children xsi:type="editmodel:CompartmentEditModel" size="0,0"/>
+    <children xsi:type="editmodel:CompartmentEditModel" size="74,18">
+      <children xsi:type="editmodel:MethodEditModel" name="getScore" id="it.mat.unical.Helion_Prime.Logic/HasScore#getScore()"/>
+    </children>
+    <children xsi:type="editmodel:CompartmentEditModel" size="0,0"/>
+    <classifierPreferences xsi:type="editmodel:UMLClassDiagramClassifierPreference" showStereotype="true" attributeSorter="Natural" methodSorter="Natural" innerClassSorter="Natural" showPublicAttributes="true" showPackageAttributes="true" showStaticAttributes="true" showPublicMethods="true" showPackageMethods="true" showStaticMethods="true" showPublicInnerClasses="true" showPackageInnerClasses="true" showStaticInnerClasses="true" packageIndication="3" showAttributeProperty="true"/>
+  </children>
+  <children xsi:type="editmodel:ClassEditModel" name="AcidResistance" location="971,782" size="138,67" id="it.mat.unical.Helion_Prime.Logic/AcidResistance" runTimeClassModel="getResistance()">
+    <children xsi:type="editmodel:CompartmentEditModel" size="0,0"/>
+    <children xsi:type="editmodel:CompartmentEditModel" size="99,18">
+      <children xsi:type="editmodel:MethodEditModel" name="getResistance" id="it.mat.unical.Helion_Prime.Logic/AcidResistance#getResistance()"/>
+    </children>
+    <children xsi:type="editmodel:CompartmentEditModel" size="0,0"/>
+    <sourceConnections xsi:type="editmodel:GeneralizationEditModel" autoLocated="true" id="it.mat.unical.Helion_Prime.Logic/HasRestistance&lt;-it.mat.unical.Helion_Prime.Logic/AcidResistance" source="//@children.16" target="//@children.31/@sourceConnections.0" targetEnd="//@children.16/@sourceConnections.0/@children.1" sourceEnd="//@children.16/@sourceConnections.0/@children.0" connectionRouterKind="GeneralizationManhattan">
+      <children xsi:type="editmodel:AssociationEndEditModel" location="68,0" anchorKind="FixedAtEdge" attachSource="true"/>
+      <children xsi:type="editmodel:AssociationEndEditModel" location="66,81"/>
+    </sourceConnections>
+    <classifierPreferences xsi:type="editmodel:UMLClassDiagramClassifierPreference" showStereotype="true" attributeSorter="Natural" methodSorter="Natural" innerClassSorter="Natural" showPublicAttributes="true" showPackageAttributes="true" showStaticAttributes="true" showPublicMethods="true" showPackageMethods="true" showStaticMethods="true" showPublicInnerClasses="true" showPackageInnerClasses="true" showStaticInnerClasses="true" packageIndication="3" showAttributeProperty="true"/>
+  </children>
+  <children xsi:type="editmodel:ClassEditModel" targetConnections="//@children.35/@sourceConnections.0" name="AbstactCharacter" location="361,1228" size="150,211" id="it.mat.unical.Helion_Prime.Logic/AbstactCharacter" runTimeClassModel="getLife(),move(I),getOldX(),getX(),getScore(),setX(I),setLife(I),getY(),getOldY(),update(),setY(I)">
+    <children xsi:type="editmodel:CompartmentEditModel" size="0,0"/>
+    <children xsi:type="editmodel:CompartmentEditModel" size="74,162">
+      <children xsi:type="editmodel:MethodEditModel" name="getLife" id="it.mat.unical.Helion_Prime.Logic/AbstactCharacter#getLife()"/>
+      <children xsi:type="editmodel:MethodEditModel" name="getScore" location="625,138" id="it.mat.unical.Helion_Prime.Logic/AbstactCharacter#getScore()"/>
+      <children xsi:type="editmodel:MethodEditModel" name="getX" id="it.mat.unical.Helion_Prime.Logic/AbstactCharacter#getX()"/>
+      <children xsi:type="editmodel:MethodEditModel" name="getY" id="it.mat.unical.Helion_Prime.Logic/AbstactCharacter#getY()"/>
+      <children xsi:type="editmodel:MethodEditModel" name="setLife" location="1178,2673" id="it.mat.unical.Helion_Prime.Logic/AbstactCharacter#setLife(I)"/>
+      <children xsi:type="editmodel:MethodEditModel" name="update" id="it.mat.unical.Helion_Prime.Logic/AbstactCharacter#update()"/>
+      <children xsi:type="editmodel:MethodEditModel" name="move" id="it.mat.unical.Helion_Prime.Logic/AbstactCharacter#move(I)"/>
+      <children xsi:type="editmodel:MethodEditModel" name="getOldX" id="it.mat.unical.Helion_Prime.Logic/AbstactCharacter#getOldX()"/>
+      <children xsi:type="editmodel:MethodEditModel" name="getOldY" id="it.mat.unical.Helion_Prime.Logic/AbstactCharacter#getOldY()"/>
+    </children>
+    <children xsi:type="editmodel:CompartmentEditModel" size="0,0"/>
+    <sourceConnections xsi:type="editmodel:GeneralizationEditModel" autoLocated="true" id="it.mat.unical.Helion_Prime.Logic/Character&lt;-it.mat.unical.Helion_Prime.Logic/AbstactCharacter" source="//@children.17" target="//@children.40" targetEnd="//@children.17/@sourceConnections.0/@children.1" sourceEnd="//@children.17/@sourceConnections.0/@children.0" connectionRouterKind="Manual">
+      <children xsi:type="editmodel:AssociationEndEditModel" location="0,18" attachSource="true"/>
+      <children xsi:type="editmodel:AssociationEndEditModel" location="104,145"/>
+    </sourceConnections>
+    <sourceConnections xsi:type="editmodel:GeneralizationEditModel" autoLocated="true" id="it.mat.unical.Helion_Prime.Logic/HasScore&lt;-it.mat.unical.Helion_Prime.Logic/AbstactCharacter" source="//@children.17" target="//@children.15" targetEnd="//@children.17/@sourceConnections.1/@children.1" sourceEnd="//@children.17/@sourceConnections.1/@children.0" connectionRouterKind="Manual">
+      <children xsi:type="editmodel:AssociationEndEditModel" location="75,0" attachSource="true"/>
+      <children xsi:type="editmodel:AssociationEndEditModel" location="51,81"/>
+    </sourceConnections>
+    <classifierPreferences xsi:type="editmodel:UMLClassDiagramClassifierPreference" showStereotype="true" attributeSorter="Natural" methodSorter="Natural" innerClassSorter="Natural" showPublicAttributes="true" showPackageAttributes="true" showStaticAttributes="true" showPublicMethods="true" showPackageMethods="true" showStaticMethods="true" showPublicInnerClasses="true" showPackageInnerClasses="true" showStaticInnerClasses="true" packageIndication="3" showAttributeProperty="true"/>
+  </children>
+  <children xsi:type="editmodel:ClassEditModel" name="TankNative" location="85,2185" size="112,67" id="it.mat.unical.Helion_Prime.Logic/TankNative" runTimeClassModel="TankNative(IILit.mat.unical.Helion_Prime.Logic.World;)">
+    <children xsi:type="editmodel:CompartmentEditModel" size="0,0"/>
+    <children xsi:type="editmodel:CompartmentEditModel" size="82,18">
+      <children xsi:type="editmodel:MethodEditModel" name="TankNative" id="it.mat.unical.Helion_Prime.Logic/TankNative#TankNative(IILit.mat.unical.Helion_Prime.Logic.World;)"/>
+    </children>
+    <children xsi:type="editmodel:CompartmentEditModel" size="0,0"/>
+    <sourceConnections xsi:type="editmodel:GeneralizationEditModel" autoLocated="true" id="it.mat.unical.Helion_Prime.Logic/HeavySoldierNative&lt;-it.mat.unical.Helion_Prime.Logic/TankNative" source="//@children.18" target="//@children.38" targetEnd="//@children.18/@sourceConnections.0/@children.1" sourceEnd="//@children.18/@sourceConnections.0/@children.0" connectionRouterKind="Manual">
+      <children xsi:type="editmodel:AssociationEndEditModel" location="56,0" attachSource="true"/>
+      <children xsi:type="editmodel:AssociationEndEditModel" location="83,67"/>
+    </sourceConnections>
+    <classifierPreferences xsi:type="editmodel:UMLClassDiagramClassifierPreference" showStereotype="true" attributeSorter="Natural" methodSorter="Natural" innerClassSorter="Natural" showPublicAttributes="true" showPackageAttributes="true" showStaticAttributes="true" showPublicMethods="true" showPackageMethods="true" showStaticMethods="true" showPublicInnerClasses="true" showPackageInnerClasses="true" showStaticInnerClasses="true" packageIndication="3" showAttributeProperty="true"/>
+  </children>
+  <children xsi:type="editmodel:InterfaceEditModel" targetConnections="//@children.25/@sourceConnections.0" name="StaticObject" location="247,633" size="119,99" id="it.mat.unical.Helion_Prime.Logic/StaticObject" runTimeClassModel="getX(),getY()">
+    <children xsi:type="editmodel:CompartmentEditModel" size="0,0"/>
+    <children xsi:type="editmodel:CompartmentEditModel" size="53,36">
+      <children xsi:type="editmodel:MethodEditModel" name="getX" location="265,130" id="it.mat.unical.Helion_Prime.Logic/StaticObject#getX()"/>
+      <children xsi:type="editmodel:MethodEditModel" name="getY" id="it.mat.unical.Helion_Prime.Logic/StaticObject#getY()"/>
+    </children>
+    <children xsi:type="editmodel:CompartmentEditModel" size="0,0"/>
+    <classifierPreferences xsi:type="editmodel:UMLClassDiagramClassifierPreference" showStereotype="true" attributeSorter="Natural" methodSorter="Natural" innerClassSorter="Natural" showPublicAttributes="true" showPackageAttributes="true" showStaticAttributes="true" showPublicMethods="true" showPackageMethods="true" showStaticMethods="true" showPublicInnerClasses="true" showPackageInnerClasses="true" showStaticInnerClasses="true" packageIndication="3" showAttributeProperty="true"/>
+  </children>
+  <children xsi:type="editmodel:ClassEditModel" name="BountyHunterNative" location="991,1948" size="168,29" id="it.mat.unical.Helion_Prime.Logic/BountyHunterNative" runTimeClassModel="">
+    <children xsi:type="editmodel:CompartmentEditModel" size="0,0"/>
+    <children xsi:type="editmodel:CompartmentEditModel" size="0,0"/>
+    <children xsi:type="editmodel:CompartmentEditModel" size="0,0"/>
+    <sourceConnections xsi:type="editmodel:GeneralizationEditModel" autoLocated="true" id="it.mat.unical.Helion_Prime.Logic/AbstractNative&lt;-it.mat.unical.Helion_Prime.Logic/BountyHunterNative" source="//@children.20" target="//@children.28/@sourceConnections.0" targetEnd="//@children.20/@sourceConnections.0/@children.1" sourceEnd="//@children.20/@sourceConnections.0/@children.0" connectionRouterKind="GeneralizationManhattan">
+      <children xsi:type="editmodel:AssociationEndEditModel" location="84,0" anchorKind="FixedAtEdge" attachSource="true"/>
+      <children xsi:type="editmodel:AssociationEndEditModel" location="133,78"/>
+    </sourceConnections>
+    <classifierPreferences xsi:type="editmodel:UMLClassDiagramClassifierPreference" showStereotype="true" attributeSorter="Natural" methodSorter="Natural" innerClassSorter="Natural" showPublicAttributes="true" showPackageAttributes="true" showStaticAttributes="true" showPublicMethods="true" showPackageMethods="true" showStaticMethods="true" showPublicInnerClasses="true" showPackageInnerClasses="true" showStaticInnerClasses="true" packageIndication="3" showAttributeProperty="true"/>
+  </children>
+  <children xsi:type="editmodel:InterfaceEditModel" targetConnections="//@children.35/@sourceConnections.1" name="TrapPlacing" location="189,1228" size="142,135" id="it.mat.unical.Helion_Prime.Logic/TrapPlacing" runTimeClassModel="getTrap(),placeTrap(III),hasPlacedTrap(),getTrapFromArray(ILjava.util.ArrayList;)">
+    <children xsi:type="editmodel:CompartmentEditModel" size="0,0"/>
+    <children xsi:type="editmodel:CompartmentEditModel" size="119,72">
+      <children xsi:type="editmodel:MethodEditModel" name="getTrap" id="it.mat.unical.Helion_Prime.Logic/TrapPlacing#getTrap()"/>
+      <children xsi:type="editmodel:MethodEditModel" name="placeTrap" id="it.mat.unical.Helion_Prime.Logic/TrapPlacing#placeTrap(III)"/>
+      <children xsi:type="editmodel:MethodEditModel" name="getTrapFromArray" id="it.mat.unical.Helion_Prime.Logic/TrapPlacing#getTrapFromArray(ILjava.util.ArrayList;)"/>
+      <children xsi:type="editmodel:MethodEditModel" name="hasPlacedTrap" id="it.mat.unical.Helion_Prime.Logic/TrapPlacing#hasPlacedTrap()"/>
+    </children>
+    <children xsi:type="editmodel:CompartmentEditModel" size="0,0"/>
+    <classifierPreferences xsi:type="editmodel:UMLClassDiagramClassifierPreference" showStereotype="true" attributeSorter="Natural" methodSorter="Natural" innerClassSorter="Natural" showPublicAttributes="true" showPackageAttributes="true" showStaticAttributes="true" showPublicMethods="true" showPackageMethods="true" showStaticMethods="true" showPublicInnerClasses="true" showPackageInnerClasses="true" showStaticInnerClasses="true" packageIndication="3" showAttributeProperty="true"/>
+  </children>
+  <children xsi:type="editmodel:ClassEditModel" name="RunnerNative" location="833,1948" size="128,29" id="it.mat.unical.Helion_Prime.Logic/RunnerNative">
+    <children xsi:type="editmodel:CompartmentEditModel"/>
+    <children xsi:type="editmodel:CompartmentEditModel"/>
+    <children xsi:type="editmodel:CompartmentEditModel"/>
+    <sourceConnections xsi:type="editmodel:GeneralizationEditModel" autoLocated="true" id="it.mat.unical.Helion_Prime.Logic/AbstractNative&lt;-it.mat.unical.Helion_Prime.Logic/RunnerNative" source="//@children.22" target="//@children.28/@sourceConnections.0" targetEnd="//@children.22/@sourceConnections.0/@children.1" sourceEnd="//@children.22/@sourceConnections.0/@children.0" connectionRouterKind="GeneralizationManhattan">
+      <children xsi:type="editmodel:AssociationEndEditModel" location="64,0" anchorKind="FixedAtEdge" attachSource="true"/>
+      <children xsi:type="editmodel:AssociationEndEditModel" location="131,103"/>
+    </sourceConnections>
+    <classifierPreferences xsi:type="editmodel:UMLClassDiagramClassifierPreference" showStereotype="true" attributeSorter="Natural" methodSorter="Natural" innerClassSorter="Natural" showPublicAttributes="true" showPackageAttributes="true" showStaticAttributes="true" showPublicMethods="true" showPackageMethods="true" showStaticMethods="true" showPublicInnerClasses="true" showPackageInnerClasses="true" showStaticInnerClasses="true" packageIndication="3" showAttributeProperty="true"/>
+  </children>
+  <children xsi:type="editmodel:InterfaceEditModel" targetConnections="//@children.31/@sourceConnections.0 //@children.24/@sourceConnections.1" name="HasRestistance" location="812,633" size="137,81" id="it.mat.unical.Helion_Prime.Logic/HasRestistance" runTimeClassModel="getResistance()">
+    <children xsi:type="editmodel:CompartmentEditModel" size="0,0"/>
+    <children xsi:type="editmodel:CompartmentEditModel" size="99,18">
+      <children xsi:type="editmodel:MethodEditModel" name="getResistance" id="it.mat.unical.Helion_Prime.Logic/HasRestistance#getResistance()"/>
+    </children>
+    <children xsi:type="editmodel:CompartmentEditModel" size="0,0"/>
+    <classifierPreferences xsi:type="editmodel:UMLClassDiagramClassifierPreference" showStereotype="true" attributeSorter="Natural" methodSorter="Natural" innerClassSorter="Natural" showPublicAttributes="true" showPackageAttributes="true" showStaticAttributes="true" showPublicMethods="true" showPackageMethods="true" showStaticMethods="true" showPublicInnerClasses="true" showPackageInnerClasses="true" showStaticInnerClasses="true" packageIndication="3" showAttributeProperty="true"/>
+  </children>
+  <children xsi:type="editmodel:ClassEditModel" targetConnections="//@children.28/@sourceConnections.0" name="AbstractNative" location="501,1489" size="133,103" id="it.mat.unical.Helion_Prime.Logic/AbstractNative" runTimeClassModel="move(I),getResistance(),Attack()">
+    <children xsi:type="editmodel:CompartmentEditModel" size="0,0"/>
+    <children xsi:type="editmodel:CompartmentEditModel" size="99,54">
+      <children xsi:type="editmodel:MethodEditModel" name="Attack" id="it.mat.unical.Helion_Prime.Logic/AbstractNative#Attack()"/>
+      <children xsi:type="editmodel:MethodEditModel" name="getResistance" id="it.mat.unical.Helion_Prime.Logic/AbstractNative#getResistance()"/>
+      <children xsi:type="editmodel:MethodEditModel" name="move" id="it.mat.unical.Helion_Prime.Logic/AbstractNative#move(I)"/>
+    </children>
+    <children xsi:type="editmodel:CompartmentEditModel" size="0,0"/>
+    <sourceConnections xsi:type="editmodel:GeneralizationEditModel" autoLocated="true" id="it.mat.unical.Helion_Prime.Logic/AbstactCharacter&lt;-it.mat.unical.Helion_Prime.Logic/AbstractNative" source="//@children.24" target="//@children.35/@sourceConnections.0" targetEnd="//@children.24/@sourceConnections.0/@children.1" sourceEnd="//@children.24/@sourceConnections.0/@children.0" connectionRouterKind="GeneralizationManhattan">
+      <children xsi:type="editmodel:AssociationEndEditModel" location="66,0" anchorKind="FixedAtEdge" attachSource="true"/>
+      <children xsi:type="editmodel:AssociationEndEditModel" location="146,211"/>
+    </sourceConnections>
+    <sourceConnections xsi:type="editmodel:GeneralizationEditModel" autoLocated="true" id="it.mat.unical.Helion_Prime.Logic/HasRestistance&lt;-it.mat.unical.Helion_Prime.Logic/AbstractNative" source="//@children.24" target="//@children.23" targetEnd="//@children.24/@sourceConnections.1/@children.1" sourceEnd="//@children.24/@sourceConnections.1/@children.0" connectionRouterKind="Manual" anchorType="ChopBox">
+      <children xsi:type="editmodel:AssociationEndEditModel" location="84,0" attachSource="true"/>
+      <children xsi:type="editmodel:AssociationEndEditModel" location="53,81"/>
+      <bendpoints location="1936,1663" secondRelativeDimension="-284,750" firstRelativeDimension="4,-24"/>
+      <bendpoints location="1936,1402" secondRelativeDimension="-276,489" firstRelativeDimension="11,-284"/>
+      <bendpoints location="1936,1402" secondRelativeDimension="-275,489" firstRelativeDimension="12,-283"/>
+      <bendpoints location="1936,1181" secondRelativeDimension="-258,268" firstRelativeDimension="13,-503"/>
+      <bendpoints location="1936,1181" secondRelativeDimension="-257,268" firstRelativeDimension="14,-502"/>
+      <bendpoints location="1936,956" secondRelativeDimension="-226,66" firstRelativeDimension="14,-726"/>
+      <bendpoints location="2168,956" secondRelativeDimension="-32,43" firstRelativeDimension="231,-725"/>
+    </sourceConnections>
+    <classifierPreferences xsi:type="editmodel:UMLClassDiagramClassifierPreference" showStereotype="true" attributeSorter="Natural" methodSorter="Natural" innerClassSorter="Natural" showPublicAttributes="true" showPackageAttributes="true" showStaticAttributes="true" showPublicMethods="true" showPackageMethods="true" showStaticMethods="true" showPublicInnerClasses="true" showPackageInnerClasses="true" showStaticInnerClasses="true" packageIndication="3" showAttributeProperty="true"/>
+  </children>
+  <children xsi:type="editmodel:InterfaceEditModel" targetConnections="//@children.40/@sourceConnections.0" name="DynamicObject" location="179,782" size="138,99" id="it.mat.unical.Helion_Prime.Logic/DynamicObject" runTimeClassModel="setX(I),setY(I)">
+    <children xsi:type="editmodel:CompartmentEditModel" size="0,0"/>
+    <children xsi:type="editmodel:CompartmentEditModel" size="53,36">
+      <children xsi:type="editmodel:MethodEditModel" name="setX" id="it.mat.unical.Helion_Prime.Logic/DynamicObject#setX(I)"/>
+      <children xsi:type="editmodel:MethodEditModel" name="setY" id="it.mat.unical.Helion_Prime.Logic/DynamicObject#setY(I)"/>
+    </children>
+    <children xsi:type="editmodel:CompartmentEditModel" size="0,0"/>
+    <sourceConnections xsi:type="editmodel:GeneralizationEditModel" targetConnections="//@children.29/@sourceConnections.0 //@children.34/@sourceConnections.0 //@children.42/@sourceConnections.0" autoLocated="true" source="//@children.25" target="//@children.19" targetEnd="//@children.25/@sourceConnections.0/@children.1" sourceEnd="//@children.25/@sourceConnections.0/@children.0" connectionRouterKind="GeneralizationManhattan">
+      <children xsi:type="editmodel:AssociationEndEditModel" location="69,0" anchorKind="FixedAtEdge" attachSource="true"/>
+      <children xsi:type="editmodel:AssociationEndEditModel" location="59,99" anchorKind="FixedAtEdge"/>
+    </sourceConnections>
+    <classifierPreferences xsi:type="editmodel:UMLClassDiagramClassifierPreference" showStereotype="true" attributeSorter="Natural" methodSorter="Natural" innerClassSorter="Natural" showPublicAttributes="true" showPackageAttributes="true" showStaticAttributes="true" showPublicMethods="true" showPackageMethods="true" showStaticMethods="true" showPublicInnerClasses="true" showPackageInnerClasses="true" showStaticInnerClasses="true" packageIndication="3" showAttributeProperty="true"/>
+  </children>
+  <children xsi:type="editmodel:ClassEditModel" name="IceResistance" location="812,782" size="129,67" id="it.mat.unical.Helion_Prime.Logic/IceResistance" runTimeClassModel="getResistance()">
+    <children xsi:type="editmodel:CompartmentEditModel" size="0,0"/>
+    <children xsi:type="editmodel:CompartmentEditModel" size="99,18">
+      <children xsi:type="editmodel:MethodEditModel" name="getResistance" id="it.mat.unical.Helion_Prime.Logic/IceResistance#getResistance()"/>
+    </children>
+    <children xsi:type="editmodel:CompartmentEditModel" size="0,0"/>
+    <sourceConnections xsi:type="editmodel:GeneralizationEditModel" autoLocated="true" id="it.mat.unical.Helion_Prime.Logic/HasRestistance&lt;-it.mat.unical.Helion_Prime.Logic/IceResistance" source="//@children.26" target="//@children.31/@sourceConnections.0" targetEnd="//@children.26/@sourceConnections.0/@children.1" sourceEnd="//@children.26/@sourceConnections.0/@children.0" connectionRouterKind="GeneralizationManhattan">
+      <children xsi:type="editmodel:AssociationEndEditModel" location="63,0" anchorKind="FixedAtEdge" attachSource="true"/>
+      <children xsi:type="editmodel:AssociationEndEditModel" location="83,81"/>
+    </sourceConnections>
+    <classifierPreferences xsi:type="editmodel:UMLClassDiagramClassifierPreference" showStereotype="true" attributeSorter="Natural" methodSorter="Natural" innerClassSorter="Natural" showPublicAttributes="true" showPackageAttributes="true" showStaticAttributes="true" showPublicMethods="true" showPackageMethods="true" showStaticMethods="true" showPublicInnerClasses="true" showPackageInnerClasses="true" showStaticInnerClasses="true" packageIndication="3" showAttributeProperty="true"/>
+  </children>
+  <children xsi:type="editmodel:ClassEditModel" name="HeavyImpNative" location="263,2027" size="145,29" id="it.mat.unical.Helion_Prime.Logic/HeavyImpNative" runTimeClassModel="">
+    <children xsi:type="editmodel:CompartmentEditModel" size="0,0"/>
+    <children xsi:type="editmodel:CompartmentEditModel" size="0,0"/>
+    <children xsi:type="editmodel:CompartmentEditModel" size="0,0"/>
+    <sourceConnections xsi:type="editmodel:GeneralizationEditModel" autoLocated="true" id="it.mat.unical.Helion_Prime.Logic/ImpNative&lt;-it.mat.unical.Helion_Prime.Logic/HeavyImpNative" source="//@children.27" target="//@children.36" targetEnd="//@children.27/@sourceConnections.0/@children.1" sourceEnd="//@children.27/@sourceConnections.0/@children.0" connectionRouterKind="Manual">
+      <children xsi:type="editmodel:AssociationEndEditModel" location="25,0" attachSource="true"/>
+      <children xsi:type="editmodel:AssociationEndEditModel" location="80,29"/>
+    </sourceConnections>
+    <classifierPreferences xsi:type="editmodel:UMLClassDiagramClassifierPreference" showStereotype="true" attributeSorter="Natural" methodSorter="Natural" innerClassSorter="Natural" showPublicAttributes="true" showPackageAttributes="true" showStaticAttributes="true" showPublicMethods="true" showPackageMethods="true" showStaticMethods="true" showPublicInnerClasses="true" showPackageInnerClasses="true" showStaticInnerClasses="true" packageIndication="3" showAttributeProperty="true"/>
+  </children>
+  <children xsi:type="editmodel:ClassEditModel" targetConnections="//@children.41/@sourceConnections.0" name="SoldierNative" location="50,1948" size="128,211" id="it.mat.unical.Helion_Prime.Logic/SoldierNative" runTimeClassModel="getX(),setX(I),SoldierNative(IILit.mat.unical.Helion_Prime.Logic.World;),getY(),Attack(),setY(I),y,x">
+    <children xsi:type="editmodel:CompartmentEditModel" size="97,54">
+      <children xsi:type="editmodel:AttributeEditModel" name="attackPower" id="it.mat.unical.Helion_Prime.Logic/SoldierNative#attackPower"/>
+      <children xsi:type="editmodel:AttributeEditModel" name="x" id="it.mat.unical.Helion_Prime.Logic/SoldierNative#x"/>
+      <children xsi:type="editmodel:AttributeEditModel" name="y" id="it.mat.unical.Helion_Prime.Logic/SoldierNative#y"/>
+    </children>
+    <children xsi:type="editmodel:CompartmentEditModel" size="93,108">
+      <children xsi:type="editmodel:MethodEditModel" name="Attack" id="it.mat.unical.Helion_Prime.Logic/SoldierNative#Attack()"/>
+      <children xsi:type="editmodel:MethodEditModel" name="SoldierNative" id="it.mat.unical.Helion_Prime.Logic/SoldierNative#SoldierNative(IILit.mat.unical.Helion_Prime.Logic.World;)"/>
+      <children xsi:type="editmodel:MethodEditModel" name="getY" id="it.mat.unical.Helion_Prime.Logic/SoldierNative#getY()"/>
+      <children xsi:type="editmodel:MethodEditModel" name="getX" id="it.mat.unical.Helion_Prime.Logic/SoldierNative#getX()"/>
+      <children xsi:type="editmodel:MethodEditModel" name="setX" id="it.mat.unical.Helion_Prime.Logic/SoldierNative#setX(I)"/>
+      <children xsi:type="editmodel:MethodEditModel" name="setY" id="it.mat.unical.Helion_Prime.Logic/SoldierNative#setY(I)"/>
+    </children>
+    <children xsi:type="editmodel:CompartmentEditModel" size="0,0"/>
+    <sourceConnections xsi:type="editmodel:GeneralizationEditModel" targetConnections="//@children.39/@sourceConnections.0 //@children.20/@sourceConnections.0 //@children.22/@sourceConnections.0 //@children.32/@sourceConnections.0 //@children.36/@sourceConnections.0 //@children.30/@sourceConnections.0" autoLocated="true" id="it.mat.unical.Helion_Prime.Logic/AbstractNative&lt;-it.mat.unical.Helion_Prime.Logic/SoldierNative" source="//@children.28" target="//@children.24" targetEnd="//@children.28/@sourceConnections.0/@children.1" sourceEnd="//@children.28/@sourceConnections.0/@children.0" connectionRouterKind="GeneralizationManhattan">
+      <children xsi:type="editmodel:AssociationEndEditModel" location="64,0" anchorKind="FixedAtEdge" attachSource="true"/>
+      <children xsi:type="editmodel:AssociationEndEditModel" location="66,103" anchorKind="FixedAtEdge"/>
+    </sourceConnections>
+    <classifierPreferences xsi:type="editmodel:UMLClassDiagramClassifierPreference" showStereotype="true" attributeSorter="Natural" methodSorter="Natural" innerClassSorter="Natural" showPublicAttributes="true" showPackageAttributes="true" showStaticAttributes="true" showPublicMethods="true" showPackageMethods="true" showStaticMethods="true" showPublicInnerClasses="true" showPackageInnerClasses="true" showStaticInnerClasses="true" packageIndication="3" showAttributeProperty="true"/>
+  </children>
+  <children xsi:type="editmodel:ClassEditModel" name="Wall" location="347,782" size="76,139" id="it.mat.unical.Helion_Prime.Logic/Wall" runTimeClassModel="getX(),Wall(II),getY(),y,x">
+    <children xsi:type="editmodel:CompartmentEditModel" size="42,36">
+      <children xsi:type="editmodel:AttributeEditModel" name="x" location="20,69" id="it.mat.unical.Helion_Prime.Logic/Wall#x"/>
+      <children xsi:type="editmodel:AttributeEditModel" name="y" id="it.mat.unical.Helion_Prime.Logic/Wall#y"/>
+    </children>
+    <children xsi:type="editmodel:CompartmentEditModel" size="53,54">
+      <children xsi:type="editmodel:MethodEditModel" name="Wall" id="it.mat.unical.Helion_Prime.Logic/Wall#Wall(II)"/>
+      <children xsi:type="editmodel:MethodEditModel" name="getX" id="it.mat.unical.Helion_Prime.Logic/Wall#getX()"/>
+      <children xsi:type="editmodel:MethodEditModel" name="getY" id="it.mat.unical.Helion_Prime.Logic/Wall#getY()"/>
+    </children>
+    <children xsi:type="editmodel:CompartmentEditModel"/>
+    <sourceConnections xsi:type="editmodel:GeneralizationEditModel" autoLocated="true" id="it.mat.unical.Helion_Prime.Logic/StaticObject&lt;-it.mat.unical.Helion_Prime.Logic/Wall" source="//@children.29" target="//@children.25/@sourceConnections.0" targetEnd="//@children.29/@sourceConnections.0/@children.1" sourceEnd="//@children.29/@sourceConnections.0/@children.0" connectionRouterKind="GeneralizationManhattan">
+      <children xsi:type="editmodel:AssociationEndEditModel" location="38,0" anchorKind="FixedAtEdge" attachSource="true"/>
+      <children xsi:type="editmodel:AssociationEndEditModel" location="0,56"/>
+    </sourceConnections>
+    <classifierPreferences xsi:type="editmodel:UMLClassDiagramClassifierPreference" showStereotype="true" attributeSorter="Natural" methodSorter="Natural" innerClassSorter="Natural" showPublicAttributes="true" showPackageAttributes="true" showStaticAttributes="true" showPublicMethods="true" showPackageMethods="true" showStaticMethods="true" showPublicInnerClasses="true" showPackageInnerClasses="true" showStaticInnerClasses="true" packageIndication="3" showAttributeProperty="true"/>
+  </children>
+  <children xsi:type="editmodel:ClassEditModel" name="ShamanNative" location="344,1948" size="135,29" id="it.mat.unical.Helion_Prime.Logic/ShamanNative" runTimeClassModel="">
+    <children xsi:type="editmodel:CompartmentEditModel" size="0,0"/>
+    <children xsi:type="editmodel:CompartmentEditModel" size="0,0"/>
+    <children xsi:type="editmodel:CompartmentEditModel" size="0,0"/>
+    <sourceConnections xsi:type="editmodel:GeneralizationEditModel" autoLocated="true" id="it.mat.unical.Helion_Prime.Logic/AbstractNative&lt;-it.mat.unical.Helion_Prime.Logic/ShamanNative" source="//@children.30" target="//@children.28/@sourceConnections.0" targetEnd="//@children.30/@sourceConnections.0/@children.1" sourceEnd="//@children.30/@sourceConnections.0/@children.0" connectionRouterKind="GeneralizationManhattan">
+      <children xsi:type="editmodel:AssociationEndEditModel" location="67,0" anchorKind="FixedAtEdge" attachSource="true"/>
+      <children xsi:type="editmodel:AssociationEndEditModel" location="133,85"/>
+    </sourceConnections>
+    <classifierPreferences xsi:type="editmodel:UMLClassDiagramClassifierPreference" showStereotype="true" attributeSorter="Natural" methodSorter="Natural" innerClassSorter="Natural" showPublicAttributes="true" showPackageAttributes="true" showStaticAttributes="true" showPublicMethods="true" showPackageMethods="true" showStaticMethods="true" showPublicInnerClasses="true" showPackageInnerClasses="true" showStaticInnerClasses="true" packageIndication="3" showAttributeProperty="true"/>
+  </children>
+  <children xsi:type="editmodel:ClassEditModel" name="FireResistance" location="1139,782" size="135,67" id="it.mat.unical.Helion_Prime.Logic/FireResistance" runTimeClassModel="getResistance()">
+    <children xsi:type="editmodel:CompartmentEditModel" size="0,0"/>
+    <children xsi:type="editmodel:CompartmentEditModel" size="99,18">
+      <children xsi:type="editmodel:MethodEditModel" name="getResistance" id="it.mat.unical.Helion_Prime.Logic/FireResistance#getResistance()"/>
+    </children>
+    <children xsi:type="editmodel:CompartmentEditModel" size="0,0"/>
+    <sourceConnections xsi:type="editmodel:GeneralizationEditModel" targetConnections="//@children.16/@sourceConnections.0 //@children.26/@sourceConnections.0 //@children.33/@sourceConnections.0" autoLocated="true" id="it.mat.unical.Helion_Prime.Logic/HasRestistance&lt;-it.mat.unical.Helion_Prime.Logic/FireResistance" source="//@children.31" target="//@children.23" targetEnd="//@children.31/@sourceConnections.0/@children.1" sourceEnd="//@children.31/@sourceConnections.0/@children.0" connectionRouterKind="GeneralizationManhattan">
+      <children xsi:type="editmodel:AssociationEndEditModel" location="67,0" anchorKind="FixedAtEdge" attachSource="true"/>
+      <children xsi:type="editmodel:AssociationEndEditModel" location="68,81" anchorKind="FixedAtEdge"/>
+    </sourceConnections>
+    <classifierPreferences xsi:type="editmodel:UMLClassDiagramClassifierPreference" showStereotype="true" attributeSorter="Natural" methodSorter="Natural" innerClassSorter="Natural" showPublicAttributes="true" showPackageAttributes="true" showStaticAttributes="true" showPublicMethods="true" showPackageMethods="true" showStaticMethods="true" showPublicInnerClasses="true" showPackageInnerClasses="true" showStaticInnerClasses="true" packageIndication="3" showAttributeProperty="true"/>
+  </children>
+  <children xsi:type="editmodel:ClassEditModel" name="SaboteurNative" location="663,1948" size="140,29" id="it.mat.unical.Helion_Prime.Logic/SaboteurNative">
+    <children xsi:type="editmodel:CompartmentEditModel"/>
+    <children xsi:type="editmodel:CompartmentEditModel"/>
+    <children xsi:type="editmodel:CompartmentEditModel"/>
+    <sourceConnections xsi:type="editmodel:GeneralizationEditModel" autoLocated="true" id="it.mat.unical.Helion_Prime.Logic/AbstractNative&lt;-it.mat.unical.Helion_Prime.Logic/SaboteurNative" source="//@children.32" target="//@children.28/@sourceConnections.0" targetEnd="//@children.32/@sourceConnections.0/@children.1" sourceEnd="//@children.32/@sourceConnections.0/@children.0" connectionRouterKind="GeneralizationManhattan">
+      <children xsi:type="editmodel:AssociationEndEditModel" location="70,0" anchorKind="FixedAtEdge" attachSource="true"/>
+      <children xsi:type="editmodel:AssociationEndEditModel" location="77,103"/>
+    </sourceConnections>
+    <classifierPreferences xsi:type="editmodel:UMLClassDiagramClassifierPreference" showStereotype="true" attributeSorter="Natural" methodSorter="Natural" innerClassSorter="Natural" showPublicAttributes="true" showPackageAttributes="true" showStaticAttributes="true" showPublicMethods="true" showPackageMethods="true" showStaticMethods="true" showPublicInnerClasses="true" showPackageInnerClasses="true" showStaticInnerClasses="true" packageIndication="3" showAttributeProperty="true"/>
+  </children>
+  <children xsi:type="editmodel:ClassEditModel" name="ElectricResistance" location="625,782" size="157,67" id="it.mat.unical.Helion_Prime.Logic/ElectricResistance" runTimeClassModel="getResistance()">
+    <children xsi:type="editmodel:CompartmentEditModel" size="0,0"/>
+    <children xsi:type="editmodel:CompartmentEditModel" size="99,18">
+      <children xsi:type="editmodel:MethodEditModel" name="getResistance" id="it.mat.unical.Helion_Prime.Logic/ElectricResistance#getResistance()"/>
+    </children>
+    <children xsi:type="editmodel:CompartmentEditModel" size="0,0"/>
+    <sourceConnections xsi:type="editmodel:GeneralizationEditModel" autoLocated="true" id="it.mat.unical.Helion_Prime.Logic/HasRestistance&lt;-it.mat.unical.Helion_Prime.Logic/ElectricResistance" source="//@children.33" target="//@children.31/@sourceConnections.0" targetEnd="//@children.33/@sourceConnections.0/@children.1" sourceEnd="//@children.33/@sourceConnections.0/@children.0" connectionRouterKind="GeneralizationManhattan">
+      <children xsi:type="editmodel:AssociationEndEditModel" location="77,0" anchorKind="FixedAtEdge" attachSource="true"/>
+      <children xsi:type="editmodel:AssociationEndEditModel" location="114,81"/>
+    </sourceConnections>
+    <classifierPreferences xsi:type="editmodel:UMLClassDiagramClassifierPreference" showStereotype="true" attributeSorter="Natural" methodSorter="Natural" innerClassSorter="Natural" showPublicAttributes="true" showPackageAttributes="true" showStaticAttributes="true" showPublicMethods="true" showPackageMethods="true" showStaticMethods="true" showPublicInnerClasses="true" showPackageInnerClasses="true" showStaticInnerClasses="true" packageIndication="3" showAttributeProperty="true"/>
+  </children>
+  <children xsi:type="editmodel:ClassEditModel" name="Spawner" location="50,782" size="99,175" id="it.mat.unical.Helion_Prime.Logic/Spawner" runTimeClassModel="Spawner(III),getX(),getType(),getY(),type,y,x">
+    <children xsi:type="editmodel:CompartmentEditModel" size="57,54">
+      <children xsi:type="editmodel:AttributeEditModel" name="type" location="40,111" id="it.mat.unical.Helion_Prime.Logic/Spawner#type"/>
+      <children xsi:type="editmodel:AttributeEditModel" name="x" id="it.mat.unical.Helion_Prime.Logic/Spawner#x"/>
+      <children xsi:type="editmodel:AttributeEditModel" name="y" id="it.mat.unical.Helion_Prime.Logic/Spawner#y"/>
+    </children>
+    <children xsi:type="editmodel:CompartmentEditModel" size="75,72">
+      <children xsi:type="editmodel:MethodEditModel" name="Spawner" id="it.mat.unical.Helion_Prime.Logic/Spawner#Spawner(III)"/>
+      <children xsi:type="editmodel:MethodEditModel" name="getType" id="it.mat.unical.Helion_Prime.Logic/Spawner#getType()"/>
+      <children xsi:type="editmodel:MethodEditModel" name="getX" id="it.mat.unical.Helion_Prime.Logic/Spawner#getX()"/>
+      <children xsi:type="editmodel:MethodEditModel" name="getY" id="it.mat.unical.Helion_Prime.Logic/Spawner#getY()"/>
+    </children>
+    <children xsi:type="editmodel:CompartmentEditModel" size="0,0"/>
+    <sourceConnections xsi:type="editmodel:GeneralizationEditModel" autoLocated="true" id="it.mat.unical.Helion_Prime.Logic/StaticObject&lt;-it.mat.unical.Helion_Prime.Logic/Spawner" source="//@children.34" target="//@children.25/@sourceConnections.0" targetEnd="//@children.34/@sourceConnections.0/@children.1" sourceEnd="//@children.34/@sourceConnections.0/@children.0" connectionRouterKind="GeneralizationManhattan">
+      <children xsi:type="editmodel:AssociationEndEditModel" location="49,0" anchorKind="FixedAtEdge" attachSource="true"/>
+      <children xsi:type="editmodel:AssociationEndEditModel" location="0,97"/>
+    </sourceConnections>
+    <classifierPreferences xsi:type="editmodel:UMLClassDiagramClassifierPreference" showStereotype="true" attributeSorter="Natural" methodSorter="Natural" innerClassSorter="Natural" showPublicAttributes="true" showPackageAttributes="true" showStaticAttributes="true" showPublicMethods="true" showPackageMethods="true" showStaticMethods="true" showPublicInnerClasses="true" showPackageInnerClasses="true" showStaticInnerClasses="true" packageIndication="3" showAttributeProperty="true"/>
+  </children>
+  <children xsi:type="editmodel:ClassEditModel" name="Player" location="284,1489" size="187,427" id="it.mat.unical.Helion_Prime.Logic/Player" runTimeClassModel="getLife(),setX(I),placeTrap(III),score,getOldY(),getTrapFromArray(ILjava.util.ArrayList;),setY(I),trap,addTrap(Lit.mat.unical.Helion_Prime.Logic.AbstractTrap;),getOldX(),move(I),getX(),setLife(I),hasPlacedTrap(),hasPlacedTrap,getY(),setScore(I),Player(),oldY,oldX,y,x">
+    <children xsi:type="editmodel:CompartmentEditModel" size="164,126">
+      <children xsi:type="editmodel:AttributeEditModel" name="score" id="it.mat.unical.Helion_Prime.Logic/Player#score"/>
+      <children xsi:type="editmodel:AttributeEditModel" name="y" id="it.mat.unical.Helion_Prime.Logic/Player#y"/>
+      <children xsi:type="editmodel:AttributeEditModel" name="x" id="it.mat.unical.Helion_Prime.Logic/Player#x"/>
+      <children xsi:type="editmodel:AttributeEditModel" name="oldY" id="it.mat.unical.Helion_Prime.Logic/Player#oldY"/>
+      <children xsi:type="editmodel:AttributeEditModel" name="oldX" id="it.mat.unical.Helion_Prime.Logic/Player#oldX"/>
+      <children xsi:type="editmodel:AttributeEditModel" name="trap" id="it.mat.unical.Helion_Prime.Logic/Player#trap"/>
+      <children xsi:type="editmodel:AttributeEditModel" name="hasPlacedTrap" id="it.mat.unical.Helion_Prime.Logic/Player#hasPlacedTrap"/>
+    </children>
+    <children xsi:type="editmodel:CompartmentEditModel" size="102,252">
+      <children xsi:type="editmodel:MethodEditModel" name="Player" id="it.mat.unical.Helion_Prime.Logic/Player#Player()"/>
+      <children xsi:type="editmodel:MethodEditModel" name="setScore" id="it.mat.unical.Helion_Prime.Logic/Player#setScore(I)"/>
+      <children xsi:type="editmodel:MethodEditModel" name="setX" id="it.mat.unical.Helion_Prime.Logic/Player#setX(I)"/>
+      <children xsi:type="editmodel:MethodEditModel" name="setY" id="it.mat.unical.Helion_Prime.Logic/Player#setY(I)"/>
+      <children xsi:type="editmodel:MethodEditModel" name="move" id="it.mat.unical.Helion_Prime.Logic/Player#move(I)"/>
+      <children xsi:type="editmodel:MethodEditModel" name="setLife" id="it.mat.unical.Helion_Prime.Logic/Player#setLife(I)"/>
+      <children xsi:type="editmodel:MethodEditModel" name="getX" id="it.mat.unical.Helion_Prime.Logic/Player#getX()"/>
+      <children xsi:type="editmodel:MethodEditModel" name="getY" id="it.mat.unical.Helion_Prime.Logic/Player#getY()"/>
+      <children xsi:type="editmodel:MethodEditModel" name="addTrap" id="it.mat.unical.Helion_Prime.Logic/Player#addTrap(Lit.mat.unical.Helion_Prime.Logic.AbstractTrap;)"/>
+      <children xsi:type="editmodel:MethodEditModel" name="placeTrap" id="it.mat.unical.Helion_Prime.Logic/Player#placeTrap(III)"/>
+      <children xsi:type="editmodel:MethodEditModel" name="getOldX" id="it.mat.unical.Helion_Prime.Logic/Player#getOldX()"/>
+      <children xsi:type="editmodel:MethodEditModel" name="getOldY" id="it.mat.unical.Helion_Prime.Logic/Player#getOldY()"/>
+      <children xsi:type="editmodel:MethodEditModel" name="hasPlacedTrap" id="it.mat.unical.Helion_Prime.Logic/Player#hasPlacedTrap()"/>
+      <children xsi:type="editmodel:MethodEditModel" name="getLife" id="it.mat.unical.Helion_Prime.Logic/Player#getLife()"/>
+    </children>
+    <children xsi:type="editmodel:CompartmentEditModel" size="0,0"/>
+    <sourceConnections xsi:type="editmodel:GeneralizationEditModel" targetConnections="//@children.24/@sourceConnections.0" autoLocated="true" id="it.mat.unical.Helion_Prime.Logic/AbstactCharacter&lt;-it.mat.unical.Helion_Prime.Logic/Player" source="//@children.35" target="//@children.17" targetEnd="//@children.35/@sourceConnections.0/@children.1" sourceEnd="//@children.35/@sourceConnections.0/@children.0" connectionRouterKind="GeneralizationManhattan">
+      <children xsi:type="editmodel:AssociationEndEditModel" location="93,0" anchorKind="FixedAtEdge" attachSource="true"/>
+      <children xsi:type="editmodel:AssociationEndEditModel" location="75,211" anchorKind="FixedAtEdge"/>
+    </sourceConnections>
+    <sourceConnections xsi:type="editmodel:GeneralizationEditModel" autoLocated="true" id="it.mat.unical.Helion_Prime.Logic/TrapPlacing&lt;-it.mat.unical.Helion_Prime.Logic/Player" source="//@children.35" target="//@children.21" targetEnd="//@children.35/@sourceConnections.1/@children.1" sourceEnd="//@children.35/@sourceConnections.1/@children.0" connectionRouterKind="Manual">
+      <children xsi:type="editmodel:AssociationEndEditModel" location="23,0" attachSource="true"/>
+      <children xsi:type="editmodel:AssociationEndEditModel" location="118,135"/>
+    </sourceConnections>
+    <classifierPreferences xsi:type="editmodel:UMLClassDiagramClassifierPreference" showStereotype="true" attributeSorter="Natural" methodSorter="Natural" innerClassSorter="Natural" showPublicAttributes="true" showPackageAttributes="true" showStaticAttributes="true" showPublicMethods="true" showPackageMethods="true" showStaticMethods="true" showPublicInnerClasses="true" showPackageInnerClasses="true" showStaticInnerClasses="true" packageIndication="3" showAttributeProperty="true"/>
+  </children>
+  <children xsi:type="editmodel:ClassEditModel" targetConnections="//@children.27/@sourceConnections.0" name="ImpNative" location="208,1948" size="106,29" id="it.mat.unical.Helion_Prime.Logic/ImpNative">
+    <children xsi:type="editmodel:CompartmentEditModel"/>
+    <children xsi:type="editmodel:CompartmentEditModel"/>
+    <children xsi:type="editmodel:CompartmentEditModel"/>
+    <sourceConnections xsi:type="editmodel:GeneralizationEditModel" autoLocated="true" id="it.mat.unical.Helion_Prime.Logic/AbstractNative&lt;-it.mat.unical.Helion_Prime.Logic/ImpNative" source="//@children.36" target="//@children.28/@sourceConnections.0" targetEnd="//@children.36/@sourceConnections.0/@children.1" sourceEnd="//@children.36/@sourceConnections.0/@children.0" connectionRouterKind="GeneralizationManhattan">
+      <children xsi:type="editmodel:AssociationEndEditModel" location="53,0" anchorKind="FixedAtEdge" attachSource="true"/>
+      <children xsi:type="editmodel:AssociationEndEditModel" location="111,103"/>
+    </sourceConnections>
+    <classifierPreferences xsi:type="editmodel:UMLClassDiagramClassifierPreference" showStereotype="true" attributeSorter="Natural" methodSorter="Natural" innerClassSorter="Natural" showPublicAttributes="true" showPackageAttributes="true" showStaticAttributes="true" showPublicMethods="true" showPackageMethods="true" showStaticMethods="true" showPublicInnerClasses="true" showPackageInnerClasses="true" showStaticInnerClasses="true" packageIndication="3" showAttributeProperty="true"/>
+  </children>
+  <children xsi:type="editmodel:ClassEditModel" name="HeavySpitterNative" location="489,2027" size="163,29" id="it.mat.unical.Helion_Prime.Logic/HeavySpitterNative" runTimeClassModel="">
+    <children xsi:type="editmodel:CompartmentEditModel" size="0,0"/>
+    <children xsi:type="editmodel:CompartmentEditModel" size="0,0"/>
+    <children xsi:type="editmodel:CompartmentEditModel" size="0,0"/>
+    <sourceConnections xsi:type="editmodel:GeneralizationEditModel" autoLocated="true" id="it.mat.unical.Helion_Prime.Logic/SpitterNative&lt;-it.mat.unical.Helion_Prime.Logic/HeavySpitterNative" source="//@children.37" target="//@children.39" targetEnd="//@children.37/@sourceConnections.0/@children.1" sourceEnd="//@children.37/@sourceConnections.0/@children.0" connectionRouterKind="Manual">
+      <children xsi:type="editmodel:AssociationEndEditModel" location="81,0" attachSource="true"/>
+      <children xsi:type="editmodel:AssociationEndEditModel" location="61,29"/>
+    </sourceConnections>
+    <classifierPreferences xsi:type="editmodel:UMLClassDiagramClassifierPreference" showStereotype="true" attributeSorter="Natural" methodSorter="Natural" innerClassSorter="Natural" showPublicAttributes="true" showPackageAttributes="true" showStaticAttributes="true" showPublicMethods="true" showPackageMethods="true" showStaticMethods="true" showPublicInnerClasses="true" showPackageInnerClasses="true" showStaticInnerClasses="true" packageIndication="3" showAttributeProperty="true"/>
+  </children>
+  <children xsi:type="editmodel:ClassEditModel" targetConnections="//@children.18/@sourceConnections.0" name="HeavySoldierNative" location="58,2106" size="167,67" id="it.mat.unical.Helion_Prime.Logic/HeavySoldierNative" runTimeClassModel="HeavySoldierNative(IILit.mat.unical.Helion_Prime.Logic.World;)">
+    <children xsi:type="editmodel:CompartmentEditModel" size="0,0"/>
+    <children xsi:type="editmodel:CompartmentEditModel" size="124,18">
+      <children xsi:type="editmodel:MethodEditModel" name="HeavySoldierNative" id="it.mat.unical.Helion_Prime.Logic/HeavySoldierNative#HeavySoldierNative(IILit.mat.unical.Helion_Prime.Logic.World;)"/>
+    </children>
+    <children xsi:type="editmodel:CompartmentEditModel" size="0,0"/>
+    <sourceConnections xsi:type="editmodel:GeneralizationEditModel" autoLocated="true" id="it.mat.unical.Helion_Prime.Logic/ArmoredSoldierNative&lt;-it.mat.unical.Helion_Prime.Logic/HeavySoldierNative" source="//@children.38" target="//@children.41" targetEnd="//@children.38/@sourceConnections.0/@children.1" sourceEnd="//@children.38/@sourceConnections.0/@children.0" connectionRouterKind="Manual">
+      <children xsi:type="editmodel:AssociationEndEditModel" location="83,0" attachSource="true"/>
+      <children xsi:type="editmodel:AssociationEndEditModel" location="91,67"/>
+    </sourceConnections>
+    <classifierPreferences xsi:type="editmodel:UMLClassDiagramClassifierPreference" showStereotype="true" attributeSorter="Natural" methodSorter="Natural" innerClassSorter="Natural" showPublicAttributes="true" showPackageAttributes="true" showStaticAttributes="true" showPublicMethods="true" showPackageMethods="true" showStaticMethods="true" showPublicInnerClasses="true" showPackageInnerClasses="true" showStaticInnerClasses="true" packageIndication="3" showAttributeProperty="true"/>
+  </children>
+  <children xsi:type="editmodel:ClassEditModel" targetConnections="//@children.37/@sourceConnections.0" name="SpitterNative" location="509,1948" size="124,29" id="it.mat.unical.Helion_Prime.Logic/SpitterNative" runTimeClassModel="">
+    <children xsi:type="editmodel:CompartmentEditModel" size="0,0"/>
+    <children xsi:type="editmodel:CompartmentEditModel" size="0,0"/>
+    <children xsi:type="editmodel:CompartmentEditModel" size="0,0"/>
+    <sourceConnections xsi:type="editmodel:GeneralizationEditModel" autoLocated="true" id="it.mat.unical.Helion_Prime.Logic/AbstractNative&lt;-it.mat.unical.Helion_Prime.Logic/SpitterNative" source="//@children.39" target="//@children.28/@sourceConnections.0" targetEnd="//@children.39/@sourceConnections.0/@children.1" sourceEnd="//@children.39/@sourceConnections.0/@children.0" connectionRouterKind="GeneralizationManhattan">
+      <children xsi:type="editmodel:AssociationEndEditModel" location="62,0" anchorKind="FixedAtEdge" attachSource="true"/>
+      <children xsi:type="editmodel:AssociationEndEditModel" location="119,103"/>
+    </sourceConnections>
+    <classifierPreferences xsi:type="editmodel:UMLClassDiagramClassifierPreference" showStereotype="true" attributeSorter="Natural" methodSorter="Natural" innerClassSorter="Natural" showPublicAttributes="true" showPackageAttributes="true" showStaticAttributes="true" showPublicMethods="true" showPackageMethods="true" showStaticMethods="true" showPublicInnerClasses="true" showPackageInnerClasses="true" showStaticInnerClasses="true" packageIndication="3" showAttributeProperty="true"/>
+  </children>
+  <children xsi:type="editmodel:InterfaceEditModel" targetConnections="//@children.17/@sourceConnections.0" name="Character" location="176,1007" size="104,171" id="it.mat.unical.Helion_Prime.Logic/Character" runTimeClassModel="getLife(),move(I),getOldX(),getScore(),setLife(I),getOldY()">
+    <children xsi:type="editmodel:CompartmentEditModel" size="0,0"/>
+    <children xsi:type="editmodel:CompartmentEditModel" size="74,108">
+      <children xsi:type="editmodel:MethodEditModel" name="getLife" location="2,56" id="it.mat.unical.Helion_Prime.Logic/Character#getLife()"/>
+      <children xsi:type="editmodel:MethodEditModel" name="getScore" id="it.mat.unical.Helion_Prime.Logic/Character#getScore()"/>
+      <children xsi:type="editmodel:MethodEditModel" name="setLife" id="it.mat.unical.Helion_Prime.Logic/Character#setLife(I)"/>
+      <children xsi:type="editmodel:MethodEditModel" name="move" location="2135,1315" id="it.mat.unical.Helion_Prime.Logic/Character#move(I)"/>
+      <children xsi:type="editmodel:MethodEditModel" name="getOldY" id="it.mat.unical.Helion_Prime.Logic/Character#getOldY()"/>
+      <children xsi:type="editmodel:MethodEditModel" name="getOldX" id="it.mat.unical.Helion_Prime.Logic/Character#getOldX()"/>
+    </children>
+    <children xsi:type="editmodel:CompartmentEditModel" size="0,0"/>
+    <sourceConnections xsi:type="editmodel:GeneralizationEditModel" autoLocated="true" id="it.mat.unical.Helion_Prime.Logic/DynamicObject&lt;-it.mat.unical.Helion_Prime.Logic/Character" source="//@children.40" target="//@children.25" targetEnd="//@children.40/@sourceConnections.0/@children.1" sourceEnd="//@children.40/@sourceConnections.0/@children.0" connectionRouterKind="Manual">
+      <children xsi:type="editmodel:AssociationEndEditModel" location="53,0" attachSource="true"/>
+      <children xsi:type="editmodel:AssociationEndEditModel" location="50,99"/>
+    </sourceConnections>
+    <classifierPreferences xsi:type="editmodel:UMLClassDiagramClassifierPreference" showStereotype="true" attributeSorter="Natural" methodSorter="Natural" innerClassSorter="Natural" showPublicAttributes="true" showPackageAttributes="true" showStaticAttributes="true" showPublicMethods="true" showPackageMethods="true" showStaticMethods="true" showPublicInnerClasses="true" showPackageInnerClasses="true" showStaticInnerClasses="true" packageIndication="3" showAttributeProperty="true"/>
+  </children>
+  <children xsi:type="editmodel:ClassEditModel" targetConnections="//@children.38/@sourceConnections.0" name="ArmoredSoldierNative" location="50,2027" size="183,67" id="it.mat.unical.Helion_Prime.Logic/ArmoredSoldierNative" runTimeClassModel="ArmoredSoldierNative(IILit.mat.unical.Helion_Prime.Logic.World;)">
+    <children xsi:type="editmodel:CompartmentEditModel" size="0,0"/>
+    <children xsi:type="editmodel:CompartmentEditModel" size="134,18">
+      <children xsi:type="editmodel:MethodEditModel" name="ArmoredSoldierNative" id="it.mat.unical.Helion_Prime.Logic/ArmoredSoldierNative#ArmoredSoldierNative(IILit.mat.unical.Helion_Prime.Logic.World;)"/>
+    </children>
+    <children xsi:type="editmodel:CompartmentEditModel" size="0,0"/>
+    <sourceConnections xsi:type="editmodel:GeneralizationEditModel" autoLocated="true" id="it.mat.unical.Helion_Prime.Logic/SoldierNative&lt;-it.mat.unical.Helion_Prime.Logic/ArmoredSoldierNative" source="//@children.41" target="//@children.28" targetEnd="//@children.41/@sourceConnections.0/@children.1" sourceEnd="//@children.41/@sourceConnections.0/@children.0" connectionRouterKind="Manual">
+      <children xsi:type="editmodel:AssociationEndEditModel" location="63,0" attachSource="true"/>
+      <children xsi:type="editmodel:AssociationEndEditModel" location="63,208"/>
+    </sourceConnections>
+    <classifierPreferences xsi:type="editmodel:UMLClassDiagramClassifierPreference" showStereotype="true" attributeSorter="Natural" methodSorter="Natural" innerClassSorter="Natural" showPublicAttributes="true" showPackageAttributes="true" showStaticAttributes="true" showPublicMethods="true" showPackageMethods="true" showStaticMethods="true" showPublicInnerClasses="true" showPackageInnerClasses="true" showStaticInnerClasses="true" packageIndication="3" showAttributeProperty="true"/>
+  </children>
+  <children xsi:type="editmodel:InterfaceEditModel" name="Trap" location="453,782" size="82,117" id="it.mat.unical.Helion_Prime.Logic/Trap" runTimeClassModel="getX(),getY(),effect()">
+    <children xsi:type="editmodel:CompartmentEditModel" size="0,0"/>
+    <children xsi:type="editmodel:CompartmentEditModel" size="59,54">
+      <children xsi:type="editmodel:MethodEditModel" name="effect" id="it.mat.unical.Helion_Prime.Logic/Trap#effect()"/>
+      <children xsi:type="editmodel:MethodEditModel" name="getX" id="it.mat.unical.Helion_Prime.Logic/Trap#getX()"/>
+      <children xsi:type="editmodel:MethodEditModel" name="getY" id="it.mat.unical.Helion_Prime.Logic/Trap#getY()"/>
+    </children>
+    <children xsi:type="editmodel:CompartmentEditModel" size="0,0"/>
+    <sourceConnections xsi:type="editmodel:GeneralizationEditModel" autoLocated="true" id="it.mat.unical.Helion_Prime.Logic/StaticObject&lt;-it.mat.unical.Helion_Prime.Logic/Trap" source="//@children.42" target="//@children.25/@sourceConnections.0" targetEnd="//@children.42/@sourceConnections.0/@children.1" sourceEnd="//@children.42/@sourceConnections.0/@children.0" connectionRouterKind="GeneralizationManhattan">
+      <children xsi:type="editmodel:AssociationEndEditModel" location="41,0" anchorKind="FixedAtEdge" attachSource="true"/>
+      <children xsi:type="editmodel:AssociationEndEditModel" location="155,0"/>
+    </sourceConnections>
+    <classifierPreferences xsi:type="editmodel:UMLClassDiagramClassifierPreference" showStereotype="true" attributeSorter="Natural" methodSorter="Natural" innerClassSorter="Natural" showPublicAttributes="true" showPackageAttributes="true" showStaticAttributes="true" showPublicMethods="true" showPackageMethods="true" showStaticMethods="true" showPublicInnerClasses="true" showPackageInnerClasses="true" showStaticInnerClasses="true" packageIndication="3" showAttributeProperty="true"/>
+  </children>
+  <diagramOptions xsi:type="options:ClassDiagramOptions" properties="wireOptions=1;Product=eUML2" autoName="false"/>
+  <boardSetting snapToGeometry="true" gridEnabled="true" gridSpacing="15,15" gridOrigin="0,0" rulerUnit="pixel" gridVisibility="false">
+    <leftRuler>
+      <guides position="72"/>
+    </leftRuler>
+    <topRuler>
+      <guides position="-48"/>
+    </topRuler>
+  </boardSetting>
+  <classDiagramPreferences xsi:type="editmodel:UMLClassDiagramPreference" showPopupBars="true" showConnectionHandles="true" attributeSorter="Natural" methodSorter="Natural" showClassStereotype="true" showPackageStereotype="true" showDependencyStereotype="true" showInterfaceStereotype="true" innerClassSorter="Natural" showPublicAttributes="true" showPackageAttributes="true" showStaticAttributes="true" showPublicMethods="true" showPackageMethods="true" showStaticMethods="true" showPublicInnerClasses="true" showPackageInnerClasses="true" showStaticInnerClasses="true" packageIndication="3" showAttributeProperty="true"/>
+</editmodel:ClassDiagramEditModel>

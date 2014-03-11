@@ -1,0 +1,164 @@
+package it.mat.unical.Helion_Prime.Logic.Character;
+
+import it.mat.unical.Helion_Prime.Logic.GameManagerImpl;
+import it.mat.unical.Helion_Prime.Logic.MaintenanceRoom;
+import it.mat.unical.Helion_Prime.Logic.World;
+import it.mat.unical.Helion_Prime.Logic.Ability.AbilityInterface;
+import it.mat.unical.Helion_Prime.Logic.Ability.Resistance;
+import it.mat.unical.Helion_Prime.Logic.Trap.AbstractTrap;
+
+import java.awt.Point;
+import java.util.Collection;
+import java.util.concurrent.ConcurrentHashMap;
+
+public class AbstractNative extends AbstractCharacter implements Resistance {
+
+	private final int key;
+	private final int type;
+	private MaintenanceRoom room;
+	private ConcurrentHashMap<Point, AbstractTrap> currentTrap;
+	protected NativeAI nativeAi;
+	protected Player player;
+	protected boolean canAttack;
+	protected Thread coolDownManager;
+	protected int currentPosition = 1;
+	protected boolean firstMove = false;
+
+	public AbstractNative(int x, int y, World world, int key) {
+		super(x, y, world);
+		this.key = key;
+		this.setDirection(-1);
+		this.canAttack = true;
+		this.room = (MaintenanceRoom) world.getRoom();
+		this.player = GameManagerImpl.getInstance().getPlayer();
+		type = 999;
+
+		new Thread() {
+			public void run() {
+				while (true) {
+					while (GameManagerImpl.isPaused()) {
+						System.out.println("Sono in Pausa - AbstractNative");
+						GameManagerImpl.waitForCondition();
+					}
+
+					if (currentPosition == 1)
+						currentPosition = 2;
+					else if (currentPosition == 2)
+						currentPosition = 3;
+					else if (currentPosition == 3)
+						currentPosition = 4;
+					else if (currentPosition == 4)
+						currentPosition = 1;
+
+					try {
+						sleep(150);
+					} catch (InterruptedException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				}
+			}
+		}.start();
+
+	}
+
+	public boolean getFisrtMove() {
+		return this.firstMove;
+	}
+
+	public void setFisrtMove(boolean v) {
+		this.firstMove = v;
+	}
+
+	public void attack(int attackPower) {
+
+		// TODO: attacking method working on RN - Maida
+
+		World innerWorld = player.getWorld();
+		if (getX() == player.getX() && getY() == player.getY() && canAttack) {
+			player.setLife(player.getLife() - attackPower);
+			System.out.println("dopo attacco " + player.getLife());
+			canAttack = false;
+
+		} else if (getX() == world.getFakeX() && getY() == world.getFakeY()
+				&& canAttack) {
+			world.getDecoy().setLife(1);
+			System.out.println("Ho attaccato il Decoy");
+			canAttack = false;
+		}
+
+		else if (getX() == room.getX() && getY() == room.getY() && canAttack) {
+			room.setLife(room.getLife() - attackPower);
+			System.out.println("room dopo attacco " + room.getLife());
+			canAttack = false;
+		}
+	}
+
+	private AbilityInterface ability = null;
+
+	public AbilityInterface getAbility() {
+		return ability;
+	}
+
+	@Override
+	public int getResistance() {
+		return 0;
+	}
+
+	public int getMove() { // Get move modifcata cosi da prevedere più ia;
+							// basterà aggiungere le nuove chiamate al blocco di
+							// if
+							// può essere migliorata con la reflection
+		int move = 0;
+		if (nativeAi.getAiType() == 0)
+			move = nativeAi.getDirectionFromPlayerAi(this, player, world);
+		else if (nativeAi.getAiType() == 1)
+			move = nativeAi
+					.getDirectionFromRoomAi(this, world.getRoom(), world);
+		else if (nativeAi.getAiType() == 2) {
+			currentTrap = player.getTrap();
+			if (currentTrap.size() > 0) {
+
+				Collection<AbstractTrap> tmp = currentTrap.values();
+
+				// System.out.println(((AbstractTrap) tmp.toArray()[0]).getY());
+
+				move = nativeAi.getDirectionFromTrapAi(this, currentTrap
+						.entrySet().iterator().next().getValue(), world);
+
+				// System.out.println(((AbstractTrap) tmp.toArray()[0]).getX()
+				// + " " + ((AbstractTrap) tmp.toArray()[0]).getY());
+
+			} else
+				move = nativeAi.getDirectionFromPlayerAi(this, player, world);
+
+		}
+
+		return move;
+	}
+
+	public int getKey() {
+		return key;
+	}
+
+	public void setCanAttack(boolean canAttack) {
+		this.canAttack = canAttack;
+	}
+
+	public int getCooldownTime() {
+		return 0;
+	}
+
+	public int getCurrentPosition() {
+		return currentPosition;
+	}
+
+	public int getType() {
+		return type;
+	}
+
+	public void setCurrentPosition(int currentPosition) {
+		this.currentPosition = currentPosition;
+	}
+
+}
