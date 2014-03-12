@@ -8,9 +8,9 @@ import it.mat.unical.Helion_Prime.LevelEditor.LevelStruct;
 import it.mat.unical.Helion_Prime.LevelEditor.MapElementsPanel;
 import it.mat.unical.Helion_Prime.LevelEditor.OptionsPanel;
 import it.mat.unical.Helion_Prime.Logic.GameManagerImpl;
+import it.mat.unical.Helion_Prime.SavesManager.H2DbManager;
 import it.mat.unical.Helion_Prime.ScoreCharts.LoginInterface;
 import it.mat.unical.Helion_Prime.ScoreCharts.LoginValidator;
-import it.mat.unical.Helion_Prime.savesManager.H2DbManager;
 
 import java.awt.BorderLayout;
 import java.awt.Color;

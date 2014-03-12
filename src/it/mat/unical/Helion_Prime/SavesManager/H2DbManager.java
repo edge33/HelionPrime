@@ -1,4 +1,4 @@
-package it.mat.unical.Helion_Prime.savesManager;
+package it.mat.unical.Helion_Prime.SavesManager;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
