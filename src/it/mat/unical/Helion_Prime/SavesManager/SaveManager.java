@@ -8,4 +8,6 @@ public interface SaveManager {
 	
 	public boolean deleteSavedGame();
 	
+	//dovrebbe selezionare e restituire tutti i salvataggi di un player dal db, poi la implemento
+	public void fetchSaves();
 }

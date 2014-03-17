@@ -6,7 +6,7 @@ import java.sql.SQLException;
 
 public class DatabaseManager {
 
-private static DatabaseManager instance;
+	private static DatabaseManager instance;
 	
 	private final String user = new String("user");
 	private final String pwd = new String("userpasswd");

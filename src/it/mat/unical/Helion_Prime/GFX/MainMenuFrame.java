@@ -9,6 +9,7 @@ import it.mat.unical.Helion_Prime.LevelEditor.MapElementsPanel;
 import it.mat.unical.Helion_Prime.LevelEditor.OptionsPanel;
 import it.mat.unical.Helion_Prime.Logic.GameManagerImpl;
 import it.mat.unical.Helion_Prime.SavesManager.H2DbManager;
+import it.mat.unical.Helion_Prime.SavesManager.SaveManagerImpl;
 import it.mat.unical.Helion_Prime.ScoreCharts.LoginInterface;
 import it.mat.unical.Helion_Prime.ScoreCharts.LoginValidator;
 
@@ -36,6 +37,7 @@ import javax.swing.JRadioButton;
 import javax.swing.JSplitPane;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
+import javax.swing.plaf.synth.SynthMenuItemUI;
 
 //frame principale contiene Il pannello di scelta di inizio gioco O editor
 

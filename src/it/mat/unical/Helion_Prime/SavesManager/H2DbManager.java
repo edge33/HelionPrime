@@ -48,4 +48,8 @@ public class H2DbManager {
 		}
 	}
 	
+	public Connection getConnection() {
+		return connection;
+	}
+	
 }
