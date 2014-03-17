@@ -54,4 +54,20 @@ password: afg98501fds2013
 
 ho aggiunto un' interfaccia per salvare il gioco, vedremo poi come implementare e che parametri passare!
 
+/* Francesco 17/03/2014 */
+
+modificata la tabella dei salvataggi del db, ecco la definizione
+
+CREATE TABLE Record(
+	Username VARCHAR(255),
+	Time TIMESTAMP,
+	Gun1_Bullets INT,
+	Gun2_Bullets INT,
+	Gun3_Bullets INT,
+	Gun4_Bullets INT,
+	LastLevel INT,
+	Score INT,
+	Credits INT,
+	PRIMARY KEY(Username,Time)
+)
 
