@@ -25,14 +25,15 @@ import java.awt.event.MouseEvent;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.ConcurrentHashMap;
 
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+
+import Online.Client;
+import Online.ClientManager;
 
 public class GamePane extends JPanel {
 	/*
@@ -45,13 +46,13 @@ public class GamePane extends JPanel {
 	private ImageProvider imageProvider;
 	private int playerX, playerY, logicX, logicY;
 	private int imagePlayer;
-	private int money;
-	private int playerDirection;
+
+	public int playerDirection;
 	private double scaleFactor;
-	private int currentRoomLife;
+
 	int cont = 0;
-	private HashMap<Point, Integer> placedTrap;
-	private ConcurrentHashMap<Integer, BulletsClient> bullets;
+
+	public ConcurrentHashMap<Integer, BulletsClient> bullets;
 	// private static Integer codeBullet = 0;
 	private int curentLife;
 	private int sizeBulletForPrint = 0; // quando avremo le immaggini per i
@@ -68,19 +69,22 @@ public class GamePane extends JPanel {
 	private boolean shoot = false;
 	private boolean shooter = true;
 	private boolean threadAlive = false;
+	private boolean gameOver = false;
+	private boolean stageClear = false;
+
 	private WorldImpl world;
 	private Client client;
+	private ClientManager clientManager;
 	private Wave wave;
 
-	private ArrayBlockingQueue<String> movementBullets;
-	private ArrayBlockingQueue<String> movementPlayer;
-	private ArrayBlockingQueue<String> movementWawe;
-	private ArrayBlockingQueue<String> placementTrap;
 	public TrapPanel trapPanel;
-	private InformationPanel informationPanel;
+	public InformationPanel informationPanel;
 	private ThreadPoolBulletClient threadPoolClient;
 	private GamePadController gamePadController;
-	private ConcurrentHashMap<Integer, AbstractNative> natives;
+	public ConcurrentHashMap<Integer, AbstractNative> natives;
+
+	public ConcurrentHashMap<Point, Integer> placedTrap;
+
 	private int currentGunSelected = 0;
 	private boolean levelClear = false;
 	// protected int idButton = 0;
@@ -89,7 +93,8 @@ public class GamePane extends JPanel {
 	public GamePane(File level, Client client, TrapPanel trapPanel,
 			InformationPanel informationPanel,
 			GamePadController gamePadController)
-			throws FileNotCorrectlyFormattedException {
+
+	throws FileNotCorrectlyFormattedException {
 		super();
 		Image currentLabelImage = null;
 		try {
@@ -112,29 +117,20 @@ public class GamePane extends JPanel {
 		this.gamePadController = gamePadController;
 		this.trapPanel = trapPanel;
 		this.informationPanel = informationPanel;
-		this.placedTrap = new HashMap<Point, Integer>();
+		this.placedTrap = new ConcurrentHashMap<Point, Integer>();
 		this.bullets = new ConcurrentHashMap<Integer, BulletsClient>();
-		this.movementPlayer = new ArrayBlockingQueue<String>(20);
-		this.placementTrap = new ArrayBlockingQueue<String>(20);
-		this.movementBullets = new ArrayBlockingQueue<String>(20);
-		this.movementWawe = new ArrayBlockingQueue<String>(20);
 		// this.threadPoolClient = new ThreadPoolBulletClient(bullets);
 		// this.manager.init(level);
 		// this.threadPoolClient.start();
 		this.world = new WorldImpl(level);
 
-		this.money = Integer.parseInt(client.recieveMessage()); // ricevo i
-																// l'intero
-																// corrrispondente
-																// hai soldi
-		int life = Integer.parseInt(client.recieveMessage());
 		this.imageProvider = new ImageProvider();
-		informationPanel.setMoney(money);
-		informationPanel.setLife(life);
-		informationPanel.setRoomLife(world.getRoomLife());
 
-		logicX = world.getPlayerSpawner().getX();
-		logicY = world.getPlayerSpawner().getY();
+		this.clientManager = new ClientManager(this.client, this);
+
+		clientManager.init();
+
+		informationPanel.setRoomLife(world.getRoomLife());
 
 		playerX = world.getPlayerSpawner().getX() * TILE_SIZE;
 		playerY = world.getPlayerSpawner().getY() * TILE_SIZE;
@@ -147,6 +143,7 @@ public class GamePane extends JPanel {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
+
 		this.natives = wave.getNatives();
 
 		for (AbstractNative currentNative : natives.values()) {
@@ -183,8 +180,9 @@ public class GamePane extends JPanel {
 					System.out.println(realX + " " + realY);
 					Integer numberOftrap = GamePane.this.trapPanel
 							.getCurrentTrapSelected();
-					GamePane.this.client.sendMessage("place.trap "
-							+ numberOftrap + "/" + realX + "/" + realY);
+					GamePane.this.clientManager
+							.pushToQueueForServer("place.trap " + numberOftrap
+									+ "/" + realX + "/" + realY);
 
 				}
 			});
@@ -203,22 +201,26 @@ public class GamePane extends JPanel {
 					case KeyEvent.VK_1:
 						// GamePane.this.playerOne.SwitchGun(0);
 						GamePane.this.trapPanel.selectGun();
-						GamePane.this.client.sendMessage("switchGun 0");
+						GamePane.this.clientManager
+								.pushToQueueForServer("switchGun 0");
 						break;
 					case KeyEvent.VK_2:
 						GamePane.this.trapPanel.selectUzi();
-						GamePane.this.client.sendMessage("switchGun 1");
+						GamePane.this.clientManager
+								.pushToQueueForServer("switchGun 1");
 						currentGunSelected = 1;
 						break;
 					case KeyEvent.VK_3:
 						currentGunSelected = 2;
 						GamePane.this.trapPanel.selectShootGun();
-						GamePane.this.client.sendMessage("switchGun 2");
+						GamePane.this.clientManager
+								.pushToQueueForServer("switchGun 2");
 						break;
 					case KeyEvent.VK_4:
 						currentGunSelected = 3;
 						GamePane.this.trapPanel.selectHeavy();
-						GamePane.this.client.sendMessage("switchGun 3");
+						GamePane.this.clientManager
+								.pushToQueueForServer("switchGun 3");
 						break;
 					case KeyEvent.VK_W:
 						GamePane.this.UP = false;
@@ -246,8 +248,7 @@ public class GamePane extends JPanel {
 						// playerOne.shoot();
 						// }
 
-						GamePane.this.client.sendMessage("s "
-								+ currentGunSelected);
+						GamePane.this.clientManager.pushToQueueForServer("sh");
 						break;
 					default:
 						break;
@@ -264,25 +265,40 @@ public class GamePane extends JPanel {
 					if (paramKeyEvent.getKeyCode() == KeyEvent.VK_W) {
 
 						GamePane.this.UP = true;
-						playerDirection = 0;
-
+						if (playerDirection != 0) {
+							playerDirection = 0;
+							GamePane.this.clientManager
+									.pushToQueueForServer("dUP");
+						}
 						// playerOne.setDirection(AbstractCharacter.UP);
 
 					} else if (paramKeyEvent.getKeyCode() == KeyEvent.VK_S) {
 						GamePane.this.DOWN = true;
-						playerDirection = 1;
+						if (playerDirection != 1) {
+							playerDirection = 1;
+							GamePane.this.clientManager
+									.pushToQueueForServer("dDOWN");
+						}
 
 						// playerOne.setDirection(AbstractCharacter.DOWN);
 
 					} else if (paramKeyEvent.getKeyCode() == KeyEvent.VK_A) {
 						GamePane.this.RIGHT = true;
-						playerDirection = 2;
+						if (playerDirection != 2) {
+							playerDirection = 2;
+							GamePane.this.clientManager
+									.pushToQueueForServer("dRIGHT");
+						}
 
 						// playerOne.setDirection(AbstractCharacter.LEFT);
 
 					} else if (paramKeyEvent.getKeyCode() == KeyEvent.VK_D) {
 						GamePane.this.LEFT = true;
-						playerDirection = 3;
+						if (playerDirection != 3) {
+							playerDirection = 3;
+							GamePane.this.clientManager
+									.pushToQueueForServer("dLEFT");
+						}
 
 						// playerOne.setDirection(AbstractCharacter.RIGHT);
 					} else if (paramKeyEvent.getKeyCode() == KeyEvent.VK_P) {
@@ -312,72 +328,85 @@ public class GamePane extends JPanel {
 
 					if (UP) {
 						imagePlayer = 1;
-						GamePane.this.client.sendMessage("dUP");
-						if (!(world.getElementAt(logicX - 1, logicY) instanceof Wall)
-								|| playerX > logicX * TILE_SIZE) {
 
-							playerX -= movementOffset;
+						if (!(world.getElementAt(clientManager.getLogicX() - 1,
+								clientManager.getLogicY()) instanceof Wall)
+								|| playerX > clientManager.getLogicX()
+										* TILE_SIZE) {
+
+							playerX -= getMovementOffset();
 						}
 
-						if (playerX <= ((logicX - 1) * TILE_SIZE) + TILE_SIZE
-								/ 3) {
-							GamePane.this.client.sendMessage("mUP");
+						if (playerX <= ((clientManager.getLogicX() - 1) * TILE_SIZE)
+								+ TILE_SIZE / 3) {
+							GamePane.this.clientManager
+									.pushToQueueForServer("mUP");
 
-							logicX -= 1;
+							clientManager
+									.setLogicX(clientManager.getLogicX() - 1);
 						}
-						// gameManager.movePlayer(0);
 
 					}
 
 					else if (DOWN) { // DOWN
-						GamePane.this.client.sendMessage("dDOWN");
-						imagePlayer = 2;
-						if (!(world.getElementAt(logicX + 1, logicY) instanceof Wall)
-								|| playerX < logicX * TILE_SIZE) {
 
-							playerX += movementOffset;
+						imagePlayer = 2;
+						if (!(world.getElementAt(clientManager.getLogicX() + 1,
+								clientManager.getLogicY()) instanceof Wall)
+								|| playerX < clientManager.getLogicX()
+										* TILE_SIZE) {
+
+							playerX += getMovementOffset();
 						}
 
-						if (playerX > ((logicX + 1) * TILE_SIZE) - TILE_SIZE
-								/ 2) {
-							// gameManager.movePlayer(1);
-							GamePane.this.client.sendMessage("mDOWN");
-							logicX += 1;
+						if (playerX > ((clientManager.getLogicX() + 1) * TILE_SIZE)
+								- TILE_SIZE / 2) {
+
+							GamePane.this.clientManager
+									.pushToQueueForServer("mDOWN");
+							clientManager
+									.setLogicX(clientManager.getLogicX() + 1);
 						}
 					}
 
 					else if (RIGHT) {
-						GamePane.this.client.sendMessage("dRIGHT");
-						imagePlayer = 3;
-						if (!(world.getElementAt(logicX, logicY - 1) instanceof Wall)
-								|| playerY > logicY * TILE_SIZE) {
 
-							playerY -= movementOffset;
+						imagePlayer = 3;
+						if (!(world.getElementAt(clientManager.getLogicX(),
+								clientManager.getLogicY() - 1) instanceof Wall)
+								|| playerY > clientManager.getLogicY()
+										* TILE_SIZE) {
+
+							playerY -= getMovementOffset();
 
 						}
-						if (playerY < ((logicY - 1) * TILE_SIZE) + TILE_SIZE
-								/ 2) {
-							// gameManager.movePlayer(2);
+						if (playerY < ((clientManager.getLogicY() - 1) * TILE_SIZE)
+								+ TILE_SIZE / 2) {
 
-							GamePane.this.client.sendMessage("mRIGHT");
-							logicY -= 1;
+							GamePane.this.clientManager
+									.pushToQueueForServer("mRIGHT");
+							clientManager
+									.setLogicY(clientManager.getLogicY() - 1);
 						}
 					}
 
 					else if (LEFT) {
-						GamePane.this.client.sendMessage("dLEFT");
-						imagePlayer = 4;
-						if (!(world.getElementAt(logicX, logicY + 1) instanceof Wall)
-								|| playerY < logicY * TILE_SIZE) {
 
-							playerY += movementOffset;
+						imagePlayer = 4;
+						if (!(world.getElementAt(clientManager.getLogicX(),
+								clientManager.getLogicY() + 1) instanceof Wall)
+								|| playerY < clientManager.getLogicY()
+										* TILE_SIZE) {
+
+							playerY += getMovementOffset();
 
 						}
-						if (playerY > ((logicY + 1) * TILE_SIZE) - TILE_SIZE
-								/ 2) {
-							// gameManager.movePlayer(3);
-							GamePane.this.client.sendMessage("mLEFT");
-							logicY += 1;
+						if (playerY > ((clientManager.getLogicY() + 1) * TILE_SIZE)
+								- TILE_SIZE / 2) {
+							GamePane.this.clientManager
+									.pushToQueueForServer("mLEFT");
+							clientManager
+									.setLogicY(clientManager.getLogicY() + 1);
 						}
 					}
 					try {
@@ -405,11 +434,7 @@ public class GamePane extends JPanel {
 			// manager.update();
 
 		}.start();
-		this.startClient();
-		this.startMovementPlayer();
-		this.startPlacementTrap();
-		this.startMovementOfBullets();
-		this.startMovementWave();
+
 		this.setVisible(true);
 	}
 
@@ -611,11 +636,12 @@ public class GamePane extends JPanel {
 			g.setColor(Color.BLACK);
 			// g.fillOval(bullets.get(i).getGraphicY(), bullets.get(i)
 			// .getGraphicX(), 10, 10);
-			g.fillOval(bulletClient.getY() * TILE_SIZE + TILE_SIZE / 2,
-					bulletClient.getX() * TILE_SIZE + TILE_SIZE / 2, 10, 10);
+			g.fillOval(bulletClient.getGraphicY() + TILE_SIZE / 2,
+					bulletClient.getGraphicX() + TILE_SIZE / 2, 10, 10);
 
 		}
 		//
+
 		// // in base alla direzione del player stampa
 		// // l'immagine corrispondente
 
@@ -722,11 +748,11 @@ public class GamePane extends JPanel {
 				for (int j = 0; j < world.getLenght() - 1; j++) {
 					if (grayFloor == true) {
 						g.drawImage(imageProvider.getFloor(),/* drawingHorizontalOffset */
-						+(j * TILE_SIZE), i * TILE_SIZE, this);
+								+(j * TILE_SIZE), i * TILE_SIZE, this);
 						grayFloor = false;
 					} else {
 						g.drawImage(imageProvider.getFloor2(),/* drawingHorizontalOffset */
-						+(j * TILE_SIZE), i * TILE_SIZE, this);
+								+(j * TILE_SIZE), i * TILE_SIZE, this);
 						grayFloor = true;
 					}
 				}
@@ -736,11 +762,11 @@ public class GamePane extends JPanel {
 				for (int j = 1; j < world.getLenght() - 1; j++) {
 					if (grayFloor == true) {
 						g.drawImage(imageProvider.getFloor(),/* drawingHorizontalOffset */
-						+(j * TILE_SIZE), i * TILE_SIZE, this);
+								+(j * TILE_SIZE), i * TILE_SIZE, this);
 						grayFloor = false;
 					} else {
 						g.drawImage(imageProvider.getFloor2(),/* drawingHorizontalOffset */
-						+(j * TILE_SIZE), i * TILE_SIZE, this);
+								+(j * TILE_SIZE), i * TILE_SIZE, this);
 						grayFloor = true;
 					}
 				}
@@ -978,252 +1004,35 @@ public class GamePane extends JPanel {
 		// }.start();
 	} // end of startPolling()
 
-	public void startClient() {
-
-		new Thread() {
-			String responseFromServer;
-
-			@Override
-			public void run() {
-
-				while (true) {
-					responseFromServer = GamePane.this.client.recieveMessage();
-
-					if (responseFromServer != null)
-						try {
-							executeServerResponse(responseFromServer);
-						} catch (InterruptedException e1) {
-							// TODO Auto-generated catch block
-							e1.printStackTrace();
-						}
-
-					try {
-						sleep(5);
-					} catch (InterruptedException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
-
-				}
-			}
-		}.start();
-
-	}
-
-	private void executeServerResponse(String responseFromServer)
-			throws InterruptedException {
-
-		if (responseFromServer.substring(0, 1).equals("m")) {
-			movementPlayer.put(responseFromServer);
-		} else if (responseFromServer.substring(0, 1).equals("p")) {
-			placementTrap.put(responseFromServer);
-		} else if (responseFromServer.substring(0, 1).equals("s")) {
-			movementBullets.put(responseFromServer);
-		} else if (responseFromServer.substring(0, 1).equals("n")) {
-			movementWawe.put(responseFromServer);
-		} else if (responseFromServer.substring(0, 1).equals("c")) {
-			this.levelClear = true;
-			StageClearPanel clearPanel = new StageClearPanel();
-			MainMenuFrame.getInstance().switchTo(clearPanel);
-		}
-	}
-
-	private void placeTrapOnGraphicMap(String message) {
-		String[] splittedMessage = message.split(" ");
-		String[] splitted = splittedMessage[1].split("/");
-		if (splittedMessage[0].equals("p")) {
-
-			placedTrap.put(
-					new Point(Integer.parseInt(splitted[1]), Integer
-							.parseInt(splitted[2])), Integer
-							.parseInt(splitted[0]));
-
-			this.money = Integer.parseInt(splitted[3]);
-
-			informationPanel.setMoney(money);
-		} else if (splittedMessage[0].equals("pr")) {
-
-			Point point = new Point(Integer.parseInt(splitted[1]),
-					Integer.parseInt(splitted[0]));
-			placedTrap.remove(point);
-		}
-
-	}
-
-	private void moveGraphicPlayer(String string) {
-		if (string.equals("mUP")) {
-			playerX -= movementOffset;
-		} else if (string.equals("mDOWN")) {
-			playerX += movementOffset;
-		} else if (string.equals("mRIGHT")) {
-			playerY -= movementOffset;
-		} else if (string.equals("mLEFT")) {
-			playerY += movementOffset;
-		}
-
-	}
-
-	private void moveLogicPlayer(String string) {
-		if (string.equals("mUP")) {
-			logicX -= 1;
-		} else if (string.equals("mDOWN")) {
-			logicX += 1;
-		} else if (string.equals("mLEFT")) {
-			logicY -= 1;
-		} else if (string.equals("mRIGHT")) {
-			logicY += 1;
-		}
-
-	}
-
-	private void startMovementWave() {
-		new Thread() {
-			public void run() {
-
-				while (true) {
-					try {
-						String movement = movementWawe.take();
-						String[] splitted = movement.split(" ");
-						AbstractNative abstractNative = natives.get(Integer
-								.parseInt(splitted[1]));
-
-						if (movement.substring(1, 2).equals("U")) {
-
-							abstractNative.setX(abstractNative.getX() - 1);
-						} else if (movement.substring(1, 2).equals("D")) {
-							abstractNative.setX(abstractNative.getX() + 1);
-						} else if (movement.substring(1, 2).equals("L")) {
-							abstractNative.setY(abstractNative.getY() - 1);
-						} else if (movement.substring(1, 2).equals("R")) {
-							abstractNative.setY(abstractNative.getY() + 1);
-						} else if (splitted[0].equals("nr")) {
-							natives.remove(Integer.parseInt(splitted[1]));
-						}
-						sleep(20);
-					} catch (InterruptedException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
-				}
-			};
-		}.start();
-
-	}
-
-	private void startMovementPlayer() {
-
-		new Thread() {
-			@Override
-			public void run() {
-				while (true) {
-					try {
-
-						String movement = movementPlayer.take();
-						moveGraphicPlayer(movement);
-						sleep(20);
-					} catch (InterruptedException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
-
-				}
-
-			}
-		}.start();
-	}
-
-	private void startPlacementTrap() {
-		new Thread() {
-			public void run() {
-				while (true) {
-					String placement;
-					try {
-						placement = placementTrap.take();
-						placeTrapOnGraphicMap(placement);
-						sleep(100);
-					} catch (InterruptedException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
-
-				}
-			};
-		}.start();
-	}
-
-	private void startMovementOfBullets() {
-
-		new Thread() {
-
-			public void run() {
-				while (true) {
-					String movement;
-					try {
-						movement = movementBullets.take();
-						String[] movementSplitted = movement.split(" ");
-						if (movementSplitted[0].equals("shoot")) {
-							bullets.put(Integer.parseInt(movementSplitted[1]),
-									new BulletsClient(
-											GamePane.this.playerDirection,
-											GamePane.this.logicX,
-											GamePane.this.logicY));
-
-						} else if (movementSplitted[0].equals("sr")) {
-							System.out.println(movement);
-
-							bullets.remove(Integer
-									.parseInt(movementSplitted[1]));
-							System.err.println("GamePane - "
-									+ movement.substring(2, 3));
-
-						} else if (movementSplitted[0].equals("sUP")) {
-							bullets.get(Integer.parseInt(movementSplitted[1]))
-									.setX(bullets
-											.get(Integer
-													.parseInt(movementSplitted[1]))
-											.getX() - 1);
-						} else if (movementSplitted[0].equals("sDOWN")) {
-							bullets.get(Integer.parseInt(movementSplitted[1]))
-									.setX(bullets
-											.get(Integer
-													.parseInt(movementSplitted[1]))
-											.getX() + 1);
-						} else if (movementSplitted[0].equals("sRIGHT")) {
-							bullets.get(Integer.parseInt(movementSplitted[1]))
-									.setY(bullets
-											.get(Integer
-													.parseInt(movementSplitted[1]))
-											.getY() - 1);
-						} else if (movementSplitted[0].equals("sLEFT")) {
-							bullets.get(Integer.parseInt(movementSplitted[1]))
-									.setY(bullets
-											.get(Integer
-													.parseInt(movementSplitted[1]))
-											.getY() + 1);
-						} else if (movementSplitted[0].equals("srm")) {
-							bullets.put(
-									Integer.parseInt(movementSplitted[1]),
-
-									new BulletsClient(
-											Integer.parseInt(movementSplitted[2]),
-											Integer.parseInt(movementSplitted[3]),
-											Integer.parseInt(movementSplitted[4])));
-
-						}
-						sleep(10);
-					} catch (InterruptedException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
-
-				}
-			};
-		}.start();
-
-	}
-
 	private void canMovePlayer() {
 		boolean canMove = false;
 
+	}
+
+	public ConcurrentHashMap<Integer, AbstractNative> getNatives() {
+
+		return this.natives;
+	}
+
+	public int getMovementOffset() {
+		return movementOffset;
+	}
+
+	public void setMovementOffset(int movementOffset) {
+		this.movementOffset = movementOffset;
+	}
+
+	public WorldImpl getWorld() {
+		return world;
+	}
+
+	public boolean isGameOver() {
+		// TODO Auto-generated method stub
+		return gameOver;
+	}
+
+	public boolean isStageClear() {
+		// TODO Auto-generated method stub
+		return stageClear;
 	}
 }

@@ -224,6 +224,7 @@ public class GameManagerImpl implements GameManager {
 				this.endGame();
 				gameOver = true;
 				gameStopped = true;
+				this.server.sendMessage("over");
 			}
 
 		} else {

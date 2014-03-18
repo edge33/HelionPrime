@@ -67,26 +67,21 @@ public class TrapPower extends AbstractTrap {
 							&& !GameManagerImpl.getInstance().isGameStopped()
 							&& !GameManagerImpl.getInstance().gameIsOver(); i++) {
 
-						GameManagerImpl
-								.getInstance()
-								.getServer()
-								.sendMessage(
-										"srm "
-												+
+						String messageForBullet = "srm "
+								+
 
-												String.valueOf(AbstractGun.add(new Bullet(
-														TrapPower.this.getX(),
-														TrapPower.this.getY(),
-														i, 15,
-														TrapPower.this.world)))
-												+ " "
-												+ String.valueOf(i)
-												+ " "
-												+ String.valueOf(TrapPower.this
-														.getX())
-												+ " "
-												+ String.valueOf(TrapPower.this
-														.getY()));
+								String.valueOf(AbstractGun.add(new Bullet(
+										TrapPower.this.getX(), TrapPower.this
+												.getY(), i, 15,
+										TrapPower.this.world))) + " " + i + " "
+								+ String.valueOf(TrapPower.this.getX()) + " "
+								+ String.valueOf(TrapPower.this.getY());
+
+						System.out.println(messageForBullet);
+
+						GameManagerImpl.getInstance().getServer()
+								.sendMessage(messageForBullet);
+
 					}
 				}
 			}

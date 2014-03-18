@@ -18,6 +18,7 @@ import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JPanel;
 
+import Online.Client;
 import Online.Server;
 
 public class LevelSwitchPanel extends JPanel {

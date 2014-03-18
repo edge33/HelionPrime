@@ -35,23 +35,16 @@ public class ThreadPoolBullet extends Thread {
 
 						bullets.remove(key);
 					} else {
-						message = null;
-						message = bullets.get(key).shooting();
-						System.out.println(message);
-						if (message != null) {
+						bullets.get(key).shooting();
 
-							GameManagerImpl
-									.getInstance()
-									.getServer()
-									.sendMessage(
-											message + " " + String.valueOf(key));
-						}
+						// GameManagerImpl.getInstance().getServer()
+						// .sendMessage(String.valueOf(key));
 
 					}
 				}
 			}
 			try {
-				sleep(100);
+				sleep(50);
 			} catch (InterruptedException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();

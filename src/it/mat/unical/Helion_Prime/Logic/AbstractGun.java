@@ -7,7 +7,7 @@ import java.util.concurrent.locks.ReentrantLock;
 public class AbstractGun implements RangedWeapon {
 
 	protected static ConcurrentHashMap<Integer, Bullet> bullets = new ConcurrentHashMap<Integer, Bullet>();
-	private static Integer codeBullet = 0;
+	private static volatile Integer codeBullet = 0;
 	protected int damage;
 	protected World world;
 	private final static Lock lock = new ReentrantLock();

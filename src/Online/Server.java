@@ -32,7 +32,7 @@ public class Server extends Thread {
 		this.server = new ServerSocket(port);
 		movementPlayer = new ArrayBlockingQueue<String>(20);
 		placemenTrap = new ArrayBlockingQueue<String>(20);
-		messageToClient = new ArrayBlockingQueue<String>(20);
+		messageToClient = new ArrayBlockingQueue<String>(200);
 
 	}
 
@@ -87,9 +87,9 @@ public class Server extends Thread {
 
 			String message = this.recieveMessage();
 
-			String response;
+			// String response;
 			try {
-				response = updateOnline(message);
+				updateOnline(message);
 			} catch (InterruptedException e1) {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
@@ -106,7 +106,7 @@ public class Server extends Thread {
 
 	}
 
-	private String updateOnline(String message) throws InterruptedException {
+	private void updateOnline(String message) throws InterruptedException {
 		String response = null;
 
 		String[] splitted = message.split(" ");
@@ -119,13 +119,11 @@ public class Server extends Thread {
 			placemenTrap.put(splitted[1]);
 		} else if (message.substring(0, 1).equals("s")) {
 
-			sendMessage("shoot " + String.valueOf(canShoot()));
+			sendMessage("sh " + String.valueOf(canShoot()));
 
 		} else if (splitted[0].equals("switchGun")) {
 			swintchGunForPlayer(splitted[1]);
 		}
-
-		return null;
 
 	}
 
@@ -196,7 +194,7 @@ public class Server extends Thread {
 
 					try {
 						String placement = placemenTrap.take();
-						System.err.println(placement);
+						// System.err.println(placement);
 						if (canPlaceTrap(placement))
 							Server.this.sendMessage("p " + placement + "/"
 									+ gameManager.getPlayer().getMoney());
@@ -297,6 +295,7 @@ public class Server extends Thread {
 	public void sendMessageOnline(String message) {
 		try {
 			out.writeBytes(message + '\n');
+			out.flush();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

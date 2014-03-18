@@ -7,10 +7,11 @@ public class BulletsClient {
 	private int graphicY;
 	private int x;
 	private int y;
+	private int bulletOffset = 15;
+	private boolean stopBullet = false;
 
 	public BulletsClient(int direction, int logicX, int logicY) {
 		this.direction = direction;
-
 		this.x = logicX;
 		this.y = logicY;
 		this.graphicX = x * 50;
@@ -42,23 +43,24 @@ public class BulletsClient {
 	}
 
 	public void shooting() {
+
 		switch (this.direction) {
 		case 0:
-			this.setGraphicX(this.getGraphicX() - 15);
+			this.graphicX -= bulletOffset;
 
 			break;
 		case 1:
 
-			this.setGraphicX(this.getGraphicX() + 15);
+			this.graphicX += bulletOffset;
 			break;
 
 		case 2:
-			this.setGraphicY(this.getGraphicY() - 15);
+			this.graphicY -= bulletOffset;
 
 			break;
 
 		case 3:
-			this.setGraphicY(this.getGraphicY() + 15);
+			this.graphicY += bulletOffset;
 
 			break;
 
@@ -81,5 +83,15 @@ public class BulletsClient {
 
 	public void setY(int y) {
 		this.y = y;
+	}
+
+	public boolean stopBullet() {
+		// TODO Auto-generated method stub
+		return stopBullet;
+	}
+
+	public void setStopBullet() {
+		// TODO Auto-generated method stub
+		this.stopBullet = true;
 	}
 }

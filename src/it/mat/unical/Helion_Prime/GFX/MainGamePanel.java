@@ -10,6 +10,8 @@ import java.io.File;
 
 import javax.swing.JPanel;
 
+import Online.Client;
+
 public class MainGamePanel extends JPanel {
 
 	private GamePane levelPanel;
