@@ -37,3 +37,37 @@ solo in questo caso ha senso salvare il punteggio.
 dovremmo prevedere un sistema per salvare la partita. penso si possa fare in modo che venga salvato l'ultimo livello completato, il punteggio
 e i soldi rimasti.
 
+/* Francesco 11/03/2014 */
+aggiunto Db embedded locale, trovate il jar, nella cartella, db e il relativo db, file "helionPrime.h2.db"
+avviate il file h2.bat e vi si aprirà sul browser la pagina "http://localhost:8082" usate queste chiavi per 
+accedere al query browser:
+
+Utente Amministratore:
+username: sa
+password :
+
+Utente inserter <- useremo questo per accedere dal gioco, in modo che gli sia concesso solo inserire, eliminare, aggiornare, o eliminare tuple.
+username: inserter
+password: afg98501fds2013
+
+----
+
+ho aggiunto un' interfaccia per salvare il gioco, vedremo poi come implementare e che parametri passare!
+
+/* Francesco 17/03/2014 */
+
+modificata la tabella dei salvataggi del db, ecco la definizione
+
+CREATE TABLE Record(
+	Username VARCHAR(255),
+	Time TIMESTAMP,
+	Gun1_Bullets INT,
+	Gun2_Bullets INT,
+	Gun3_Bullets INT,
+	Gun4_Bullets INT,
+	LastLevel INT,
+	Score INT,
+	Credits INT,
+	PRIMARY KEY(Username,Time)
+)
+

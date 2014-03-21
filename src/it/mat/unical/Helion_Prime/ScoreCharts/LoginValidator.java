@@ -7,6 +7,20 @@ import java.sql.Statement;
 
 public class LoginValidator implements LoginInterface{
 
+	private boolean loggedIn;
+	
+	private static LoginValidator instance;
+	
+	public static LoginValidator getInstance() {
+		if ( instance == null ) 
+			instance = new LoginValidator();
+		return instance;
+	}
+	
+	private LoginValidator() {
+		this.loggedIn = false;
+	}
+	
 	@Override
 	public boolean doLogin(String username, String password) {
 	
@@ -16,7 +30,7 @@ public class LoginValidator implements LoginInterface{
 			
 			 try {
 					
-					String selectStatement = "SELECT * FROM User WHERE Username = ? AND Password = ? LIMIT 1";
+					String selectStatement = "SELECT * FROM User WHERE Username =  ? AND Password = ? LIMIT 1";
 					
 					PreparedStatement preparedStatement = db.getConnection().prepareStatement(selectStatement);
 					
@@ -27,6 +41,7 @@ public class LoginValidator implements LoginInterface{
 					
 					if ( resultSet.next() ) {
 						System.err.println("User Found");
+						loggedIn = true;
 					} else {
 						System.err.println("User NOT Found!!!");
 					}
@@ -40,6 +55,11 @@ public class LoginValidator implements LoginInterface{
 				}
 		
 			 return false;
+	}
+
+	@Override
+	public boolean isLoggedIn() {
+		return loggedIn;
 	}
 
 }

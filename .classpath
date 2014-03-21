@@ -8,5 +8,6 @@
 			<attribute name="javadoc_location" value="file:/C:/Users/Francesco/git/HelionPrime/Reload_HelionPrime/Jar/mysql-connector-java-5.1.29/docs/"/>
 		</attributes>
 	</classpathentry>
+	<classpathentry kind="lib" path="DataBase/h2-1.3.174.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
