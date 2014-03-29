@@ -70,7 +70,7 @@ public LevelSwitchPanel() {
     	}
     }
     this.add(comboBox);
-    this.menuButton = new JButton("Back To Menu");
+    this.menuButton = new JButton("Main Menu");
     this.startGameButton = new JButton("Start Game");
     createButton();
 
