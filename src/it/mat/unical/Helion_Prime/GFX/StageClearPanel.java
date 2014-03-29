@@ -1,6 +1,7 @@
 package it.mat.unical.Helion_Prime.GFX;
 
 import java.awt.Color;
+import java.awt.Cursor;
 import java.awt.Graphics;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -18,10 +19,12 @@ public class StageClearPanel extends JPanel{
 	private JButton retryButton;
 	private MainMenuFrame mainMenuFrame;
 	private BufferedImage stageClearImage;
+	private Cursor cursor;
 	
-	public StageClearPanel() {
-		
-		
+	public StageClearPanel()
+	{
+		this.cursor = MainMenuFrame.getInstance().getMainMenuPanel().getCursor();
+		this.setCursor(cursor);
 		this.mainMenuFrame = MainMenuFrame.getInstance();
 		this.backToMenuButton = new JButton("Back to Menu");
 		this.retryButton = new JButton("Retry");

@@ -15,6 +15,9 @@ import it.mat.unical.Helion_Prime.ScoreCharts.LoginValidator;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Component;
+import java.awt.Container;
+import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
@@ -44,60 +47,58 @@ import javax.swing.plaf.synth.SynthMenuItemUI;
 public class MainMenuFrame extends JFrame  {
 
 	private static MainMenuFrame instance;
-	
+
 	private JPanel contentPanel;
 
 	private MainMenuPanel mainMenuPanel;
-		
+
 	public static MainMenuFrame getInstance() {
-		
+
 		if ( instance == null ) {
 			instance = new MainMenuFrame();
 			System.out.println("instanzio il MainMenuFrame");
 		}
-			return instance;
+		return instance;
 	}
-	
-	private MainMenuFrame() {
-	}
-	
-	public void start() {
-		
+
+	private MainMenuFrame() 
+	{}
+
+	public void start() 
+	{
 		setSize(900, 700);
 		setLocationRelativeTo(null);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		setVisible(true);
 		contentPanel = new JPanel(new BorderLayout());
 		add(contentPanel);
-		
+
 		contentPanel.setVisible(true);
-		
+
 		mainMenuPanel = new MainMenuPanel();
 		switchTo(mainMenuPanel);
 		
+
+	}
+
+	public void switchTo(final JPanel panel)
+	{
+		SwingUtilities.invokeLater(new Runnable()
+		{
+			@Override
+			public void run()
+			{
+				contentPanel.removeAll();
+				contentPanel.add(panel, BorderLayout.CENTER);
+				contentPanel.updateUI();
+				panel.requestFocus(); 
+			}
+		});
 	}
 
 
-	
-	
-	public void switchTo(final JPanel panel)
-    {
-        SwingUtilities.invokeLater(new Runnable()
-            {
-                @Override
-                public void run()
-                {
-                    contentPanel.removeAll();
-                    contentPanel.add(panel, BorderLayout.CENTER);
-                    contentPanel.updateUI();
-                    panel.requestFocus(); 
-                }
-            });
-    }
-	
-	
 
-	
+
 	public static void main(String[] args) {
 		MainMenuFrame frame = MainMenuFrame.getInstance();
 		frame.start();
@@ -108,5 +109,5 @@ public class MainMenuFrame extends JFrame  {
 	}
 
 
-	
+
 }

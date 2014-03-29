@@ -5,10 +5,15 @@ import it.mat.unical.Helion_Prime.LevelEditor.EditorMainPanel;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Container;
+import java.awt.Cursor;
 import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.Graphics;
+import java.awt.Image;
+import java.awt.Point;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
@@ -20,6 +25,7 @@ import javax.imageio.ImageIO;
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
+import javax.swing.AbstractButton;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
@@ -30,28 +36,38 @@ public class MainMenuPanel extends JPanel {
 	private LevelSwitchPanel levelSwitchPanel;
 	private EditorMainPanel editorMainPanel;
 	private EnemyEditorPanel enemyEditorPanel;
+	private LoginPanel loginPanel;
+	private MultiplayerPanel multiplayerPanel;
 
 	private BufferedImage menuWallpaper;
 	private JPanel southPane;
+	private JPanel centerPane;
 	private JRadioButton musicButton;
 	private JButton playButton;
 	private JButton editorButton;
 	private JButton enemyEditor;
 	private JButton escButton;
+	private JButton multiButton;
 	private Container menuPane;
+	private Cursor cursor;
 
 	private Clip clip;
 	private Font font;
 
-	public MainMenuPanel() {
+	private boolean isStoryModeOn = false;
+
+	public MainMenuPanel()
+	{
 
 		this.setLayout(new BorderLayout());
-
+		centerPane = new JPanel();
+		centerPane.setLayout(null);
+		centerPane.setOpaque(false);
 		southPane = new JPanel();
-		southPane.setLayout(new FlowLayout());
 		southPane.setBackground(Color.BLACK);
 
 		musicButton = new JRadioButton("No Music");
+		multiButton = new JButton("MultiPlayer");
 		playButton = new JButton("Play");
 		editorButton = new JButton("Editor Mode");
 		enemyEditor = new JButton("Create Mode");
@@ -78,8 +94,18 @@ public class MainMenuPanel extends JPanel {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				MainMenuPanel.this.levelSwitchPanel = new LevelSwitchPanel(font);
-				MainMenuFrame.getInstance().switchTo(levelSwitchPanel);
+				loginPanel = new LoginPanel();
+				MainMenuFrame.getInstance().switchTo(loginPanel);
+				
+			}
+		});
+		
+		multiButton.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				MainMenuPanel.this.multiplayerPanel = new MultiplayerPanel();
+				MainMenuFrame.getInstance().switchTo(multiplayerPanel);
 			}
 		});
 
@@ -96,7 +122,7 @@ public class MainMenuPanel extends JPanel {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				MainMenuPanel.this.enemyEditorPanel = new EnemyEditorPanel();
+				MainMenuPanel.this.enemyEditorPanel = new EnemyEditorPanel(font);
 				MainMenuFrame.getInstance().switchTo(enemyEditorPanel);
 			}
 
@@ -113,28 +139,29 @@ public class MainMenuPanel extends JPanel {
 
 		playMusic();
 		setLayout(new BorderLayout());
-
-		southPane.add(musicButton);
+		musicButton.setBounds(10, 1, 150, 150);
+		centerPane.add(musicButton);
 		southPane.add(playButton);
+		southPane.add(multiButton);
 		southPane.add(editorButton);
 		southPane.add(enemyEditor);
 		southPane.add(escButton);
 		add(southPane, BorderLayout.SOUTH);
+		add(centerPane,BorderLayout.CENTER);
 
 		setVisible(true);
 
 		this.menuWallpaper = null;
 
 		try {
-			menuWallpaper = ImageIO.read(new File("Resources/Alien.jpg")); // sfondo
-																			// menu
-																			// iniziale
-
+			menuWallpaper = ImageIO.read(new File("Resources/Alien.jpg")); // sfondo menu iniziale
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		createButton();
+		createCustomCursor();
+		this.setCursor(cursor);
 	}
 
 	public void createButton() {
@@ -148,18 +175,27 @@ public class MainMenuPanel extends JPanel {
 			ex.printStackTrace();
 			font = new Font("serif", Font.PLAIN, 24);
 		}
-		musicButton.setBackground(Color.black);
+		musicButton.setOpaque(false);
 		musicButton.setForeground(Color.green);
 		musicButton.setFont(font);
-		musicButton.setFont(musicButton.getFont().deriveFont(20.0f));
+		musicButton.setFont(musicButton.getFont().deriveFont(15.0f));
 		musicButton.setBorderPainted(false);
 		musicButton.setFocusPainted(false);
+
+		multiButton.setBackground(Color.black);
+		multiButton.setForeground(Color.green);
+		multiButton.setFont(font);
+		multiButton.setFont(multiButton.getFont().deriveFont(25.0f));
+		multiButton.setBorderPainted(false);
+		multiButton.setFocusPainted(false);
+
 		playButton.setBackground(Color.black);
 		playButton.setForeground(Color.green);
 		playButton.setFont(font);
 		playButton.setFont(playButton.getFont().deriveFont(25.0f));
 		playButton.setBorderPainted(false);
 		playButton.setFocusPainted(false);
+
 		editorButton.setBackground(Color.black);
 		editorButton.setForeground(Color.green);
 		editorButton.setFont(font);
@@ -167,12 +203,14 @@ public class MainMenuPanel extends JPanel {
 		editorButton.setBorderPainted(false);
 		editorButton.setFocusPainted(false);
 		editorButton.setBorderPainted(false);
+
 		enemyEditor.setBackground(Color.black);
 		enemyEditor.setForeground(Color.green);
 		enemyEditor.setFont(font);
 		enemyEditor.setFont(musicButton.getFont().deriveFont(25.0f));
 		enemyEditor.setBorderPainted(false);
 		enemyEditor.setFocusPainted(false);
+
 		escButton.setBackground(Color.black);
 		escButton.setForeground(Color.green);
 		escButton.setFont(font);
@@ -184,7 +222,7 @@ public class MainMenuPanel extends JPanel {
 
 	public void playMusic() {
 
-		try {
+		/*try {
 			AudioInputStream audioInputStream = AudioSystem
 					.getAudioInputStream(new File("Ost/Lucian.wav")
 							.getAbsoluteFile());
@@ -194,7 +232,11 @@ public class MainMenuPanel extends JPanel {
 		} catch (Exception ex) {
 			System.out.println("Error with playing sound.");
 			ex.printStackTrace();
-		}
+		}*/
+	}
+	public void setStoryModeOn(boolean value)
+	{
+		isStoryModeOn = value;
 	}
 
 	public LevelSwitchPanel getLevelSwitchPanel() {
@@ -203,6 +245,21 @@ public class MainMenuPanel extends JPanel {
 
 	public Font getFont() {
 		return font;
+	}
+
+
+	public void createCustomCursor()
+	{
+		Toolkit toolkit = Toolkit.getDefaultToolkit();  
+		Image image = toolkit.getImage("Resources/Cursor.png");  
+		Point hotSpot = new Point(0,0); 
+		cursor = toolkit.createCustomCursor(image, hotSpot , "Pencil");
+		setCursor(cursor);  
+	}
+
+	public Cursor getCursor()
+	{
+		return cursor;
 	}
 
 	@Override

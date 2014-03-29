@@ -3,6 +3,7 @@ package it.mat.unical.Helion_Prime.GFX;
 import it.mat.unical.Helion_Prime.LevelEditor.GridPanel;
 
 import java.awt.Color;
+import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.event.ActionEvent;
@@ -21,10 +22,12 @@ public class GameOverPanel extends JPanel {
 	private JButton retryButton;
 	private MainMenuFrame mainMenuFrame;
 	private BufferedImage gameOverImage;
+	private Cursor cursor;
 	
 	public GameOverPanel() {
 		
-		
+		this.cursor = MainMenuFrame.getInstance().getMainMenuPanel().getCursor();
+		this.setCursor(cursor);
 		this.mainMenuFrame = MainMenuFrame.getInstance();
 		this.backToMenuButton = new JButton("Back to Menu");
 		this.retryButton = new JButton("Retry");

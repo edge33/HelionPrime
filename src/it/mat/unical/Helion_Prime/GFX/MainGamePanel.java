@@ -5,6 +5,7 @@ import it.mat.unical.Helion_Prime.Logic.FileNotCorrectlyFormattedException;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Cursor;
 import java.awt.Dimension;
 import java.io.File;
 
@@ -20,10 +21,13 @@ public class MainGamePanel extends JPanel {
 	private JPanel eastPanel;
 	private JPanel westPanel;
 	private GamePadController gamePadController;
+	private Cursor cursor;
 
-	public MainGamePanel(File level, Client client)
-			throws FileNotCorrectlyFormattedException {
-
+	public MainGamePanel(File level, Client client)	throws FileNotCorrectlyFormattedException
+	{
+		
+		this.cursor = MainMenuFrame.getInstance().getMainMenuPanel().getCursor();
+		this.setCursor(cursor);
 		setLayout(new BorderLayout());
 		gamePadController = new GamePadController();
 		eastPanel = new JPanel();

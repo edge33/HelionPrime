@@ -71,3 +71,16 @@ CREATE TABLE Record(
 	PRIMARY KEY(Username,Time)
 )
 
+-------------
+
+/* Daniele 29/03/2014*/
+
+Mentre rendo presentabili i pannelli di cui abbiamo parlato ho aggiunto una serie di classi che vi permetteranno
+di usare il gioco in tutte le sue funzioni. Qual'ora vi servisse una particolare classe basterà implementare il 
+listener del componente che vi serve e collegare le vostre funzioni a quello. 
+
+Lo storyPanel è graficamente finito ora dobbiamo soltanto aggiungere la chiamata al DB che locka i livelli non sbloccati. 
+Per tutto il resto conto di finire per questa notte. 
+
+Funzioni in Pre-Alfa:
+La creation mode è quasi finita ve ne lascio un assaggio nel relativo pannello
