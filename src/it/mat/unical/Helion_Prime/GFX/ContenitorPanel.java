@@ -12,15 +12,17 @@ import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.IOException;
 
+import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.JButton;
+import javax.swing.JLayeredPane;
 import javax.swing.JPanel;
 import javax.swing.UIManager;
 
 import Online.Client;
 import Online.Server;
 
-public class ContenitorPanel extends JPanel
+public class ContenitorPanel extends JLayeredPane
 {
 	private static StoryPanel centerPanel;
 	private UpperPanel upperPanel;
@@ -31,9 +33,13 @@ public class ContenitorPanel extends JPanel
 	private JButton startGameButton;
 	private Server server;
 	private Cursor cursor; 
+	private PreviewPanel previewPaneL;
 
 	public ContenitorPanel()
 	{
+
+		this.previewPaneL = null;
+		
 		this.back = new JButton("Main Menu");
 		this.startGameButton = new JButton("Start Level");
 
@@ -43,6 +49,7 @@ public class ContenitorPanel extends JPanel
 		this.lowerPanel.add(Box.createRigidArea(new Dimension(40,40)));
 		this.lowerPanel.add(back);
 		this.lowerPanel.setBackground(Color.BLACK);
+		
 		createButton();
 		addListener();
 
@@ -157,8 +164,60 @@ public class ContenitorPanel extends JPanel
 
 	public void setLevelName(String name)
 	{
+		name = name.replace(".txt", "");
 		upperPanel.setLevelName(name);
 		upperPanel.repaint();
 		System.out.println(name);
+	}
+
+	public void showPanel(String name) 
+	{
+		int frameWidth = MainMenuFrame.getInstance().getWidth();
+		int frameHeight = MainMenuFrame.getInstance().getHeight();
+		int prevPanelX;  
+		int prevPanelY; 
+		int x,y;
+		
+		if(frameWidth>=300)
+		{
+			prevPanelX = (MainMenuFrame.getInstance().getWidth()-200);
+			x = (frameWidth - prevPanelX )/2;
+		}
+		else
+		{
+			prevPanelX = frameHeight;
+			x=0;
+		}
+		
+		if(frameHeight>=300)
+		{
+			prevPanelY = (MainMenuFrame.getInstance().getHeight()-200);
+			y = (frameHeight - prevPanelY )/2;
+		}
+		else
+		{
+			prevPanelY = frameHeight;
+			y=0;
+		}
+		
+		System.out.println("Sto cliccando " + frameWidth);
+		previewPaneL = new PreviewPanel(this,name);
+		previewPaneL.setBorder(BorderFactory.createLineBorder(Color.GREEN, 1, true));
+		previewPaneL.setBounds(x, y, prevPanelX ,prevPanelY);
+		this.add(previewPaneL,BorderLayout.CENTER, new Integer(10));
+		previewPaneL.setVisible(true);
+		previewPaneL.repaint();
+		previewPaneL.requestFocus();
+		centerPanel.disableListener(true);
+		startGameButton.setEnabled(false);
+		back.setEnabled(false);
+		
+	}
+
+	public void enableListener() {
+		centerPanel.disableListener(false);
+		startGameButton.setEnabled(true);
+		back.setEnabled(true);
+		
 	}
 }

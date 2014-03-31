@@ -26,6 +26,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComponent;
 import javax.swing.JLabel;
+import javax.swing.JLayeredPane;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
@@ -42,6 +43,7 @@ public class StoryPanel extends JPanel
 	private String levelSelected;
 	private GridBagLayout layout;
 	private GridBagConstraints c;
+	private boolean panelListenerOn;
 
 	public StoryPanel(ContenitorPanel contenitor)
 	{
@@ -49,6 +51,7 @@ public class StoryPanel extends JPanel
 		catch (IOException e) {}
 		this.contenitor = contenitor;
 		this.levelSelected = "none";
+		this.panelListenerOn = false;
 		setSize(300,300);
 		path = new File("levels");
 		levels = path.listFiles();
@@ -63,7 +66,7 @@ public class StoryPanel extends JPanel
 		initListener();
 		fillPanel();
 	}
-	
+
 
 
 	public void initListener()
@@ -86,28 +89,34 @@ public class StoryPanel extends JPanel
 
 			@Override
 			public void mouseExited(MouseEvent arg0) {
-				// TODO SETTA NULL ALLO STRINGPANE				
-				contenitor.setLevelName(" ");
+				// TODO SETTA NULL ALLO STRINGPANE	
+				if(!panelListenerOn)
+					contenitor.setLevelName(" ");
 
 			}
 
 			@Override
 			public void mouseEntered(MouseEvent arg0) {
-				// TODO SETTA IL NOME ALLO STRINGPANE				
-				contenitor.setLevelName(((JLabel) arg0.getSource()).getText());
+				// TODO SETTA IL NOME ALLO STRINGPANE	
+				if(!panelListenerOn)
+					contenitor.setLevelName(((JLabel) arg0.getSource()).getText());
 			}
 
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
 				// TODO SE DESTRO MOSTRA PREVIEW
-				if(SwingUtilities.isLeftMouseButton(arg0)==true)
+				if(!panelListenerOn)
 				{
-					levelSelected = ((JLabel) arg0.getSource()).getText();
-					System.out.println(levelSelected);
-				}
-				else if(SwingUtilities.isRightMouseButton(arg0)==true)
-				{
-					System.out.println("Preview");
+					if(SwingUtilities.isLeftMouseButton(arg0)==true)
+					{
+						levelSelected = ((JLabel) arg0.getSource()).getText();
+						System.out.println(levelSelected);
+					}
+					else if(SwingUtilities.isRightMouseButton(arg0)==true)
+					{
+						contenitor.showPanel(((JLabel)arg0.getSource()).getText());
+
+					}
 				}
 			}
 		};
@@ -156,6 +165,14 @@ public class StoryPanel extends JPanel
 	protected void paintComponent(Graphics g) 
 	{
 		g.drawImage(levelSwitchWallpaper, 0, 0, this.getWidth(), this.getHeight(),this);
+	}
+
+
+
+	public void disableListener(boolean b) 
+	{
+		panelListenerOn = b;
+
 	}
 
 

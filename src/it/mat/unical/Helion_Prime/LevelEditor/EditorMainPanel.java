@@ -4,7 +4,6 @@ import it.mat.unical.Helion_Prime.GFX.MainMenuFrame;
 import it.mat.unical.Helion_Prime.GFX.MainMenuPanel;
 
 import java.awt.BorderLayout;
-import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
@@ -27,18 +26,15 @@ public class EditorMainPanel extends JPanel {
 	private JSplitPane gridSplitPanel;
 	private WavePanel wavePanel;
 	private MainMenuPanel mainMenuPanel;
-	private Cursor cursor;
 	
 
-	public EditorMainPanel(MainMenuPanel mainMenuPanel)
-	{
+	public EditorMainPanel(MainMenuPanel mainMenuPanel) {
 		try { optionWallpaper = ImageIO.read(new File("Resources/optionPanelImage.jpg")); }
 		catch (IOException e) {}
-		this.cursor = MainMenuFrame.getInstance().getMainMenuPanel().getCursor();
-		this.setCursor(cursor);
 		this.wavePanel = new WavePanel();
 		this.mainMenuPanel = mainMenuPanel;
 		this.optionsPanel = new OptionsPanel(this,mainMenuPanel);
+		this.setCursor(MainMenuFrame.getInstance().getMainMenuPanel().getCursor());
 		
 		this.add(optionsPanel);
 		

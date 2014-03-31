@@ -35,6 +35,7 @@ import javax.sound.sampled.Clip;
 import javax.swing.AbstractButton;
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JLayeredPane;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.JSplitPane;
@@ -96,10 +97,29 @@ public class MainMenuFrame extends JFrame  {
 		});
 	}
 
+	public void switchTo(final JLayeredPane panel)
+	{
+		SwingUtilities.invokeLater(new Runnable()
+		{
+			@Override
+			public void run()
+			{
+				contentPanel.removeAll();
+				contentPanel.add(panel, BorderLayout.CENTER);
+				contentPanel.updateUI();
+				panel.requestFocus(); 
+			}
+		});
+	}
 
 
 
-	public static void main(String[] args) {
+
+	public static void main(String[] args) 
+	{
+
+		String property = "swing.aatext";
+		System.setProperty(property, "true");  
 		MainMenuFrame frame = MainMenuFrame.getInstance();
 		frame.start();
 	}

@@ -1,53 +1,52 @@
 package it.mat.unical.Helion_Prime.LevelEditor;
 
+import it.mat.unical.Helion_Prime.GFX.MainMenuFrame;
+
 import java.awt.Color;
-import java.awt.Component;
-import java.awt.Container;
-import java.awt.Dimension;
-import java.awt.GridLayout;
+import java.awt.Font;
 import java.awt.Image;
-import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 import java.io.File;
 import java.io.IOException;
 
 import javax.imageio.ImageIO;
 import javax.swing.GroupLayout;
-import javax.swing.GroupLayout.Alignment;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JSlider;
 import javax.swing.JTextField;
+import javax.swing.JToolTip;
+import javax.swing.UIManager;
 
 public class WavePanel extends JPanel{
 
 	private JTextField bountyNumber;
 	private JTextField soldierNumber;
 	private JTextField saboteurNumber;
-
-	private JButton bountyUp;
-	private JButton soldierUp;
-	private JButton saboteurUp;
-
-	private JButton bountyDown;
-	private JButton soldierDown;
-	private JButton saboteurDown;
 	
 	private JLabel bountyPreview;
 	private JLabel soldierPreview;
 	private JLabel saboteurPreview;
 	
-	private JLabel bountyDescription;
-	private JLabel soldierDescription;
-	private JLabel saboteurDescription;
+	private JToolTip bountyDescription;
+	private JToolTip  soldierDescription;
+	private JToolTip  saboteurDescription;
+	
+	private JSlider bountySlider;
+	private JSlider soldierSlider;
+	private JSlider saboteurSlider;
+	
+	private WaveSliderListener bountySliderListener;
+	private WaveSliderListener soldierSliderListener;
+	private WaveSliderListener saboteurSliderListener;
 	
 	private Image currentPreview;
 	private int counter;
+	
+	private Font font;
 
 	public WavePanel()
 	{
@@ -59,119 +58,44 @@ public class WavePanel extends JPanel{
 		soldierNumber.setText("0");
 		saboteurNumber.setText("0");
 
-		bountyUp = new JButton("+");
-		soldierUp = new JButton("+");
-		saboteurUp = new JButton("+");
-
-		bountyDown= new JButton("-");
-		soldierDown = new JButton("-");
-		saboteurDown = new JButton("-");
-
+		bountySliderListener = new WaveSliderListener(bountyNumber);
+		soldierSliderListener = new WaveSliderListener(soldierNumber);
+		saboteurSliderListener = new WaveSliderListener(saboteurNumber);
+		
+		bountySlider = new JSlider(JSlider.HORIZONTAL,  0, 10, 0);
+		soldierSlider = new JSlider(JSlider.HORIZONTAL,  0, 10, 0);
+		saboteurSlider = new JSlider(JSlider.HORIZONTAL,  0, 10, 0);
+		
+		font = MainMenuFrame.getInstance().getMainMenuPanel().getFont().deriveFont(13.0f);
+		this.setCursor(MainMenuFrame.getInstance().getMainMenuPanel().getCursor());
+		
 		GroupLayout layout = new GroupLayout(this);
 		this.setLayout(layout);
 		layout.setAutoCreateGaps(true);
 		layout.setAutoCreateContainerGaps(true);
 		
 		createLabel();
-		addListener();
+		createSlider();
 		createButton();
 		createGroup(layout);
 	}
 	
-	public void addListener()
+	public void createSlider()
 	{
-		bountyPreview.addMouseListener(new MouseAdapter() {
-			public void mouseEntered(MouseEvent e) {
-				bountyDescription.setVisible(true);				
-			}
-			public void mouseExited(MouseEvent e) {
-				bountyDescription.setVisible(false);
-			}
-		});
+		bountySlider.setMajorTickSpacing(10);
+		bountySlider.setMinorTickSpacing(1);
+		bountySlider.setPaintTicks(true);
+		bountySlider.setPaintLabels(true);
 		
-		soldierPreview.addMouseListener(new MouseAdapter() {
-			public void mouseEntered(MouseEvent e) {
-				soldierDescription.setVisible(true);
-			}
-			public void mouseExited(MouseEvent e) {
-				soldierDescription.setVisible(false);
-			}
-		});
+		soldierSlider.setMajorTickSpacing(10);
+		soldierSlider.setMinorTickSpacing(1);
+		soldierSlider.setPaintTicks(true);
+		soldierSlider.setPaintLabels(true);
 		
-		saboteurPreview.addMouseListener(new MouseAdapter() {
-			public void mouseEntered(MouseEvent e) {
-				saboteurDescription.setVisible(true);
-			}
-			public void mouseExited(MouseEvent e) {
-				saboteurDescription.setVisible(false);
-			}
-		});
-		
-		bountyDown.addActionListener(new ActionListener() {
-		    @Override
-			public void actionPerformed(ActionEvent arg0) 
-		    {
-				counter = Integer.parseInt(bountyNumber.getText());
-				counter --;
-				if(counter<0)
-			    bountyNumber.setText("0");
-				else
-				bountyNumber.setText(Integer.toString(counter));
-			}
-		});
-		soldierDown.addActionListener(new ActionListener() {
-		    @Override
-			public void actionPerformed(ActionEvent arg0) 
-		    {
-				counter = Integer.parseInt(soldierNumber.getText());
-				counter --;
-				if(counter<0)
-			    soldierNumber.setText("0");
-				else
-				soldierNumber.setText(Integer.toString(counter));
-			}
-		});
-		
-		saboteurDown.addActionListener(new ActionListener() {
-		    @Override
-			public void actionPerformed(ActionEvent arg0) 
-		    {
-				counter = Integer.parseInt(saboteurNumber.getText());
-				counter --;
-				if(counter<0)
-			    saboteurNumber.setText("0");
-				else
-				saboteurNumber.setText(Integer.toString(counter));
-			}
-		});
-		bountyUp.addActionListener(new ActionListener() {
-		    @Override
-			public void actionPerformed(ActionEvent arg0) 
-		    {
-				counter = Integer.parseInt(bountyNumber.getText());
-				counter ++;
-				bountyNumber.setText(Integer.toString(counter));
-			}
-		});
-		soldierUp.addActionListener(new ActionListener() {
-		    @Override
-			public void actionPerformed(ActionEvent arg0) 
-		    {
-				counter = Integer.parseInt(soldierNumber.getText());
-				counter ++;
-				soldierNumber.setText(Integer.toString(counter));
-			}
-		});
-		
-		saboteurUp.addActionListener(new ActionListener() {
-		    @Override
-			public void actionPerformed(ActionEvent arg0) 
-		    {
-				counter = Integer.parseInt(saboteurNumber.getText());
-				counter ++;
-				saboteurNumber.setText(Integer.toString(counter));
-			}
-		});
+		saboteurSlider.setMajorTickSpacing(10);
+		saboteurSlider.setMinorTickSpacing(1);
+		saboteurSlider.setPaintTicks(true);
+		saboteurSlider.setPaintLabels(true);
 	}
 	
 	public void createButton()
@@ -190,25 +114,15 @@ public class WavePanel extends JPanel{
 		try {currentPreview = ImageIO.read(new File("Resources/Native/NativeBack2.png")).getScaledInstance(40, 40, Image.SCALE_SMOOTH);}
 		catch (IOException e) {System.out.println("Errore - Sprites Mancante nel Wave editor ");}
 		saboteurPreview = new JLabel(new ImageIcon(currentPreview));	
+
+		UIManager.put("ToolTip.font",font);
+		UIManager.put("ToolTip.background", Color.BLACK);
+		UIManager.put("ToolTip.foreground", Color.GREEN);
 		
-		bountyDescription = new JLabel();
-		bountyDescription.setOpaque(true);
-		bountyDescription.setVisible(false);
-		bountyDescription.setBackground(Color.cyan);
+		bountyPreview.setToolTipText("Bounty Hunter - Cerca il Player");
+		soldierPreview.setToolTipText("Soldato - Cerca la Room");
+		saboteurPreview.setToolTipText("Sabotatore - Disativa le trappole");
 		
-		soldierDescription = new JLabel();
-		soldierDescription.setOpaque(true);
-		soldierDescription.setVisible(false);
-		soldierDescription.setBackground(Color.cyan);
-		
-		saboteurDescription = new JLabel();
-		saboteurDescription.setOpaque(true);
-		saboteurDescription.setVisible(false);
-		saboteurDescription.setBackground(Color.cyan);
-		
-		bountyDescription.setText("Bounty Hunter - Cerca il Player");// - Unità avanzata: cerca il player");
-		soldierDescription.setText("Soldato - Cerca la Room");// - Unità base: cerca la room");
-		saboteurDescription.setText("Sabotatore - Disativa le trappole");// - Disattiva le trappole");
 	}
 	
 	public void createGroup(GroupLayout layout)
@@ -219,34 +133,23 @@ public class WavePanel extends JPanel{
 			    .createParallelGroup(GroupLayout.Alignment.LEADING)
 			    .addGroup(layout.createSequentialGroup()
 			    	.addComponent(soldierPreview, 0, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-			        .addComponent(soldierDown, 0, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-			        .addComponent(soldierNumber, 0, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-			        .addComponent(soldierUp, 0, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-			    .addComponent(soldierDescription)
+			    	.addComponent(soldierSlider, 0, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
 			    .addGroup(layout.createSequentialGroup()
 				    .addComponent(saboteurPreview, 0, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-			        .addComponent(saboteurDown, 0, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-			        .addComponent(saboteurNumber, 0, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-			        .addComponent(saboteurUp, 0, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-			    .addComponent(saboteurDescription)
+			        .addComponent(saboteurSlider, 0, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
 			    .addGroup(layout.createSequentialGroup()
 				    .addComponent(bountyPreview, 0, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)	
-			        .addComponent(bountyDown, 0, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-			        .addComponent(bountyNumber, 0, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-			        .addComponent(bountyUp, 0, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-				 .addComponent(bountyDescription));
+			        .addComponent(bountySlider, 0, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)));
 		
 		layout.setVerticalGroup(layout.createSequentialGroup()
 			    .addGroup(layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
-			    	 .addComponent(soldierPreview).addComponent(soldierDown).addComponent(soldierNumber).addComponent(soldierUp))
-			    .addComponent(soldierDescription)
+			    	 .addComponent(soldierPreview).addComponent(soldierSlider))
 			    .addGroup(layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
-			    	 .addComponent(saboteurPreview).addComponent(saboteurDown).addComponent(saboteurNumber).addComponent(saboteurUp))
-			    .addComponent(saboteurDescription)
+			    	 .addComponent(saboteurPreview).addComponent(saboteurSlider))
 				.addGroup(layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
-					 .addComponent(bountyPreview).addComponent(bountyDown).addComponent(bountyNumber).addComponent(bountyUp))
-				.addComponent(bountyDescription));
+					 .addComponent(bountyPreview).addComponent(bountySlider)));
 	}
+
 	
 	public String getBountyNumber()
 	{
