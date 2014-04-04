@@ -1,5 +1,7 @@
 package it.mat.unical.Helion_Prime.Logic;
 
+import it.mat.unical.Helion_Prime.Logic.Character.Player;
+
 public class SimpleGun extends AbstractGun {
 	public SimpleGun(World p) {
 		this.world = p;
@@ -16,9 +18,9 @@ public class SimpleGun extends AbstractGun {
 	}
 
 	@Override
-	public Integer shoot(World world) {
+	public Integer shoot(World world, Player player) {
 
-		return SimpleGun.add(new Bullet((WorldImpl) world, damage));
+		return SimpleGun.add(new Bullet((WorldImpl) world, player, damage));
 
 	}
 

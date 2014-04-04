@@ -21,15 +21,15 @@ public class ClientManager {
 	private BlockingQueue<String> placementTrap;
 	private BlockingQueue<String> outToServer;
 
-	private GamePane gamePane;
+	protected GamePane gamePane;
 
-	private int logicX;
-	private int logicY;
+	private int logicXPlayerOne;
+	private int logicYPlayerOne;
 	private int movementOffset;
 	private int money = 0;
 	private int life = 0;
 	private boolean gameOver = false;
-	protected int playerDirection;
+	private int playerDirection;
 	private ThreadPoolBulletClient threadPool;
 
 	public ClientManager(Client client, GamePane gamePane) {
@@ -39,8 +39,9 @@ public class ClientManager {
 		// this.bullets = new ConcurrentHashMap<Integer, BulletsClient>();
 		// this.movementBulletsForThreadPool = new
 		// LinkedBlockingQueue<String>();
-		this.movementPlayer = new LinkedBlockingQueue<String>();
+
 		this.placementTrap = new LinkedBlockingQueue<String>();
+		this.movementPlayer = new LinkedBlockingQueue<String>();
 		this.createBullets = new LinkedBlockingQueue<String>();
 		this.movementWawe = new LinkedBlockingQueue<String>();
 		this.outToServer = new LinkedBlockingQueue<String>();
@@ -95,9 +96,9 @@ public class ClientManager {
 		this.life = Integer.parseInt(client.recieveMessage());
 		gamePane.informationPanel.setMoney(money);
 		gamePane.informationPanel.setLife(life);
-		logicX = gamePane.getWorld().getPlayerSpawner().getX();
-		logicY = gamePane.getWorld().getPlayerSpawner().getY();
-
+		logicXPlayerOne = gamePane.getWorld().getPlayerSpawner().getX();
+		logicYPlayerOne = gamePane.getWorld().getPlayerSpawner().getY();
+		this.playerDirection = 2;
 		this.startClient();
 		this.startRecieveMessageFromServer();
 		this.startMovementOfBullets();
@@ -113,6 +114,10 @@ public class ClientManager {
 
 	public int getLife() {
 		return this.life;
+	}
+
+	public void closeConnection() {
+		client.closeConnection();
 	}
 
 	public void startClient() {
@@ -150,7 +155,8 @@ public class ClientManager {
 	private void executeServerResponse(String responseFromServer)
 			throws InterruptedException {
 
-		if (responseFromServer.substring(0, 1).equals("m")) {
+		if (responseFromServer.substring(0, 1).equals("m")
+				|| responseFromServer.substring(0, 1).equals("d")) {
 			movementPlayer.put(responseFromServer);
 		} else if (responseFromServer.substring(0, 1).equals("p")) {
 			placementTrap.put(responseFromServer);
@@ -159,7 +165,7 @@ public class ClientManager {
 		} else if (responseFromServer.substring(0, 1).equals("n")) {
 			movementWawe.put(responseFromServer);
 		} else if (responseFromServer.substring(0, 1).equals("c")) {
-			StageClearPanel clearPanel = new StageClearPanel();
+			StageClearPanel clearPanel = new StageClearPanel(this);
 			MainMenuFrame.getInstance().switchTo(clearPanel);
 		} else if (responseFromServer.substring(0, 1).equals("o")) {
 			GameOverPanel gameOverPanel = new GameOverPanel();
@@ -181,6 +187,7 @@ public class ClientManager {
 					.parseInt(splitted[0]));
 
 			gamePane.informationPanel.setMoney(Integer.parseInt(splitted[3]));
+
 		} else if (splittedMessage[0].equals("pr")) {
 
 			Point point = new Point(Integer.parseInt(splitted[1]),
@@ -190,17 +197,8 @@ public class ClientManager {
 
 	}
 
-	private void moveLogicPlayer(String string) {
-		if (string.equals("mUP")) {
-			logicX -= 1;
-		} else if (string.equals("mDOWN")) {
-			logicX += 1;
-		} else if (string.equals("mLEFT")) {
-			logicY -= 1;
-		} else if (string.equals("mRIGHT")) {
-			logicY += 1;
-		}
-
+	public void sendCloseMessage() {
+		client.sendMessage("close");
 	}
 
 	private void startMovementWave() {
@@ -238,28 +236,6 @@ public class ClientManager {
 
 	}
 
-	private void startMovementPlayer() {
-
-		new Thread() {
-			@Override
-			public void run() {
-				while (true) {
-					try {
-
-						String movement = movementPlayer.take();
-						moveLogicPlayer(movement);
-						sleep(20);
-					} catch (InterruptedException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
-
-				}
-
-			}
-		}.start();
-	}
-
 	private void startPlacementTrap() {
 		new Thread() {
 			public void run() {
@@ -279,7 +255,7 @@ public class ClientManager {
 		}.start();
 	}
 
-	private void startMovementOfBullets() {
+	public void startMovementOfBullets() {
 
 		new Thread() {
 
@@ -293,8 +269,8 @@ public class ClientManager {
 						if (movementSplitted[0].equals("sh")) {
 							gamePane.bullets.put(Integer
 									.parseInt(movementSplitted[1]),
-									new BulletsClient(gamePane.playerDirection,
-											logicX, logicY));
+									new BulletsClient(playerDirection,
+											logicXPlayerOne, logicYPlayerOne));
 
 						} else if (movementSplitted[0].equals("srm")) {
 							gamePane.bullets
@@ -311,7 +287,6 @@ public class ClientManager {
 							gamePane.bullets.get(
 									Integer.parseInt(movementSplitted[1]))
 									.setStopBullet();
-							;
 
 						} // else if (movementSplitted[0].equals("sUP")) {
 							// gamePane.bullets
@@ -388,19 +363,35 @@ public class ClientManager {
 	}
 
 	public int getLogicX() {
-		return logicX;
+		return logicXPlayerOne;
 	}
 
 	public void setLogicX(int logicX) {
-		this.logicX = logicX;
+		this.logicXPlayerOne = logicX;
 	}
 
 	public int getLogicY() {
-		return logicY;
+		return logicYPlayerOne;
 	}
 
 	public void setLogicY(int logicY) {
-		this.logicY = logicY;
+		this.logicYPlayerOne = logicY;
+	}
+
+	public BlockingQueue<String> getMovementPlayer() {
+		return movementPlayer;
+	}
+
+	public BlockingQueue<String> getCreateBullets() {
+		return createBullets;
+	}
+
+	public int getPlayerDirection() {
+		return playerDirection;
+	}
+
+	public void setPlayerDirection(int playerDirection) {
+		this.playerDirection = playerDirection;
 	}
 
 	// public ConcurrentHashMap<Point, Integer> getPlacedTrap() {

@@ -1,5 +1,7 @@
 package it.mat.unical.Helion_Prime.Logic;
 
+import it.mat.unical.Helion_Prime.Logic.Character.Player;
+
 public class UziGun extends AbstractGun implements RangedWeapon {
 
 	private boolean shooted = false;
@@ -11,9 +13,10 @@ public class UziGun extends AbstractGun implements RangedWeapon {
 	}
 
 	@Override
-	public Integer shoot(World world) {
+	public Integer shoot(World world, Player player) {
 
-		return UziGun.add(new Bullet((WorldImpl) UziGun.this.world, damage));
+		return UziGun.add(new Bullet((WorldImpl) UziGun.this.world, player,
+				damage));
 
 	}
 

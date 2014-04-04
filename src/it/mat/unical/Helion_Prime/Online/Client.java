@@ -13,11 +13,12 @@ public class Client {
 
 	BufferedReader in;
 	private DataOutputStream out;
+	boolean isMultiplayerGame;
 
-	public Client() {
+	public Client(String address, boolean b) {
 
 		try {
-			client = new Socket("localHost", 7777);
+			client = new Socket(address, 7777);
 			out = new DataOutputStream(client.getOutputStream());
 			in = new BufferedReader(new InputStreamReader(
 					client.getInputStream()));
@@ -29,6 +30,7 @@ public class Client {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		this.isMultiplayerGame = b;
 
 	}
 
@@ -51,5 +53,20 @@ public class Client {
 		}
 
 		return message;
+	}
+
+	public void closeConnection() {
+		try {
+			in.close();
+			out.close();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+	}
+
+	public boolean isMultiplayerGame() {
+		return this.isMultiplayerGame;
 	}
 }

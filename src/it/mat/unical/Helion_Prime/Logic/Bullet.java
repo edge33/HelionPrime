@@ -23,14 +23,11 @@ public class Bullet/* extends Thread */{
 	private int damage;
 	static int num = 0;
 
-	public Bullet(WorldImpl pl, int dam) {
+	public Bullet(WorldImpl pl, Player player, int dam) {
 		world = pl;
 
 		stopBullet = false;
-		Player player = GameManagerImpl.getInstance().getPlayer(); // estrazione
-																	// in
-																	// variabile
-																	// locale
+
 		this.x = player.getX();
 		this.y = player.getY();
 

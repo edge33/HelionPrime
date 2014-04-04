@@ -294,7 +294,7 @@ public class TrapPanel extends JPanel {
 
 	public void selectHeavy() {
 		if (currentGunSelected != 3) {
-			GameManagerImpl.getInstance().getPlayer().SwitchGun(3);
+			GameManagerImpl.getInstance().getPlayerOne().SwitchGun(3);
 			heavyWeaponLabel.setBorder(greenBorder);
 			shootGunLabel.setBorder(null);
 			simpleGunLabel.setBorder(null);
@@ -305,7 +305,7 @@ public class TrapPanel extends JPanel {
 
 	public void selectShootGun() {
 		if (currentGunSelected != 2) {
-			GameManagerImpl.getInstance().getPlayer().SwitchGun(2);
+			GameManagerImpl.getInstance().getPlayerOne().SwitchGun(2);
 			heavyWeaponLabel.setBorder(null);
 			shootGunLabel.setBorder(greenBorder);
 			simpleGunLabel.setBorder(null);
@@ -316,7 +316,7 @@ public class TrapPanel extends JPanel {
 
 	public void selectUzi() {
 		if (currentGunSelected != 1) {
-			GameManagerImpl.getInstance().getPlayer().SwitchGun(1);
+			GameManagerImpl.getInstance().getPlayerOne().SwitchGun(1);
 			heavyWeaponLabel.setBorder(null);
 			shootGunLabel.setBorder(null);
 			simpleGunLabel.setBorder(null);
@@ -327,7 +327,7 @@ public class TrapPanel extends JPanel {
 
 	public void selectGun() {
 		if (currentGunSelected != 0) {
-			GameManagerImpl.getInstance().getPlayer().SwitchGun(0);
+			GameManagerImpl.getInstance().getPlayerOne().SwitchGun(0);
 			heavyWeaponLabel.setBorder(null);
 			shootGunLabel.setBorder(null);
 			simpleGunLabel.setBorder(greenBorder);

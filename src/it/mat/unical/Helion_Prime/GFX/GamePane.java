@@ -12,6 +12,7 @@ import it.mat.unical.Helion_Prime.Logic.Wave;
 import it.mat.unical.Helion_Prime.Logic.WaveImpl;
 import it.mat.unical.Helion_Prime.Logic.WorldImpl;
 import it.mat.unical.Helion_Prime.Logic.Character.AbstractNative;
+import it.mat.unical.Helion_Prime.Multiplayer.ClientManagerMultiplayer;
 import it.mat.unical.Helion_Prime.Online.Client;
 import it.mat.unical.Helion_Prime.Online.ClientManager;
 
@@ -43,10 +44,10 @@ public class GamePane extends JPanel {
 	public static final int TILE_SIZE = 50;
 	private JLabel controllerInfo;
 	private ImageProvider imageProvider;
-	private int playerX, playerY, logicX, logicY;
+	private int playerX, playerY, playerTwoX, playerTwoY;
 	private int imagePlayer;
-
-	public int playerDirection;
+	private boolean isConnectedPad = false;
+	// public int clientManager.getPlayerDirection();
 	private double scaleFactor;
 
 	int cont = 0;
@@ -78,7 +79,7 @@ public class GamePane extends JPanel {
 
 	public TrapPanel trapPanel;
 	public InformationPanel informationPanel;
-	private ThreadPoolBulletClient threadPoolClient;
+
 	private GamePadController gamePadController;
 	public ConcurrentHashMap<Integer, AbstractNative> natives;
 
@@ -125,7 +126,10 @@ public class GamePane extends JPanel {
 
 		this.imageProvider = new ImageProvider();
 
-		this.clientManager = new ClientManager(this.client, this);
+		if (!client.isMultiplayerGame())
+			this.clientManager = new ClientManager(this.client, this);
+		else
+			this.clientManager = new ClientManagerMultiplayer(this.client, this);
 
 		clientManager.init();
 
@@ -134,7 +138,8 @@ public class GamePane extends JPanel {
 		playerX = world.getPlayerSpawner().getX() * TILE_SIZE;
 		playerY = world.getPlayerSpawner().getY() * TILE_SIZE;
 
-		this.playerDirection = 2;
+		playerTwoX = world.getPlayerSpawner().getX() * TILE_SIZE;
+		playerTwoY = world.getPlayerSpawner().getY() * TILE_SIZE;
 
 		try {
 			this.wave = new WaveImpl(this.world, level);
@@ -160,7 +165,7 @@ public class GamePane extends JPanel {
 
 		this.add(controllerInfo);
 
-		if (gamePadController.isPadConnected() == true) {
+		if (/* gamePadController.isPadConnected() == true */isConnectedPad) {
 			// startPolling();
 		} else {
 			this.addMouseListener(new MouseAdapter() {
@@ -224,19 +229,19 @@ public class GamePane extends JPanel {
 					case KeyEvent.VK_W:
 						GamePane.this.UP = false;
 
-						// playerDirection = -1;
+						// clientManager.getPlayerDirection() = -1;
 						break;
 					case KeyEvent.VK_S:
 						GamePane.this.DOWN = false;
-						// playerDirection = -2;
+						// clientManager.getPlayerDirection() = -2;
 						break;
 					case KeyEvent.VK_A:
 						GamePane.this.RIGHT = false;
-						// playerDirection = -3;
+						// clientManager.getPlayerDirection() = -3;
 						break;
 					case KeyEvent.VK_D:
 						GamePane.this.LEFT = false;
-						// playerDirection = -3;
+						// clientManager.getPlayerDirection() = -3;
 						break;
 
 					case KeyEvent.VK_SPACE:
@@ -264,8 +269,8 @@ public class GamePane extends JPanel {
 					if (paramKeyEvent.getKeyCode() == KeyEvent.VK_W) {
 
 						GamePane.this.UP = true;
-						if (playerDirection != 0) {
-							playerDirection = 0;
+						if (clientManager.getPlayerDirection() != 0) {
+							clientManager.setPlayerDirection(0);
 							GamePane.this.clientManager
 									.pushToQueueForServer("dUP");
 						}
@@ -273,8 +278,8 @@ public class GamePane extends JPanel {
 
 					} else if (paramKeyEvent.getKeyCode() == KeyEvent.VK_S) {
 						GamePane.this.DOWN = true;
-						if (playerDirection != 1) {
-							playerDirection = 1;
+						if (clientManager.getPlayerDirection() != 1) {
+							clientManager.setPlayerDirection(1);
 							GamePane.this.clientManager
 									.pushToQueueForServer("dDOWN");
 						}
@@ -283,8 +288,8 @@ public class GamePane extends JPanel {
 
 					} else if (paramKeyEvent.getKeyCode() == KeyEvent.VK_A) {
 						GamePane.this.RIGHT = true;
-						if (playerDirection != 2) {
-							playerDirection = 2;
+						if (clientManager.getPlayerDirection() != 2) {
+							clientManager.setPlayerDirection(2);
 							GamePane.this.clientManager
 									.pushToQueueForServer("dRIGHT");
 						}
@@ -293,8 +298,8 @@ public class GamePane extends JPanel {
 
 					} else if (paramKeyEvent.getKeyCode() == KeyEvent.VK_D) {
 						GamePane.this.LEFT = true;
-						if (playerDirection != 3) {
-							playerDirection = 3;
+						if (clientManager.getPlayerDirection() != 3) {
+							clientManager.setPlayerDirection(3);
 							GamePane.this.clientManager
 									.pushToQueueForServer("dLEFT");
 						}
@@ -675,6 +680,51 @@ public class GamePane extends JPanel {
 			break;
 		}
 
+		if (client.isMultiplayerGame()) {
+
+			int tempX = ((ClientManagerMultiplayer) clientManager)
+					.getLogicXPlayerTwo();
+
+			int tempY = ((ClientManagerMultiplayer) clientManager)
+					.getLogicYPlayerTwo();
+
+			switch (imagePlayer) {
+			case 0:
+				g.drawImage(imageProvider.getPlayerStanding(), tempY
+						* TILE_SIZE
+				/* + drawingHorizontalOffset */, tempX * TILE_SIZE, TILE_SIZE,
+						TILE_SIZE, this);
+				break;
+
+			case 1:
+				g.drawImage(imageProvider.getPlayerUpRunning(), tempY
+						* TILE_SIZE
+				/* + drawingHorizontalOffset */, tempX * TILE_SIZE, TILE_SIZE,
+						TILE_SIZE, this);
+				break;
+			case 2:
+				g.drawImage(imageProvider.getPlayerDownRunning(), tempY
+						* TILE_SIZE
+				/* + drawingHorizontalOffset */, tempX * TILE_SIZE, TILE_SIZE,
+						TILE_SIZE, this);
+				break;
+			case 3:
+				g.drawImage(imageProvider.getPlayerRightRunning(), tempY
+						* TILE_SIZE
+				/* + drawingHorizontalOffset */, tempX * TILE_SIZE, TILE_SIZE,
+						TILE_SIZE, this);
+				break;
+			case 4:
+				g.drawImage(imageProvider.getPlayerLeftRunning(), tempY
+						* TILE_SIZE
+				/* + drawingHorizontalOffset */, tempX * TILE_SIZE, TILE_SIZE,
+						TILE_SIZE, this);
+				break;
+			default:
+				break;
+			}
+		}
+
 		informationPanel.repaint();
 		//
 		// ConcurrentHashMap<Integer, AbstractNative> natives = manager
@@ -846,7 +896,7 @@ public class GamePane extends JPanel {
 		// GamePane.this.DOWN = false;
 		// GamePane.this.LEFT = false;
 		// GamePane.this.RIGHT = false;
-		// playerDirection = 0;
+		// clientManager.getPlayerDirection() = 0;
 		// playerOne.setDirection(AbstractCharacter.UP);
 		// break;
 		// case 7:
@@ -855,7 +905,7 @@ public class GamePane extends JPanel {
 		// GamePane.this.UP = false;
 		// GamePane.this.LEFT = false;
 		// GamePane.this.RIGHT = false;
-		// playerDirection = 1;
+		// clientManager.getPlayerDirection() = 1;
 		// playerOne.setDirection(AbstractCharacter.DOWN);
 		// break;
 		// case 3:
@@ -864,7 +914,7 @@ public class GamePane extends JPanel {
 		// GamePane.this.UP = false;
 		// GamePane.this.DOWN = false;
 		// GamePane.this.LEFT = false;
-		// playerDirection = 2;
+		// clientManager.getPlayerDirection() = 2;
 		// playerOne.setDirection(AbstractCharacter.LEFT);
 		// break;
 		// case 5:
@@ -873,7 +923,7 @@ public class GamePane extends JPanel {
 		// GamePane.this.UP = false;
 		// GamePane.this.DOWN = false;
 		// GamePane.this.RIGHT = false;
-		// playerDirection = 3;
+		// clientManager.getPlayerDirection() = 3;
 		// playerOne.setDirection(AbstractCharacter.RIGHT);
 		// break;
 		// case 4:

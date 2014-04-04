@@ -16,7 +16,7 @@ import java.util.concurrent.ArrayBlockingQueue;
 public class Server extends Thread {
 	private static final int TILE_SIZE = 50;
 	private int movementOffset = TILE_SIZE / 10;
-	private ServerSocket server;
+	protected ServerSocket server;
 	private Socket client;
 	private BufferedReader in;
 	private DataOutputStream out;
@@ -60,22 +60,22 @@ public class Server extends Thread {
 
 		try {
 
-			gameManager.init(f);
+			gameManager.init(f, false);
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		playerOne = gameManager.getPlayer();
+		playerOne = gameManager.getPlayerOne();
 
 		playerOne.setGraphicX(playerOne.getX() * TILE_SIZE);
 		playerOne.setGraphicY(playerOne.getY() * TILE_SIZE);
 		sendMessage("ready");
 		System.out.println("Game manager instanziato");
 
-		sendMessage(((Integer) GameManagerImpl.getInstance().getPlayer()
+		sendMessage(((Integer) GameManagerImpl.getInstance().getPlayerOne()
 				.getMoney()).toString()); // mando l'intero corrispondente ai
 											// money;
-		sendMessage(((Integer) GameManagerImpl.getInstance().getPlayer()
+		sendMessage(((Integer) GameManagerImpl.getInstance().getPlayerOne()
 				.getLife()).toString()); // mando l'intero corrispondente alla
 											// vita;
 
@@ -123,21 +123,34 @@ public class Server extends Thread {
 
 		} else if (splitted[0].equals("switchGun")) {
 			swintchGunForPlayer(splitted[1]);
+		} else if (splitted[0].equals("close")) {
+			closeConnection();
+		}
+
+	}
+
+	private void closeConnection() {
+		try {
+			in.close();
+			out.close();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 
 	}
 
 	private void swintchGunForPlayer(String string) {
-		gameManager.getPlayer().SwitchGun(Integer.parseInt(string));
+		gameManager.getPlayerOne().SwitchGun(Integer.parseInt(string));
 
 	}
 
 	private Integer canShoot() {
-		return gameManager.getPlayer().shoot();
+		return gameManager.getPlayerOne().shoot();
 
 	}
 
-	private void startSendMessageToClient() {
+	protected void startSendMessageToClient() {
 		new Thread() {
 			public void run() {
 				while (!GameManagerImpl.getInstance().gameIsOver()
@@ -173,7 +186,8 @@ public class Server extends Thread {
 
 		if (realX < gameManager.getWorld().getLenght()
 				&& realY < gameManager.getWorld().getHeight()) {
-			if (gameManager.placeTrap(realY, realX, trapSelected)) {
+			if (gameManager.placeTrap(realY, realX, trapSelected,
+					gameManager.getPlayerOne())) {
 				response = true;
 			} else
 				response = false;
@@ -197,7 +211,7 @@ public class Server extends Thread {
 						// System.err.println(placement);
 						if (canPlaceTrap(placement))
 							Server.this.sendMessage("p " + placement + "/"
-									+ gameManager.getPlayer().getMoney());
+									+ gameManager.getPlayerOne().getMoney());
 						else
 							// Server.this.sendMessage("notPlaceTrap");
 
@@ -244,7 +258,7 @@ public class Server extends Thread {
 
 		if (message.equals("mUP")) { // UP
 
-			gameManager.movePlayer(0);
+			gameManager.movePlayerOne(0);
 
 			playerOne.setDirection(0);
 
@@ -252,19 +266,19 @@ public class Server extends Thread {
 
 		else if (message.equals("mDOWN")) { // DOWN
 
-			gameManager.movePlayer(1);
+			gameManager.movePlayerOne(1);
 			playerOne.setDirection(1);
 		}
 
 		else if (message.equals("mRIGHT")) {
 
-			gameManager.movePlayer(2);
+			gameManager.movePlayerOne(2);
 			playerOne.setDirection(2);
 		}
 
 		else if (message.equals("mLEFT")) {
 
-			gameManager.movePlayer(3);
+			gameManager.movePlayerOne(3);
 			playerOne.setDirection(3);
 		}
 

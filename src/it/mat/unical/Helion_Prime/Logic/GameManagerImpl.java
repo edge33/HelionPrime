@@ -5,6 +5,7 @@ import it.mat.unical.Helion_Prime.Logic.Character.AbstractNative;
 import it.mat.unical.Helion_Prime.Logic.Character.Player;
 import it.mat.unical.Helion_Prime.Logic.Trap.AbstractTrap;
 import it.mat.unical.Helion_Prime.Logic.Trap.DecoyTrap;
+import it.mat.unical.Helion_Prime.Multiplayer.ServerMultiplayer;
 import it.mat.unical.Helion_Prime.Online.Server;
 
 import java.awt.Point;
@@ -23,7 +24,8 @@ public class GameManagerImpl implements GameManager {
 	private boolean gameOver;
 	private Wave wave;
 	private EnemyMover enemyMover;
-	private Player player;
+	private Player playerOne;
+	private Player playerTwo;
 	private ThreadPoolBullet threadPoolbullets;
 	private static Condition condition;
 	private static GameManagerImpl instance;
@@ -34,6 +36,8 @@ public class GameManagerImpl implements GameManager {
 	private boolean explosion = false;
 	private Server server;
 	private static boolean pause;
+	private boolean isMultiplayerGame;
+	private ServerMultiplayer serverMultiplayer;
 
 	public static GameManagerImpl getInstance() {
 		if (instance == null) {
@@ -48,21 +52,27 @@ public class GameManagerImpl implements GameManager {
 	 * istanzio un mondo, un' ondata di nemici, la assegno al world e prendo il
 	 * player dal world.
 	 */
-	private GameManagerImpl() {
+	protected GameManagerImpl() {
 
 	}
 
-	public void init(File level) throws FileNotFoundException {
+	public void init(File level, boolean isMultiplayerGame)
+			throws FileNotFoundException {
 
 		try {
-
+			this.isMultiplayerGame = isMultiplayerGame;
 			world = new WorldImpl(level);
 			gameOver = false;
 			win = false;
 			gameStopped = false;
-			player = new Player(world.getPlayerSpawner().getX(), world
+			playerOne = new Player(world.getPlayerSpawner().getX(), world
 					.getPlayerSpawner().getY(), world); // ora il player sara
 			// intanziato nel game
+
+			if (isMultiplayerGame) {
+				playerTwo = new Player(world.getPlayerSpawner().getX(), world
+						.getPlayerSpawner().getY(), world);
+			}
 
 			wave = new WaveImpl(this.world, level);
 			world.setWave(wave); // manager
@@ -124,16 +134,25 @@ public class GameManagerImpl implements GameManager {
 	}
 
 	// muove il personaggio
-	public void movePlayer(int direction) {
-		player.move(direction);
+	public void movePlayerOne(int direction) {
+		playerOne.move(direction);
+	}
+
+	public void movePlayerTwo(int direction) {
+		playerOne.move(direction);
 	}
 
 	public void setServer(Server server) {
 		this.server = server;
 	}
 
+	public void setServerMultiplayer(ServerMultiplayer server) {
+		this.serverMultiplayer = server;
+	}
+
 	public Server getServer() {
 		return this.server;
+
 	}
 
 	/*
@@ -151,9 +170,10 @@ public class GameManagerImpl implements GameManager {
 	 * posiziono
 	 */
 	public boolean placeTrap(int positionX, int positionY,
-			int numberOfTrapInArray) {
+			int numberOfTrapInArray, Player selectedPlayer) {
 		boolean response = false;
-		if (player.canPlaceTrap(numberOfTrapInArray, positionX, positionY)) {
+		if (selectedPlayer.canPlaceTrap(numberOfTrapInArray, positionX,
+				positionY)) {
 			response = true;
 
 		} else
@@ -197,7 +217,8 @@ public class GameManagerImpl implements GameManager {
 						Point point = new Point(currentNative.getX(),
 								currentNative.getY());
 
-						player.getTrap()
+						playerOne
+								.getTrap()
 								.remove(point,
 										world.getWorld()[currentNative.getX()][currentNative
 												.getY()]);
@@ -218,7 +239,7 @@ public class GameManagerImpl implements GameManager {
 
 			}
 
-			if (!player.isAlive()
+			if (!playerOne.isAlive()
 					|| ((MaintenanceRoom) world.getRoom()).getLife() <= 0) {
 				this.endGame();
 				gameOver = true;
@@ -235,6 +256,83 @@ public class GameManagerImpl implements GameManager {
 
 	}
 
+	public void updateMultiplayer() {
+
+		explosion = false;
+		int ritorno = 0;
+		ConcurrentHashMap<Integer, AbstractNative> natives = wave.getNatives();
+
+		if (natives.size() > 0) {
+
+			for (AbstractNative currentNative : natives.values()) {
+
+				if (world.getElementAt(currentNative.getX(),
+						currentNative.getY()) instanceof AbstractTrap) {
+
+					AbstractTrap currentTrap = (AbstractTrap) world
+							.getElementAt(currentNative.getX(),
+									currentNative.getY());
+					if (currentTrap instanceof DecoyTrap) {
+						currentTrap.effect(currentNative);
+						if (((DecoyTrap) currentTrap).getDecoyLife() == 1) {
+							explosion = true;
+							System.out.println("GMI - explosion= true");
+						}
+					} else {
+						currentTrap.effect(currentNative);
+					}
+					if (currentTrap.getLife() <= 0) {
+
+						Point point = new Point(currentNative.getX(),
+								currentNative.getY());
+
+						playerOne
+								.getTrap()
+								.remove(point,
+										world.getWorld()[currentNative.getX()][currentNative
+												.getY()]);
+
+						playerTwo
+								.getTrap()
+								.remove(point,
+										world.getWorld()[currentNative.getX()][currentNative
+												.getY()]);
+						world.getWorld()[currentNative.getX()][currentNative
+								.getY()] = null;
+
+						serverMultiplayer.outBroadcast("pr "
+								+ currentNative.getX() + "/"
+								+ currentNative.getY());
+
+					}
+
+				}
+
+				if (currentNative.getLife() <= 0) {
+					natives.remove(currentNative.getKey());
+					this.serverMultiplayer.outBroadcast("nr "
+							+ currentNative.getKey());
+				}
+
+			}
+
+			if (!playerTwo.isAlive() || !playerOne.isAlive()
+					|| ((MaintenanceRoom) world.getRoom()).getLife() <= 0) {
+				this.endGame();
+				gameOver = true;
+				gameStopped = true;
+				this.serverMultiplayer.outBroadcast("over");
+			}
+
+		} else {
+			win = true;
+			this.endGame();
+			gameStopped = true;
+			this.serverMultiplayer.outBroadcast("clear");
+		}
+
+	}
+
 	@Override
 	public boolean hasWon() {
 		return win;
@@ -243,7 +341,10 @@ public class GameManagerImpl implements GameManager {
 	@Override
 	public void stopGame() {
 		AbstractGun.bullets.clear();
-		this.player.getTrap().clear();
+		this.playerOne.getTrap().clear();
+		if (isMultiplayerGame) {
+			this.playerTwo.getTrap().clear();
+		}
 
 		gameStopped = true;
 	}
@@ -273,7 +374,19 @@ public class GameManagerImpl implements GameManager {
 		this.explosion = explosion;
 	}
 
-	public Player getPlayer() {
-		return player;
+	public Player getPlayerOne() {
+		return playerOne;
+	}
+
+	public Player getPlayerTwo() {
+		return playerTwo;
+	}
+
+	public boolean isMultiplayerGame() {
+		return this.isMultiplayerGame;
+	}
+
+	public ServerMultiplayer getServerMuliplayer() {
+		return this.serverMultiplayer;
 	}
 }

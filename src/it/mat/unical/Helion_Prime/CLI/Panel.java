@@ -25,12 +25,10 @@ public class Panel extends JPanel {
 		this.theInterface = theInterface;
 		this.setLayout(new FlowLayout(FlowLayout.LEADING));
 
-		
 		this.setFocusable(true);
-		
+
 		final JButton trapButton = new JButton("Trappola");
-    
-		  
+
 		this.add(trapButton);
 
 		trapButton.addActionListener(new ActionListener() {
@@ -38,14 +36,17 @@ public class Panel extends JPanel {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 
-				String a = JOptionPane.showInputDialog(null,"Dammi le coordinate e per ultimo il tipo della trappola che vuoi piazzare (0-1) ");
+				String a = JOptionPane
+						.showInputDialog(
+								null,
+								"Dammi le coordinate e per ultimo il tipo della trappola che vuoi piazzare (0-1) ");
 
 				Scanner scanner = new Scanner(a);
 				int x = scanner.nextInt();
 				int y = scanner.nextInt();
 				int TipoDiTrappola = scanner.nextInt();
 
-				manager.placeTrap(x, y, TipoDiTrappola);
+				manager.placeTrap(x, y, TipoDiTrappola, manager.getPlayerOne());
 				theInterface.draw();
 				System.out.println("");
 				manager.update();
@@ -60,27 +61,26 @@ public class Panel extends JPanel {
 			public void keyPressed(KeyEvent paramKeyEvent) {
 
 				if (paramKeyEvent.getKeyCode() == KeyEvent.VK_UP) {
-					manager.movePlayer(0);
+					manager.movePlayerOne(0);
 					theInterface.draw();
 					manager.update();
 					System.out.println("");
-					
-					
+
 				} else if (paramKeyEvent.getKeyCode() == KeyEvent.VK_DOWN) {
-					manager.movePlayer(1);
+					manager.movePlayerOne(1);
 					theInterface.draw();
 					manager.update();
 					System.out.println("");
 
 				} else if (paramKeyEvent.getKeyCode() == KeyEvent.VK_LEFT) {
-					manager.movePlayer(2);
+					manager.movePlayerOne(2);
 					theInterface.draw();
 					manager.update();
 					System.out.println("");
 
 				} else if (paramKeyEvent.getKeyCode() == KeyEvent.VK_RIGHT) {
 
-					manager.movePlayer(3);
+					manager.movePlayerOne(3);
 					theInterface.draw();
 					manager.update();
 					System.out.println("");

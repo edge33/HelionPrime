@@ -241,7 +241,7 @@ public class Player extends AbstractCharacter implements TrapPlacing {
 	// dovrebbe sparare, aggiunge un bullet nella lista di bullets
 	public Integer shoot() {
 		if (!(currentGunSelected instanceof UziGun))
-			return currentGunSelected.shoot(this.world);
+			return currentGunSelected.shoot(this.world, this);
 		else
 			shootForUziGun();
 
@@ -279,7 +279,8 @@ public class Player extends AbstractCharacter implements TrapPlacing {
 									.sendMessage(
 											"shoot "
 													+ String.valueOf(currentGunSelected
-															.shoot(world)));
+															.shoot(world,
+																	Player.this)));
 
 							try {
 								sleep(100);

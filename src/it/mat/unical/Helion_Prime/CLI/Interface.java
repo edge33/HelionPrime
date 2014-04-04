@@ -47,8 +47,8 @@ public class Interface extends JFrame {
 
 	void draw() {
 
-		int playerX = manager.getPlayer().getX();
-		int playerY = manager.getPlayer().getY();
+		int playerX = manager.getPlayerOne().getX();
+		int playerY = manager.getPlayerOne().getY();
 		boolean MiServePerUscireDalFor = false;
 		ConcurrentHashMap<Integer, AbstractNative> natives = manager
 				.getWaveImpl().getNatives();
@@ -98,7 +98,7 @@ public class Interface extends JFrame {
 			MiServePerUscireDalFor = false;
 
 		}
-		System.out.println("Player : " + manager.getPlayer().getLife());
+		System.out.println("Player : " + manager.getPlayerOne().getLife());
 	}
 
 }

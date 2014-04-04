@@ -1,5 +1,7 @@
 package it.mat.unical.Helion_Prime.Logic;
 
+import it.mat.unical.Helion_Prime.Logic.Character.Player;
+
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
@@ -19,7 +21,7 @@ public class AbstractGun implements RangedWeapon {
 	}
 
 	@Override
-	public Integer shoot(World world) {
+	public Integer shoot(World world, Player player) {
 		return 0;
 	}
 

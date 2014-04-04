@@ -1,5 +1,7 @@
 package it.mat.unical.Helion_Prime.Logic;
 
+import it.mat.unical.Helion_Prime.Logic.Character.Player;
+
 public class HeavyWeapon extends AbstractGun implements RangedWeapon {
 
 	public HeavyWeapon(World p) {
@@ -9,7 +11,8 @@ public class HeavyWeapon extends AbstractGun implements RangedWeapon {
 	}
 
 	@Override
-	public Integer shoot(World world) {
-		return HeavyWeapon.add(new Bullet((WorldImpl) this.world, this.damage));
+	public Integer shoot(World world, Player player) {
+		return HeavyWeapon.add(new Bullet((WorldImpl) this.world, player,
+				this.damage));
 	}
 }

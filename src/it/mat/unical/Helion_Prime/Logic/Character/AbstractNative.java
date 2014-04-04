@@ -9,6 +9,7 @@ import it.mat.unical.Helion_Prime.Logic.Trap.AbstractTrap;
 
 import java.awt.Point;
 import java.util.Collection;
+import java.util.Random;
 import java.util.concurrent.ConcurrentHashMap;
 
 public class AbstractNative extends AbstractCharacter implements Resistance {
@@ -30,7 +31,20 @@ public class AbstractNative extends AbstractCharacter implements Resistance {
 		this.setDirection(-1);
 		this.canAttack = true;
 		this.room = (MaintenanceRoom) world.getRoom();
-		this.player = GameManagerImpl.getInstance().getPlayer();
+
+		if (GameManagerImpl.getInstance().isMultiplayerGame()) {
+			Random random = new Random();
+			int oneOrTwo = random.nextInt(2);
+			if (oneOrTwo == 0) {
+				this.player = GameManagerImpl.getInstance().getPlayerOne();
+			} else {
+				this.player = GameManagerImpl.getInstance().getPlayerTwo();
+			}
+
+		} else {
+			this.player = GameManagerImpl.getInstance().getPlayerOne();
+		}
+
 		type = 999;
 
 		new Thread() {

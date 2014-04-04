@@ -1,5 +1,7 @@
 package it.mat.unical.Helion_Prime.GFX;
 
+import it.mat.unical.Helion_Prime.Online.ClientManager;
+
 import java.awt.Color;
 import java.awt.Cursor;
 import java.awt.Graphics;
@@ -20,8 +22,11 @@ public class StageClearPanel extends JPanel {
 	private MainMenuFrame mainMenuFrame;
 	private BufferedImage stageClearImage;
 	private Cursor cursor;
+	private ClientManager clientManager;
 
-	public StageClearPanel() {
+	public StageClearPanel(ClientManager clientManager) {
+		this.clientManager = clientManager;
+
 		this.cursor = MainMenuFrame.getInstance().getMainMenuPanel()
 				.getCursor();
 		this.setCursor(cursor);
@@ -33,9 +38,11 @@ public class StageClearPanel extends JPanel {
 
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
+
 				StageClearPanel.this.mainMenuFrame
 						.switchTo(StageClearPanel.this.mainMenuFrame
 								.getMainMenuPanel());
+
 			}
 		});
 
@@ -44,8 +51,9 @@ public class StageClearPanel extends JPanel {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				StageClearPanel.this.mainMenuFrame
-						.switchTo(MainMenuFrame.getInstance()
-								.getMainMenuPanel().getLevelSwitchPanel());
+						.switchTo(StageClearPanel.this.mainMenuFrame
+								.getInstance().getMainMenuPanel()
+								.getLevelSwitchPanel());
 			}
 		});
 

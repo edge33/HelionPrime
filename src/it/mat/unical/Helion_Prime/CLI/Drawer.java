@@ -24,8 +24,8 @@ public class Drawer {
 
 	public void draw() {
 
-		int playerX = managerDrawer.getPlayer().getX();
-		int playerY = managerDrawer.getPlayer().getY();
+		int playerX = managerDrawer.getPlayerOne().getX();
+		int playerY = managerDrawer.getPlayerOne().getY();
 
 		ConcurrentHashMap<Integer, AbstractNative> natives = managerDrawer
 				.getWaveImpl().getNatives();
@@ -88,6 +88,7 @@ public class Drawer {
 
 			System.out.println();
 		}
-		System.out.println("Player : " + managerDrawer.getPlayer().getLife());
+		System.out
+				.println("Player : " + managerDrawer.getPlayerOne().getLife());
 	}
 }
