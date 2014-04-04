@@ -2,6 +2,15 @@ TODO LIST */ creato il 06/11/13 */
 ultimo aggiornamento 08/11/13
 
 
+/* SIMONE 04/04/2014 */
+Anche il multiplayer funziona 
+
+da fixare il problema del retry e del back to menu durante
+il gioco , cmq quelle ssu fissarie si fannu ..!! 
+
+
+
+
 ridefinire atteggiamenti editor -> bottoni per le dimensioni
 pausa
 salvataggio 

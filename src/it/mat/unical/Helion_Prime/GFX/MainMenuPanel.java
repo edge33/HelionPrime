@@ -2,13 +2,13 @@ package it.mat.unical.Helion_Prime.GFX;
 
 import it.mat.unical.Helion_Prime.EnemyEditor.EnemyEditorPanel;
 import it.mat.unical.Helion_Prime.LevelEditor.EditorMainPanel;
+import it.mat.unical.Helion_Prime.Multiplayer.LevelSwitchPanelMultiplayer;
+import it.mat.unical.Helion_Prime.Multiplayer.MultiplayerPanel;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.Component;
 import java.awt.Container;
 import java.awt.Cursor;
-import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Image;
@@ -22,10 +22,7 @@ import java.io.FileInputStream;
 import java.io.IOException;
 
 import javax.imageio.ImageIO;
-import javax.sound.sampled.AudioInputStream;
-import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
-import javax.swing.AbstractButton;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
@@ -34,6 +31,7 @@ import javax.swing.UIManager;
 public class MainMenuPanel extends JPanel {
 
 	private LevelSwitchPanel levelSwitchPanel;
+	private LevelSwitchPanelMultiplayer levelSwitchPanelMultiplayer;
 	private EditorMainPanel editorMainPanel;
 	private EnemyEditorPanel enemyEditorPanel;
 	private LoginPanel loginPanel;
@@ -47,7 +45,7 @@ public class MainMenuPanel extends JPanel {
 	private JButton editorButton;
 	private JButton enemyEditor;
 	private JButton escButton;
-	private JButton multiButton;
+	private JButton multiplayerButton;
 	private Container menuPane;
 	private Cursor cursor;
 
@@ -56,8 +54,7 @@ public class MainMenuPanel extends JPanel {
 
 	private boolean isStoryModeOn = false;
 
-	public MainMenuPanel()
-	{
+	public MainMenuPanel() {
 
 		this.setLayout(new BorderLayout());
 		centerPane = new JPanel();
@@ -67,7 +64,7 @@ public class MainMenuPanel extends JPanel {
 		southPane.setBackground(Color.BLACK);
 
 		musicButton = new JRadioButton("No Music");
-		multiButton = new JButton("MultiPlayer");
+		multiplayerButton = new JButton("MultiPlayer");
 		playButton = new JButton("Play");
 		editorButton = new JButton("Editor Mode");
 		enemyEditor = new JButton("Create Mode");
@@ -96,15 +93,15 @@ public class MainMenuPanel extends JPanel {
 			public void actionPerformed(ActionEvent e) {
 				loginPanel = new LoginPanel();
 				MainMenuFrame.getInstance().switchTo(loginPanel);
-				
+
 			}
 		});
-		
-		multiButton.addActionListener(new ActionListener() {
+
+		multiplayerButton.addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				MainMenuPanel.this.multiplayerPanel = new MultiplayerPanel();
+				MainMenuPanel.this.multiplayerPanel = new MultiplayerPanel(font);
 				MainMenuFrame.getInstance().switchTo(multiplayerPanel);
 			}
 		});
@@ -142,19 +139,21 @@ public class MainMenuPanel extends JPanel {
 		musicButton.setBounds(10, 1, 150, 150);
 		centerPane.add(musicButton);
 		southPane.add(playButton);
-		southPane.add(multiButton);
+		southPane.add(multiplayerButton);
 		southPane.add(editorButton);
 		southPane.add(enemyEditor);
 		southPane.add(escButton);
 		add(southPane, BorderLayout.SOUTH);
-		add(centerPane,BorderLayout.CENTER);
+		add(centerPane, BorderLayout.CENTER);
 
 		setVisible(true);
 
 		this.menuWallpaper = null;
 
 		try {
-			menuWallpaper = ImageIO.read(new File("Resources/Alien.jpg")); // sfondo menu iniziale
+			menuWallpaper = ImageIO.read(new File("Resources/Alien.jpg")); // sfondo
+																			// menu
+																			// iniziale
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -182,12 +181,13 @@ public class MainMenuPanel extends JPanel {
 		musicButton.setBorderPainted(false);
 		musicButton.setFocusPainted(false);
 
-		multiButton.setBackground(Color.black);
-		multiButton.setForeground(Color.green);
-		multiButton.setFont(font);
-		multiButton.setFont(multiButton.getFont().deriveFont(25.0f));
-		multiButton.setBorderPainted(false);
-		multiButton.setFocusPainted(false);
+		multiplayerButton.setBackground(Color.black);
+		multiplayerButton.setForeground(Color.green);
+		multiplayerButton.setFont(font);
+		multiplayerButton
+				.setFont(multiplayerButton.getFont().deriveFont(25.0f));
+		multiplayerButton.setBorderPainted(false);
+		multiplayerButton.setFocusPainted(false);
 
 		playButton.setBackground(Color.black);
 		playButton.setForeground(Color.green);
@@ -222,20 +222,17 @@ public class MainMenuPanel extends JPanel {
 
 	public void playMusic() {
 
-		/*try {
-			AudioInputStream audioInputStream = AudioSystem
-					.getAudioInputStream(new File("Ost/Lucian.wav")
-							.getAbsoluteFile());
-			clip = AudioSystem.getClip();
-			clip.open(audioInputStream);
-			clip.start();
-		} catch (Exception ex) {
-			System.out.println("Error with playing sound.");
-			ex.printStackTrace();
-		}*/
+		/*
+		 * try { AudioInputStream audioInputStream = AudioSystem
+		 * .getAudioInputStream(new File("Ost/Lucian.wav") .getAbsoluteFile());
+		 * clip = AudioSystem.getClip(); clip.open(audioInputStream);
+		 * clip.start(); } catch (Exception ex) {
+		 * System.out.println("Error with playing sound.");
+		 * ex.printStackTrace(); }
+		 */
 	}
-	public void setStoryModeOn(boolean value)
-	{
+
+	public void setStoryModeOn(boolean value) {
 		isStoryModeOn = value;
 	}
 
@@ -247,18 +244,15 @@ public class MainMenuPanel extends JPanel {
 		return font;
 	}
 
-
-	public void createCustomCursor()
-	{
-		Toolkit toolkit = Toolkit.getDefaultToolkit();  
-		Image image = toolkit.getImage("Resources/Cursor.png");  
-		Point hotSpot = new Point(0,0); 
-		cursor = toolkit.createCustomCursor(image, hotSpot , "Pencil");
-		setCursor(cursor);  
+	public void createCustomCursor() {
+		Toolkit toolkit = Toolkit.getDefaultToolkit();
+		Image image = toolkit.getImage("Resources/Cursor.png");
+		Point hotSpot = new Point(0, 0);
+		cursor = toolkit.createCustomCursor(image, hotSpot, "Pencil");
+		setCursor(cursor);
 	}
 
-	public Cursor getCursor()
-	{
+	public Cursor getCursor() {
 		return cursor;
 	}
 

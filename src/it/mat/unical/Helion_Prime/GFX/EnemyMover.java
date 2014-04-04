@@ -61,9 +61,15 @@ public class EnemyMover extends Thread {
 					+ this.TileSize / 2) {
 				currentNative.setDirection(Character.UP);
 				currentNative.move(Character.UP);
-				GameManagerImpl.getInstance().getServer()
-						.sendMessage("nU " + currentNative.getKey());
 
+				if (!GameManagerImpl.getInstance().isMultiplayerGame())
+					GameManagerImpl.getInstance().getServer()
+							.sendMessage("nU " + currentNative.getKey());
+				else {
+					GameManagerImpl.getInstance().getServerMuliplayer()
+							.outBroadcast("nU " + currentNative.getKey());
+
+				}
 			}
 			break;
 		case Character.DOWN:
@@ -83,8 +89,13 @@ public class EnemyMover extends Thread {
 					- this.TileSize / 2) {
 				currentNative.move(Character.DOWN);
 				currentNative.setDirection(Character.DOWN);
-				GameManagerImpl.getInstance().getServer()
-						.sendMessage("nD " + currentNative.getKey());
+
+				if (!GameManagerImpl.getInstance().isMultiplayerGame())
+					GameManagerImpl.getInstance().getServer()
+							.sendMessage("nD " + currentNative.getKey());
+				else
+					GameManagerImpl.getInstance().getServerMuliplayer()
+							.outBroadcast("nD " + currentNative.getKey());
 			}
 
 			break;
@@ -102,8 +113,13 @@ public class EnemyMover extends Thread {
 					+ this.TileSize / 2) {
 				currentNative.move(Character.LEFT);
 				currentNative.setDirection(Character.LEFT);
-				GameManagerImpl.getInstance().getServer()
-						.sendMessage("nL " + currentNative.getKey());
+
+				if (!GameManagerImpl.getInstance().isMultiplayerGame())
+					GameManagerImpl.getInstance().getServer()
+							.sendMessage("nL " + currentNative.getKey());
+				else
+					GameManagerImpl.getInstance().getServerMuliplayer()
+							.outBroadcast("nL " + currentNative.getKey());
 			}
 
 			break;
@@ -120,8 +136,14 @@ public class EnemyMover extends Thread {
 					- this.TileSize / 2) {
 				currentNative.move(Character.RIGHT);
 				currentNative.setDirection(Character.RIGHT);
-				GameManagerImpl.getInstance().getServer()
-						.sendMessage("nR " + currentNative.getKey());
+
+				if (!GameManagerImpl.getInstance().isMultiplayerGame())
+					GameManagerImpl.getInstance().getServer()
+							.sendMessage("nR " + currentNative.getKey());
+				else
+					GameManagerImpl.getInstance().getServerMuliplayer()
+							.outBroadcast("nR " + currentNative.getKey());
+
 			}
 
 			break;
