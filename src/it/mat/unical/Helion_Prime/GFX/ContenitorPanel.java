@@ -2,6 +2,8 @@ package it.mat.unical.Helion_Prime.GFX;
 
 import it.mat.unical.Helion_Prime.Logic.FileNotCorrectlyFormattedException;
 import it.mat.unical.Helion_Prime.Logic.GameManagerImpl;
+import it.mat.unical.Helion_Prime.Online.Client;
+import it.mat.unical.Helion_Prime.Online.Server;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -18,9 +20,6 @@ import javax.swing.JButton;
 import javax.swing.JLayeredPane;
 import javax.swing.JPanel;
 import javax.swing.UIManager;
-
-import Online.Client;
-import Online.Server;
 
 public class ContenitorPanel extends JLayeredPane
 {

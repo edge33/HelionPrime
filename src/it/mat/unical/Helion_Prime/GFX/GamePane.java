@@ -12,6 +12,8 @@ import it.mat.unical.Helion_Prime.Logic.Wave;
 import it.mat.unical.Helion_Prime.Logic.WaveImpl;
 import it.mat.unical.Helion_Prime.Logic.WorldImpl;
 import it.mat.unical.Helion_Prime.Logic.Character.AbstractNative;
+import it.mat.unical.Helion_Prime.Online.Client;
+import it.mat.unical.Helion_Prime.Online.ClientManager;
 
 import java.awt.Color;
 import java.awt.Graphics;
@@ -31,9 +33,6 @@ import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-
-import Online.Client;
-import Online.ClientManager;
 
 public class GamePane extends JPanel {
 	/*

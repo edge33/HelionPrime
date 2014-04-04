@@ -1,4 +1,4 @@
-package Online;
+package it.mat.unical.Helion_Prime.Online;
 
 import it.mat.unical.Helion_Prime.Logic.GameManagerImpl;
 import it.mat.unical.Helion_Prime.Logic.Character.Player;

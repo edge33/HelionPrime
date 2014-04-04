@@ -13,56 +13,59 @@ import javax.imageio.ImageIO;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 
-public class StageClearPanel extends JPanel{
+public class StageClearPanel extends JPanel {
 
 	private JButton backToMenuButton;
 	private JButton retryButton;
 	private MainMenuFrame mainMenuFrame;
 	private BufferedImage stageClearImage;
 	private Cursor cursor;
-	
-	public StageClearPanel()
-	{
-		this.cursor = MainMenuFrame.getInstance().getMainMenuPanel().getCursor();
+
+	public StageClearPanel() {
+		this.cursor = MainMenuFrame.getInstance().getMainMenuPanel()
+				.getCursor();
 		this.setCursor(cursor);
 		this.mainMenuFrame = MainMenuFrame.getInstance();
 		this.backToMenuButton = new JButton("Back to Menu");
 		this.retryButton = new JButton("Retry");
 		createButton();
 		this.backToMenuButton.addActionListener(new ActionListener() {
-			
+
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				StageClearPanel.this.mainMenuFrame.switchTo(StageClearPanel.this.mainMenuFrame.getMainMenuPanel());
+				StageClearPanel.this.mainMenuFrame
+						.switchTo(StageClearPanel.this.mainMenuFrame
+								.getMainMenuPanel());
 			}
 		});
-		
+
 		this.retryButton.addActionListener(new ActionListener() {
-			
+
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				StageClearPanel.this.mainMenuFrame.switchTo(StageClearPanel.this.mainMenuFrame.getInstance().getMainMenuPanel().getLevelSwitchPanel());
+				StageClearPanel.this.mainMenuFrame
+						.switchTo(MainMenuFrame.getInstance()
+								.getMainMenuPanel().getLevelSwitchPanel());
 			}
 		});
-		
+
 		try {
-			stageClearImage= ImageIO.read(new File("Resources/stageClear.png")); // sfondo
-																			// menu
-																			// iniziale
+			stageClearImage = ImageIO
+					.read(new File("Resources/stageClear.png")); // sfondo
+			// menu
+			// iniziale
 
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
+
 		this.add(backToMenuButton);
 		this.add(retryButton);
-		
-		
+
 	}
-	
-	public void createButton()
-	{
+
+	public void createButton() {
 		retryButton.setBackground(Color.black);
 		retryButton.setForeground(Color.green);
 		retryButton.setFont(mainMenuFrame.getMainMenuPanel().getFont());
@@ -76,10 +79,10 @@ public class StageClearPanel extends JPanel{
 		backToMenuButton.setBorderPainted(false);
 		backToMenuButton.setFocusPainted(false);
 	}
-	
+
 	@Override
 	protected void paintComponent(Graphics g) {
-		
+
 		g.drawImage(stageClearImage, 0, 0, this.getWidth(), this.getHeight(),
 				this);
 	}

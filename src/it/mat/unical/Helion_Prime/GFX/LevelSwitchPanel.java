@@ -2,6 +2,8 @@ package it.mat.unical.Helion_Prime.GFX;
 
 import it.mat.unical.Helion_Prime.Logic.FileNotCorrectlyFormattedException;
 import it.mat.unical.Helion_Prime.Logic.GameManagerImpl;
+import it.mat.unical.Helion_Prime.Online.Client;
+import it.mat.unical.Helion_Prime.Online.Server;
 
 import java.awt.Color;
 import java.awt.Font;
@@ -27,8 +29,6 @@ import javax.swing.JPanel;
 
 
 
-import Online.Client;
-import Online.Server;
 
 import org.w3c.dom.ls.LSParser;
 

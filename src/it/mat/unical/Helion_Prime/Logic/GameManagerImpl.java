@@ -5,6 +5,7 @@ import it.mat.unical.Helion_Prime.Logic.Character.AbstractNative;
 import it.mat.unical.Helion_Prime.Logic.Character.Player;
 import it.mat.unical.Helion_Prime.Logic.Trap.AbstractTrap;
 import it.mat.unical.Helion_Prime.Logic.Trap.DecoyTrap;
+import it.mat.unical.Helion_Prime.Online.Server;
 
 import java.awt.Point;
 import java.io.File;
@@ -13,8 +14,6 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
-
-import Online.Server;
 
 public class GameManagerImpl implements GameManager {
 

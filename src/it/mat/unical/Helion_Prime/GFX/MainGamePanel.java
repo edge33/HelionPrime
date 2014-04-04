@@ -2,6 +2,7 @@ package it.mat.unical.Helion_Prime.GFX;
 
 import it.mat.unical.Helion_Prime.GamePad.GamePadController;
 import it.mat.unical.Helion_Prime.Logic.FileNotCorrectlyFormattedException;
+import it.mat.unical.Helion_Prime.Online.Client;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -10,8 +11,6 @@ import java.awt.Dimension;
 import java.io.File;
 
 import javax.swing.JPanel;
-
-import Online.Client;
 
 public class MainGamePanel extends JPanel {
 
