@@ -1,6 +1,7 @@
 package it.mat.unical.Helion_Prime.GFX;
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.GridBagConstraints;
@@ -45,10 +46,12 @@ public class LoginPanel extends JPanel
 	private GridBagConstraints c;
 	
 	private BufferedImage levelSwitchWallpaper;
-
+	private Cursor cursor;
 
 	public LoginPanel()
 	{
+		this.cursor = MainMenuFrame.getInstance().getMainMenuPanel().getCursor();
+		this.setCursor(cursor);
 	    try { levelSwitchWallpaper = ImageIO.read(new File("Resources/optionPanelImage.jpg")); }
 	    catch (IOException e) {}
 		this.setLayout(new BorderLayout());
