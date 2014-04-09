@@ -170,7 +170,8 @@ public class EditorOptionsPanel extends JPanel {
 	}
 	
 
-	public void saveLevel() {
+	public void saveLevel()
+	{
 		boolean room=false;
 		boolean spawn=false;
 		boolean enemy=false;

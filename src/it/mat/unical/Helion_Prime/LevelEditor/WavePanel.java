@@ -66,6 +66,10 @@ public class WavePanel extends JPanel{
 		soldierSlider = new JSlider(JSlider.HORIZONTAL,  0, 10, 0);
 		saboteurSlider = new JSlider(JSlider.HORIZONTAL,  0, 10, 0);
 		
+		bountySlider.addChangeListener(bountySliderListener);
+		soldierSlider.addChangeListener(soldierSliderListener);
+		saboteurSlider.addChangeListener(saboteurSliderListener);
+		
 		font = MainMenuFrame.getInstance().getMainMenuPanel().getFont().deriveFont(13.0f);
 		this.setCursor(MainMenuFrame.getInstance().getMainMenuPanel().getCursor());
 		
@@ -158,6 +162,7 @@ public class WavePanel extends JPanel{
 	
 	public String getSoldierNumber()
 	{
+		System.out.println(soldierNumber.getText());
 		return soldierNumber.getText();
 	}
 

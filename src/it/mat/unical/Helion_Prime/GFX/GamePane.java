@@ -589,7 +589,7 @@ public class GamePane extends JPanel {
 						* TILE_SIZE, TILE_SIZE, TILE_SIZE, this);
 				break;
 			case 6:
-				g.drawImage(imageProvider.getAcidTrap(),
+				g.drawImage(imageProvider.getPowerTrap(),
 				/* drawingHorizontalOffset */+(point.x * TILE_SIZE), point.y
 						* TILE_SIZE, TILE_SIZE, TILE_SIZE, this);
 				break;

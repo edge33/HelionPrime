@@ -440,8 +440,7 @@ public class ImageProvider extends Thread {
 		this.acidTrap = toolKit.getImage("Resources/AcidTrap.png");
 		this.electricTrap = toolKit.getImage("Resources/ElectricTrap.png");
 		this.powerTrap = toolKit.getImage("Resources/PowerTrap.png");
-		this.decoyTrap = toolKit
-				.getImage("Resources/Char Resources/FilippoBack2.png");
+		this.decoyTrap = toolKit.getImage("Resources/Char Resources/FilippoBack2.png");
 		this.i8 = toolKit.getImage("Resources/8.jpg");
 		this.i9 = toolKit.getImage("Resources/9.jpg");
 		this.i10 = toolKit.getImage("Resources/10.jpg");
