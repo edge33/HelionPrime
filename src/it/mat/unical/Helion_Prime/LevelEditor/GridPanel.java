@@ -25,11 +25,14 @@ public class GridPanel extends JPanel {
 	private int wallType;
 	private LevelStruct levelStruct;
 	private int drawingPoint;
+	private int rows, cols;
 
 
 	public GridPanel(int rows,int cols)							//costruttore
 	{		
 
+		this.rows=rows;
+		this.cols=cols;
 		editorImageProvider = new EditorImageProvider();			//istanziazione degli oggetti dichiarati
 		setLayout(null);
 		levelStruct = new LevelStruct(rows,cols);
@@ -240,5 +243,15 @@ public class GridPanel extends JPanel {
 
 	public void setLevelStruct(LevelStruct struct) {
 		levelStruct = struct;
+	}
+
+
+	public int getRows() {
+		return rows;
+	}
+
+
+	public int getCols() {
+		return cols;
 	}
 }

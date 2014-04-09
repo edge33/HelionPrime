@@ -1,4 +1,5 @@
 package it.mat.unical.Helion_Prime.GFX;
+import it.mat.unical.Helion_Prime.Multiplayer.MultiplayerPanel;
 import it.mat.unical.Helion_Prime.SavesManager.SaveManager;
 import it.mat.unical.Helion_Prime.SavesManager.SaveManagerImpl;
 
@@ -45,7 +46,7 @@ public class LoginPanel extends JPanel
 	private JLabel bulletsNumber;
 	private JLabel score;
 	private JLabel scoreDescr;
-	
+
 	private JComboBox<Timestamp> savedGames;
 
 	private JButton back;
@@ -61,17 +62,19 @@ public class LoginPanel extends JPanel
 	private GridBagLayout eastLayout;
 	private GridBagConstraints c;
 	private GridBagConstraints eC;
-	
+
 	private BufferedImage levelSwitchWallpaper;
 	private Cursor cursor;
 
-	
+	private boolean isCreateClicked = false;
+	private boolean isLoadClicked = false;
+
 	public LoginPanel()
 	{
 		this.cursor = MainMenuFrame.getInstance().getMainMenuPanel().getCursor();
 		this.setCursor(cursor);
-	    try { levelSwitchWallpaper = ImageIO.read(new File("Resources/optionPanelImage.jpg")); }
-	    catch (IOException e) {}
+		try { levelSwitchWallpaper = ImageIO.read(new File("Resources/optionPanelImage.jpg")); }
+		catch (IOException e) {}
 		this.setLayout(new BorderLayout());
 		this.layout = new GridBagLayout();
 		this.c = new GridBagConstraints();
@@ -101,14 +104,14 @@ public class LoginPanel extends JPanel
 		this.bulletsDesc = new JLabel("Bullet");
 		this.score = new JLabel("0");
 		this.bulletsNumber = new JLabel("0");
-		
+
 		this.savedGames = new JComboBox();
-		
+
 		this.userField = new JTextField(20);
 		this.passField = new JPasswordField(20);
 		this.userField.setHorizontalAlignment(SwingConstants.CENTER);
 		this.passField.setHorizontalAlignment(SwingConstants.CENTER);
-		
+
 		this.createButton();
 		this.addListener();
 		this.fillCenterPanel();
@@ -116,7 +119,7 @@ public class LoginPanel extends JPanel
 		this.add(centerPanel,BorderLayout.CENTER);
 		this.add(southPanel,BorderLayout.SOUTH);
 		this.add(eastPanel,BorderLayout.EAST);
-		
+
 		this.eastPanel.setBackground(Color.BLACK);
 		this.eastPanel.setPreferredSize(new Dimension(200, 700));
 		this.southPanel.setBackground(Color.BLACK);
@@ -131,37 +134,37 @@ public class LoginPanel extends JPanel
 		userLabel.setOpaque(false);
 		userLabel.setFont(MainMenuFrame.getInstance().getMainMenuPanel().getFont());
 		userLabel.setFont(userLabel.getFont().deriveFont(25.0f));
-		
+
 		passLabel.setForeground(Color.green);
 		passLabel.setOpaque(false);
 		passLabel.setFont(MainMenuFrame.getInstance().getMainMenuPanel().getFont());
 		passLabel.setFont(userLabel.getFont().deriveFont(25.0f));
-		
+
 		saveLabel.setForeground(Color.green);
 		saveLabel.setOpaque(false);
 		saveLabel.setFont(MainMenuFrame.getInstance().getMainMenuPanel().getFont());
 		saveLabel.setFont(saveLabel.getFont().deriveFont(25.0f));
-		
+
 		score.setForeground(Color.green);
 		score.setOpaque(false);
 		score.setFont(MainMenuFrame.getInstance().getMainMenuPanel().getFont());
 		score.setFont(saveLabel.getFont().deriveFont(15.0f));
-		
+
 		scoreDescr.setForeground(Color.green);
 		scoreDescr.setOpaque(false);
 		scoreDescr.setFont(MainMenuFrame.getInstance().getMainMenuPanel().getFont());
 		scoreDescr.setFont(saveLabel.getFont().deriveFont(25.0f));
-		
+
 		bulletsDesc.setForeground(Color.green);
 		bulletsDesc.setOpaque(false);
 		bulletsDesc.setFont(MainMenuFrame.getInstance().getMainMenuPanel().getFont());
 		bulletsDesc.setFont(saveLabel.getFont().deriveFont(25.0f));
-		
+
 		bulletsNumber.setForeground(Color.green);
 		bulletsNumber.setOpaque(false);
 		bulletsNumber.setFont(MainMenuFrame.getInstance().getMainMenuPanel().getFont());
 		bulletsNumber.setFont(saveLabel.getFont().deriveFont(15.0f));
-		
+
 		load.setBackground(Color.black);
 		load.setForeground(Color.green);
 		load.setFont(MainMenuFrame.getInstance().getMainMenuPanel().getFont());
@@ -198,6 +201,82 @@ public class LoginPanel extends JPanel
 
 	public void addListener()
 	{
+		this.create.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) 
+			{
+				if(!isCreateClicked)
+				{
+					userLabel.setText("New Username:");
+					passLabel.setText("New Password:");
+					bulletsDesc.setVisible(false);
+					bulletsNumber.setVisible(false);
+					score.setVisible(false);
+					scoreDescr.setVisible(false);
+					savedGames.setVisible(false);
+					saveLabel.setVisible(false);
+					create.setText("Done!");
+					load.setEnabled(false);
+					isCreateClicked = true;
+				}
+				else
+				{
+					userLabel.setText("Username:");
+					passLabel.setText("Password:");
+					bulletsDesc.setVisible(true);
+					bulletsNumber.setVisible(true);
+					score.setVisible(true);
+					scoreDescr.setVisible(true);
+					savedGames.setVisible(true);
+					saveLabel.setVisible(true);
+					create.setText("Create Profile");
+					load.setEnabled(true);
+					isCreateClicked = false;
+				}
+
+
+			}
+		});
+		
+		this.load.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) 
+			{
+				if(!isLoadClicked)
+				{
+					userLabel.setText("Your Username:");
+					passLabel.setText("Your Password:");
+					bulletsDesc.setVisible(false);
+					bulletsNumber.setVisible(false);
+					score.setVisible(false);
+					scoreDescr.setVisible(false);
+					savedGames.setVisible(false);
+					saveLabel.setVisible(false);
+					load.setText("Load Me!");
+					create.setEnabled(false);
+					isLoadClicked = true;
+				}
+				else
+				{
+					userLabel.setText("Username:");
+					passLabel.setText("Password:");
+					bulletsDesc.setVisible(true);
+					bulletsNumber.setVisible(true);
+					score.setVisible(true);
+					scoreDescr.setVisible(true);
+					savedGames.setVisible(true);
+					saveLabel.setVisible(true);
+					load.setText("Load Profile");
+					create.setEnabled(true);
+					isLoadClicked = false;
+				}
+
+
+			}
+		});
+		
 		this.back.addActionListener(new ActionListener()
 		{
 
@@ -212,27 +291,27 @@ public class LoginPanel extends JPanel
 
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				ModeSelectPanel m = new ModeSelectPanel();
+				MultiplayerPanel m = new MultiplayerPanel(MainMenuFrame.getInstance().getMainMenuPanel().getFont());
 				MainMenuFrame.getInstance().switchTo(m);
 
 			}
 		});
-		
-		
+
+
 		this.load.addActionListener(new ActionListener() {
-			
+
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				if ( userField.getText() != "" ) {
-					
+
 					String username = userField.getText();
-					
+
 					ArrayList<Timestamp> profiles = SaveManagerImpl.getInstance().fetchSaves(username);
-					
+
 					for (Timestamp timestamp : profiles) {
 						savedGames.addItem(timestamp);
 					}
-					
+
 				}
 			}
 		});
@@ -246,21 +325,21 @@ public class LoginPanel extends JPanel
 		JLabel dummyLabel2 = new JLabel();
 		JLabel fillerLabel = new JLabel();
 		JLabel fillerLabel2 = new JLabel();
-		
+
 		this.southPanel.add(create);
 		this.southPanel.add(load);
 		this.southPanel.add(back);
 		this.southPanel.add(skip);
-		
+
 		this.eastLayout.setConstraints(bulletsDesc, eC);
 		this.eastPanel.add(bulletsDesc);
 		this.eC.gridwidth = GridBagConstraints.REMAINDER; 
 		this.eastLayout.setConstraints(bulletsNumber, eC);
 		this.eastPanel.add(bulletsNumber);
-		
+
 		this.eC.insets = new Insets(10,0,0,0); 
 		this.eC.gridwidth = 1;
-		
+
 		this.eastLayout.setConstraints(scoreDescr, eC);
 		this.eastPanel.add(scoreDescr);
 		this.eC.gridwidth = GridBagConstraints.REMAINDER; 
@@ -289,11 +368,11 @@ public class LoginPanel extends JPanel
 		this.c.gridwidth = GridBagConstraints.REMAINDER; 	
 		this.layout.setConstraints(dummyLabel2, c);
 		this.centerPanel.add(dummyLabel2);
-		
-		
+
+
 		this.c.insets = new Insets(10,0,0,0); 
 		this.c.gridwidth = 1;
-		
+
 		this.layout.setConstraints(fillerLabel, c);
 		this.centerPanel.add(fillerLabel);
 		this.layout.setConstraints(saveLabel, c);
@@ -304,9 +383,9 @@ public class LoginPanel extends JPanel
 		this.layout.setConstraints(fillerLabel2, c);
 		this.centerPanel.add(fillerLabel2);
 	}
-	
+
 	public void paintComponent(Graphics g)
 	{
-	     g.drawImage(levelSwitchWallpaper, 0, 0, this.getWidth(), this.getHeight(),this);
+		g.drawImage(levelSwitchWallpaper, 0, 0, this.getWidth(), this.getHeight(),this);
 	}
 }

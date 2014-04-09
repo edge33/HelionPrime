@@ -23,6 +23,7 @@ import javax.swing.text.BadLocationException;
 public class WaitLobbyPanel extends JPanel
 {
 	private JButton connectButton;
+	private JButton backButton;
 
 	private JTextField f1,f2,f3,f4;
 	private JTextField port;
@@ -89,6 +90,7 @@ public class WaitLobbyPanel extends JPanel
 		this.port.setDocument(tPort);
 
 		this.connectButton = new JButton("Connect");
+		this.backButton = new JButton("Main Menu");
 
 		this.cursor = MainMenuFrame.getInstance().getMainMenuPanel().getCursor();
 		this.setCursor(cursor);
@@ -164,7 +166,14 @@ public class WaitLobbyPanel extends JPanel
 		connectButton.setFont(connectButton.getFont().deriveFont(25.0f));
 		connectButton.setBorderPainted(false);
 		connectButton.setFocusPainted(false);
-		connectButton.setBorderPainted(false);
+		
+		backButton.setBackground(Color.black);
+		backButton.setForeground(Color.green);
+		backButton.setOpaque(false);
+		backButton.setFont(MainMenuFrame.getInstance().getMainMenuPanel().getFont());
+		backButton.setFont(backButton.getFont().deriveFont(25.0f));
+		backButton.setBorderPainted(false);
+		backButton.setFocusPainted(false);
 	}
 
 	public void fillPanel()
@@ -182,6 +191,7 @@ public class WaitLobbyPanel extends JPanel
 		this.centerPanel.add(separator);
 		this.centerPanel.add(port);
 		this.southPanel.add(connectButton);
+		this.southPanel.add(backButton);
 	}
 	
 
@@ -199,7 +209,17 @@ public class WaitLobbyPanel extends JPanel
 		});
 		
 		
-		
+		this.backButton.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+
+				MainMenuFrame.getInstance().switchTo(
+						MainMenuFrame.getInstance().getMainMenuPanel());
+
+			}
+		});
+
 
 	}
 }

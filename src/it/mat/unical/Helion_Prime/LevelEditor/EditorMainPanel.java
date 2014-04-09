@@ -4,6 +4,7 @@ import it.mat.unical.Helion_Prime.GFX.MainMenuFrame;
 import it.mat.unical.Helion_Prime.GFX.MainMenuPanel;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
@@ -11,6 +12,7 @@ import java.io.File;
 import java.io.IOException;
 
 import javax.imageio.ImageIO;
+import javax.swing.BorderFactory;
 import javax.swing.JPanel;
 import javax.swing.JSplitPane;
 
@@ -26,6 +28,7 @@ public class EditorMainPanel extends JPanel {
 	private JSplitPane gridSplitPanel;
 	private WavePanel wavePanel;
 	private MainMenuPanel mainMenuPanel;
+	private JPanel contenitorPanel;
 	
 
 	public EditorMainPanel(MainMenuPanel mainMenuPanel) {
@@ -35,7 +38,6 @@ public class EditorMainPanel extends JPanel {
 		this.mainMenuPanel = mainMenuPanel;
 		this.optionsPanel = new OptionsPanel(this,mainMenuPanel);
 		this.setCursor(MainMenuFrame.getInstance().getMainMenuPanel().getCursor());
-		
 		this.add(optionsPanel);
 		
 		this.setVisible(true);
@@ -49,6 +51,7 @@ public class EditorMainPanel extends JPanel {
 		remove(optionsPanel);
 		
 		gridPanel = new GridPanel(rows,cols);
+		gridPanel.setBorder(BorderFactory.createLineBorder(Color.black, 5));
 		
 		
 		setLayout(new BorderLayout());
@@ -61,7 +64,6 @@ public class EditorMainPanel extends JPanel {
 		add( verticalEditorPanel, BorderLayout.CENTER );
 		
 		horizontalEditorPanel = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT );
-				
 
 		mapElementsPanel = new MapElementsPanel(gridPanel.getLevelStruct());
 		editorOptionsPanel = new EditorOptionsPanel(gridPanel,mapElementsPanel,mainMenuPanel,wavePanel);
@@ -72,8 +74,9 @@ public class EditorMainPanel extends JPanel {
 		verticalEditorPanel.setLeftComponent( horizontalEditorPanel );
 		verticalEditorPanel.setRightComponent( gridSplitPanel );
 		
-		gridSplitPanel.setLeftComponent( gridPanel );
-		gridSplitPanel.setRightComponent( wavePanel );	
+		gridSplitPanel.setLeftComponent(wavePanel);
+		gridSplitPanel.setRightComponent(gridPanel);	
+		gridSplitPanel.setDividerLocation(285);
 		setVisible(true);
 		gridPanel.setVisible(true);
 		mapElementsPanel.setVisible(true);

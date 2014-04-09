@@ -250,7 +250,7 @@ public class EditorOptionsPanel extends JPanel {
 		   showFloor();
 		   String absolutePath = path;
 		   String localName = name;
-	       BufferedImage bufImage = new BufferedImage(panel.getWidth(), panel.getHeight(),BufferedImage.TYPE_INT_RGB);  
+	       BufferedImage bufImage = new BufferedImage(gridPanel.getCols()*50, panel.getHeight(),BufferedImage.TYPE_INT_RGB);  
 	       panel.paint(bufImage.createGraphics());
 	       absolutePath.replace('\\', '/');
 	       String pathfinale = new String (absolutePath + "/" + name + ".jpg");

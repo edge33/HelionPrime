@@ -22,6 +22,8 @@ import java.io.FileInputStream;
 import java.io.IOException;
 
 import javax.imageio.ImageIO;
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
 import javax.swing.JButton;
 import javax.swing.JPanel;
@@ -34,8 +36,8 @@ public class MainMenuPanel extends JPanel {
 	private LevelSwitchPanelMultiplayer levelSwitchPanelMultiplayer;
 	private EditorMainPanel editorMainPanel;
 	private EnemyEditorPanel enemyEditorPanel;
+	private ModeSelectPanel modePanel;
 	private LoginPanel loginPanel;
-	private MultiplayerPanel multiplayerPanel;
 
 	private BufferedImage menuWallpaper;
 	private JPanel southPane;
@@ -91,8 +93,8 @@ public class MainMenuPanel extends JPanel {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				loginPanel = new LoginPanel();
-				MainMenuFrame.getInstance().switchTo(loginPanel);
+				modePanel = new ModeSelectPanel();
+				MainMenuFrame.getInstance().switchTo(modePanel);
 
 			}
 		});
@@ -101,8 +103,8 @@ public class MainMenuPanel extends JPanel {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				MainMenuPanel.this.multiplayerPanel = new MultiplayerPanel(font);
-				MainMenuFrame.getInstance().switchTo(multiplayerPanel);
+				MainMenuPanel.this.loginPanel = new LoginPanel();
+				MainMenuFrame.getInstance().switchTo(loginPanel);
 			}
 		});
 
@@ -152,8 +154,8 @@ public class MainMenuPanel extends JPanel {
 
 		try {
 			menuWallpaper = ImageIO.read(new File("Resources/Alien.jpg")); // sfondo
-																			// menu
-																			// iniziale
+			// menu
+			// iniziale
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -221,14 +223,14 @@ public class MainMenuPanel extends JPanel {
 
 	public void playMusic() {
 
-		/*
-		 * try { AudioInputStream audioInputStream = AudioSystem
-		 * .getAudioInputStream(new File("Ost/Lucian.wav") .getAbsoluteFile());
-		 * clip = AudioSystem.getClip(); clip.open(audioInputStream);
-		 * clip.start(); } catch (Exception ex) {
-		 * System.out.println("Error with playing sound.");
-		 * ex.printStackTrace(); }
-		 */
+
+		try { AudioInputStream audioInputStream = AudioSystem
+				.getAudioInputStream(new File("Ost/Lucian.wav") .getAbsoluteFile());
+		clip = AudioSystem.getClip(); clip.open(audioInputStream);
+		clip.start(); } catch (Exception ex) {
+			System.out.println("Error with playing sound.");
+			ex.printStackTrace(); }
+
 	}
 
 	public void setStoryModeOn(boolean value) {
