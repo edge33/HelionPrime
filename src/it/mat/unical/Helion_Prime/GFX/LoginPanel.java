@@ -1,4 +1,7 @@
 package it.mat.unical.Helion_Prime.GFX;
+import it.mat.unical.Helion_Prime.SavesManager.SaveManager;
+import it.mat.unical.Helion_Prime.SavesManager.SaveManagerImpl;
+
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Cursor;
@@ -13,11 +16,14 @@ import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.sql.Timestamp;
+import java.util.ArrayList;
 
 import javax.imageio.ImageIO;
 import javax.swing.Box;
 import javax.swing.GroupLayout;
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
@@ -33,6 +39,8 @@ public class LoginPanel extends JPanel
 
 	private JLabel passLabel;
 	private JLabel userLabel;
+	
+	private JComboBox<Timestamp> savedGames;
 
 	private JButton back;
 	private JButton create;
@@ -72,6 +80,9 @@ public class LoginPanel extends JPanel
 
 		this.userLabel = new JLabel("Username:");
 		this.passLabel = new JLabel("Password:");
+		
+		this.savedGames = new JComboBox();
+		
 		this.userField = new JTextField(20);
 		this.passField = new JPasswordField(20);
 		this.userField.setHorizontalAlignment(SwingConstants.CENTER);
@@ -163,6 +174,25 @@ public class LoginPanel extends JPanel
 
 			}
 		});
+		
+		
+		this.load.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				if ( userField.getText() != "" ) {
+					
+					String username = userField.getText();
+					
+					ArrayList<Timestamp> profiles = SaveManagerImpl.getInstance().fetchSaves(username);
+					
+					for (Timestamp timestamp : profiles) {
+						savedGames.addItem(timestamp);
+					}
+					
+				}
+			}
+		});
 	}
 
 	public void fillCenterPanel()
@@ -194,6 +224,11 @@ public class LoginPanel extends JPanel
 		this.c.gridwidth = GridBagConstraints.REMAINDER; 	
 		this.layout.setConstraints(dummyLabel2, c);
 		this.centerPanel.add(dummyLabel2);
+		
+		
+		//maida: ho aggiunto questo
+		this.centerPanel.add(savedGames);
+		
 	}
 	
 	public void paintComponent(Graphics g)
