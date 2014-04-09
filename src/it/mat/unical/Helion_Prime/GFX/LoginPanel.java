@@ -6,6 +6,7 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Cursor;
 import java.awt.Dimension;
+import java.awt.FlowLayout;
 import java.awt.Graphics;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -38,7 +39,12 @@ public class LoginPanel extends JPanel
 	private JTextField userField;
 
 	private JLabel passLabel;
+	private JLabel saveLabel;
 	private JLabel userLabel;
+	private JLabel bulletsDesc;
+	private JLabel bulletsNumber;
+	private JLabel score;
+	private JLabel scoreDescr;
 	
 	private JComboBox<Timestamp> savedGames;
 
@@ -49,13 +55,17 @@ public class LoginPanel extends JPanel
 
 	private JPanel southPanel;
 	private JPanel centerPanel;
+	private JPanel eastPanel;
 
 	private GridBagLayout layout;
+	private GridBagLayout eastLayout;
 	private GridBagConstraints c;
+	private GridBagConstraints eC;
 	
 	private BufferedImage levelSwitchWallpaper;
 	private Cursor cursor;
 
+	
 	public LoginPanel()
 	{
 		this.cursor = MainMenuFrame.getInstance().getMainMenuPanel().getCursor();
@@ -67,8 +77,14 @@ public class LoginPanel extends JPanel
 		this.c = new GridBagConstraints();
 		this.c.fill = GridBagConstraints.BOTH;
 		this.c.weightx = 1.0;
+		this.eastLayout = new GridBagLayout();
+		this.eC = new GridBagConstraints();
+		this.eC.fill = GridBagConstraints.BOTH;
+		this.eC.weightx = 1.0;
 
 		this.southPanel = new JPanel();
+		this.eastPanel = new JPanel();
+		this.eastPanel.setLayout(eastLayout);
 
 		this.centerPanel = new JPanel();
 		this.centerPanel.setLayout(layout);
@@ -80,6 +96,11 @@ public class LoginPanel extends JPanel
 
 		this.userLabel = new JLabel("Username:");
 		this.passLabel = new JLabel("Password:");
+		this.saveLabel = new JLabel("Saved Game:");
+		this.scoreDescr = new JLabel("Score");
+		this.bulletsDesc = new JLabel("Bullet");
+		this.score = new JLabel("0");
+		this.bulletsNumber = new JLabel("0");
 		
 		this.savedGames = new JComboBox();
 		
@@ -87,24 +108,21 @@ public class LoginPanel extends JPanel
 		this.passField = new JPasswordField(20);
 		this.userField.setHorizontalAlignment(SwingConstants.CENTER);
 		this.passField.setHorizontalAlignment(SwingConstants.CENTER);
-
-
-		this.createButton();
 		
-		this.southPanel.add(create);
-		this.southPanel.add(load);
-		this.southPanel.add(back);
-		this.southPanel.add(skip);
-
+		this.createButton();
 		this.addListener();
 		this.fillCenterPanel();
 
 		this.add(centerPanel,BorderLayout.CENTER);
 		this.add(southPanel,BorderLayout.SOUTH);
+		this.add(eastPanel,BorderLayout.EAST);
 		
+		this.eastPanel.setBackground(Color.BLACK);
+		this.eastPanel.setPreferredSize(new Dimension(200, 700));
 		this.southPanel.setBackground(Color.BLACK);
 		this.centerPanel.setBackground(Color.BLACK);
 		this.centerPanel.setOpaque(false);
+		this.eastPanel.setOpaque(false);
 	}
 
 	public void createButton()
@@ -118,6 +136,31 @@ public class LoginPanel extends JPanel
 		passLabel.setOpaque(false);
 		passLabel.setFont(MainMenuFrame.getInstance().getMainMenuPanel().getFont());
 		passLabel.setFont(userLabel.getFont().deriveFont(25.0f));
+		
+		saveLabel.setForeground(Color.green);
+		saveLabel.setOpaque(false);
+		saveLabel.setFont(MainMenuFrame.getInstance().getMainMenuPanel().getFont());
+		saveLabel.setFont(saveLabel.getFont().deriveFont(25.0f));
+		
+		score.setForeground(Color.green);
+		score.setOpaque(false);
+		score.setFont(MainMenuFrame.getInstance().getMainMenuPanel().getFont());
+		score.setFont(saveLabel.getFont().deriveFont(15.0f));
+		
+		scoreDescr.setForeground(Color.green);
+		scoreDescr.setOpaque(false);
+		scoreDescr.setFont(MainMenuFrame.getInstance().getMainMenuPanel().getFont());
+		scoreDescr.setFont(saveLabel.getFont().deriveFont(25.0f));
+		
+		bulletsDesc.setForeground(Color.green);
+		bulletsDesc.setOpaque(false);
+		bulletsDesc.setFont(MainMenuFrame.getInstance().getMainMenuPanel().getFont());
+		bulletsDesc.setFont(saveLabel.getFont().deriveFont(25.0f));
+		
+		bulletsNumber.setForeground(Color.green);
+		bulletsNumber.setOpaque(false);
+		bulletsNumber.setFont(MainMenuFrame.getInstance().getMainMenuPanel().getFont());
+		bulletsNumber.setFont(saveLabel.getFont().deriveFont(15.0f));
 		
 		load.setBackground(Color.black);
 		load.setForeground(Color.green);
@@ -201,6 +244,28 @@ public class LoginPanel extends JPanel
 		JLabel decoyLabel2 = new JLabel();
 		JLabel dummyLabel = new JLabel();
 		JLabel dummyLabel2 = new JLabel();
+		JLabel fillerLabel = new JLabel();
+		JLabel fillerLabel2 = new JLabel();
+		
+		this.southPanel.add(create);
+		this.southPanel.add(load);
+		this.southPanel.add(back);
+		this.southPanel.add(skip);
+		
+		this.eastLayout.setConstraints(bulletsDesc, eC);
+		this.eastPanel.add(bulletsDesc);
+		this.eC.gridwidth = GridBagConstraints.REMAINDER; 
+		this.eastLayout.setConstraints(bulletsNumber, eC);
+		this.eastPanel.add(bulletsNumber);
+		
+		this.eC.insets = new Insets(10,0,0,0); 
+		this.eC.gridwidth = 1;
+		
+		this.eastLayout.setConstraints(scoreDescr, eC);
+		this.eastPanel.add(scoreDescr);
+		this.eC.gridwidth = GridBagConstraints.REMAINDER; 
+		this.eastLayout.setConstraints(score, eC);
+		this.eastPanel.add(score);
 
 		this.layout.setConstraints(decoyLabel, c);
 		this.centerPanel.add(decoyLabel);
@@ -226,9 +291,18 @@ public class LoginPanel extends JPanel
 		this.centerPanel.add(dummyLabel2);
 		
 		
-		//maida: ho aggiunto questo
-		this.centerPanel.add(savedGames);
+		this.c.insets = new Insets(10,0,0,0); 
+		this.c.gridwidth = 1;
 		
+		this.layout.setConstraints(fillerLabel, c);
+		this.centerPanel.add(fillerLabel);
+		this.layout.setConstraints(saveLabel, c);
+		this.centerPanel.add(saveLabel);
+		this.layout.setConstraints(savedGames, c);
+		this.centerPanel.add(savedGames);
+		this.c.gridwidth = GridBagConstraints.REMAINDER; 
+		this.layout.setConstraints(fillerLabel2, c);
+		this.centerPanel.add(fillerLabel2);
 	}
 	
 	public void paintComponent(Graphics g)

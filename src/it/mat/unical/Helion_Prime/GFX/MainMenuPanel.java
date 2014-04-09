@@ -184,8 +184,7 @@ public class MainMenuPanel extends JPanel {
 		multiplayerButton.setBackground(Color.black);
 		multiplayerButton.setForeground(Color.green);
 		multiplayerButton.setFont(font);
-		multiplayerButton
-				.setFont(multiplayerButton.getFont().deriveFont(25.0f));
+		multiplayerButton.setFont(multiplayerButton.getFont().deriveFont(25.0f));
 		multiplayerButton.setBorderPainted(false);
 		multiplayerButton.setFocusPainted(false);
 
