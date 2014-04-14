@@ -26,7 +26,7 @@ public class CenterPanel extends JPanel
 	public CenterPanel()
 	{
 		this.setSize(500, 500);
-		this.setLayout(new GridLayout(2,2));
+		this.setLayout(null);
 		this.setBackground(Color.BLACK);
 		this.border = BorderFactory.createLineBorder(Color.GREEN, 1);
 		uppDX = new JLabel();
@@ -38,6 +38,19 @@ public class CenterPanel extends JPanel
 		lowDX.setBorder(border);
 		lowSX.setBorder(border);
 		this.addDragListener();
+		this.fillPanel();
+	}
+	
+	public void fillPanel()
+	{
+		int panelWidth = this.getWidth();
+		int panelHeight = this.getHeight();
+		
+		this.uppSX.setBounds((panelWidth/2)-40, (panelHeight/2), 40, 40);
+		this.uppDX.setBounds((panelWidth/2), (panelHeight/2), 40, 40);
+		this.lowSX.setBounds((panelWidth/2)-40, (panelHeight/2)+40, 40, 40);
+		this.lowDX.setBounds((panelWidth/2), (panelHeight/2)+40, 40, 40);
+
 		this.add(uppSX);
 		this.add(uppDX);
 		this.add(lowSX);

@@ -17,6 +17,7 @@ import java.io.PrintWriter;
 import java.util.Scanner;
 
 import javax.imageio.ImageIO;
+import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
@@ -25,9 +26,9 @@ import javax.swing.UIManager;
 
 public class EditorOptionsPanel extends JPanel {
 
-	
+
 	private MainMenuFrame mainMenuFrame;
-	
+
 	private GridPanel gridPanel;
 	private WavePanel wavePanel;
 	private JButton saveButton;
@@ -35,102 +36,75 @@ public class EditorOptionsPanel extends JPanel {
 	private JButton loadButton;
 	private JButton showfloorButton;
 	private JButton backButton;
-	
+
 	private boolean showFloor;
 
 	private MapElementsPanel mapElementsPanel;
 
 	private MainMenuPanel mainMenuPanel;
-	
+
 	public EditorOptionsPanel(GridPanel gridPanel,MapElementsPanel mapElementsPanel,MainMenuPanel mainMenuPanel, WavePanel wavePanel) {
-		
-		
+
+
 		this.mainMenuPanel = mainMenuPanel;
 		this.mainMenuFrame = MainMenuFrame.getInstance();
 		this.wavePanel =wavePanel;
 		this.gridPanel = gridPanel;
 		this.mapElementsPanel = mapElementsPanel;
-		
-		setLayout(new FlowLayout());
-		
-		saveButton = new JButton("Salva");
-		saveButton.addActionListener(new ActionListener() {
 
-			@Override
-			public void actionPerformed(ActionEvent arg0) {
-				saveLevel();
+		this.setLayout(new FlowLayout());
 
-			}
-		});
-		
-		add(saveButton);
-		
-		resetButton = new JButton("Reset");
-		resetButton.addActionListener(new ActionListener() {
+		this.saveButton = new JButton("Salva");
+		this.resetButton = new JButton("Reset");
+		this.loadButton = new JButton("Carica");		
+		this.showfloorButton = new JButton ("Mostra Pavimento");
+		this.backButton = new JButton("Main Menu");
 
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				EditorOptionsPanel.this.gridPanel.getLevelStruct().initMatrix();
-				String a = "Editor Resettato!";
-				JOptionPane.showMessageDialog(EditorOptionsPanel.this, a);
-			
-				EditorOptionsPanel.this.gridPanel.repaint();
-			}
-
-		});
-		
-		add(resetButton);
-		
-		loadButton = new JButton("Carica");
-		
-		loadButton.addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent arg0) {
-				try {
-					loadLevel();
-				} catch ( Exception e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-
-			}
-		});
-		
-		add(loadButton);
-		
-		showfloorButton = new JButton ("Mostra Pavimento");
-		showfloorButton.addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent arg0) {
-				if(! EditorOptionsPanel.this.showFloor ) {
-					showFloor();
-					showfloorButton.setText("Nascondi Pavimento");
-					EditorOptionsPanel.this.showFloor = true;
-				}
-				else {
-					hideFloor();
-					showfloorButton.setText("Mostra Pavimento");
-					EditorOptionsPanel.this.showFloor =false;
-				}
-			}
-		});
-		
-		add(showfloorButton);
-		
-		backButton = new JButton("Back to Main Menu");
-		backButton.addActionListener(new ActionListener() {
-			
-			@Override
-			public void actionPerformed(ActionEvent arg0) {
-				EditorOptionsPanel.this.mainMenuFrame.switchTo(EditorOptionsPanel.this.mainMenuPanel);
-			}
-		});
-		
+		this.add(saveButton);
+		this.add(resetButton);
+		this.add(loadButton);
+		this.add(showfloorButton);
 		this.add(backButton);
+		this.addListener();
+		this.createButton();
 		
+		this.setBackground(Color.black);
 	}
+	
+	public void createButton()
+	{
+		backButton.setBackground(Color.black);
+		backButton.setForeground(Color.GREEN);
+		backButton.setFont(MainMenuFrame.getInstance().getMainMenuPanel().getFont());
+		backButton.setFont(backButton.getFont().deriveFont(15.0f));
+		backButton.setBorderPainted(false);
+		//backButton.setBorder(BorderFactory.createLineBorder(Color.green, 1));
+		
+		showfloorButton.setBackground(Color.black);
+		showfloorButton.setFont(MainMenuFrame.getInstance().getMainMenuPanel().getFont());
+		showfloorButton.setFont(showfloorButton.getFont().deriveFont(15.0f));
+		showfloorButton.setBorderPainted(false);
+		//showfloorButton.setBorder(BorderFactory.createLineBorder(Color.green, 1));
+		
+		saveButton.setBackground(Color.black);
+		saveButton.setFont(MainMenuFrame.getInstance().getMainMenuPanel().getFont());
+		saveButton.setFont(saveButton.getFont().deriveFont(15.0f));
+		saveButton.setBorderPainted(false);
+		//saveButton.setBorder(BorderFactory.createLineBorder(Color.green, 1));
+		
+		loadButton.setBackground(Color.black);
+		loadButton.setFont(MainMenuFrame.getInstance().getMainMenuPanel().getFont());
+		loadButton.setFont(loadButton.getFont().deriveFont(15.0f));
+		loadButton.setBorderPainted(false);
+		//loadButton.setBorder(BorderFactory.createLineBorder(Color.green, 1));
+		
+		resetButton.setBackground(Color.black);
+		resetButton.setFont(MainMenuFrame.getInstance().getMainMenuPanel().getFont());
+		resetButton.setFont(resetButton.getFont().deriveFont(15.0f));
+		resetButton.setBorderPainted(false);
+		//resetButton.setBorder(BorderFactory.createLineBorder(Color.green, 1));
+	}
+	
 	public void showFloor()
 	{
 		if( showFloor ==false )
@@ -168,7 +142,75 @@ public class EditorOptionsPanel extends JPanel {
 		}		
 		gridPanel.repaint();
 	}
-	
+
+	public void addListener()
+	{
+
+		showfloorButton.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				if(! EditorOptionsPanel.this.showFloor ) {
+					showFloor();
+					showfloorButton.setText("Nascondi Pavimento");
+					EditorOptionsPanel.this.showFloor = true;
+				}
+				else {
+					hideFloor();
+					showfloorButton.setText("Mostra Pavimento");
+					EditorOptionsPanel.this.showFloor =false;
+				}
+			}
+		});		
+
+		backButton.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				EditorOptionsPanel.this.mainMenuFrame.switchTo(EditorOptionsPanel.this.mainMenuPanel);
+			}
+		});
+
+
+		saveButton.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				saveLevel();
+
+			}
+		});
+
+
+		loadButton.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				try {
+					loadLevel();
+				} catch ( Exception e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+
+			}
+		});
+
+
+		resetButton.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				EditorOptionsPanel.this.gridPanel.getLevelStruct().initMatrix();
+				String a = "Editor Resettato!";
+				JOptionPane.showMessageDialog(EditorOptionsPanel.this, a);
+
+				EditorOptionsPanel.this.gridPanel.repaint();
+			}
+
+		});
+	}
+
 
 	public void saveLevel()
 	{
@@ -243,24 +285,24 @@ public class EditorOptionsPanel extends JPanel {
 			JOptionPane.showMessageDialog(null, "Mancano alcuni componenti essenziali, aggiungili o contatta Ricca");
 		}
 	}
-	
-	
+
+
 	public String takeSnapShot(GridPanel panel, String path, String name)
 	{
-		   showFloor();
-		   String absolutePath = path;
-		   String localName = name;
-	       BufferedImage bufImage = new BufferedImage(gridPanel.getCols()*50, panel.getHeight(),BufferedImage.TYPE_INT_RGB);  
-	       panel.paint(bufImage.createGraphics());
-	       absolutePath.replace('\\', '/');
-	       String pathfinale = new String (absolutePath + "/" + name + ".jpg");
-	    try{   
-	        ImageIO.write(bufImage, "jpg", new File(pathfinale));  
-	    }catch(Exception ex){  
-	    }  
-	    return name;
+		showFloor();
+		String absolutePath = path;
+		String localName = name;
+		BufferedImage bufImage = new BufferedImage(gridPanel.getCols()*50, panel.getHeight(),BufferedImage.TYPE_INT_RGB);  
+		panel.paint(bufImage.createGraphics());
+		absolutePath.replace('\\', '/');
+		String pathfinale = new String (absolutePath + "/" + name + ".jpg");
+		try{   
+			ImageIO.write(bufImage, "jpg", new File(pathfinale));  
+		}catch(Exception ex){  
+		}  
+		return name;
 	}  
-	
+
 	public void saveWave(String name)
 	{
 		try {
@@ -276,26 +318,26 @@ public class EditorOptionsPanel extends JPanel {
 	}
 
 	public void loadLevel() throws Exception {
-		
+
 		File loadedFile;
 		String path;
 		final JFileChooser fileChooser = new JFileChooser();
 		int returnTipe=fileChooser.showOpenDialog(this);
-		
+
 		if(returnTipe==0)
 		{
 			path=fileChooser.getSelectedFile().getAbsolutePath();
-			
+
 			loadedFile = new File(path);
 
 			gridPanel.loadStructFromFile(loadedFile);
-				
+
 			mapElementsPanel.setLevelStruct(gridPanel.getLevelStruct());
-			
+
 			gridPanel.repaint();
 		}
 	}
-		
+
 }
-	
+
 

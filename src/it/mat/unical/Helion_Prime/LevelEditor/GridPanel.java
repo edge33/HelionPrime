@@ -190,7 +190,7 @@ public class GridPanel extends JPanel {
 		//il PaintComponent del pannello griglia
 		g.setColor(Color.BLACK);					//sceglie il colore nero (sfondo) 
 		g.fillRect(0, 0, getWidth(), getHeight());	//colora l'intero sfondo con il colore nero 
-		g.setColor(Color.GREEN);					//sceglie il colore verde (contorni gliglia)
+		g.setColor(Color.GRAY);					//sceglie il colore verde (contorni gliglia)
 		for(int i=0;i<row;i++)						//scandaglia l'intera matrice 
 		{											//e usa il valore della cella corrente come	
 			for(int j=0;j<colomn;j++)				//chiave per uno swtich	
