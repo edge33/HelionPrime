@@ -6,6 +6,7 @@ import it.mat.unical.Helion_Prime.Online.Client;
 import it.mat.unical.Helion_Prime.Online.Server;
 
 import java.awt.Color;
+import java.awt.Cursor;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -28,12 +29,15 @@ public class LevelSwitchPanel extends JPanel {
 	private JButton menuButton;
 	private JButton startGameButton;
 	private Font font;
-
+	private Cursor cursor;
 	private Server server;
 
 	private GameOverPanel gameOverPanel;
 
-	public LevelSwitchPanel() {
+	public LevelSwitchPanel() 
+	{
+		this.cursor = MainMenuFrame.getInstance().getMainMenuPanel().getCursor();
+		this.setCursor(cursor);
 		try {
 			levelSwitchWallpaper = ImageIO.read(new File(
 					"Resources/optionPanelImage.jpg"));
@@ -89,7 +93,7 @@ public class LevelSwitchPanel extends JPanel {
 						+ name);
 				File level = new File(name);
 				System.out
-						.println("------------------------------------------------");
+				.println("------------------------------------------------");
 				MainGamePanel mainGamePanel = null;
 
 				try {
@@ -113,7 +117,7 @@ public class LevelSwitchPanel extends JPanel {
 						// TODO Auto-generated catch block
 						e1.printStackTrace();
 					}
-					MainMenuFrame.getInstance().switchTo(mainGamePanel);
+
 				}
 				// try {
 				// // mainGamePanel = new MainGamePanel(choosenLevel);
