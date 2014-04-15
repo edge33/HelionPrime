@@ -16,7 +16,9 @@ public class CoolDownManager extends Thread {
 
 	public void run() {
 
-		while (theNative.isAlive() && !gameManager.gameIsOver()) {
+		while (theNative.isAlive() && !gameManager.gameIsOver()
+				&& !gameManager.isGameStopped()) {
+
 			while (GameManagerImpl.isPaused()) {
 				System.out.println("Sono in pausa  - CoolDownManager");
 				GameManagerImpl.waitForCondition();

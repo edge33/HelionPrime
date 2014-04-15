@@ -6,6 +6,7 @@ import it.mat.unical.Helion_Prime.GFX.GamePane;
 import it.mat.unical.Helion_Prime.GFX.MainMenuFrame;
 import it.mat.unical.Helion_Prime.GFX.StageClearPanel;
 import it.mat.unical.Helion_Prime.GFX.ThreadPoolBulletClient;
+import it.mat.unical.Helion_Prime.Logic.UserProfile;
 import it.mat.unical.Helion_Prime.Logic.Character.AbstractNative;
 
 import java.awt.Point;
@@ -22,13 +23,14 @@ public class ClientManager {
 	private BlockingQueue<String> outToServer;
 
 	protected GamePane gamePane;
-
+	private UserProfile profile;
 	private int logicXPlayerOne;
 	private int logicYPlayerOne;
 	private int movementOffset;
 	private int money = 0;
 	private int life = 0;
 	private boolean gameOver = false;
+	private static boolean finishGame = false;
 	private int playerDirection;
 	private ThreadPoolBulletClient threadPool;
 
@@ -39,7 +41,7 @@ public class ClientManager {
 		// this.bullets = new ConcurrentHashMap<Integer, BulletsClient>();
 		// this.movementBulletsForThreadPool = new
 		// LinkedBlockingQueue<String>();
-
+		finishGame = false;
 		this.placementTrap = new LinkedBlockingQueue<String>();
 		this.movementPlayer = new LinkedBlockingQueue<String>();
 		this.createBullets = new LinkedBlockingQueue<String>();
@@ -48,6 +50,26 @@ public class ClientManager {
 		this.gamePane = gamePane;
 		this.movementOffset = gamePane.getMovementOffset();
 		this.threadPool = new ThreadPoolBulletClient(gamePane);
+		threadPool.start();
+	}
+
+	public ClientManager(Client client, GamePane gamePane, UserProfile profile) {
+
+		this.client = client;
+		// this.placedTrap = new ConcurrentHashMap<Point, Integer>();
+		// this.bullets = new ConcurrentHashMap<Integer, BulletsClient>();
+		// this.movementBulletsForThreadPool = new
+		// LinkedBlockingQueue<String>();
+		finishGame = false;
+		this.placementTrap = new LinkedBlockingQueue<String>();
+		this.movementPlayer = new LinkedBlockingQueue<String>();
+		this.createBullets = new LinkedBlockingQueue<String>();
+		this.movementWawe = new LinkedBlockingQueue<String>();
+		this.outToServer = new LinkedBlockingQueue<String>();
+		this.gamePane = gamePane;
+		this.movementOffset = gamePane.getMovementOffset();
+		this.threadPool = new ThreadPoolBulletClient(gamePane);
+		this.profile = profile;
 		threadPool.start();
 	}
 
@@ -64,7 +86,7 @@ public class ClientManager {
 		new Thread() {
 
 			public void run() {
-				while (!gameOver) {
+				while (!gameOver && !finishGame) {
 					String sentence = null;
 					try {
 						sentence = outToServer.take();
@@ -100,12 +122,24 @@ public class ClientManager {
 		logicYPlayerOne = gamePane.getWorld().getPlayerSpawner().getY();
 		this.playerDirection = 2;
 		this.startClient();
-		this.startRecieveMessageFromServer();
+
 		this.startMovementOfBullets();
 		this.startMovementWave();
 		this.startPlacementTrap();
 		this.startMessageToServer();
 
+	}
+
+	public void retrySelection() {
+
+		this.money = Integer.parseInt(client.recieveMessage()); // ricevo i
+		// l'intero
+		// corrrispondente
+		// ai soldi
+		this.life = Integer.parseInt(client.recieveMessage());
+
+		gamePane.informationPanel.setMoney(money);
+		gamePane.informationPanel.setLife(life);
 	}
 
 	public int getMoney() {
@@ -127,13 +161,18 @@ public class ClientManager {
 
 			@Override
 			public void run() {
-
-				while (true) {
+				this.setName("RECIEVE MESSAGE_CLIENT");
+				while (!gameOver && !finishGame) {
 					responseFromServer = client.recieveMessage();
 
 					if (responseFromServer != null)
 						try {
+							if (responseFromServer.equals("clear")) {
+								finishGame = true;
+
+							}
 							executeServerResponse(responseFromServer);
+
 						} catch (InterruptedException e1) {
 							// TODO Auto-generated catch block
 							e1.printStackTrace();
@@ -165,11 +204,23 @@ public class ClientManager {
 		} else if (responseFromServer.substring(0, 1).equals("n")) {
 			movementWawe.put(responseFromServer);
 		} else if (responseFromServer.substring(0, 1).equals("c")) {
+			this.finishGame = true;
+			sendAllFinish();
+			UserProfile.incrLevel();
 			StageClearPanel clearPanel = new StageClearPanel(this);
+			this.finishGame = true;
 			MainMenuFrame.getInstance().switchTo(clearPanel);
 		} else if (responseFromServer.substring(0, 1).equals("o")) {
 			GameOverPanel gameOverPanel = new GameOverPanel();
 			MainMenuFrame.getInstance().switchTo(gameOverPanel);
+		} else if (responseFromServer.substring(0, 1).equals("l")) {
+			String[] splitted = responseFromServer.split(" ");
+			if (splitted[0].equals("life"))
+				gamePane.informationPanel
+						.setLife(Integer.parseInt(splitted[1]));
+			else
+				gamePane.informationPanel.setRoomLife(Integer
+						.parseInt(splitted[1]));
 		}
 
 		else {
@@ -177,22 +228,35 @@ public class ClientManager {
 		}
 	}
 
+	public void sendAllFinish() throws InterruptedException {
+		outToServer.put("finish");
+		movementWawe.put("finish");
+		createBullets.put("finish");
+		placementTrap.put("finish");
+		movementWawe.put("finish");
+	}
+
 	private void placeTrapOnGraphicMap(String message) {
-		String[] splittedMessage = message.split(" ");
-		String[] splitted = splittedMessage[1].split("/");
-		if (splittedMessage[0].equals("p")) {
 
-			gamePane.placedTrap.put(new Point(Integer.parseInt(splitted[1]),
-					Integer.parseInt(splitted[2])), Integer
-					.parseInt(splitted[0]));
+		if (!message.equals("finish")) {
+			String[] splittedMessage = message.split(" ");
+			String[] splitted = splittedMessage[1].split("/");
+			if (splittedMessage[0].equals("p")) {
 
-			gamePane.informationPanel.setMoney(Integer.parseInt(splitted[3]));
+				gamePane.placedTrap.put(
+						new Point(Integer.parseInt(splitted[1]), Integer
+								.parseInt(splitted[2])), Integer
+								.parseInt(splitted[0]));
 
-		} else if (splittedMessage[0].equals("pr")) {
+				gamePane.informationPanel.setMoney(Integer
+						.parseInt(splitted[3]));
 
-			Point point = new Point(Integer.parseInt(splitted[1]),
-					Integer.parseInt(splitted[0]));
-			gamePane.placedTrap.remove(point);
+			} else if (splittedMessage[0].equals("pr")) {
+
+				Point point = new Point(Integer.parseInt(splitted[1]),
+						Integer.parseInt(splitted[0]));
+				gamePane.placedTrap.remove(point);
+			}
 		}
 
 	}
@@ -204,31 +268,37 @@ public class ClientManager {
 	private void startMovementWave() {
 		new Thread() {
 			public void run() {
-
-				while (true) {
+				this.setName("MOVEMENT_WAWE_CLIENT");
+				while (!gameOver && !finishGame) {
 					try {
 						String movement = movementWawe.take();
 						String[] splitted = movement.split(" ");
-						AbstractNative abstractNative = gamePane.natives
-								.get(Integer.parseInt(splitted[1]));
 
-						if (movement.substring(1, 2).equals("U")) {
+						if (!movement.equals("finish")) {
+							AbstractNative abstractNative = gamePane.natives
+									.get(Integer.parseInt(splitted[1]));
 
-							abstractNative.setX(abstractNative.getX() - 1);
-						} else if (movement.substring(1, 2).equals("D")) {
-							abstractNative.setX(abstractNative.getX() + 1);
-						} else if (movement.substring(1, 2).equals("L")) {
-							abstractNative.setY(abstractNative.getY() - 1);
-						} else if (movement.substring(1, 2).equals("R")) {
-							abstractNative.setY(abstractNative.getY() + 1);
-						} else if (splitted[0].equals("nr")) {
-							gamePane.natives.remove(Integer
-									.parseInt(splitted[1]));
+							if (movement.substring(1, 2).equals("U")) {
+
+								abstractNative.setX(abstractNative.getX() - 1);
+							} else if (movement.substring(1, 2).equals("D")) {
+								abstractNative.setX(abstractNative.getX() + 1);
+							} else if (movement.substring(1, 2).equals("L")) {
+								abstractNative.setY(abstractNative.getY() - 1);
+							} else if (movement.substring(1, 2).equals("R")) {
+								abstractNative.setY(abstractNative.getY() + 1);
+							} else if (splitted[0].equals("nr")) {
+								gamePane.natives.remove(Integer
+										.parseInt(splitted[1]));
+							}
 						}
 						sleep(20);
 					} catch (InterruptedException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
+					} catch (NullPointerException e2) {
+						e2.printStackTrace();
+						continue;
 					}
 				}
 			};
@@ -239,7 +309,8 @@ public class ClientManager {
 	private void startPlacementTrap() {
 		new Thread() {
 			public void run() {
-				while (true) {
+				this.setName("PLACEMENT_CLIENT");
+				while (!gameOver && !finishGame) {
 					String placement;
 					try {
 						placement = placementTrap.take();
@@ -260,7 +331,9 @@ public class ClientManager {
 		new Thread() {
 
 			public void run() {
-				while (true) {
+
+				this.setName("BULLETS_CLIENT");
+				while (!gameOver && !finishGame) {
 					String movement;
 					try {
 						movement = createBullets.take();
@@ -322,42 +395,12 @@ public class ClientManager {
 					} catch (InterruptedException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
+					} catch (NumberFormatException e2) {
+						continue;
 					}
 
 				}
 			};
-		}.start();
-
-	}
-
-	public void startRecieveMessageFromServer() {
-
-		new Thread() {
-			String responseFromServer;
-
-			@Override
-			public void run() {
-
-				while (true) {
-					responseFromServer = client.recieveMessage();
-
-					if (responseFromServer != null)
-						try {
-							executeServerResponse(responseFromServer);
-						} catch (InterruptedException e1) {
-							// TODO Auto-generated catch block
-							e1.printStackTrace();
-						}
-
-					try {
-						sleep(10);
-					} catch (InterruptedException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
-
-				}
-			}
 		}.start();
 
 	}
@@ -394,6 +437,23 @@ public class ClientManager {
 		this.playerDirection = playerDirection;
 	}
 
+	public void sendMessage(String c) {
+		client.sendMessage(c);
+
+	}
+
+	public static boolean isFinishGame() {
+		return finishGame;
+	}
+
+	public static void setFinishGame(boolean b) {
+		finishGame = true;
+	}
+
+	public UserProfile getUserProfile() {
+
+		return this.profile;
+	}
 	// public ConcurrentHashMap<Point, Integer> getPlacedTrap() {
 	// return placedTrap;
 	// }

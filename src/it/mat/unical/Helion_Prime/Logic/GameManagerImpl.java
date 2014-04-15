@@ -29,6 +29,7 @@ public class GameManagerImpl implements GameManager {
 	private ThreadPoolBullet threadPoolbullets;
 	private static Condition condition;
 	private static GameManagerImpl instance;
+	private int currentLife;
 
 	private boolean gameStopped;
 
@@ -38,6 +39,7 @@ public class GameManagerImpl implements GameManager {
 	private static boolean pause;
 	private boolean isMultiplayerGame;
 	private ServerMultiplayer serverMultiplayer;
+	private int currentRoomLife;
 
 	public static GameManagerImpl getInstance() {
 		if (instance == null) {
@@ -68,7 +70,8 @@ public class GameManagerImpl implements GameManager {
 			playerOne = new Player(world.getPlayerSpawner().getX(), world
 					.getPlayerSpawner().getY(), world); // ora il player sara
 			// intanziato nel game
-
+			currentLife = playerOne.getLife();
+			currentRoomLife = world.getRoomLife();
 			if (isMultiplayerGame) {
 				playerTwo = new Player(world.getPlayerSpawner().getX(), world
 						.getPlayerSpawner().getY(), world);
@@ -193,6 +196,16 @@ public class GameManagerImpl implements GameManager {
 		int ritorno = 0;
 		ConcurrentHashMap<Integer, AbstractNative> natives = wave.getNatives();
 
+		if (currentLife != playerOne.getLife()) {
+			server.sendMessage("life " + playerOne.getLife());
+			currentLife = playerOne.getLife();
+		}
+		if (world.getRoomLife() != currentRoomLife) {
+			server.sendMessage("lifeRoom " + world.getRoomLife());
+			currentRoomLife = world.getRoomLife();
+
+		}
+
 		if (natives.size() > 0) {
 
 			for (AbstractNative currentNative : natives.values()) {
@@ -244,6 +257,7 @@ public class GameManagerImpl implements GameManager {
 				this.endGame();
 				gameOver = true;
 				gameStopped = true;
+
 				this.server.sendMessage("over");
 			}
 
@@ -251,7 +265,9 @@ public class GameManagerImpl implements GameManager {
 			win = true;
 			this.endGame();
 			gameStopped = true;
+
 			this.server.sendMessage("clear");
+
 		}
 
 	}

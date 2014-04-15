@@ -69,4 +69,9 @@ public class Client {
 	public boolean isMultiplayerGame() {
 		return this.isMultiplayerGame;
 	}
+
+	public boolean isInRunning() {
+		// TODO Auto-generated method stub
+		return false;
+	}
 }

@@ -1,6 +1,7 @@
 package it.mat.unical.Helion_Prime.GFX;
 
 import it.mat.unical.Helion_Prime.Logic.GameManagerImpl;
+import it.mat.unical.Helion_Prime.Online.ClientManager;
 
 import java.awt.Color;
 import java.awt.Dimension;
@@ -50,6 +51,7 @@ public class TrapPanel extends JPanel {
 									// label
 
 	private final JButton backButton;
+	private ClientManager clientManager;
 
 	public TrapPanel() {
 
@@ -67,6 +69,13 @@ public class TrapPanel extends JPanel {
 			public void actionPerformed(ActionEvent e) {
 				UIManager.put("Button.select", Color.black);
 				TrapPanel.this.manager.stopGame();
+				ClientManager.setFinishGame(true);
+				try {
+					clientManager.sendAllFinish();
+				} catch (InterruptedException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
 				MainMenuFrame.getInstance().switchTo(
 						MainMenuFrame.getInstance().getMainMenuPanel());
 			}
@@ -294,7 +303,7 @@ public class TrapPanel extends JPanel {
 
 	public void selectHeavy() {
 		if (currentGunSelected != 3) {
-			GameManagerImpl.getInstance().getPlayerOne().SwitchGun(3);
+			// GameManagerImpl.getInstance().getPlayerOne().SwitchGun(3);
 			heavyWeaponLabel.setBorder(greenBorder);
 			shootGunLabel.setBorder(null);
 			simpleGunLabel.setBorder(null);
@@ -305,7 +314,7 @@ public class TrapPanel extends JPanel {
 
 	public void selectShootGun() {
 		if (currentGunSelected != 2) {
-			GameManagerImpl.getInstance().getPlayerOne().SwitchGun(2);
+			// GameManagerImpl.getInstance().getPlayerOne().SwitchGun(2);
 			heavyWeaponLabel.setBorder(null);
 			shootGunLabel.setBorder(greenBorder);
 			simpleGunLabel.setBorder(null);
@@ -316,7 +325,7 @@ public class TrapPanel extends JPanel {
 
 	public void selectUzi() {
 		if (currentGunSelected != 1) {
-			GameManagerImpl.getInstance().getPlayerOne().SwitchGun(1);
+			// GameManagerImpl.getInstance().getPlayerOne().SwitchGun(1);
 			heavyWeaponLabel.setBorder(null);
 			shootGunLabel.setBorder(null);
 			simpleGunLabel.setBorder(null);
@@ -327,7 +336,7 @@ public class TrapPanel extends JPanel {
 
 	public void selectGun() {
 		if (currentGunSelected != 0) {
-			GameManagerImpl.getInstance().getPlayerOne().SwitchGun(0);
+			// GameManagerImpl.getInstance().getPlayerOne().SwitchGun(0);
 			heavyWeaponLabel.setBorder(null);
 			shootGunLabel.setBorder(null);
 			simpleGunLabel.setBorder(greenBorder);
@@ -425,6 +434,11 @@ public class TrapPanel extends JPanel {
 	protected void paintComponent(Graphics g) {
 		g.setColor(Color.BLACK);
 		g.fillRect(0, 0, this.getWidth(), this.getHeight());
+	}
+
+	public void setClientManager(ClientManager clientManager) {
+
+		this.clientManager = clientManager;
 	}
 
 }

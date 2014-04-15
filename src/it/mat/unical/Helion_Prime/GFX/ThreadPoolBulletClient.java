@@ -1,5 +1,7 @@
 package it.mat.unical.Helion_Prime.GFX;
 
+import it.mat.unical.Helion_Prime.Online.ClientManager;
+
 import java.util.concurrent.ConcurrentHashMap;
 
 public class ThreadPoolBulletClient extends Thread {
@@ -16,7 +18,8 @@ public class ThreadPoolBulletClient extends Thread {
 
 	@Override
 	public void run() {
-		while (!gamePane.isGameOver() && !gamePane.isStageClear()) {
+		while (!gamePane.isGameOver() && !gamePane.isStageClear()
+				&& !ClientManager.isFinishGame()) {
 			if (gamePane.bullets.size() > 0)
 				for (Integer key : bullets.keySet()) {
 

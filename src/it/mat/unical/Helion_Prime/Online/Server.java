@@ -23,21 +23,32 @@ public class Server extends Thread {
 	private ArrayBlockingQueue<String> movementPlayer;
 	private ArrayBlockingQueue<String> placemenTrap;
 	private ArrayBlockingQueue<String> messageToClient;
-
+	private File f;
+	public static boolean isServerStarted = false;
+	public static boolean isGameOver = false;
+	public static boolean isStageClear = false;
 	GameManagerImpl gameManager;
 	private Player playerOne;
+	private boolean finishGame = false;
+	private String level;
 
 	public Server(int port) throws IOException {
 
 		this.server = new ServerSocket(port);
+
+		this.setName("SERVER");
 		movementPlayer = new ArrayBlockingQueue<String>(20);
 		placemenTrap = new ArrayBlockingQueue<String>(20);
 		messageToClient = new ArrayBlockingQueue<String>(200);
+		this.isServerStarted = true;
 
 	}
 
 	@Override
 	public void run() {
+
+		this.isGameOver = false;
+		this.isStageClear = false;
 
 		try {
 			this.client = this.server.accept();
@@ -52,12 +63,64 @@ public class Server extends Thread {
 		gameManager = GameManagerImpl.getInstance();
 		System.out.println("ATTENDO NOME LIVELLO");
 
-		String level = null;
+		level = null;
 		startSendMessageToClient();
 		level = recieveMessage();
 		System.out.println("NOME DEL LIVELLO ARRIVATA INSTANZIO " + level);
-		File f = new File("levels/" + level);
+		f = new File("levels/" + level);
 
+		initServer(f);
+
+		this.startMovementPlayer();
+		this.startPlacementTrap();
+		this.startUpdater();
+
+		while (!isGameOver && !isStageClear) {
+
+			String message = this.recieveMessage();
+
+			if (message.equals("finish")) {
+				try {
+					this.isGameOver = true;
+					this.isStageClear = true;
+					this.finish();
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+
+			}
+			try {
+				updateOnline(message);
+			} catch (InterruptedException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+
+			try {
+				sleep(20);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+
+		}
+
+	}
+
+	public void finish() throws InterruptedException {
+		messageToClient.put("finish");
+		placemenTrap.put("finish");
+		movementPlayer.put("finish");
+		try {
+			this.server.close();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
+	private void initServer(File f) {
 		try {
 
 			gameManager.init(f, false);
@@ -78,32 +141,27 @@ public class Server extends Thread {
 		sendMessage(((Integer) GameManagerImpl.getInstance().getPlayerOne()
 				.getLife()).toString()); // mando l'intero corrispondente alla
 											// vita;
+	}
 
-		this.startMovementPlayer();
-		this.startPlacementTrap();
+	private void startUpdater() {
 
-		while (!GameManagerImpl.getInstance().gameIsOver()
-				&& !GameManagerImpl.getInstance().isGameStopped()) {
+		new Thread() {
 
-			String message = this.recieveMessage();
+			public void run() {
+				this.setName("UPDATER");
+				while (!isGameOver && !isStageClear) {
 
-			// String response;
-			try {
-				updateOnline(message);
-			} catch (InterruptedException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
+					GameManagerImpl.getInstance().update();
+
+					try {
+						sleep(100);
+					} catch (InterruptedException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				}
 			}
-
-			try {
-				sleep(20);
-			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-
-		}
-
+		}.start();
 	}
 
 	private void updateOnline(String message) throws InterruptedException {
@@ -117,7 +175,7 @@ public class Server extends Thread {
 
 		} else if (message.substring(0, 1).equals("p")) {
 			placemenTrap.put(splitted[1]);
-		} else if (message.substring(0, 1).equals("s")) {
+		} else if (message.equals("sh")) {
 
 			sendMessage("sh " + String.valueOf(canShoot()));
 
@@ -125,7 +183,13 @@ public class Server extends Thread {
 			swintchGunForPlayer(splitted[1]);
 		} else if (splitted[0].equals("close")) {
 			closeConnection();
+		} else if (splitted[0].equals("retry")) {
+			initServer(f);
 		}
+
+	}
+
+	private void re_setGame() {
 
 	}
 
@@ -153,8 +217,8 @@ public class Server extends Thread {
 	protected void startSendMessageToClient() {
 		new Thread() {
 			public void run() {
-				while (!GameManagerImpl.getInstance().gameIsOver()
-						&& !GameManagerImpl.getInstance().isGameStopped()) {
+				this.setName("Message_to_Client");
+				while (!isGameOver && !isStageClear) {
 					try {
 						String message = messageToClient.take();
 						Server.this.sendMessageOnline(message);
@@ -202,20 +266,24 @@ public class Server extends Thread {
 		new Thread() {
 
 			public void run() {
-
-				while (!GameManagerImpl.getInstance().gameIsOver()
-						&& !GameManagerImpl.getInstance().isGameStopped()) {
+				this.setName("Placement_trap");
+				while (!isGameOver && !isStageClear) {
 
 					try {
 						String placement = placemenTrap.take();
-						// System.err.println(placement);
-						if (canPlaceTrap(placement))
-							Server.this.sendMessage("p " + placement + "/"
-									+ gameManager.getPlayerOne().getMoney());
-						else
-							// Server.this.sendMessage("notPlaceTrap");
 
-							sleep(100);
+						if (!placement.equals("finish"))
+							if (canPlaceTrap(placement))
+								Server.this
+										.sendMessage("p "
+												+ placement
+												+ "/"
+												+ gameManager.getPlayerOne()
+														.getMoney());
+							else
+								// Server.this.sendMessage("notPlaceTrap");
+
+								sleep(100);
 					} catch (InterruptedException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
@@ -234,9 +302,8 @@ public class Server extends Thread {
 
 			@Override
 			public void run() {
-
-				while (!GameManagerImpl.getInstance().gameIsOver()
-						&& !GameManagerImpl.getInstance().isGameStopped()) {
+				this.setName("Movement_Player");
+				while (!isGameOver && !isStageClear) {
 
 					try {
 
@@ -292,8 +359,6 @@ public class Server extends Thread {
 		} else if (message.equals("dLEFT")) {
 			playerOne.setDirection(3);
 		}
-
-		gameManager.update();
 
 	}
 

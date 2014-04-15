@@ -49,7 +49,8 @@ public class AbstractNative extends AbstractCharacter implements Resistance {
 
 		new Thread() {
 			public void run() {
-				while (true) {
+				while (GameManagerImpl.getInstance().isGameStopped()
+						&& GameManagerImpl.getInstance().gameIsOver()) {
 					while (GameManagerImpl.isPaused()) {
 						System.out.println("Sono in Pausa - AbstractNative");
 						GameManagerImpl.waitForCondition();
@@ -104,6 +105,7 @@ public class AbstractNative extends AbstractCharacter implements Resistance {
 		else if (getX() == room.getX() && getY() == room.getY() && canAttack) {
 			room.setLife(room.getLife() - attackPower);
 			System.out.println("room dopo attacco " + room.getLife());
+			world.setRoomLife(room.getLife());
 			canAttack = false;
 		}
 	}

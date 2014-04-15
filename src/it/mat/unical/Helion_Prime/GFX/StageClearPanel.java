@@ -1,6 +1,10 @@
 package it.mat.unical.Helion_Prime.GFX;
 
+import it.mat.unical.Helion_Prime.Logic.GameManagerImpl;
+import it.mat.unical.Helion_Prime.Logic.UserProfile;
+import it.mat.unical.Helion_Prime.Online.Client;
 import it.mat.unical.Helion_Prime.Online.ClientManager;
+import it.mat.unical.Helion_Prime.Online.Server;
 
 import java.awt.Color;
 import java.awt.Cursor;
@@ -19,21 +23,80 @@ public class StageClearPanel extends JPanel {
 
 	private JButton backToMenuButton;
 	private JButton retryButton;
+	private JButton nextLevel;
 	private MainMenuFrame mainMenuFrame;
 	private BufferedImage stageClearImage;
 	private Cursor cursor;
 	private ClientManager clientManager;
+	private UserProfile profile;
+	private Server server;
 
 	public StageClearPanel(ClientManager clientManager) {
 		this.clientManager = clientManager;
-
+		this.profile = clientManager.getUserProfile();
 		this.cursor = MainMenuFrame.getInstance().getMainMenuPanel()
 				.getCursor();
 		this.setCursor(cursor);
 		this.mainMenuFrame = MainMenuFrame.getInstance();
 		this.backToMenuButton = new JButton("Back to Menu");
 		this.retryButton = new JButton("Retry");
+
+		if (MainMenuFrame.getInstance().getMainMenuPanel().isStoryModeOn()) {
+			this.nextLevel = new JButton("Next Level");
+
+			this.nextLevel.addActionListener(new ActionListener() {
+
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					String choosenLevel = profile.getLevels().get(
+							profile.getLastlevelComplete())
+							+ ".txt";
+
+					String name = "levels/" + choosenLevel;
+					System.out.println("LevelSwitchPanel.LevelSwitchPanel    "
+							+ name);
+					File level = new File(name);
+					System.out
+							.println("------------------------------------------------");
+					MainGamePanel mainGamePanel = null;
+
+					if (!Server.isServerStarted)
+						try {
+							server = new Server(7777);
+						} catch (IOException e2) {
+							e2.printStackTrace();
+						}
+					else {
+						server = null;
+						try {
+							server = new Server(7777);
+						} catch (IOException e3) {
+							// TODO Auto-generated catch block
+							e3.printStackTrace();
+						}
+
+					}
+
+					server.start();
+					GameManagerImpl.getInstance().setServer(server);
+					Client client = new Client("localhost", false);
+					client.sendMessage(choosenLevel);
+
+					if (client.recieveMessage().equals("ready")) {
+
+						System.out.println("SIAMO READY INIZIA IL GIOCO");
+						mainGamePanel = new MainGamePanel(level, client,
+								profile);
+						MainMenuFrame.getInstance().switchTo(mainGamePanel);
+					}
+
+				}
+			});
+
+		}
+
 		createButton();
+
 		this.backToMenuButton.addActionListener(new ActionListener() {
 
 			@Override
@@ -50,10 +113,28 @@ public class StageClearPanel extends JPanel {
 
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				StageClearPanel.this.mainMenuFrame
-						.switchTo(StageClearPanel.this.mainMenuFrame
-								.getInstance().getMainMenuPanel()
-								.getLevelSwitchPanel());
+
+				// clientManager
+				//
+				// File level = new File(name);
+				//
+				// MainGamePanel mainGamePanel = null;
+				//
+				//
+				// client.sendMessage(choosenLevel + ".txt");
+				//
+				// if (client.recieveMessage().equals("ready")) {
+				//
+				// System.out.println("SIAMO READY INIZIA IL GIOCO");
+				// try {
+				// mainGamePanel = new MainGamePanel(level, client);
+				//
+				// } catch (FileNotCorrectlyFormattedException e1) {
+				// // TODO Auto-generated catch block
+				// e1.printStackTrace();
+				// }
+				//
+				// }
 			}
 		});
 
@@ -71,6 +152,10 @@ public class StageClearPanel extends JPanel {
 		this.add(backToMenuButton);
 		this.add(retryButton);
 
+		if (MainMenuFrame.getInstance().getMainMenuPanel().isStoryModeOn()) {
+			this.add(nextLevel);
+		}
+
 	}
 
 	public void createButton() {
@@ -86,6 +171,15 @@ public class StageClearPanel extends JPanel {
 		backToMenuButton.setFont(retryButton.getFont().deriveFont(25.0f));
 		backToMenuButton.setBorderPainted(false);
 		backToMenuButton.setFocusPainted(false);
+
+		if (MainMenuFrame.getInstance().getMainMenuPanel().isStoryModeOn()) {
+			retryButton.setBackground(Color.black);
+			retryButton.setForeground(Color.green);
+			retryButton.setFont(mainMenuFrame.getMainMenuPanel().getFont());
+			retryButton.setFont(retryButton.getFont().deriveFont(25.0f));
+			retryButton.setBorderPainted(false);
+			retryButton.setFocusPainted(false);
+		}
 	}
 
 	@Override
