@@ -1,7 +1,7 @@
 package it.mat.unical.Helion_Prime.GFX;
 
-import it.mat.unical.Helion_Prime.Logic.FileNotCorrectlyFormattedException;
 import it.mat.unical.Helion_Prime.Logic.GameManagerImpl;
+import it.mat.unical.Helion_Prime.Logic.UserProfile;
 import it.mat.unical.Helion_Prime.Online.Client;
 import it.mat.unical.Helion_Prime.Online.Server;
 
@@ -22,20 +22,22 @@ import javax.swing.JPanel;
 
 public class ContenitorPanel extends JLayeredPane {
 	private static StoryPanel centerPanel;
+
 	private UpperPanel upperPanel;
 	private JPanel lowerPanel;
 	private JButton back;
 	private JPanel fillerPanelW;
 	private JPanel fillerPanelE;
 	private JButton startGameButton;
-	private Server server;
+	private static Server server;
 	private Cursor cursor;
 	private PreviewPanel previewPaneL;
+	private UserProfile profile;
 
 	public ContenitorPanel() {
 
 		this.previewPaneL = null;
-
+		this.profile = new UserProfile("PROVA PROFILO");
 		this.back = new JButton("Main Menu");
 		this.startGameButton = new JButton("Start Level");
 
@@ -90,7 +92,10 @@ public class ContenitorPanel extends JLayeredPane {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 
-				String choosenLevel = centerPanel.getLevelSelected();
+				String choosenLevel = profile.getLevels().get(
+						profile.getLastlevelComplete())
+						+ ".txt";
+
 				String name = "levels/" + choosenLevel;
 				System.out.println("LevelSwitchPanel.LevelSwitchPanel    "
 						+ name);
@@ -99,11 +104,23 @@ public class ContenitorPanel extends JLayeredPane {
 						.println("------------------------------------------------");
 				MainGamePanel mainGamePanel = null;
 
-				try {
-					server = new Server(7777);
-				} catch (IOException e2) {
-					e2.printStackTrace();
+				if (!Server.isServerStarted)
+					try {
+						server = new Server(7777);
+					} catch (IOException e2) {
+						e2.printStackTrace();
+					}
+				else {
+					server = null;
+					try {
+						server = new Server(7777);
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+
 				}
+
 				server.start();
 				GameManagerImpl.getInstance().setServer(server);
 				Client client = new Client("localhost", false);
@@ -112,13 +129,8 @@ public class ContenitorPanel extends JLayeredPane {
 				if (client.recieveMessage().equals("ready")) {
 
 					System.out.println("SIAMO READY INIZIA IL GIOCO");
-					try {
-						mainGamePanel = new MainGamePanel(level, client);
-
-					} catch (FileNotCorrectlyFormattedException e1) {
-						// TODO Auto-generated catch block
-						e1.printStackTrace();
-					}
+					mainGamePanel = new MainGamePanel(level, client,
+							ContenitorPanel.this.profile);
 					MainMenuFrame.getInstance().switchTo(mainGamePanel);
 				}
 				// try {
