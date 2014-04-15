@@ -1,37 +1,18 @@
 TODO LIST */ creato il 06/11/13 */
 ultimo aggiornamento 08/11/13
 
-
-/* SIMONE 04/04/2014 */
-Anche il multiplayer funziona 
-
-da fixare il problema del retry e del back to menu durante
-il gioco , cmq quelle ssu fissarie si fannu ..!! 
-
-
-
-
-ridefinire atteggiamenti editor -> bottoni per le dimensioni
-pausa
-salvataggio 
-
- /* 
- 	controllare modo in cui i pannelli vengono chiusi, non sono sicuro che funzioni correttamente
-	il MainMenuFrame ha un metodo pubblico switchToMainMenu(), usato in tutti i bottoni per tornare al menu
-	quando viene chiamato dereferenzia i puntatori agli altri frame da parte del mainFrame
- /*	
  
 
 /* MAIDA 07/11/2013 */
 gameOver e via dicendo -> serve un pannello
-modifiche ai frame, adesso c'è un solo frame e switch di tutti i pannelli. V
+modifiche ai frame, adesso c'ï¿½ un solo frame e switch di tutti i pannelli. V
 
 /* MAIDA 08/11/2013 */
 creiamo un editor di ondate insieme all'editor di livelli,
 lo diamo ad un Ciccio Pasqua qualunque e si diverte a creare livelli V
 
 /* Daniele 21/11/2013 */ 
-Implementiamo almeno una abilità 
+Implementiamo almeno una abilitï¿½ 
 I mostri devono partire sfalzati o si muoveranno tutti nella stessa direzione 
 Troviamo un modo per gestire le sovrapposizioni dei mob sulle celle
 Implementiamo la grafica 
@@ -39,8 +20,8 @@ Implementiamo la grafica
 /* Francesco 11/03/2014 */
 il db mysql vienne connesso correttamente, per ora funziona solo sul mio pc, visto che solo io, lo ho attivo!
 ho fornito un interfaccia per il login, basta chiamare il metodo doLogin e passare username e password per usarlo.
-dobbiamo rivedere modalità di gioco affinche abbia senso tenere il punteggio, ad esempio dovremmo mettere la modalità
-"partita completa" <- titolo work in progress, in cui non è possibile scegliere il livello, ma si gioca su tutti in ordine di difficoltà.
+dobbiamo rivedere modalitï¿½ di gioco affinche abbia senso tenere il punteggio, ad esempio dovremmo mettere la modalitï¿½
+"partita completa" <- titolo work in progress, in cui non ï¿½ possibile scegliere il livello, ma si gioca su tutti in ordine di difficoltï¿½.
 solo in questo caso ha senso salvare il punteggio.
 ------
 dovremmo prevedere un sistema per salvare la partita. penso si possa fare in modo che venga salvato l'ultimo livello completato, il punteggio
@@ -48,7 +29,7 @@ e i soldi rimasti.
 
 /* Francesco 11/03/2014 */
 aggiunto Db embedded locale, trovate il jar, nella cartella, db e il relativo db, file "helionPrime.h2.db"
-avviate il file h2.bat e vi si aprirà sul browser la pagina "http://localhost:8082" usate queste chiavi per 
+avviate il file h2.bat e vi si aprirï¿½ sul browser la pagina "http://localhost:8082" usate queste chiavi per 
 accedere al query browser:
 
 Utente Amministratore:
@@ -85,11 +66,41 @@ CREATE TABLE Record(
 /* Daniele 29/03/2014*/
 
 Mentre rendo presentabili i pannelli di cui abbiamo parlato ho aggiunto una serie di classi che vi permetteranno
-di usare il gioco in tutte le sue funzioni. Qual'ora vi servisse una particolare classe basterà implementare il 
+di usare il gioco in tutte le sue funzioni. Qual'ora vi servisse una particolare classe basterï¿½ implementare il 
 listener del componente che vi serve e collegare le vostre funzioni a quello. 
 
-Lo storyPanel è graficamente finito ora dobbiamo soltanto aggiungere la chiamata al DB che locka i livelli non sbloccati. 
+Lo storyPanel ï¿½ graficamente finito ora dobbiamo soltanto aggiungere la chiamata al DB che locka i livelli non sbloccati. 
 Per tutto il resto conto di finire per questa notte. 
 
 Funzioni in Pre-Alfa:
-La creation mode è quasi finita ve ne lascio un assaggio nel relativo pannello
+La creation mode ï¿½ quasi finita ve ne lascio un assaggio nel relativo pannello
+
+
+/* SIMONE 04/04/2014 */
+Anche il multiplayer funziona 
+
+da fixare il problema del retry e del back to menu durante
+il gioco , cmq quelle ssu fissarie si fannu ..!! 
+
+
+
+
+ridefinire atteggiamenti editor -> bottoni per le dimensioni
+pausa
+salvataggio 
+
+ /* 
+ 	controllare modo in cui i pannelli vengono chiusi, non sono sicuro che funzioni correttamente
+	il MainMenuFrame ha un metodo pubblico switchToMainMenu(), usato in tutti i bottoni per tornare al menu
+	quando viene chiamato dereferenzia i puntatori agli altri frame da parte del mainFrame
+ /*	
+ 
+ 
+ 
+Maida 10/04/2014
+
+quando committiamo nuove immagini(per sostituire cose precedenti), fate in questo modo:
+1) eliminare le immagini precedenti
+2)push and commit
+3)inserire nuove immagini
+4)push and commit

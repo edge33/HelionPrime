@@ -1,9 +1,12 @@
 package it.mat.unical.Helion_Prime.SavesManager;
 
+import java.awt.event.ActionListener;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.Date;
 
 public class SaveManagerImpl implements SaveManager {
@@ -76,8 +79,45 @@ public class SaveManagerImpl implements SaveManager {
 	}
 
 	@Override
-	public void fetchSaves() {
-		// TODO Auto-generated method stub
+	public ArrayList<Timestamp> fetchSaves(String username) {
+		savesManager.H2engage();
+		
+		connection = savesManager.getConnection();
+		
+		String statement = "SELECT TIME FROM Record WHERE Username = ?";
+		
+		PreparedStatement preparedStatement = null;
+		try {
+			 preparedStatement = connection.prepareStatement(statement);
+	
+			 //per ora sono hardCoded, li cambieremo a tempo debito
+			 preparedStatement.setString(1, username);
+			 
+			 ResultSet rs = preparedStatement.executeQuery();
+			 
+	
+			 ArrayList<Timestamp> profiles = new ArrayList<>();
+			 
+				while (rs.next()) {
+	 
+					Timestamp timeStamp = rs.getTimestamp("TIME");
+					profiles.add(timeStamp);
+					
+					System.out.println("userid : " + timeStamp);
+	 
+				}
+				
+				return profiles;
+			 
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			savesManager.H2disengange();
+		}
+		
+		return null;
+		
 		
 	}
 

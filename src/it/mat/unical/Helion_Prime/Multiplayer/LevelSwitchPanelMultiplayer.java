@@ -7,6 +7,7 @@ import it.mat.unical.Helion_Prime.Logic.FileNotCorrectlyFormattedException;
 import it.mat.unical.Helion_Prime.Online.Client;
 
 import java.awt.Color;
+import java.awt.Cursor;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -33,8 +34,13 @@ public class LevelSwitchPanelMultiplayer extends JPanel {
 	private boolean asNewMultiplayer = false;
 
 	private GameOverPanel gameOverPanel;
+	private Cursor cursor;
+	
+	public LevelSwitchPanelMultiplayer(Font font, boolean asNewMultuplayer)
+	{
 
-	public LevelSwitchPanelMultiplayer(Font font, boolean asNewMultuplayer) {
+		this.cursor = MainMenuFrame.getInstance().getMainMenuPanel().getCursor();
+		this.setCursor(cursor);
 		this.asNewMultiplayer = asNewMultuplayer;
 
 		try {

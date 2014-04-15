@@ -110,11 +110,14 @@ public class StoryPanel extends JPanel
 					if(SwingUtilities.isLeftMouseButton(arg0)==true)
 					{
 						levelSelected = ((JLabel) arg0.getSource()).getText();
+						levelSelected += ".txt";
 						System.out.println(levelSelected);
 					}
 					else if(SwingUtilities.isRightMouseButton(arg0)==true)
 					{
-						contenitor.showPanel(((JLabel)arg0.getSource()).getText());
+						String name = ((JLabel)arg0.getSource()).getText();
+						name += ".txt";
+						contenitor.showPanel(name);
 
 					}
 				}
@@ -134,7 +137,9 @@ public class StoryPanel extends JPanel
 		{
 			if(levels[i].getName().contains(".txt"))
 			{
-				level = new JLabel(levels[i].getName());
+				String name = levels[i].getName();
+				name = name.substring(0, name.length()-4);
+				level = new JLabel(name);
 				level.setBorder(BorderFactory.createLineBorder(Color.GREEN,1));
 				level.addMouseListener(listener);
 				level.setHorizontalAlignment(SwingConstants.CENTER);
