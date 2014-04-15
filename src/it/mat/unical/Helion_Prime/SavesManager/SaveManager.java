@@ -7,7 +7,7 @@ public interface SaveManager {
 
 	public boolean saveGame();
 	
-	public boolean loadGame();
+	public void loadGame(String username,Timestamp timestamp,PlayerState playerState);
 	
 	public boolean deleteSavedGame();
 	

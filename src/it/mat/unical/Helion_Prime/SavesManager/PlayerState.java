@@ -5,7 +5,7 @@ import java.sql.Timestamp;
 public class PlayerState {
 
 	private String username;
-	private Timestamp timeStamp;
+	private Timestamp timestamp;
 	
 	private int gunBullets1;
 	private int gunBullets2;
@@ -16,9 +16,9 @@ public class PlayerState {
 	private int score;
 	
 	
-	private PlayerState instance;
+	private static PlayerState instance;
 
-	public PlayerState getInstance() {
+	public static PlayerState getInstance() {
 		if ( instance == null ) 
 			instance = new PlayerState();
 		return instance;
@@ -30,7 +30,16 @@ public class PlayerState {
 	
 	public void init(final String username) {
 		this.username = username;
-		this.timeStamp = new Timestamp( new java.util.Date().getTime()  );
+		this.timestamp = new Timestamp( new java.util.Date().getTime()  );
+	}
+	
+	public PlayerState loadProfile(String username,Timestamp timestamp) {
+		this.username = username;
+		this.timestamp = timestamp;
+		
+		SaveManagerImpl.getInstance().loadGame(username, timestamp,this);
+		
+		return this;
 	}
 
 	public String getUsername() {
@@ -42,7 +51,7 @@ public class PlayerState {
 	}
 
 	public Timestamp getTimeStamp() {
-		return timeStamp;
+		return timestamp;
 	}
 	
 	public int getGunBullets1() {

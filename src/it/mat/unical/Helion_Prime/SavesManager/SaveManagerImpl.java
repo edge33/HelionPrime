@@ -67,9 +67,40 @@ public class SaveManagerImpl implements SaveManager {
 	}
 
 	@Override
-	public boolean loadGame() {
-		// TODO Auto-generated method stub
-		return false;
+	public void loadGame(String username,Timestamp timestamp,PlayerState playerState) {
+		
+		savesManager.H2engage();
+		
+		connection = savesManager.getConnection();
+		
+		String statement = "SELECT * FROM RECORD WHERE Username = ? AND TIME = ? LIMIT 1";
+		
+		PreparedStatement preparedStatement = null;
+		try {
+			 preparedStatement = connection.prepareStatement(statement);
+			 
+			 preparedStatement.setString(1, username);
+			 preparedStatement.setTimestamp(2, timestamp);
+			 
+			 ResultSet rs = preparedStatement.executeQuery();
+			 
+			 rs.first();
+			 
+			 playerState.setGunBullets1(rs.getInt("GUN1_BULLETS"));
+			 playerState.setGunBullets2(rs.getInt("GUN2_BULLETS"));
+			 playerState.setGunBullets3(rs.getInt("GUN3_BULLETS"));
+			 playerState.setGunBullets4(rs.getInt("GUN4_BULLETS"));
+			 playerState.setLastLevelCleared(rs.getInt("LastLevel"));
+			 playerState.setScore(rs.getInt("Score"));
+			 
+			 
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			savesManager.H2disengange();
+		}
+		
 	}
 
 	@Override
@@ -90,7 +121,6 @@ public class SaveManagerImpl implements SaveManager {
 		try {
 			 preparedStatement = connection.prepareStatement(statement);
 	
-			 //per ora sono hardCoded, li cambieremo a tempo debito
 			 preparedStatement.setString(1, username);
 			 
 			 ResultSet rs = preparedStatement.executeQuery();

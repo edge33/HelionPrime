@@ -1,5 +1,6 @@
 package it.mat.unical.Helion_Prime.GFX;
 import it.mat.unical.Helion_Prime.Multiplayer.MultiplayerPanel;
+import it.mat.unical.Helion_Prime.SavesManager.PlayerState;
 import it.mat.unical.Helion_Prime.SavesManager.SaveManager;
 import it.mat.unical.Helion_Prime.SavesManager.SaveManagerImpl;
 
@@ -15,6 +16,8 @@ import java.awt.Insets;
 import java.awt.TextField;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -244,34 +247,34 @@ public class LoginPanel extends JPanel
 			@Override
 			public void actionPerformed(ActionEvent e) 
 			{
-				if(!isLoadClicked)
-				{
-					userLabel.setText("Your Username:");
-					passLabel.setText("Your Password:");
-					bulletsDesc.setVisible(false);
-					bulletsNumber.setVisible(false);
-					score.setVisible(false);
-					scoreDescr.setVisible(false);
-					savedGames.setVisible(false);
-					saveLabel.setVisible(false);
-					load.setText("Load Me!");
-					create.setEnabled(false);
-					isLoadClicked = true;
-				}
-				else
-				{
-					userLabel.setText("Username:");
-					passLabel.setText("Password:");
-					bulletsDesc.setVisible(true);
-					bulletsNumber.setVisible(true);
-					score.setVisible(true);
-					scoreDescr.setVisible(true);
-					savedGames.setVisible(true);
-					saveLabel.setVisible(true);
-					load.setText("Load Profile");
-					create.setEnabled(true);
-					isLoadClicked = false;
-				}
+//				if(!isLoadClicked)
+//				{
+//					userLabel.setText("Your Username:");
+//					passLabel.setText("Your Password:");
+//					bulletsDesc.setVisible(false);
+//					bulletsNumber.setVisible(false);
+//					score.setVisible(false);
+//					scoreDescr.setVisible(false);
+//					savedGames.setVisible(false);
+//					saveLabel.setVisible(false);
+//					load.setText("Load Me!");
+//					create.setEnabled(false);
+//					isLoadClicked = true;
+//				}
+//				else
+//				{
+//					userLabel.setText("Username:");
+//					passLabel.setText("Password:");
+//					bulletsDesc.setVisible(true);
+//					bulletsNumber.setVisible(true);
+//					score.setVisible(true);
+//					scoreDescr.setVisible(true);
+//					savedGames.setVisible(true);
+//					saveLabel.setVisible(true);
+//					load.setText("Load Profile");
+//					create.setEnabled(true);
+//					isLoadClicked = false;
+//				}
 
 
 			}
@@ -302,8 +305,10 @@ public class LoginPanel extends JPanel
 
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				if ( userField.getText() != "" ) {
-
+				if ( userField.getText().length() > 0 ) {
+					
+					savedGames.removeAllItems();
+					
 					String username = userField.getText();
 
 					ArrayList<Timestamp> profiles = SaveManagerImpl.getInstance().fetchSaves(username);
@@ -313,6 +318,16 @@ public class LoginPanel extends JPanel
 					}
 
 				}
+			}
+		});
+		
+
+		this.savedGames.addItemListener(new ItemListener() {
+			
+			@Override
+			public void itemStateChanged(ItemEvent e) {
+				PlayerState playerstate =  PlayerState.getInstance().loadProfile(userField.getText(), (Timestamp) savedGames.getSelectedItem());
+				score.setText(String.valueOf( playerstate.getScore() ));
 			}
 		});
 	}
