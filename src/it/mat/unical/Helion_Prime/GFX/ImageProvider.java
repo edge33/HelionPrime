@@ -2,6 +2,7 @@ package it.mat.unical.Helion_Prime.GFX;
 
 import it.mat.unical.Helion_Prime.Logic.GameManagerImpl;
 import it.mat.unical.Helion_Prime.Logic.Character.AbstractNative;
+import it.mat.unical.Helion_Prime.Online.ClientManager;
 
 import java.awt.Image;
 import java.awt.MediaTracker;
@@ -440,8 +441,7 @@ public class ImageProvider extends Thread {
 		this.acidTrap = toolKit.getImage("Resources/AcidTrap.png");
 		this.electricTrap = toolKit.getImage("Resources/ElectricTrap.png");
 		this.powerTrap = toolKit.getImage("Resources/PowerTrap.png");
-		this.decoyTrap = toolKit
-				.getImage("Resources/Char Resources/FilippoBack2.png");
+		this.decoyTrap = toolKit.getImage("Resources/Char Resources/FilippoBack2.png");
 		this.i8 = toolKit.getImage("Resources/8.jpg");
 		this.i9 = toolKit.getImage("Resources/9.jpg");
 		this.i10 = toolKit.getImage("Resources/10.jpg");
@@ -1193,7 +1193,7 @@ public class ImageProvider extends Thread {
 
 	@Override
 	public void run() {
-		while (true) {
+		while (!ClientManager.isFinishGame()) {
 			// thread che alterna le immagini per dare l'animazione al player
 
 			while (GameManagerImpl.isPaused()) {
