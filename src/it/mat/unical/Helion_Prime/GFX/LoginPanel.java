@@ -45,8 +45,14 @@ public class LoginPanel extends JPanel
 	private JLabel passLabel;
 	private JLabel saveLabel;
 	private JLabel userLabel;
-	private JLabel bulletsDesc;
-	private JLabel bulletsNumber;
+	private JLabel bulletsGun1Desc;
+	private JLabel bulletsGun2Desc;
+	private JLabel bulletsGun3Desc;
+	private JLabel bulletsGun4Desc;
+	private JLabel bulletsGun1;
+	private JLabel bulletsGun2;
+	private JLabel bulletsGun3;
+	private JLabel bulletsGun4;
 	private JLabel score;
 	private JLabel scoreDescr;
 
@@ -104,9 +110,15 @@ public class LoginPanel extends JPanel
 		this.passLabel = new JLabel("Password:");
 		this.saveLabel = new JLabel("Saved Game:");
 		this.scoreDescr = new JLabel("Score");
-		this.bulletsDesc = new JLabel("Bullet");
+		this.bulletsGun1Desc = new JLabel("Bullet Gun 1");
+		this.bulletsGun2Desc = new JLabel("Bullet Gun 2");
+		this.bulletsGun3Desc = new JLabel("Bullet Gun 3");
+		this.bulletsGun4Desc = new JLabel("Bullet Gun 4");
 		this.score = new JLabel("0");
-		this.bulletsNumber = new JLabel("0");
+		this.bulletsGun1 = new JLabel("0");
+		this.bulletsGun2 = new JLabel("0");
+		this.bulletsGun3 = new JLabel("0");
+		this.bulletsGun4 = new JLabel("0");
 
 		this.savedGames = new JComboBox();
 
@@ -158,16 +170,46 @@ public class LoginPanel extends JPanel
 		scoreDescr.setFont(MainMenuFrame.getInstance().getMainMenuPanel().getFont());
 		scoreDescr.setFont(saveLabel.getFont().deriveFont(25.0f));
 
-		bulletsDesc.setForeground(Color.green);
-		bulletsDesc.setOpaque(false);
-		bulletsDesc.setFont(MainMenuFrame.getInstance().getMainMenuPanel().getFont());
-		bulletsDesc.setFont(saveLabel.getFont().deriveFont(25.0f));
+		bulletsGun1Desc.setForeground(Color.green);
+		bulletsGun1Desc.setOpaque(false);
+		bulletsGun1Desc.setFont(MainMenuFrame.getInstance().getMainMenuPanel().getFont());
+		bulletsGun1Desc.setFont(saveLabel.getFont().deriveFont(25.0f));
+		
+		bulletsGun2Desc.setForeground(Color.green);
+		bulletsGun2Desc.setOpaque(false);
+		bulletsGun2Desc.setFont(MainMenuFrame.getInstance().getMainMenuPanel().getFont());
+		bulletsGun2Desc.setFont(saveLabel.getFont().deriveFont(25.0f));
+		
+		bulletsGun3Desc.setForeground(Color.green);
+		bulletsGun3Desc.setOpaque(false);
+		bulletsGun3Desc.setFont(MainMenuFrame.getInstance().getMainMenuPanel().getFont());
+		bulletsGun3Desc.setFont(saveLabel.getFont().deriveFont(25.0f));
 
-		bulletsNumber.setForeground(Color.green);
-		bulletsNumber.setOpaque(false);
-		bulletsNumber.setFont(MainMenuFrame.getInstance().getMainMenuPanel().getFont());
-		bulletsNumber.setFont(saveLabel.getFont().deriveFont(15.0f));
+		bulletsGun4Desc.setForeground(Color.green);
+		bulletsGun4Desc.setOpaque(false);
+		bulletsGun4Desc.setFont(MainMenuFrame.getInstance().getMainMenuPanel().getFont());
+		bulletsGun4Desc.setFont(saveLabel.getFont().deriveFont(25.0f));
+		
+		bulletsGun1.setForeground(Color.green);
+		bulletsGun1.setOpaque(false);
+		bulletsGun1.setFont(MainMenuFrame.getInstance().getMainMenuPanel().getFont());
+		bulletsGun1.setFont(saveLabel.getFont().deriveFont(15.0f));
+		
+		bulletsGun2.setForeground(Color.green);
+		bulletsGun2.setOpaque(false);
+		bulletsGun2.setFont(MainMenuFrame.getInstance().getMainMenuPanel().getFont());
+		bulletsGun2.setFont(saveLabel.getFont().deriveFont(15.0f));
 
+		bulletsGun3.setForeground(Color.green);
+		bulletsGun3.setOpaque(false);
+		bulletsGun3.setFont(MainMenuFrame.getInstance().getMainMenuPanel().getFont());
+		bulletsGun3.setFont(saveLabel.getFont().deriveFont(15.0f));
+		
+		bulletsGun4.setForeground(Color.green);
+		bulletsGun4.setOpaque(false);
+		bulletsGun4.setFont(MainMenuFrame.getInstance().getMainMenuPanel().getFont());
+		bulletsGun4.setFont(saveLabel.getFont().deriveFont(15.0f));
+		
 		load.setBackground(Color.black);
 		load.setForeground(Color.green);
 		load.setFont(MainMenuFrame.getInstance().getMainMenuPanel().getFont());
@@ -213,8 +255,8 @@ public class LoginPanel extends JPanel
 				{
 					userLabel.setText("New Username:");
 					passLabel.setText("New Password:");
-					bulletsDesc.setVisible(false);
-					bulletsNumber.setVisible(false);
+					bulletsGun1Desc.setVisible(false);
+					bulletsGun1.setVisible(false);
 					score.setVisible(false);
 					scoreDescr.setVisible(false);
 					savedGames.setVisible(false);
@@ -227,8 +269,8 @@ public class LoginPanel extends JPanel
 				{
 					userLabel.setText("Username:");
 					passLabel.setText("Password:");
-					bulletsDesc.setVisible(true);
-					bulletsNumber.setVisible(true);
+					bulletsGun1Desc.setVisible(true);
+					bulletsGun1.setVisible(true);
 					score.setVisible(true);
 					scoreDescr.setVisible(true);
 					savedGames.setVisible(true);
@@ -328,6 +370,10 @@ public class LoginPanel extends JPanel
 			public void itemStateChanged(ItemEvent e) {
 				PlayerState playerstate =  PlayerState.getInstance().loadProfile(userField.getText(), (Timestamp) savedGames.getSelectedItem());
 				score.setText(String.valueOf( playerstate.getScore() ));
+				bulletsGun1.setText(String.valueOf( playerstate.getGunBullets1() ));
+				bulletsGun2.setText(String.valueOf( playerstate.getGunBullets2() ));
+				bulletsGun3.setText(String.valueOf( playerstate.getGunBullets3() ));
+				bulletsGun4.setText(String.valueOf( playerstate.getGunBullets4() ));
 			}
 		});
 	}
@@ -346,11 +392,23 @@ public class LoginPanel extends JPanel
 		this.southPanel.add(back);
 		this.southPanel.add(skip);
 
-		this.eastLayout.setConstraints(bulletsDesc, eC);
-		this.eastPanel.add(bulletsDesc);
+		this.eastLayout.setConstraints(bulletsGun1Desc, eC);
+		this.eastPanel.add(bulletsGun1Desc);
+		this.eastLayout.setConstraints(bulletsGun2Desc, eC);
+		this.eastPanel.add(bulletsGun2Desc);
+		this.eastLayout.setConstraints(bulletsGun3Desc, eC);
+		this.eastPanel.add(bulletsGun3Desc);
+		this.eastLayout.setConstraints(bulletsGun4Desc, eC);
+		this.eastPanel.add(bulletsGun4Desc);
 		this.eC.gridwidth = GridBagConstraints.REMAINDER; 
-		this.eastLayout.setConstraints(bulletsNumber, eC);
-		this.eastPanel.add(bulletsNumber);
+		this.eastLayout.setConstraints(bulletsGun1, eC);
+		this.eastPanel.add(bulletsGun1);
+		this.eastLayout.setConstraints(bulletsGun2, eC);
+		this.eastPanel.add(bulletsGun2);
+		this.eastLayout.setConstraints(bulletsGun3, eC);
+		this.eastPanel.add(bulletsGun3);
+		this.eastLayout.setConstraints(bulletsGun4, eC);
+		this.eastPanel.add(bulletsGun4);
 
 		this.eC.insets = new Insets(10,0,0,0); 
 		this.eC.gridwidth = 1;

@@ -22,7 +22,6 @@ public class MainMenuFrame extends JFrame {
 
 		if (instance == null) {
 			instance = new MainMenuFrame();
-			System.out.println("instanzio il MainMenuFrame");
 		}
 		return instance;
 	}
