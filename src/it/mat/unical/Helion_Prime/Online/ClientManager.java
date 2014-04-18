@@ -30,7 +30,7 @@ public class ClientManager {
 	private int money = 0;
 	private int life = 0;
 	private boolean gameOver = false;
-	private static boolean finishGame = false;
+	protected static boolean finishGame = false;
 	private int playerDirection;
 	private ThreadPoolBulletClient threadPool;
 
@@ -207,7 +207,8 @@ public class ClientManager {
 			this.finishGame = true;
 			sendAllFinish();
 			UserProfile.incrLevel();
-			StageClearPanel clearPanel = new StageClearPanel(this);
+			StageClearPanel clearPanel = new StageClearPanel(this,
+					gamePane.getCurrentFileLevel());
 			this.finishGame = true;
 			MainMenuFrame.getInstance().switchTo(clearPanel);
 		} else if (responseFromServer.substring(0, 1).equals("o")) {
@@ -263,6 +264,14 @@ public class ClientManager {
 
 	public void sendCloseMessage() {
 		client.sendMessage("close");
+	}
+
+	public Client getClient() {
+		return this.client;
+	}
+
+	public GamePane getGamePane() {
+		return this.gamePane;
 	}
 
 	private void startMovementWave() {
@@ -340,9 +349,10 @@ public class ClientManager {
 						String[] movementSplitted = movement.split(" ");
 
 						if (movementSplitted[0].equals("sh")) {
-							gamePane.bullets.put(Integer
-									.parseInt(movementSplitted[1]),
-									new BulletsClient(playerDirection,
+							gamePane.bullets.put(
+									Integer.parseInt(movementSplitted[1]),
+									new BulletsClient(Integer
+											.parseInt(movementSplitted[2]),
 											logicXPlayerOne, logicYPlayerOne));
 
 						} else if (movementSplitted[0].equals("srm")) {
@@ -453,6 +463,10 @@ public class ClientManager {
 	public UserProfile getUserProfile() {
 
 		return this.profile;
+	}
+
+	public boolean isMultiplayerGame() {
+		return false;
 	}
 	// public ConcurrentHashMap<Point, Integer> getPlacedTrap() {
 	// return placedTrap;

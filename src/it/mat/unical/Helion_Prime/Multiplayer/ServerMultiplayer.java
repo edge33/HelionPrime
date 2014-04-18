@@ -33,6 +33,7 @@ public class ServerMultiplayer extends Thread {
 	private BlockingQueue<String> forPlayerTwo;
 	private GameManagerImpl gameManager;
 	private LinkedBlockingQueue<String> placementTrap;
+	protected boolean isStageClear;
 
 	public ServerMultiplayer(int port) {
 		try {
@@ -89,6 +90,10 @@ public class ServerMultiplayer extends Thread {
 			}
 		}
 
+		initServerMultiplayer();
+	}
+
+	public void initServerMultiplayer() {
 		sendToClientOne("GIOCATORE 2 ARRIVATO");
 
 		File level = new File("levels/" + levelName);
@@ -100,6 +105,9 @@ public class ServerMultiplayer extends Thread {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+
+		playerOne = GameManagerImpl.getInstance().getPlayerOne();
+		playertwo = GameManagerImpl.getInstance().getPlayerTwo();
 
 		sendBroadcast(((Integer) GameManagerImpl.getInstance().getPlayerOne()
 				.getMoney()).toString()); // mando l'intero corrispondente ai
@@ -121,9 +129,12 @@ public class ServerMultiplayer extends Thread {
 
 	private void startUpdater() {
 		new Thread() {
+
 			public void run() {
 
-				while (true) {
+				this.setName("SERVER MULTYPLAYER - UPDATER ");
+				while (!GameManagerImpl.getInstance().isGameStopped()
+						&& !GameManagerImpl.getInstance().gameIsOver()) {
 					gameManager.updateMultiplayer();
 
 					try {
@@ -143,9 +154,10 @@ public class ServerMultiplayer extends Thread {
 	private void startSendMessagePlayerOne() {
 		new Thread() {
 			public void run() {
-				GameManagerImpl.getInstance();
+
+				this.setName("SERVER MULTYPLAYER - SEND_MESSAGE:P1");
 				while (!GameManagerImpl.getInstance().isGameStopped()
-						&& !GameManagerImpl.isPaused()) {
+						&& !GameManagerImpl.getInstance().gameIsOver()) {
 
 					try {
 						String messageForPlayerOne = forPlayerOne.take();
@@ -168,7 +180,7 @@ public class ServerMultiplayer extends Thread {
 		new Thread() {
 
 			public void run() {
-				GameManagerImpl.getInstance();
+				this.setName("SERVER MULTYPLAYER - SEND_MESSAGE:P2");
 				while (!GameManagerImpl.getInstance().isGameStopped()
 						&& !GameManagerImpl.isPaused()) {
 
@@ -210,9 +222,9 @@ public class ServerMultiplayer extends Thread {
 	private void startSendMessageBroadcast() {
 		new Thread() {
 			public void run() {
-				GameManagerImpl.getInstance();
+				this.setName("SERVER MULTYPLAYER - SEND_MESSAGE: BR");
 				while (!GameManagerImpl.getInstance().isGameStopped()
-						&& !GameManagerImpl.isPaused()) {
+						&& !GameManagerImpl.getInstance().gameIsOver()) {
 
 					try {
 						String messageBroadcast = broadcastMessage.take();
@@ -232,7 +244,8 @@ public class ServerMultiplayer extends Thread {
 	private void startInFromPlayerOne() {
 		new Thread() {
 			public void run() {
-				while (!GameManagerImpl.getInstance().gameIsOver()) {
+				this.setName("SERVER_MULTIPLAYER - MEX FROM PLAYER ONE");
+				while (true) {
 
 					try {
 						String css = inFromClientOne();
@@ -254,7 +267,8 @@ public class ServerMultiplayer extends Thread {
 	private void startInFromPlayerTwo() {
 		new Thread() {
 			public void run() {
-				while (!GameManagerImpl.getInstance().gameIsOver()) {
+				this.setName("SERVER_MULTIPLAYER - MEX FROM PLAYER TWO");
+				while (true) {
 
 					try {
 						String css = inFromClientTwo();
@@ -277,8 +291,10 @@ public class ServerMultiplayer extends Thread {
 		new Thread() {
 
 			public void run() {
-				while (!GameManagerImpl.getInstance().gameIsOver()
-						|| !GameManagerImpl.getInstance().isGameStopped()) {
+
+				this.setName("SERVER_MULTIPLAYER - UPDATER PLAYER 1 ");
+
+				while (true) {
 
 					String messageFromPlayerOne;
 					try {
@@ -302,8 +318,14 @@ public class ServerMultiplayer extends Thread {
 								"s")) {
 
 							int key = canShoot(gameManager.getPlayerOne());
-							outToClientOne("sh " + String.valueOf(key) + " 1");
-							outToClientTwo("sh " + String.valueOf(key) + " 2");
+							outToClientOne("sh " + String.valueOf(key) + " 1 "
+									+ playerOne.getDirection());
+							outToClientTwo("sh " + String.valueOf(key) + " 2 "
+									+ playerOne.getDirection());
+						} else if (messageFromPlayerOne.equals("retry")) {
+							System.out
+									.println("ora reiniziamo la partita FROM PLAYER ONE");
+
 						}
 
 					} catch (InterruptedException e) {
@@ -321,8 +343,10 @@ public class ServerMultiplayer extends Thread {
 		new Thread() {
 
 			public void run() {
-				while (!GameManagerImpl.getInstance().gameIsOver()
-						|| !GameManagerImpl.getInstance().isGameStopped()) {
+
+				this.setName("SERVER_MULTIPLAYER - UPDATER PLAYER 2 ");
+
+				while (true) {
 
 					try {
 						String messageFromPlayerTwo = fromPlayerTwo.take();
@@ -343,8 +367,15 @@ public class ServerMultiplayer extends Thread {
 						} else if (messageFromPlayerTwo.substring(0, 1).equals(
 								"s")) {
 							int key = canShoot(gameManager.getPlayerTwo());
-							outToClientOne("sh " + String.valueOf(key) + " 2");
-							outToClientTwo("sh " + String.valueOf(key) + " 1");
+							outToClientOne("sh " + String.valueOf(key) + " 2 "
+									+ playertwo.getDirection());
+							outToClientTwo("sh " + String.valueOf(key) + " 1 "
+									+ playertwo.getDirection());
+
+						} else if (messageFromPlayerTwo.equals("retry")) {
+							System.out
+									.println("ora reiniziamo la partita FROM PLAYER TWO");
+
 						}
 
 					} catch (InterruptedException e) {
@@ -368,7 +399,7 @@ public class ServerMultiplayer extends Thread {
 		new Thread() {
 
 			public void run() {
-
+				this.setName("SERVER_MULTIPLAYER - PLACEMENT_TRAP");
 				while (!GameManagerImpl.getInstance().gameIsOver()
 						&& !GameManagerImpl.getInstance().isGameStopped()) {
 

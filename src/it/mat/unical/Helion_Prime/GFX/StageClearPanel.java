@@ -2,6 +2,7 @@ package it.mat.unical.Helion_Prime.GFX;
 
 import it.mat.unical.Helion_Prime.Logic.GameManagerImpl;
 import it.mat.unical.Helion_Prime.Logic.UserProfile;
+import it.mat.unical.Helion_Prime.Multiplayer.ServerMultiplayer;
 import it.mat.unical.Helion_Prime.Online.Client;
 import it.mat.unical.Helion_Prime.Online.ClientManager;
 import it.mat.unical.Helion_Prime.Online.Server;
@@ -30,13 +31,16 @@ public class StageClearPanel extends JPanel {
 	private ClientManager clientManager;
 	private UserProfile profile;
 	private Server server;
+	private ServerMultiplayer serverMultiplayer;
+	private File lastLevelPlayed;
 
-	public StageClearPanel(ClientManager clientManager) {
+	public StageClearPanel(ClientManager clientManager, File level) {
 		this.clientManager = clientManager;
 		this.profile = clientManager.getUserProfile();
 		this.cursor = MainMenuFrame.getInstance().getMainMenuPanel()
 				.getCursor();
 		this.setCursor(cursor);
+		this.lastLevelPlayed = level;
 		this.mainMenuFrame = MainMenuFrame.getInstance();
 		this.backToMenuButton = new JButton("Back to Menu");
 		this.retryButton = new JButton("Retry");
@@ -114,28 +118,43 @@ public class StageClearPanel extends JPanel {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 
-				// clientManager
-				//
-				// File level = new File(name);
-				//
-				// MainGamePanel mainGamePanel = null;
-				//
-				//
-				// client.sendMessage(choosenLevel + ".txt");
-				//
-				// if (client.recieveMessage().equals("ready")) {
-				//
-				// System.out.println("SIAMO READY INIZIA IL GIOCO");
-				// try {
-				// mainGamePanel = new MainGamePanel(level, client);
-				//
-				// } catch (FileNotCorrectlyFormattedException e1) {
-				// // TODO Auto-generated catch block
-				// e1.printStackTrace();
-				// }
-				//
-				// }
+				String name = lastLevelPlayed.getName();
+
+				if (!StageClearPanel.this.clientManager.isMultiplayerGame()) {
+					MainGamePanel mainGamePanel = null;
+
+					try {
+						server = new Server(7777);
+					} catch (IOException e2) {
+						// TODO Auto-generated catch block
+						e2.printStackTrace();
+					}
+
+					server.start();
+					GameManagerImpl.getInstance().setServer(server);
+					Client client = new Client("localhost", false);
+					client.sendMessage(name);
+
+					if (client.recieveMessage().equals("ready")) {
+
+						System.out.println("SIAMO READY INIZIA IL GIOCO");
+						if (MainMenuFrame.getInstance().getMainMenuPanel()
+								.isStoryModeOn())
+							mainGamePanel = new MainGamePanel(lastLevelPlayed,
+									client, profile);
+						else
+							mainGamePanel = new MainGamePanel(lastLevelPlayed,
+									client);
+
+					}
+					MainMenuFrame.getInstance().switchTo(mainGamePanel);
+				} else {
+					StageClearPanel.this.clientManager.sendMessage("retry");
+
+				}
+
 			}
+
 		});
 
 		try {

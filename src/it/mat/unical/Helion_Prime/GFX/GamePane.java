@@ -73,6 +73,7 @@ public class GamePane extends JPanel {
 	private boolean gameOver = false;
 	private boolean stageClear = false;
 
+	private File currentFileLevel;
 	private WorldImpl world;
 	private Client client;
 	private ClientManager clientManager;
@@ -108,7 +109,7 @@ public class GamePane extends JPanel {
 		} catch (IOException e) {
 			System.out.println("PadPrewiew Mancante");
 		}
-
+		this.currentFileLevel = level;
 		this.setLayout(null);
 		this.client = client;
 		this.profile = profile;
@@ -1101,5 +1102,9 @@ public class GamePane extends JPanel {
 
 	public ClientManager getClientManager() {
 		return this.clientManager;
+	}
+
+	public File getCurrentFileLevel() {
+		return this.currentFileLevel;
 	}
 }

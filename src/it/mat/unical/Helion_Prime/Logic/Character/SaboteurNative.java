@@ -15,7 +15,10 @@ public class SaboteurNative extends AbstractNative {
 		super.setLife(100);
 		this.direction = 0;
 		super.nativeAi = FindTrapAI.getInstance();
-		cooldownManager.start();
+
+		coolDownManager = new CoolDownManager(this, cooldownTime);
+		coolDownManager.start();
+
 	}
 
 	@Override
@@ -44,28 +47,5 @@ public class SaboteurNative extends AbstractNative {
 		// if ( !this.cooldownManager.isAlive() )
 		//
 	}
-
-	private Thread cooldownManager = new Thread() {
-
-		public void run() {
-
-			while (SaboteurNative.this.isAlive()) {
-
-				if (!canAttack) {
-					canAttack = true;
-				}
-
-				try {
-					sleep(cooldownTime);
-				} catch (InterruptedException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-
-			}
-
-		};
-
-	};
 
 }

@@ -337,6 +337,7 @@ public class GameManagerImpl implements GameManager {
 				this.endGame();
 				gameOver = true;
 				gameStopped = true;
+				System.err.println("GAME OVER");
 				this.serverMultiplayer.outBroadcast("over");
 			}
 
@@ -344,6 +345,7 @@ public class GameManagerImpl implements GameManager {
 			win = true;
 			this.endGame();
 			gameStopped = true;
+
 			this.serverMultiplayer.outBroadcast("clear");
 		}
 

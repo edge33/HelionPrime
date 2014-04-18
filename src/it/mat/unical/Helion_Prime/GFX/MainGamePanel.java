@@ -24,8 +24,7 @@ public class MainGamePanel extends JPanel {
 	private Cursor cursor;
 	private UserProfile profile;
 
-	public MainGamePanel(File level, Client client)
-			throws FileNotCorrectlyFormattedException {
+	public MainGamePanel(File level, Client client) {
 
 		this.cursor = MainMenuFrame.getInstance().getMainMenuPanel()
 				.getCursor();
@@ -46,8 +45,13 @@ public class MainGamePanel extends JPanel {
 		 * implementare rete
 		 */
 
-		levelPanel = new GamePane(level, client, trapPanel, informationPanel,
-				gamePadController, null);
+		try {
+			levelPanel = new GamePane(level, client, trapPanel,
+					informationPanel, gamePadController, null);
+		} catch (FileNotCorrectlyFormattedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 
 		add(informationPanel, BorderLayout.NORTH);
 		add(trapPanel, BorderLayout.SOUTH);

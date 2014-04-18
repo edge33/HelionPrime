@@ -3,7 +3,6 @@ package it.mat.unical.Helion_Prime.Multiplayer;
 import it.mat.unical.Helion_Prime.GFX.GameOverPanel;
 import it.mat.unical.Helion_Prime.GFX.MainGamePanel;
 import it.mat.unical.Helion_Prime.GFX.MainMenuFrame;
-import it.mat.unical.Helion_Prime.Logic.FileNotCorrectlyFormattedException;
 import it.mat.unical.Helion_Prime.Online.Client;
 
 import java.awt.Color;
@@ -35,11 +34,11 @@ public class LevelSwitchPanelMultiplayer extends JPanel {
 
 	private GameOverPanel gameOverPanel;
 	private Cursor cursor;
-	
-	public LevelSwitchPanelMultiplayer(Font font, boolean asNewMultuplayer)
-	{
 
-		this.cursor = MainMenuFrame.getInstance().getMainMenuPanel().getCursor();
+	public LevelSwitchPanelMultiplayer(Font font, boolean asNewMultuplayer) {
+
+		this.cursor = MainMenuFrame.getInstance().getMainMenuPanel()
+				.getCursor();
 		this.setCursor(cursor);
 		this.asNewMultiplayer = asNewMultuplayer;
 
@@ -108,12 +107,7 @@ public class LevelSwitchPanelMultiplayer extends JPanel {
 					System.out.println(client.recieveMessage());
 
 					MainGamePanel mainGamePanel = null;
-					try {
-						mainGamePanel = new MainGamePanel(choosenLevel, client);
-					} catch (FileNotCorrectlyFormattedException e1) {
-						// TODO Auto-generated catch block
-						e1.printStackTrace();
-					}
+					mainGamePanel = new MainGamePanel(choosenLevel, client);
 
 					MainMenuFrame.getInstance().switchTo(mainGamePanel);
 
@@ -125,12 +119,7 @@ public class LevelSwitchPanelMultiplayer extends JPanel {
 					File choosenLevel = new File("levels/" + levelName);
 
 					MainGamePanel mainGamePanel = null;
-					try {
-						mainGamePanel = new MainGamePanel(choosenLevel, client);
-					} catch (FileNotCorrectlyFormattedException e1) {
-						// TODO Auto-generated catch block
-						e1.printStackTrace();
-					}
+					mainGamePanel = new MainGamePanel(choosenLevel, client);
 
 					MainMenuFrame.getInstance().switchTo(mainGamePanel);
 

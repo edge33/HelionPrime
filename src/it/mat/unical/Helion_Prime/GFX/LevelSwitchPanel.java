@@ -1,6 +1,5 @@
 package it.mat.unical.Helion_Prime.GFX;
 
-import it.mat.unical.Helion_Prime.Logic.FileNotCorrectlyFormattedException;
 import it.mat.unical.Helion_Prime.Logic.GameManagerImpl;
 import it.mat.unical.Helion_Prime.Online.Client;
 import it.mat.unical.Helion_Prime.Online.Server;
@@ -34,9 +33,9 @@ public class LevelSwitchPanel extends JPanel {
 
 	private GameOverPanel gameOverPanel;
 
-	public LevelSwitchPanel() 
-	{
-		this.cursor = MainMenuFrame.getInstance().getMainMenuPanel().getCursor();
+	public LevelSwitchPanel() {
+		this.cursor = MainMenuFrame.getInstance().getMainMenuPanel()
+				.getCursor();
 		this.setCursor(cursor);
 		try {
 			levelSwitchWallpaper = ImageIO.read(new File(
@@ -93,7 +92,7 @@ public class LevelSwitchPanel extends JPanel {
 						+ name);
 				File level = new File(name);
 				System.out
-				.println("------------------------------------------------");
+						.println("------------------------------------------------");
 				MainGamePanel mainGamePanel = null;
 
 				try {
@@ -110,23 +109,10 @@ public class LevelSwitchPanel extends JPanel {
 				if (client.recieveMessage().equals("ready")) {
 
 					System.out.println("SIAMO READY INIZIA IL GIOCO");
-					try {
-						mainGamePanel = new MainGamePanel(level, client);
-
-					} catch (FileNotCorrectlyFormattedException e1) {
-						// TODO Auto-generated catch block
-						e1.printStackTrace();
-					}
+					mainGamePanel = new MainGamePanel(level, client);
 
 				}
-				// try {
-				// // mainGamePanel = new MainGamePanel(choosenLevel);
-				// MainMenuFrame.getInstance().switchTo(mainGamePanel);
-				// } catch (FileNotFoundException e1) {
-				// JOptionPane.showMessageDialog(null,
-				// "Wave per il livello selezionato, non presente!");
-				// MainMenuFrame.getInstance().switchTo(LevelSwitchPanel.this);
-				// }
+				MainMenuFrame.getInstance().switchTo(mainGamePanel);
 			}
 		});
 

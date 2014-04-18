@@ -48,7 +48,8 @@ public class ClientManagerMultiplayer extends ClientManager {
 		new Thread() {
 			@Override
 			public void run() {
-				while (true) {
+				this.setName("CLIENT_MANAGER - MovementPlayer ");
+				while (!finishGame) {
 					try {
 
 						String movement = getMovementPlayer().take();
@@ -87,7 +88,8 @@ public class ClientManagerMultiplayer extends ClientManager {
 		new Thread() {
 
 			public void run() {
-				while (true) {
+				this.setName("CLIENT MANAGER - movementBullet ");
+				while (!finishGame) {
 					String movement;
 					try {
 						movement = getCreateBullets().take();
@@ -95,16 +97,18 @@ public class ClientManagerMultiplayer extends ClientManager {
 
 						if (movementSplitted[0].equals("sh")
 								&& movementSplitted[2].equals("1")) {
-							gamePane.bullets.put(Integer
-									.parseInt(movementSplitted[1]),
-									new BulletsClient(getPlayerDirection(),
+							gamePane.bullets.put(
+									Integer.parseInt(movementSplitted[1]),
+									new BulletsClient(Integer
+											.parseInt(movementSplitted[3]),
 											getLogicX(), getLogicY()));
 
 						} else if (movementSplitted[0].equals("sh")
 								&& movementSplitted[2].equals("2")) {
-							gamePane.bullets.put(Integer
-									.parseInt(movementSplitted[1]),
-									new BulletsClient(getPlayerTwoDirection(),
+							gamePane.bullets.put(
+									Integer.parseInt(movementSplitted[1]),
+									new BulletsClient(Integer
+											.parseInt(movementSplitted[3]),
 											getLogicXPlayerTwo(),
 											getLogicYPlayerTwo()));
 
@@ -138,6 +142,12 @@ public class ClientManagerMultiplayer extends ClientManager {
 			};
 		}.start();
 
+	}
+
+	@Override
+	public boolean isMultiplayerGame() {
+
+		return !super.isMultiplayerGame();
 	}
 
 	public int getPlayerTwoDirection() {

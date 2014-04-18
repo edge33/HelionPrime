@@ -177,7 +177,8 @@ public class Server extends Thread {
 			placemenTrap.put(splitted[1]);
 		} else if (message.equals("sh")) {
 
-			sendMessage("sh " + String.valueOf(canShoot()));
+			sendMessage("sh " + String.valueOf(canShoot() + " ")
+					+ playerOne.getDirection());
 
 		} else if (splitted[0].equals("switchGun")) {
 			swintchGunForPlayer(splitted[1]);

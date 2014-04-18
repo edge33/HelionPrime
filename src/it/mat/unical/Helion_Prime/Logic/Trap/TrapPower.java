@@ -79,8 +79,12 @@ public class TrapPower extends AbstractTrap {
 
 						System.out.println(messageForBullet);
 
-						GameManagerImpl.getInstance().getServer()
-								.sendMessage(messageForBullet);
+						if (!GameManagerImpl.getInstance().isMultiplayerGame())
+							GameManagerImpl.getInstance().getServer()
+									.sendMessage(messageForBullet);
+						else
+							GameManagerImpl.getInstance().getServerMuliplayer()
+									.outBroadcast(messageForBullet);
 
 					}
 				}
