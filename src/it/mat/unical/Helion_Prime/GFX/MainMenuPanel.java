@@ -135,8 +135,7 @@ public class MainMenuPanel extends JPanel {
 			}
 		});
 
-		// playMusic();
-	
+		//playMusic();
 		setLayout(new BorderLayout());
 		musicButton.setBounds(10, 1, 150, 150);
 		centerPane.add(musicButton);
