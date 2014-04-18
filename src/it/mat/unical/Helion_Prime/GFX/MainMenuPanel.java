@@ -3,7 +3,6 @@ package it.mat.unical.Helion_Prime.GFX;
 import it.mat.unical.Helion_Prime.EnemyEditor.EnemyEditorPanel;
 import it.mat.unical.Helion_Prime.LevelEditor.EditorMainPanel;
 import it.mat.unical.Helion_Prime.Multiplayer.LevelSwitchPanelMultiplayer;
-import it.mat.unical.Helion_Prime.Multiplayer.MultiplayerPanel;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -80,10 +79,10 @@ public class MainMenuPanel extends JPanel {
 			public void actionPerformed(ActionEvent arg0) {
 
 				if (!musicIsOn) {
-					clip.start();
+					// clip.start();
 					musicIsOn = true;
 				} else {
-					clip.stop();
+					// clip.stop();
 					musicIsOn = false;
 				}
 			}
@@ -136,7 +135,8 @@ public class MainMenuPanel extends JPanel {
 			}
 		});
 
-		playMusic();
+		// playMusic();
+	
 		setLayout(new BorderLayout());
 		musicButton.setBounds(10, 1, 150, 150);
 		centerPane.add(musicButton);
@@ -186,7 +186,8 @@ public class MainMenuPanel extends JPanel {
 		multiplayerButton.setBackground(Color.black);
 		multiplayerButton.setForeground(Color.green);
 		multiplayerButton.setFont(font);
-		multiplayerButton.setFont(multiplayerButton.getFont().deriveFont(25.0f));
+		multiplayerButton
+				.setFont(multiplayerButton.getFont().deriveFont(25.0f));
 		multiplayerButton.setBorderPainted(false);
 		multiplayerButton.setFocusPainted(false);
 
@@ -223,13 +224,17 @@ public class MainMenuPanel extends JPanel {
 
 	public void playMusic() {
 
-
-		try { AudioInputStream audioInputStream = AudioSystem
-				.getAudioInputStream(new File("Ost/Lucian.wav") .getAbsoluteFile());
-		clip = AudioSystem.getClip(); clip.open(audioInputStream);
-		clip.start(); } catch (Exception ex) {
+		try {
+			AudioInputStream audioInputStream = AudioSystem
+					.getAudioInputStream(new File("Ost/Lucian.wav")
+							.getAbsoluteFile());
+			clip = AudioSystem.getClip();
+			clip.open(audioInputStream);
+			clip.start();
+		} catch (Exception ex) {
 			System.out.println("Error with playing sound.");
-			ex.printStackTrace(); }
+			ex.printStackTrace();
+		}
 
 	}
 
