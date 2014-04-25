@@ -20,6 +20,7 @@ import java.io.File;
 import java.io.IOException;
 
 import javax.imageio.ImageIO;
+import javax.imageio.spi.ImageInputStreamSpi;
 import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.ImageIcon;
@@ -40,6 +41,7 @@ public class StoryPanel extends JPanel
 	private MouseListener listener;
 	private ContenitorPanel contenitor;
 	private BufferedImage levelSwitchWallpaper;
+	private Image lockIcon;
 	private String levelSelected;
 	private GridBagLayout layout;
 	private GridBagConstraints c;
@@ -47,7 +49,9 @@ public class StoryPanel extends JPanel
 
 	public StoryPanel(ContenitorPanel contenitor)
 	{
-		try { levelSwitchWallpaper = ImageIO.read(new File("Resources/optionPanelImage.jpg")); }
+		try { levelSwitchWallpaper = ImageIO.read(new File("Resources/optionPanelImage.jpg")); 
+		lockIcon = ImageIO.read(new File("Resources/lock.png")).getScaledInstance(
+				40, 40, Image.SCALE_SMOOTH);}
 		catch (IOException e) {}
 		this.contenitor = contenitor;
 		this.levelSelected = "none";
@@ -65,6 +69,7 @@ public class StoryPanel extends JPanel
 		setBackground(Color.BLACK);
 		initListener();
 		fillPanel();
+
 	}
 
 
@@ -142,6 +147,10 @@ public class StoryPanel extends JPanel
 				level = new JLabel(name);
 				level.setBorder(BorderFactory.createLineBorder(Color.GREEN,1));
 				level.addMouseListener(listener);
+				if(i!=1)
+				{
+					level.setIcon(new ImageIcon (lockIcon));
+				}
 				level.setHorizontalAlignment(SwingConstants.CENTER);
 				level.setPreferredSize(new Dimension(50, 50));
 				if(k!=5)
