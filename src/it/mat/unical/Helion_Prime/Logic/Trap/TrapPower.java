@@ -47,7 +47,9 @@ public class TrapPower extends AbstractTrap {
 
 	public void start() {
 		new Thread() {
+
 			public void run() {
+				this.setName("TRAP_POWER");
 				while (TrapPower.this.getLife() > 0
 						&& !GameManagerImpl.getInstance().gameIsOver()
 						&& !GameManagerImpl.getInstance().isGameStopped()) {

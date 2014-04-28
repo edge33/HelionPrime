@@ -130,11 +130,15 @@ public class GamePane extends JPanel {
 
 		this.imageProvider = new ImageProvider();
 
-		if (!client.isMultiplayerGame())
-			this.clientManager = new ClientManager(this.client, this,
-					this.profile);
-		else
-			this.clientManager = new ClientManagerMultiplayer(this.client, this);
+		if (!client.isMultiplayerGame()) {
+			this.clientManager = ClientManager.getInstance();
+			clientManager.createClientManager(client, this, profile);
+		} else {
+			this.clientManager = ClientManagerMultiplayer.getInstance();
+			((ClientManagerMultiplayer) this.clientManager)
+					.createClientManagerMultiplayer(client, this);
+
+		}
 
 		clientManager.init();
 

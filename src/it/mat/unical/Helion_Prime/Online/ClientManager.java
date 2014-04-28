@@ -21,7 +21,7 @@ public class ClientManager {
 	private BlockingQueue<String> movementWawe;
 	private BlockingQueue<String> placementTrap;
 	private BlockingQueue<String> outToServer;
-
+	public static boolean isPlayerOne;
 	protected GamePane gamePane;
 	private UserProfile profile;
 	private int logicXPlayerOne;
@@ -29,12 +29,13 @@ public class ClientManager {
 	private int movementOffset;
 	private int money = 0;
 	private int life = 0;
-	private boolean gameOver = false;
+	protected boolean gameOver = false;
 	protected static boolean finishGame = false;
 	private int playerDirection;
 	private ThreadPoolBulletClient threadPool;
+	private static ClientManager instance;
 
-	public ClientManager(Client client, GamePane gamePane) {
+	protected ClientManager(Client client, GamePane gamePane) {
 
 		this.client = client;
 		// this.placedTrap = new ConcurrentHashMap<Point, Integer>();
@@ -42,18 +43,20 @@ public class ClientManager {
 		// this.movementBulletsForThreadPool = new
 		// LinkedBlockingQueue<String>();
 		finishGame = false;
+		gameOver = false;
 		this.placementTrap = new LinkedBlockingQueue<String>();
 		this.movementPlayer = new LinkedBlockingQueue<String>();
 		this.createBullets = new LinkedBlockingQueue<String>();
 		this.movementWawe = new LinkedBlockingQueue<String>();
 		this.outToServer = new LinkedBlockingQueue<String>();
 		this.gamePane = gamePane;
-		this.movementOffset = gamePane.getMovementOffset();
+		// this.movementOffset = gamePane.getMovementOffset();
 		this.threadPool = new ThreadPoolBulletClient(gamePane);
-		threadPool.start();
+
 	}
 
-	public ClientManager(Client client, GamePane gamePane, UserProfile profile) {
+	protected ClientManager(Client client, GamePane gamePane,
+			UserProfile profile) {
 
 		this.client = client;
 		// this.placedTrap = new ConcurrentHashMap<Point, Integer>();
@@ -70,7 +73,39 @@ public class ClientManager {
 		this.movementOffset = gamePane.getMovementOffset();
 		this.threadPool = new ThreadPoolBulletClient(gamePane);
 		this.profile = profile;
-		threadPool.start();
+
+	}
+
+	protected ClientManager() {
+		// TODO Auto-generated constructor stub
+	}
+
+	public static ClientManager getInstance() {
+		if (instance == null)
+			instance = new ClientManager();
+
+		return instance;
+	}
+
+	public void createClientManager(Client client, GamePane gamePane,
+			UserProfile profile) {
+
+		this.client = client;
+		// this.placedTrap = new ConcurrentHashMap<Point, Integer>();
+		// this.bullets = new ConcurrentHashMap<Integer, BulletsClient>();
+		// this.movementBulletsForThreadPool = new
+		// LinkedBlockingQueue<String>();
+		finishGame = false;
+		this.placementTrap = new LinkedBlockingQueue<String>();
+		this.movementPlayer = new LinkedBlockingQueue<String>();
+		this.createBullets = new LinkedBlockingQueue<String>();
+		this.movementWawe = new LinkedBlockingQueue<String>();
+		this.outToServer = new LinkedBlockingQueue<String>();
+		this.gamePane = gamePane;
+		this.movementOffset = gamePane.getMovementOffset();
+		this.threadPool = new ThreadPoolBulletClient(gamePane);
+		this.profile = profile;
+
 	}
 
 	public void pushToQueueForServer(String sentence) {
@@ -111,6 +146,10 @@ public class ClientManager {
 	}
 
 	public void init() {
+
+		System.err.println("ENTRO IN INIT");
+		finishGame = false;
+		gameOver = false;
 		this.money = Integer.parseInt(client.recieveMessage()); // ricevo i
 		// l'intero
 		// corrrispondente
@@ -121,6 +160,9 @@ public class ClientManager {
 		logicXPlayerOne = gamePane.getWorld().getPlayerSpawner().getX();
 		logicYPlayerOne = gamePane.getWorld().getPlayerSpawner().getY();
 		this.playerDirection = 2;
+
+		System.err.println("Arrivate " + money + " " + life);
+		this.threadPool.start();
 		this.startClient();
 
 		this.startMovementOfBullets();
@@ -128,6 +170,7 @@ public class ClientManager {
 		this.startPlacementTrap();
 		this.startMessageToServer();
 
+		System.err.println("ESCO DA INIT");
 	}
 
 	public void retrySelection() {
@@ -235,6 +278,7 @@ public class ClientManager {
 		createBullets.put("finish");
 		placementTrap.put("finish");
 		movementWawe.put("finish");
+		movementPlayer.put("finish");
 	}
 
 	private void placeTrapOnGraphicMap(String message) {

@@ -26,6 +26,9 @@ public class ServerMultiplayer extends Thread {
 	private String levelName;
 	private Player playerOne;
 	private Player playertwo;
+	private File level;
+	private boolean wantRetryPlayerOne = false;
+	private boolean wantRetryPlayerTwo = false;
 	private BlockingQueue<String> fromPlayerOne;
 	private BlockingQueue<String> fromPlayerTwo;
 	private BlockingQueue<String> broadcastMessage;
@@ -96,7 +99,7 @@ public class ServerMultiplayer extends Thread {
 	public void initServerMultiplayer() {
 		sendToClientOne("GIOCATORE 2 ARRIVATO");
 
-		File level = new File("levels/" + levelName);
+		level = new File("levels/" + levelName);
 
 		gameManager = GameManagerImpl.getInstance();
 		try {
@@ -115,6 +118,9 @@ public class ServerMultiplayer extends Thread {
 		sendBroadcast(((Integer) GameManagerImpl.getInstance().getPlayerOne()
 				.getLife()).toString()); // mando l'intero corrispondente alla
 											// vita;
+
+		wantRetryPlayerOne = false;
+		wantRetryPlayerOne = false;
 
 		this.startInFromPlayerOne();
 		this.startInFromPlayerTwo();
@@ -156,8 +162,7 @@ public class ServerMultiplayer extends Thread {
 			public void run() {
 
 				this.setName("SERVER MULTYPLAYER - SEND_MESSAGE:P1");
-				while (!GameManagerImpl.getInstance().isGameStopped()
-						&& !GameManagerImpl.getInstance().gameIsOver()) {
+				while (true) {
 
 					try {
 						String messageForPlayerOne = forPlayerOne.take();
@@ -181,8 +186,7 @@ public class ServerMultiplayer extends Thread {
 
 			public void run() {
 				this.setName("SERVER MULTYPLAYER - SEND_MESSAGE:P2");
-				while (!GameManagerImpl.getInstance().isGameStopped()
-						&& !GameManagerImpl.isPaused()) {
+				while (true) {
 
 					try {
 						String messageForPlayerOne = forPlayerTwo.take();
@@ -223,8 +227,7 @@ public class ServerMultiplayer extends Thread {
 		new Thread() {
 			public void run() {
 				this.setName("SERVER MULTYPLAYER - SEND_MESSAGE: BR");
-				while (!GameManagerImpl.getInstance().isGameStopped()
-						&& !GameManagerImpl.getInstance().gameIsOver()) {
+				while (true) {
 
 					try {
 						String messageBroadcast = broadcastMessage.take();
@@ -322,16 +325,51 @@ public class ServerMultiplayer extends Thread {
 									+ playerOne.getDirection());
 							outToClientTwo("sh " + String.valueOf(key) + " 2 "
 									+ playerOne.getDirection());
-						} else if (messageFromPlayerOne.equals("retry")) {
-							System.out
-									.println("ora reiniziamo la partita FROM PLAYER ONE");
+						} else if (messageFromPlayerOne.equals("retry")
+								|| messageFromPlayerOne.equals("Ok")) {
+
+							if (wantRetryPlayerOne == false) {
+								outToClientTwo("retry");
+								wantRetryPlayerOne = true;
+							}
+
+							if (messageFromPlayerOne.equals("Ok")) {
+								sendBroadcast(((Integer) GameManagerImpl
+										.getInstance().getPlayerOne()
+										.getMoney()).toString()); // mando
+																	// l'intero
+																	// corrispondente
+																	// ai
+																	// money;
+								sendBroadcast(((Integer) GameManagerImpl
+										.getInstance().getPlayerOne().getLife())
+										.toString()); // mando l'intero
+														// corrispondente alla
+														// vita;
+
+								gameManager
+										.setServerMultiplayer(ServerMultiplayer.this);
+
+								wantRetryPlayerOne = false;
+								wantRetryPlayerTwo = false;
+
+								try {
+									GameManagerImpl.getInstance().init(level,
+											true);
+									ServerMultiplayer.this.startUpdater();
+								} catch (FileNotFoundException e) {
+									// TODO Auto-generated catch block
+									e.printStackTrace();
+								}
+
+							}
 
 						}
-
 					} catch (InterruptedException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
+
 				}
 
 			}
@@ -372,9 +410,15 @@ public class ServerMultiplayer extends Thread {
 							outToClientTwo("sh " + String.valueOf(key) + " 1 "
 									+ playertwo.getDirection());
 
-						} else if (messageFromPlayerTwo.equals("retry")) {
+						} else if (messageFromPlayerTwo.equals("retry")
+								|| messageFromPlayerTwo.equals("Ok")) {
 							System.out
 									.println("ora reiniziamo la partita FROM PLAYER TWO");
+
+							if (wantRetryPlayerTwo == false) {
+								outToClientOne("retry");
+								wantRetryPlayerTwo = true;
+							}
 
 						}
 

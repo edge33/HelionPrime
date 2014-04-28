@@ -1,6 +1,7 @@
 package it.mat.unical.Helion_Prime.Logic.Character;
 
 import it.mat.unical.Helion_Prime.Logic.GameManagerImpl;
+import it.mat.unical.Helion_Prime.Online.ClientManager;
 
 public class CoolDownManager extends Thread {
 
@@ -16,8 +17,7 @@ public class CoolDownManager extends Thread {
 
 	public void run() {
 
-		while (theNative.isAlive() && !gameManager.gameIsOver()
-				&& !gameManager.isGameStopped()) {
+		while (theNative.isAlive() && !ClientManager.isFinishGame()) {
 
 			while (GameManagerImpl.isPaused()) {
 				System.out.println("Sono in pausa  - CoolDownManager");

@@ -149,7 +149,24 @@ public class StageClearPanel extends JPanel {
 					}
 					MainMenuFrame.getInstance().switchTo(mainGamePanel);
 				} else {
+
 					StageClearPanel.this.clientManager.sendMessage("retry");
+
+					System.out.println("ATTENDO MESSAGGIO DAL SERVER");
+
+					StageClearPanel.this.clientManager.getClient()
+							.recieveMessage();
+
+					StageClearPanel.this.clientManager.getClient().sendMessage(
+							"Ok");
+
+					System.out.println("MESSAGGIO DAL SERVER ARRIVATO");
+
+					MainGamePanel mgGamePanel = new MainGamePanel(
+							lastLevelPlayed, StageClearPanel.this.clientManager
+									.getClient());
+
+					MainMenuFrame.getInstance().switchTo(mgGamePanel);
 
 				}
 

@@ -1,6 +1,7 @@
 package it.mat.unical.Helion_Prime.GFX;
 
 import it.mat.unical.Helion_Prime.Logic.GameManagerImpl;
+import it.mat.unical.Helion_Prime.Online.ClientManager;
 
 public class Repainter extends Thread {
 
@@ -13,8 +14,7 @@ public class Repainter extends Thread {
 	@Override
 	public void run() {
 
-		while (!GameManagerImpl.getInstance().gameIsOver()
-				&& !GameManagerImpl.getInstance().isGameStopped()) {
+		while (!ClientManager.isFinishGame()) {
 
 			while (GameManagerImpl.isPaused()) {
 				System.out.println("sono in pausa - Repainter");

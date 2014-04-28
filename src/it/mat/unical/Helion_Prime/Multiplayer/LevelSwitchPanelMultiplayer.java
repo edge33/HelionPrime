@@ -96,6 +96,7 @@ public class LevelSwitchPanelMultiplayer extends JPanel {
 
 				if (LevelSwitchPanelMultiplayer.this.asNewMultiplayer) {
 					client.sendMessage("Client 1 connesso (SERVER)");
+					ClientManagerMultiplayer.isPlayerOne = true;
 					System.out.println(client.recieveMessage());
 					File choosenLevel = (File) LevelSwitchPanelMultiplayer.this.comboBox
 							.getSelectedItem();

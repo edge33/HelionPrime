@@ -10,9 +10,33 @@ public class ClientManagerMultiplayer extends ClientManager {
 	private int logicXPlayerTwo;
 	private int logicYPlayerTwo;
 	private int directionPlayerTwo;
+	private static ClientManagerMultiplayer instance;
 
-	public ClientManagerMultiplayer(Client client, GamePane gamePane) {
+	private ClientManagerMultiplayer(Client client, GamePane gamePane) {
 		super(client, gamePane);
+		logicXPlayerTwo = gamePane.getWorld().getPlayerSpawner().getX();
+		logicYPlayerTwo = gamePane.getWorld().getPlayerSpawner().getY();
+		this.startMovementPlayer();
+
+	}
+
+	private ClientManagerMultiplayer() {
+		super();
+	}
+
+	public static ClientManagerMultiplayer getInstance() {
+
+		if (instance == null) {
+			instance = new ClientManagerMultiplayer();
+		}
+
+		return ClientManagerMultiplayer.instance;
+	}
+
+	public void createClientManagerMultiplayer(Client client, GamePane gamePane) {
+
+		this.createClientManager(client, gamePane, null);
+
 		logicXPlayerTwo = gamePane.getWorld().getPlayerSpawner().getX();
 		logicYPlayerTwo = gamePane.getWorld().getPlayerSpawner().getY();
 		this.startMovementPlayer();
@@ -49,7 +73,7 @@ public class ClientManagerMultiplayer extends ClientManager {
 			@Override
 			public void run() {
 				this.setName("CLIENT_MANAGER - MovementPlayer ");
-				while (!finishGame) {
+				while (!finishGame && !gameOver) {
 					try {
 
 						String movement = getMovementPlayer().take();
@@ -68,6 +92,17 @@ public class ClientManagerMultiplayer extends ClientManager {
 
 	public int getLogicXPlayerTwo() {
 		return logicXPlayerTwo;
+	}
+
+	@Override
+	public void sendAllFinish() {
+
+		try {
+			super.sendAllFinish();
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	public void setLogicXPlayerTwo(int logicXPlayerTwo) {
@@ -89,7 +124,7 @@ public class ClientManagerMultiplayer extends ClientManager {
 
 			public void run() {
 				this.setName("CLIENT MANAGER - movementBullet ");
-				while (!finishGame) {
+				while (!finishGame && !gameOver) {
 					String movement;
 					try {
 						movement = getCreateBullets().take();
