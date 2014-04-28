@@ -12,6 +12,8 @@ import java.io.InputStreamReader;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.BrokenBarrierException;
+import java.util.concurrent.CyclicBarrier;
 import java.util.concurrent.LinkedBlockingQueue;
 
 public class ServerMultiplayer extends Thread {
@@ -26,9 +28,10 @@ public class ServerMultiplayer extends Thread {
 	private String levelName;
 	private Player playerOne;
 	private Player playertwo;
+	private CyclicBarrier barrier;
 	private File level;
-	private boolean wantRetryPlayerOne = false;
-	private boolean wantRetryPlayerTwo = false;
+	private boolean wantRetryPlayerOne;
+	private boolean wantRetryPlayerTwo;
 	private BlockingQueue<String> fromPlayerOne;
 	private BlockingQueue<String> fromPlayerTwo;
 	private BlockingQueue<String> broadcastMessage;
@@ -46,6 +49,9 @@ public class ServerMultiplayer extends Thread {
 			e.printStackTrace();
 		}
 		this.connectedClient = 0;
+		wantRetryPlayerOne = false;
+		barrier = new CyclicBarrier(2);
+		wantRetryPlayerTwo = false;
 		fromPlayerOne = new LinkedBlockingQueue<String>();
 		fromPlayerTwo = new LinkedBlockingQueue<String>();
 		placementTrap = new LinkedBlockingQueue<String>();
@@ -120,7 +126,7 @@ public class ServerMultiplayer extends Thread {
 											// vita;
 
 		wantRetryPlayerOne = false;
-		wantRetryPlayerOne = false;
+		wantRetryPlayerTwo = false;
 
 		this.startInFromPlayerOne();
 		this.startInFromPlayerTwo();
@@ -300,9 +306,11 @@ public class ServerMultiplayer extends Thread {
 				while (true) {
 
 					String messageFromPlayerOne;
+
 					try {
 						messageFromPlayerOne = fromPlayerOne.take();
-
+						System.out.println(messageFromPlayerOne
+								+ " From Player One");
 						if (messageFromPlayerOne.substring(0, 1).equals("m")
 								|| messageFromPlayerOne.substring(0, 1).equals(
 										"d")) {
@@ -325,15 +333,21 @@ public class ServerMultiplayer extends Thread {
 									+ playerOne.getDirection());
 							outToClientTwo("sh " + String.valueOf(key) + " 2 "
 									+ playerOne.getDirection());
-						} else if (messageFromPlayerOne.equals("retry")
-								|| messageFromPlayerOne.equals("Ok")) {
+						} else if (messageFromPlayerOne.equals("retry")) {
 
-							if (wantRetryPlayerOne == false) {
-								outToClientTwo("retry");
-								wantRetryPlayerOne = true;
+							wantRetryPlayerOne = true;
+
+							try {
+								barrier.await();
+							} catch (BrokenBarrierException e1) {
+								// TODO Auto-generated catch block
+								e1.printStackTrace();
 							}
 
-							if (messageFromPlayerOne.equals("Ok")) {
+							sendBroadcast("OK");
+
+							if (wantRetryPlayerOne && wantRetryPlayerTwo) {
+
 								sendBroadcast(((Integer) GameManagerImpl
 										.getInstance().getPlayerOne()
 										.getMoney()).toString()); // mando
@@ -350,9 +364,6 @@ public class ServerMultiplayer extends Thread {
 								gameManager
 										.setServerMultiplayer(ServerMultiplayer.this);
 
-								wantRetryPlayerOne = false;
-								wantRetryPlayerTwo = false;
-
 								try {
 									GameManagerImpl.getInstance().init(level,
 											true);
@@ -361,6 +372,8 @@ public class ServerMultiplayer extends Thread {
 									// TODO Auto-generated catch block
 									e.printStackTrace();
 								}
+								wantRetryPlayerOne = false;
+								wantRetryPlayerTwo = false;
 
 							}
 
@@ -388,6 +401,8 @@ public class ServerMultiplayer extends Thread {
 
 					try {
 						String messageFromPlayerTwo = fromPlayerTwo.take();
+						System.out.println(messageFromPlayerTwo
+								+ " From Player two");
 						if (messageFromPlayerTwo.substring(0, 1).equals("m")
 								|| messageFromPlayerTwo.substring(0, 1).equals(
 										"d")) {
@@ -410,16 +425,16 @@ public class ServerMultiplayer extends Thread {
 							outToClientTwo("sh " + String.valueOf(key) + " 1 "
 									+ playertwo.getDirection());
 
-						} else if (messageFromPlayerTwo.equals("retry")
-								|| messageFromPlayerTwo.equals("Ok")) {
-							System.out
-									.println("ora reiniziamo la partita FROM PLAYER TWO");
+						} else if (messageFromPlayerTwo.equals("retry")) {
 
-							if (wantRetryPlayerTwo == false) {
-								outToClientOne("retry");
-								wantRetryPlayerTwo = true;
+							wantRetryPlayerTwo = true;
+
+							try {
+								barrier.await();
+							} catch (BrokenBarrierException e) {
+								// TODO Auto-generated catch block
+								e.printStackTrace();
 							}
-
 						}
 
 					} catch (InterruptedException e) {

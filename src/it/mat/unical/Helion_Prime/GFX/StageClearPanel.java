@@ -157,9 +157,6 @@ public class StageClearPanel extends JPanel {
 					StageClearPanel.this.clientManager.getClient()
 							.recieveMessage();
 
-					StageClearPanel.this.clientManager.getClient().sendMessage(
-							"Ok");
-
 					System.out.println("MESSAGGIO DAL SERVER ARRIVATO");
 
 					MainGamePanel mgGamePanel = new MainGamePanel(

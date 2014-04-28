@@ -74,4 +74,14 @@ public class Client {
 		// TODO Auto-generated method stub
 		return false;
 	}
+
+	public void flush() {
+		try {
+			out.flush();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+	}
 }
