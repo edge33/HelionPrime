@@ -11,7 +11,7 @@ import java.awt.Toolkit;
 import javax.swing.JLabel;
 
 //semplice classe che carica le immaggini dal toolkit e le restituisce al paintComponent del "GamePane"
-// Last id 119
+// Last id 144
 
 public class ImageProvider extends Thread {
 
@@ -46,6 +46,26 @@ public class ImageProvider extends Thread {
 	private final Image playerLeftRunning2;
 	private final Image playerLeftRunning3;
 	private final Image playerLeftRunning4;
+
+	private final Image player2UpRunning;
+	private final Image player2UpRunning2;
+	private final Image player2UpRunning3;
+	private final Image player2UpRunning4;
+
+	private final Image player2DownRunning;
+	private final Image player2DownRunning2;
+	private final Image player2DownRunning3;
+	private final Image player2DownRunning4;
+
+	private final Image player2RightRunning;
+	private final Image player2RightRunning2;
+	private final Image player2RightRunning3;
+	private final Image player2RightRunning4;
+
+	private final Image player2LeftRunning;
+	private final Image player2LeftRunning2;
+	private final Image player2LeftRunning3;
+	private final Image player2LeftRunning4;
 
 	private final Image spikeTrap;
 	private final Image acidTrap;
@@ -182,11 +202,18 @@ public class ImageProvider extends Thread {
 	private static int currentRunningRightPlayer = 0;
 	private static int currentRunningLeftPlayer = 0;
 
+	private static int currentRunningUpPlayer2 = 0;
+	private static int currentRunningDownPlayer2 = 0;
+	private static int currentRunningRightPlayer2 = 0;
+	private static int currentRunningLeftPlayer2 = 0;
+
 	private static int enemyType;
 	private static int direction;
 	private static int currentPosition;
 	private static int enemyResistance = 5;
 	private Image back;
+
+	private Image player2Standing;
 
 	public ImageProvider() {
 		final Toolkit toolKit = Toolkit.getDefaultToolkit();
@@ -202,43 +229,82 @@ public class ImageProvider extends Thread {
 		this.flippedWall = toolKit.getImage("Resources/wallF100x100.jpg");
 
 		this.playerStanding = toolKit
-				.getImage("Resources/Char Resources/FilippoStand.gif");
+				.getImage("Resources/Char Resources/Filippo/FilippoStand.gif");
 
 		this.playerUpRunning = toolKit
-				.getImage("Resources/Char Resources/FilippoFront1.png");
+				.getImage("Resources/Char Resources/Filippo/FilippoFront1.png");
 		this.playerUpRunning2 = toolKit
-				.getImage("Resources/Char Resources/FilippoFront2.png");
+				.getImage("Resources/Char Resources/Filippo/FilippoFront2.png");
 		this.playerUpRunning3 = toolKit
-				.getImage("Resources/Char Resources/FilippoFront3.png");
+				.getImage("Resources/Char Resources/Filippo/FilippoFront3.png");
 		this.playerUpRunning4 = toolKit
-				.getImage("Resources/Char Resources/FilippoFront2.png");
+				.getImage("Resources/Char Resources/Filippo/FilippoFront2.png");
 
 		this.playerDownRunning = toolKit
-				.getImage("Resources/Char Resources/FilippoBack1.png");
+				.getImage("Resources/Char Resources/Filippo/FilippoBack1.png");
 		this.playerDownRunning2 = toolKit
-				.getImage("Resources/Char Resources/FilippoBack2.png");
+				.getImage("Resources/Char Resources/Filippo/FilippoBack2.png");
 		this.playerDownRunning3 = toolKit
-				.getImage("Resources/Char Resources/FilippoBack3.png");
+				.getImage("Resources/Char Resources/Filippo/FilippoBack3.png");
 		this.playerDownRunning4 = toolKit
-				.getImage("Resources/Char Resources/FilippoBack2.png");
+				.getImage("Resources/Char Resources/Filippo/FilippoBack2.png");
 
 		this.playerRightRunning = toolKit
-				.getImage("Resources/Char Resources/FilippoRight2.png");
+				.getImage("Resources/Char Resources/Filippo/FilippoRight2.png");
 		this.playerRightRunning2 = toolKit
-				.getImage("Resources/Char Resources/FilippoRight2.png");
+				.getImage("Resources/Char Resources/Filippo/FilippoRight2.png");
 		this.playerRightRunning3 = toolKit
-				.getImage("Resources/Char Resources/FilippoRight3.png");
+				.getImage("Resources/Char Resources/Filippo/FilippoRight3.png");
 		this.playerRightRunning4 = toolKit
-				.getImage("Resources/Char Resources/FilippoRight2.png");
+				.getImage("Resources/Char Resources/Filippo/FilippoRight2.png");
 
 		this.playerLeftRunning = toolKit
-				.getImage("Resources/Char Resources/FilippoLeft1.png");
+				.getImage("Resources/Char Resources/Filippo/FilippoLeft1.png");
 		this.playerLeftRunning2 = toolKit
-				.getImage("Resources/Char Resources/FilippoLeft2.png");
+				.getImage("Resources/Char Resources/Filippo/FilippoLeft2.png");
 		this.playerLeftRunning3 = toolKit
-				.getImage("Resources/Char Resources/FilippoLeft3.png");
+				.getImage("Resources/Char Resources/Filippo/FilippoLeft3.png");
 		this.playerLeftRunning4 = toolKit
-				.getImage("Resources/Char Resources/FilippoLeft2.png");
+				.getImage("Resources/Char Resources/Filippo/FilippoLeft2.png");
+
+		this.player2Standing = toolKit
+				.getImage("Resources/Char Resources/David/FilippoStand.gif");
+
+		this.player2UpRunning = toolKit
+				.getImage("Resources/Char Resources/David/FilippoFront1.png");
+		this.player2UpRunning2 = toolKit
+				.getImage("Resources/Char Resources/David/FilippoFront2.png");
+		this.player2UpRunning3 = toolKit
+				.getImage("Resources/Char Resources/David/FilippoFront3.png");
+		this.player2UpRunning4 = toolKit
+				.getImage("Resources/Char Resources/David/FilippoFront2.png");
+
+		this.player2DownRunning = toolKit
+				.getImage("Resources/Char Resources/David/FilippoBack1.png");
+		this.player2DownRunning2 = toolKit
+				.getImage("Resources/Char Resources/David/FilippoBack2.png");
+		this.player2DownRunning3 = toolKit
+				.getImage("Resources/Char Resources/David/FilippoBack3.png");
+		this.player2DownRunning4 = toolKit
+				.getImage("Resources/Char Resources/David/FilippoBack2.png");
+
+		this.player2RightRunning = toolKit
+				.getImage("Resources/Char Resources/David/FilippoRight2.png");
+		this.player2RightRunning2 = toolKit
+				.getImage("Resources/Char Resources/David/FilippoRight2.png");
+		this.player2RightRunning3 = toolKit
+				.getImage("Resources/Char Resources/David/FilippoRight3.png");
+		this.player2RightRunning4 = toolKit
+				.getImage("Resources/Char Resources/David/FilippoRight2.png");
+
+		this.player2LeftRunning = toolKit
+				.getImage("Resources/Char Resources/David/FilippoLeft1.png");
+		this.player2LeftRunning2 = toolKit
+				.getImage("Resources/Char Resources/David/FilippoLeft2.png");
+		this.player2LeftRunning3 = toolKit
+				.getImage("Resources/Char Resources/David/FilippoLeft3.png");
+		this.player2LeftRunning4 = toolKit
+				.getImage("Resources/Char Resources/David/FilippoLeft2.png");
 
 		this.hunterDownRunning1 = toolKit
 				.getImage("Resources/Robo/Yellow/RoboBack1.png");
@@ -485,6 +551,26 @@ public class ImageProvider extends Thread {
 		tracker.addImage(playerLeftRunning3, 21);
 		tracker.addImage(playerLeftRunning4, 26);
 
+		tracker.addImage(player2UpRunning, 120);
+		tracker.addImage(player2UpRunning2, 121);
+		tracker.addImage(player2UpRunning3, 122);
+		tracker.addImage(player2UpRunning4, 123);
+
+		tracker.addImage(player2DownRunning, 124);
+		tracker.addImage(player2DownRunning2, 125);
+		tracker.addImage(player2DownRunning3, 126);
+		tracker.addImage(player2DownRunning4, 127);
+
+		tracker.addImage(player2RightRunning, 128);
+		tracker.addImage(player2RightRunning2, 129);
+		tracker.addImage(player2RightRunning3, 130);
+		tracker.addImage(player2RightRunning3, 140);
+
+		tracker.addImage(player2LeftRunning, 141);
+		tracker.addImage(player2LeftRunning2, 142);
+		tracker.addImage(player2LeftRunning3, 143);
+		tracker.addImage(player2LeftRunning4, 144);
+
 		tracker.addImage(hunterDownRunning1, 27);
 		tracker.addImage(hunterDownRunning2, 22);
 		tracker.addImage(hunterDownRunning3, 28);
@@ -674,6 +760,26 @@ public class ImageProvider extends Thread {
 	}
 
 	public Image getPlayerLeftRunning() {
+		return imageSwitchedLeftRunning;
+	}
+
+	public Image getPlayer2Standing() {
+		return imageSwitchedStanding;
+	}
+
+	public Image getPlayer2UpRunning() {
+		return imageSwitchedUpRunning;
+	}
+
+	public Image getPlayer2DownRunning() {
+		return imageSwitchedDownRunning;
+	}
+
+	public Image getPlayer2RightRunning() {
+		return imageSwitchedRightRunning;
+	}
+
+	public Image getPlayer2LeftRunning() {
 		return imageSwitchedLeftRunning;
 	}
 
@@ -1054,7 +1160,7 @@ public class ImageProvider extends Thread {
 				break;
 			}
 		}
-			break;
+		break;
 		case 1: {
 			switch (direction) {
 			case 0:
@@ -1119,7 +1225,7 @@ public class ImageProvider extends Thread {
 				break;
 			}
 		}
-			break;
+		break;
 
 		case 2: {
 			switch (direction) {
@@ -1185,7 +1291,7 @@ public class ImageProvider extends Thread {
 				break;
 			}
 		}
-			break;
+		break;
 		}
 		enemyResistance = 5;
 		return back;
@@ -1279,4 +1385,102 @@ public class ImageProvider extends Thread {
 
 	}
 
+	public void initSecondPlayer()
+	{
+		new Thread()
+		{
+			@Override
+			public void run()
+			{
+				while (!ClientManager.isFinishGame()) {
+					// thread che alterna le immagini per dare l'animazione al player2
+
+					while (GameManagerImpl.isPaused()) {
+						System.out.println("Sono in pausa  - ImageProvider");
+						GameManagerImpl.waitForCondition();
+					}
+
+					// //////////////////////////////////////////////
+
+					if (ImageProvider.currentRunningUpPlayer2 == 0) {
+						imageSwitchedUpRunning = player2UpRunning;
+						currentRunningUpPlayer2 = 1;
+					} else if (ImageProvider.currentRunningUpPlayer2 == 1) {
+						imageSwitchedUpRunning = player2UpRunning2;
+						currentRunningUpPlayer2 = 2;
+					} else if (ImageProvider.currentRunningUpPlayer2 == 2) {
+						imageSwitchedUpRunning = player2UpRunning3;
+						currentRunningUpPlayer2 = 3;
+					} else if (ImageProvider.currentRunningUpPlayer2 == 3) {
+						imageSwitchedUpRunning = player2UpRunning4;
+						currentRunningUpPlayer2 = 0;
+					}// Up Running If-Block
+
+					// //////////////////////////////////////////////
+
+					if (ImageProvider.currentRunningDownPlayer2 == 0) {
+						imageSwitchedDownRunning = player2DownRunning;
+						currentRunningDownPlayer2 = 1;
+					} else if (ImageProvider.currentRunningDownPlayer2 == 1) {
+						imageSwitchedDownRunning = player2DownRunning2;
+						currentRunningDownPlayer2 = 2;
+					} else if (ImageProvider.currentRunningDownPlayer2 == 2) {
+						imageSwitchedDownRunning = player2DownRunning3;
+						currentRunningDownPlayer2 = 3;
+					} else if (ImageProvider.currentRunningDownPlayer2 == 3) {
+						imageSwitchedDownRunning = player2DownRunning4;
+						currentRunningDownPlayer2 = 0;
+					}// Down Running If-Block
+
+					// ////////////////////////////////////////////////
+
+					if (ImageProvider.currentRunningRightPlayer2 == 0) {
+						imageSwitchedRightRunning = player2RightRunning;
+						currentRunningRightPlayer2 = 1;
+					} else if (ImageProvider.currentRunningRightPlayer2 == 1) {
+						imageSwitchedRightRunning = player2RightRunning2;
+						currentRunningRightPlayer2 = 2;
+					} else if (ImageProvider.currentRunningRightPlayer2 == 2) {
+						imageSwitchedRightRunning = player2RightRunning3;
+						currentRunningRightPlayer2 = 3;
+					} else if (ImageProvider.currentRunningRightPlayer2 == 3) {
+						imageSwitchedRightRunning = player2RightRunning4;
+						currentRunningRightPlayer2 = 0;
+					}// Right Running If-Block
+
+					// //////////////////////////////////////////////////
+
+					if (ImageProvider.currentRunningLeftPlayer2 == 0) {
+						imageSwitchedLeftRunning = player2LeftRunning;
+						currentRunningLeftPlayer2 = 1;
+					} else if (ImageProvider.currentRunningLeftPlayer2 == 1) {
+						imageSwitchedLeftRunning = player2LeftRunning2;
+						currentRunningLeftPlayer2 = 2;
+					} else if (ImageProvider.currentRunningLeftPlayer2 == 2) {
+						imageSwitchedLeftRunning = player2LeftRunning3;
+						currentRunningLeftPlayer2 = 3;
+					} else if (ImageProvider.currentRunningLeftPlayer2 == 3) {
+						imageSwitchedLeftRunning = player2LeftRunning4;
+						currentRunningLeftPlayer2 = 0;
+					}// Left Running If-Block
+
+					/*--------------------------------------------------------------------------------------*/
+
+					try {
+						// valore originario 350
+						sleep(350);
+					} catch (InterruptedException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+
+				}
+			}
+		}.start();
+
+	}////////////
 }
+
+
+
+

@@ -181,3 +181,4 @@ public class LevelSwitchPanel extends JPanel {
 		g.drawImage(levelPreview, 30, 50, 500, 500, this);
 	}
 }
+

@@ -3,6 +3,7 @@ package it.mat.unical.Helion_Prime.Multiplayer;
 import it.mat.unical.Helion_Prime.GFX.MainMenuFrame;
 import it.mat.unical.Helion_Prime.Logic.GameManagerImpl;
 
+import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Cursor;
 import java.awt.FlowLayout;
@@ -29,14 +30,21 @@ public class MultiplayerPanel extends JPanel {
 	private GridBagLayout layout;
 	private GridBagConstraints c;
 	private Cursor cursor;
+	private JPanel centerPanel;
+	private JPanel southPanel;
+	private JButton back;
 	public MultiplayerPanel(final Font font)
 	{
-
+		this.centerPanel = new JPanel();
+		this.southPanel = new JPanel();
+		this.setLayout(new BorderLayout());	
+		
 		this.cursor = MainMenuFrame.getInstance().getMainMenuPanel().getCursor();
 		this.setCursor(cursor);
+		
 		this.layout = new GridBagLayout();
 		this.c = new GridBagConstraints();
-		this.setLayout(layout);
+		this.centerPanel.setLayout(layout);
 		this.c.fill = GridBagConstraints.BOTH;
 		this.c.weightx = 1.0;
 
@@ -44,43 +52,55 @@ public class MultiplayerPanel extends JPanel {
 		this.newDescr = new JLabel("Crea una lobby e attendi un compagno d'arme!");
 		this.joinMultiplayer = new JButton("Partecipa");
 		this.joinDescr = new JLabel("Partecipa ad una partita già esistente, due sopravvissuti sono meglio di uno!");
+		this.back = new JButton("Main Menu");
 		this.newDescr.setHorizontalAlignment(SwingConstants.CENTER);
 		this.joinDescr.setHorizontalAlignment(SwingConstants.CENTER);
 		
 		
 		this.font = font;
 		this.setVisible(true);
-		this.setLayout(layout);
 		
 		this.createButton();
 		this.addListener();
 		this.fillPanel();
 
-		this.setBackground(Color.BLACK);
-
+		this.centerPanel.setBackground(Color.BLACK);
+		this.southPanel.setBackground(Color.BLACK);
+		this.add(centerPanel,BorderLayout.CENTER);
+		this.add(southPanel,BorderLayout.SOUTH);
 	}
 	public void fillPanel()
 	{
 		this.c.gridwidth = GridBagConstraints.REMAINDER; 
 		this.layout.setConstraints(newMultiplayer, c);
-		this.add(newMultiplayer);
+		this.centerPanel.add(newMultiplayer);
 		this.layout.setConstraints(newDescr, c);
-		this.add(newDescr);
+		this.centerPanel.add(newDescr);
 		
 		c.insets = new Insets(200,0,0,0); 
 		c.gridwidth = 1;
 		
 		this.c.gridwidth = GridBagConstraints.REMAINDER; 
 		this.layout.setConstraints(joinMultiplayer, c);
-		this.add(joinMultiplayer);
+		this.centerPanel.add(joinMultiplayer);
 		c.insets = new Insets(0,0,0,0); 
 		this.layout.setConstraints(joinDescr, c);
-		this.add(joinDescr);
+		this.centerPanel.add(joinDescr);
+		
+		this.southPanel.add(back);
 	}
 
 	
 	public void createButton()
 	{
+		back.setBackground(Color.black);
+		back.setForeground(Color.green);
+		back.setOpaque(false);
+		back.setFont(MainMenuFrame.getInstance().getMainMenuPanel().getFont());
+		back.setFont(back.getFont().deriveFont(25.0f));
+		back.setBorderPainted(false);
+		back.setFocusPainted(false);
+		
 		newMultiplayer.setBackground(Color.black);
 		newMultiplayer.setForeground(Color.green);
 		newMultiplayer.setOpaque(false);
@@ -125,6 +145,17 @@ public class MultiplayerPanel extends JPanel {
 				WaitLobbyPanel waitPanel= new WaitLobbyPanel();
 
 				MainMenuFrame.getInstance().switchTo(waitPanel);
+			}
+		});
+		
+		this.back.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+
+				MainMenuFrame.getInstance().switchTo(
+						MainMenuFrame.getInstance().getMainMenuPanel());
+
 			}
 		});
 	}
