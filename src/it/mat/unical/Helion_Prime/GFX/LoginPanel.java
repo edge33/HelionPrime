@@ -36,13 +36,11 @@ import javax.swing.JComboBox;
 import javax.swing.JEditorPane;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
-import javax.swing.SwingUtilities;
 import javax.swing.text.PasswordView;
 
 
@@ -351,6 +349,11 @@ public class LoginPanel extends JPanel
 					score.setVisible(true);
 					scoreDescr.setVisible(true);
 					savedGames.setVisible(true);
+					
+					String username = userField.getText();
+					PlayerState playerState = PlayerState.getInstance();
+					playerState.init(username);
+					
 					saveLabel.setVisible(true);
 					create.setText("Create Profile");
 					load.setEnabled(true);
@@ -360,7 +363,8 @@ public class LoginPanel extends JPanel
 
 			}
 		});
-		
+
+
 		this.back.addActionListener(new ActionListener()
 		{
 
@@ -385,25 +389,19 @@ public class LoginPanel extends JPanel
 		this.load.addActionListener(new ActionListener() {
 
 			@Override
-			public void actionPerformed(ActionEvent arg0)
-			{
-				if ( userField.getText().length() > 0 )
-				{
+			public void actionPerformed(ActionEvent arg0) {
+				if ( userField.getText().length() > 0 ) {
+
 					savedGames.removeAllItems();
 
 					String username = userField.getText();
 
 					ArrayList<Timestamp> profiles = SaveManagerImpl.getInstance().fetchSaves(username);
-					if(profiles.size()==0)
-					{
-						JOptionPane.showMessageDialog(LoginPanel.this, "Profilo non trovato");
-					}
-					else
-					for (Timestamp timestamp : profiles)
-					{
+
+					for (Timestamp timestamp : profiles) {
 						savedGames.addItem(timestamp);
 					}
-					
+
 				}
 			}
 		});
