@@ -2,11 +2,11 @@ package it.mat.unical.Helion_Prime.Multiplayer;
 
 import it.mat.unical.Helion_Prime.GFX.MainMenuFrame;
 import it.mat.unical.Helion_Prime.Logic.GameManagerImpl;
+import it.mat.unical.Helion_Prime.Online.ClientManager;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Cursor;
-import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -33,15 +33,16 @@ public class MultiplayerPanel extends JPanel {
 	private JPanel centerPanel;
 	private JPanel southPanel;
 	private JButton back;
-	public MultiplayerPanel(final Font font)
-	{
+
+	public MultiplayerPanel(final Font font) {
 		this.centerPanel = new JPanel();
 		this.southPanel = new JPanel();
-		this.setLayout(new BorderLayout());	
-		
-		this.cursor = MainMenuFrame.getInstance().getMainMenuPanel().getCursor();
+		this.setLayout(new BorderLayout());
+
+		this.cursor = MainMenuFrame.getInstance().getMainMenuPanel()
+				.getCursor();
 		this.setCursor(cursor);
-		
+
 		this.layout = new GridBagLayout();
 		this.c = new GridBagConstraints();
 		this.centerPanel.setLayout(layout);
@@ -49,50 +50,49 @@ public class MultiplayerPanel extends JPanel {
 		this.c.weightx = 1.0;
 
 		this.newMultiplayer = new JButton("Nuova Partita");
-		this.newDescr = new JLabel("Crea una lobby e attendi un compagno d'arme!");
+		this.newDescr = new JLabel(
+				"Crea una lobby e attendi un compagno d'arme!");
 		this.joinMultiplayer = new JButton("Partecipa");
-		this.joinDescr = new JLabel("Partecipa ad una partita già esistente, due sopravvissuti sono meglio di uno!");
+		this.joinDescr = new JLabel(
+				"Partecipa ad una partita già esistente, due sopravvissuti sono meglio di uno!");
 		this.back = new JButton("Main Menu");
 		this.newDescr.setHorizontalAlignment(SwingConstants.CENTER);
 		this.joinDescr.setHorizontalAlignment(SwingConstants.CENTER);
-		
-		
+
 		this.font = font;
 		this.setVisible(true);
-		
+
 		this.createButton();
 		this.addListener();
 		this.fillPanel();
 
 		this.centerPanel.setBackground(Color.BLACK);
 		this.southPanel.setBackground(Color.BLACK);
-		this.add(centerPanel,BorderLayout.CENTER);
-		this.add(southPanel,BorderLayout.SOUTH);
+		this.add(centerPanel, BorderLayout.CENTER);
+		this.add(southPanel, BorderLayout.SOUTH);
 	}
-	public void fillPanel()
-	{
-		this.c.gridwidth = GridBagConstraints.REMAINDER; 
+
+	public void fillPanel() {
+		this.c.gridwidth = GridBagConstraints.REMAINDER;
 		this.layout.setConstraints(newMultiplayer, c);
 		this.centerPanel.add(newMultiplayer);
 		this.layout.setConstraints(newDescr, c);
 		this.centerPanel.add(newDescr);
-		
-		c.insets = new Insets(200,0,0,0); 
+
+		c.insets = new Insets(200, 0, 0, 0);
 		c.gridwidth = 1;
-		
-		this.c.gridwidth = GridBagConstraints.REMAINDER; 
+
+		this.c.gridwidth = GridBagConstraints.REMAINDER;
 		this.layout.setConstraints(joinMultiplayer, c);
 		this.centerPanel.add(joinMultiplayer);
-		c.insets = new Insets(0,0,0,0); 
+		c.insets = new Insets(0, 0, 0, 0);
 		this.layout.setConstraints(joinDescr, c);
 		this.centerPanel.add(joinDescr);
-		
+
 		this.southPanel.add(back);
 	}
 
-	
-	public void createButton()
-	{
+	public void createButton() {
 		back.setBackground(Color.black);
 		back.setForeground(Color.green);
 		back.setOpaque(false);
@@ -100,34 +100,36 @@ public class MultiplayerPanel extends JPanel {
 		back.setFont(back.getFont().deriveFont(25.0f));
 		back.setBorderPainted(false);
 		back.setFocusPainted(false);
-		
+
 		newMultiplayer.setBackground(Color.black);
 		newMultiplayer.setForeground(Color.green);
 		newMultiplayer.setOpaque(false);
-		newMultiplayer.setFont(MainMenuFrame.getInstance().getMainMenuPanel().getFont());
+		newMultiplayer.setFont(MainMenuFrame.getInstance().getMainMenuPanel()
+				.getFont());
 		newMultiplayer.setFont(newMultiplayer.getFont().deriveFont(25.0f));
 		newMultiplayer.setBorderPainted(false);
 		newMultiplayer.setFocusPainted(false);
 		newMultiplayer.setBorderPainted(false);
-		
+
 		joinMultiplayer.setBackground(Color.black);
 		joinMultiplayer.setForeground(Color.green);
 		joinMultiplayer.setOpaque(false);
-		joinMultiplayer.setFont(MainMenuFrame.getInstance().getMainMenuPanel().getFont());
+		joinMultiplayer.setFont(MainMenuFrame.getInstance().getMainMenuPanel()
+				.getFont());
 		joinMultiplayer.setFont(joinMultiplayer.getFont().deriveFont(25.0f));
 		joinMultiplayer.setBorderPainted(false);
 		joinMultiplayer.setFocusPainted(false);
 		joinMultiplayer.setBorderPainted(false);
 	}
-	
-	public void addListener()
-	{
+
+	public void addListener() {
 		newMultiplayer.addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				LevelSwitchPanelMultiplayer levelSwitchPanelMultiplayer = new LevelSwitchPanelMultiplayer(
 						font, true);
+				ClientManager.isPlayerOne = true;
 				MultiplayerPanel.this.serverMultiplayer = new ServerMultiplayer(
 						7777);
 				GameManagerImpl.getInstance().setServerMultiplayer(
@@ -142,12 +144,12 @@ public class MultiplayerPanel extends JPanel {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				WaitLobbyPanel waitPanel= new WaitLobbyPanel();
-
+				WaitLobbyPanel waitPanel = new WaitLobbyPanel();
+				ClientManager.isPlayerOne = false;
 				MainMenuFrame.getInstance().switchTo(waitPanel);
 			}
 		});
-		
+
 		this.back.addActionListener(new ActionListener() {
 
 			@Override
