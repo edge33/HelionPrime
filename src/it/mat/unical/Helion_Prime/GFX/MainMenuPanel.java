@@ -15,18 +15,24 @@ import java.awt.Point;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.net.URL;
 
 import javax.imageio.ImageIO;
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
 import javax.swing.JButton;
+import javax.swing.JEditorPane;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
+import javax.swing.JScrollPane;
 import javax.swing.UIManager;
 
 public class MainMenuPanel extends JPanel {
@@ -162,7 +168,10 @@ public class MainMenuPanel extends JPanel {
 		createButton();
 		createCustomCursor();
 		this.setCursor(cursor);
+
 	}
+
+
 
 	public void createButton() {
 		UIManager.put("Button.select", Color.black);
@@ -186,7 +195,7 @@ public class MainMenuPanel extends JPanel {
 		multiplayerButton.setForeground(Color.green);
 		multiplayerButton.setFont(font);
 		multiplayerButton
-				.setFont(multiplayerButton.getFont().deriveFont(25.0f));
+		.setFont(multiplayerButton.getFont().deriveFont(25.0f));
 		multiplayerButton.setBorderPainted(false);
 		multiplayerButton.setFocusPainted(false);
 
@@ -226,7 +235,7 @@ public class MainMenuPanel extends JPanel {
 		try {
 			AudioInputStream audioInputStream = AudioSystem
 					.getAudioInputStream(new File("Ost/Lucian.wav")
-							.getAbsoluteFile());
+					.getAbsoluteFile());
 			clip = AudioSystem.getClip();
 			clip.open(audioInputStream);
 			clip.start();
