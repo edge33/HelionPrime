@@ -47,6 +47,7 @@ public class GamePane extends JPanel {
 	private ImageProvider imageProvider;
 	private int playerX, playerY, playerTwoX, playerTwoY;
 	private int imagePlayer;
+	private int imagePlayer2;
 	private boolean isConnectedPad = false;
 	// public int clientManager.getPlayerDirection();
 	private double scaleFactor;
@@ -667,83 +668,159 @@ public class GamePane extends JPanel {
 
 		// // in base alla direzione del player stampa
 		// // l'immagine corrispondente
+		if (clientManager.isPlayerOne) {
+			switch (imagePlayer) {
+			case 0:
+				g.drawImage(imageProvider.getPlayerStanding(), playerY
+				/* + drawingHorizontalOffset */, playerX, TILE_SIZE, TILE_SIZE,
+						this);
+				break;
 
-		switch (imagePlayer) {
-		case 0:
-			g.drawImage(imageProvider.getPlayerStanding(), playerY
-			/* + drawingHorizontalOffset */, playerX, TILE_SIZE, TILE_SIZE,
-					this);
-			break;
+			case 1:
+				g.drawImage(imageProvider.getPlayerUpRunning(), playerY
+				/* + drawingHorizontalOffset */, playerX, TILE_SIZE, TILE_SIZE,
+						this);
+				break;
+			case 2:
+				g.drawImage(imageProvider.getPlayerDownRunning(), playerY
+				/* + drawingHorizontalOffset */, playerX, TILE_SIZE, TILE_SIZE,
+						this);
+				break;
+			case 3:
+				g.drawImage(imageProvider.getPlayerRightRunning(), playerY
+				/* + drawingHorizontalOffset */, playerX, TILE_SIZE, TILE_SIZE,
+						this);
+				break;
+			case 4:
+				g.drawImage(imageProvider.getPlayerLeftRunning(), playerY
+				/* + drawingHorizontalOffset */, playerX, TILE_SIZE, TILE_SIZE,
+						this);
+				break;
+			default:
+				break;
+			}
+		} else {
+			switch (imagePlayer2) {
+			case 0:
+				g.drawImage(imageProvider.getPlayer2Standing(), playerY
+				/* + drawingHorizontalOffset */, playerX, TILE_SIZE, TILE_SIZE,
+						this);
+				break;
 
-		case 1:
-			g.drawImage(imageProvider.getPlayerUpRunning(), playerY
-			/* + drawingHorizontalOffset */, playerX, TILE_SIZE, TILE_SIZE,
-					this);
-			break;
-		case 2:
-			g.drawImage(imageProvider.getPlayerDownRunning(), playerY
-			/* + drawingHorizontalOffset */, playerX, TILE_SIZE, TILE_SIZE,
-					this);
-			break;
-		case 3:
-			g.drawImage(imageProvider.getPlayerRightRunning(), playerY
-			/* + drawingHorizontalOffset */, playerX, TILE_SIZE, TILE_SIZE,
-					this);
-			break;
-		case 4:
-			g.drawImage(imageProvider.getPlayerLeftRunning(), playerY
-			/* + drawingHorizontalOffset */, playerX, TILE_SIZE, TILE_SIZE,
-					this);
-			break;
-		default:
-			break;
+			case 1:
+				g.drawImage(imageProvider.getPlayer2UpRunning(), playerY
+				/* + drawingHorizontalOffset */, playerX, TILE_SIZE, TILE_SIZE,
+						this);
+				break;
+			case 2:
+				g.drawImage(imageProvider.getPlayer2DownRunning(), playerY
+				/* + drawingHorizontalOffset */, playerX, TILE_SIZE, TILE_SIZE,
+						this);
+				break;
+			case 3:
+				g.drawImage(imageProvider.getPlayer2RightRunning(), playerY
+				/* + drawingHorizontalOffset */, playerX, TILE_SIZE, TILE_SIZE,
+						this);
+				break;
+			case 4:
+				g.drawImage(imageProvider.getPlayer2LeftRunning(), playerY
+				/* + drawingHorizontalOffset */, playerX, TILE_SIZE, TILE_SIZE,
+						this);
+				break;
+			default:
+				break;
+			}
+
+
 		}
-
-		if (client.isMultiplayerGame()) {
+		if (client.isMultiplayerGame())
+		{
 
 			int tempX = ((ClientManagerMultiplayer) clientManager)
 					.getLogicXPlayerTwo();
 
 			int tempY = ((ClientManagerMultiplayer) clientManager)
 					.getLogicYPlayerTwo();
+			System.out.println("--------------------------------------------------------Client ;" + clientManager.isPlayerOne);
+			if(clientManager.isPlayerOne)
+			{
+				
+				switch (imagePlayer2) {
+				case 0:
+					g.drawImage(imageProvider.getPlayer2Standing(), tempY
+							* TILE_SIZE
+							/* + drawingHorizontalOffset */, tempX * TILE_SIZE, TILE_SIZE,
+							TILE_SIZE, this);
+					break;
 
-			switch (imagePlayer) {
-			case 0:
-				g.drawImage(imageProvider.getPlayerStanding(), tempY
-						* TILE_SIZE
-				/* + drawingHorizontalOffset */, tempX * TILE_SIZE, TILE_SIZE,
-						TILE_SIZE, this);
-				break;
+				case 1:
+					g.drawImage(imageProvider.getPlayer2UpRunning(), tempY
+							* TILE_SIZE
+							/* + drawingHorizontalOffset */, tempX * TILE_SIZE, TILE_SIZE,
+							TILE_SIZE, this);
+					break;
+				case 2:
+					g.drawImage(imageProvider.getPlayer2DownRunning(), tempY
+							* TILE_SIZE
+							/* + drawingHorizontalOffset */, tempX * TILE_SIZE, TILE_SIZE,
+							TILE_SIZE, this);
+					break;
+				case 3:
+					g.drawImage(imageProvider.getPlayer2RightRunning(), tempY
+							* TILE_SIZE
+							/* + drawingHorizontalOffset */, tempX * TILE_SIZE, TILE_SIZE,
+							TILE_SIZE, this);
+					break;
+				case 4:
+					g.drawImage(imageProvider.getPlayer2LeftRunning(), tempY
+							* TILE_SIZE
+							/* + drawingHorizontalOffset */, tempX * TILE_SIZE, TILE_SIZE,
+							TILE_SIZE, this);
+					break;
+				default:
+					break;
+				}
+			}
+			else
+			{
+				switch (imagePlayer) {
+				case 0:
+					g.drawImage(imageProvider.getPlayerStanding(), tempY
+							* TILE_SIZE
+							/* + drawingHorizontalOffset */, tempX * TILE_SIZE, TILE_SIZE,
+							TILE_SIZE, this);
+					break;
 
-			case 1:
-				g.drawImage(imageProvider.getPlayerUpRunning(), tempY
-						* TILE_SIZE
-				/* + drawingHorizontalOffset */, tempX * TILE_SIZE, TILE_SIZE,
-						TILE_SIZE, this);
-				break;
-			case 2:
-				g.drawImage(imageProvider.getPlayerDownRunning(), tempY
-						* TILE_SIZE
-				/* + drawingHorizontalOffset */, tempX * TILE_SIZE, TILE_SIZE,
-						TILE_SIZE, this);
-				break;
-			case 3:
-				g.drawImage(imageProvider.getPlayerRightRunning(), tempY
-						* TILE_SIZE
-				/* + drawingHorizontalOffset */, tempX * TILE_SIZE, TILE_SIZE,
-						TILE_SIZE, this);
-				break;
-			case 4:
-				g.drawImage(imageProvider.getPlayerLeftRunning(), tempY
-						* TILE_SIZE
-				/* + drawingHorizontalOffset */, tempX * TILE_SIZE, TILE_SIZE,
-						TILE_SIZE, this);
-				break;
-			default:
-				break;
+				case 1:
+					g.drawImage(imageProvider.getPlayerUpRunning(), tempY
+							* TILE_SIZE
+							/* + drawingHorizontalOffset */, tempX * TILE_SIZE, TILE_SIZE,
+							TILE_SIZE, this);
+					break;
+				case 2:
+					g.drawImage(imageProvider.getPlayerDownRunning(), tempY
+							* TILE_SIZE
+							/* + drawingHorizontalOffset */, tempX * TILE_SIZE, TILE_SIZE,
+							TILE_SIZE, this);
+					break;
+				case 3:
+					g.drawImage(imageProvider.getPlayerRightRunning(), tempY
+							* TILE_SIZE
+							/* + drawingHorizontalOffset */, tempX * TILE_SIZE, TILE_SIZE,
+							TILE_SIZE, this);
+					break;
+				case 4:
+					g.drawImage(imageProvider.getPlayerLeftRunning(), tempY
+							* TILE_SIZE
+							/* + drawingHorizontalOffset */, tempX * TILE_SIZE, TILE_SIZE,
+							TILE_SIZE, this);
+					break;
+				default:
+					break;
+				}
+
 			}
 		}
-
 		informationPanel.repaint();
 		//
 		// ConcurrentHashMap<Integer, AbstractNative> natives = manager
@@ -766,7 +843,7 @@ public class GamePane extends JPanel {
 			// this);
 
 			g.drawImage(imageProvider.getCorrectNative(currentNative),
-			/* drawingHorizontalOffset */+currentNative.getY() * TILE_SIZE,
+					/* drawingHorizontalOffset */+currentNative.getY() * TILE_SIZE,
 					currentNative.getX() * TILE_SIZE, TILE_SIZE, TILE_SIZE,
 					this);
 
