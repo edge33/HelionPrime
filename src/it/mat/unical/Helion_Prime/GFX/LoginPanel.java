@@ -1,4 +1,5 @@
 package it.mat.unical.Helion_Prime.GFX;
+import it.mat.unical.Helion_Prime.Logic.UserProfile;
 import it.mat.unical.Helion_Prime.Multiplayer.MultiplayerPanel;
 import it.mat.unical.Helion_Prime.SavesManager.PlayerState;
 import it.mat.unical.Helion_Prime.SavesManager.SaveManager;
@@ -348,6 +349,11 @@ public class LoginPanel extends JPanel
 					score.setVisible(true);
 					scoreDescr.setVisible(true);
 					savedGames.setVisible(true);
+					
+					String username = userField.getText();
+					PlayerState playerState = PlayerState.getInstance();
+					playerState.init(username);
+					
 					saveLabel.setVisible(true);
 					create.setText("Create Profile");
 					load.setEnabled(true);
@@ -358,16 +364,6 @@ public class LoginPanel extends JPanel
 			}
 		});
 
-		this.load.addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent e) 
-			{
-							
-
-
-			}
-		});
 
 		this.back.addActionListener(new ActionListener()
 		{
