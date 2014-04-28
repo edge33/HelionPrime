@@ -25,7 +25,7 @@ public class ModeSelectPanel extends JPanel {
 	private JLabel freeDescr;
 	private Border storyBorder;
 	private Border freeBorder;
-	private ContenitorPanel contenitorPanel;
+	private LoginPanel contenitorPanel;
 	private LevelSwitchPanel levelSwitchPanel;
 	private Cursor cursor;
 	private GridBagLayout layout;
@@ -121,7 +121,7 @@ public class ModeSelectPanel extends JPanel {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				contenitorPanel = new ContenitorPanel();
+				contenitorPanel = new LoginPanel();
 
 				MainMenuFrame.getInstance().getMainMenuPanel()
 						.setStoryModeOn(true);

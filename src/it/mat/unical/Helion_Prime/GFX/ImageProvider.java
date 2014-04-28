@@ -79,6 +79,12 @@ public class ImageProvider extends Thread {
 	private Image imageSwitchedDownRunning;
 	private Image imageSwitchedRightRunning;
 	private Image imageSwitchedLeftRunning;
+	
+	private Image imageSwitched2Standing;
+	private Image imageSwitched2UpRunning;
+	private Image imageSwitched2DownRunning;
+	private Image imageSwitched2RightRunning;
+	private Image imageSwitched2LeftRunning;
 
 	private Image hunterDownRunning1;
 	private Image hunterDownRunning2;
@@ -1403,64 +1409,64 @@ public class ImageProvider extends Thread {
 					// //////////////////////////////////////////////
 
 					if (ImageProvider.currentRunningUpPlayer2 == 0) {
-						imageSwitchedUpRunning = player2UpRunning;
+						imageSwitched2UpRunning = player2UpRunning;
 						currentRunningUpPlayer2 = 1;
 					} else if (ImageProvider.currentRunningUpPlayer2 == 1) {
-						imageSwitchedUpRunning = player2UpRunning2;
+						imageSwitched2UpRunning = player2UpRunning2;
 						currentRunningUpPlayer2 = 2;
 					} else if (ImageProvider.currentRunningUpPlayer2 == 2) {
-						imageSwitchedUpRunning = player2UpRunning3;
+						imageSwitched2UpRunning = player2UpRunning3;
 						currentRunningUpPlayer2 = 3;
 					} else if (ImageProvider.currentRunningUpPlayer2 == 3) {
-						imageSwitchedUpRunning = player2UpRunning4;
+						imageSwitched2UpRunning = player2UpRunning4;
 						currentRunningUpPlayer2 = 0;
 					}// Up Running If-Block
 
 					// //////////////////////////////////////////////
 
 					if (ImageProvider.currentRunningDownPlayer2 == 0) {
-						imageSwitchedDownRunning = player2DownRunning;
+						imageSwitched2DownRunning = player2DownRunning;
 						currentRunningDownPlayer2 = 1;
 					} else if (ImageProvider.currentRunningDownPlayer2 == 1) {
-						imageSwitchedDownRunning = player2DownRunning2;
+						imageSwitched2DownRunning = player2DownRunning2;
 						currentRunningDownPlayer2 = 2;
 					} else if (ImageProvider.currentRunningDownPlayer2 == 2) {
-						imageSwitchedDownRunning = player2DownRunning3;
+						imageSwitched2DownRunning = player2DownRunning3;
 						currentRunningDownPlayer2 = 3;
 					} else if (ImageProvider.currentRunningDownPlayer2 == 3) {
-						imageSwitchedDownRunning = player2DownRunning4;
+						imageSwitched2DownRunning = player2DownRunning4;
 						currentRunningDownPlayer2 = 0;
 					}// Down Running If-Block
 
 					// ////////////////////////////////////////////////
 
 					if (ImageProvider.currentRunningRightPlayer2 == 0) {
-						imageSwitchedRightRunning = player2RightRunning;
+						imageSwitched2RightRunning = player2RightRunning;
 						currentRunningRightPlayer2 = 1;
 					} else if (ImageProvider.currentRunningRightPlayer2 == 1) {
-						imageSwitchedRightRunning = player2RightRunning2;
+						imageSwitched2RightRunning = player2RightRunning2;
 						currentRunningRightPlayer2 = 2;
 					} else if (ImageProvider.currentRunningRightPlayer2 == 2) {
-						imageSwitchedRightRunning = player2RightRunning3;
+						imageSwitched2RightRunning = player2RightRunning3;
 						currentRunningRightPlayer2 = 3;
 					} else if (ImageProvider.currentRunningRightPlayer2 == 3) {
-						imageSwitchedRightRunning = player2RightRunning4;
+						imageSwitched2RightRunning = player2RightRunning4;
 						currentRunningRightPlayer2 = 0;
 					}// Right Running If-Block
 
 					// //////////////////////////////////////////////////
 
 					if (ImageProvider.currentRunningLeftPlayer2 == 0) {
-						imageSwitchedLeftRunning = player2LeftRunning;
+						imageSwitched2LeftRunning = player2LeftRunning;
 						currentRunningLeftPlayer2 = 1;
 					} else if (ImageProvider.currentRunningLeftPlayer2 == 1) {
-						imageSwitchedLeftRunning = player2LeftRunning2;
+						imageSwitched2LeftRunning = player2LeftRunning2;
 						currentRunningLeftPlayer2 = 2;
 					} else if (ImageProvider.currentRunningLeftPlayer2 == 2) {
-						imageSwitchedLeftRunning = player2LeftRunning3;
+						imageSwitched2LeftRunning = player2LeftRunning3;
 						currentRunningLeftPlayer2 = 3;
 					} else if (ImageProvider.currentRunningLeftPlayer2 == 3) {
-						imageSwitchedLeftRunning = player2LeftRunning4;
+						imageSwitched2LeftRunning = player2LeftRunning4;
 						currentRunningLeftPlayer2 = 0;
 					}// Left Running If-Block
 

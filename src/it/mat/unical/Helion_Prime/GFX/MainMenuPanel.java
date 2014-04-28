@@ -3,6 +3,7 @@ package it.mat.unical.Helion_Prime.GFX;
 import it.mat.unical.Helion_Prime.EnemyEditor.EnemyEditorPanel;
 import it.mat.unical.Helion_Prime.LevelEditor.EditorMainPanel;
 import it.mat.unical.Helion_Prime.Multiplayer.LevelSwitchPanelMultiplayer;
+import it.mat.unical.Helion_Prime.Multiplayer.MultiplayerPanel;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -41,8 +42,8 @@ public class MainMenuPanel extends JPanel {
 	private LevelSwitchPanelMultiplayer levelSwitchPanelMultiplayer;
 	private EditorMainPanel editorMainPanel;
 	private EnemyEditorPanel enemyEditorPanel;
-	private ModeSelectPanel modePanel;
-	private LoginPanel loginPanel;
+	private ModeSelectPanel modeSelect;
+	private MultiplayerPanel multiplayerPanel;
 
 	private BufferedImage menuWallpaper;
 	private JPanel southPane;
@@ -98,8 +99,8 @@ public class MainMenuPanel extends JPanel {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				modePanel = new ModeSelectPanel();
-				MainMenuFrame.getInstance().switchTo(modePanel);
+				modeSelect= new ModeSelectPanel();
+				MainMenuFrame.getInstance().switchTo(modeSelect);
 
 			}
 		});
@@ -108,8 +109,8 @@ public class MainMenuPanel extends JPanel {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				MainMenuPanel.this.loginPanel = new LoginPanel();
-				MainMenuFrame.getInstance().switchTo(loginPanel);
+				MainMenuPanel.this.multiplayerPanel = new MultiplayerPanel(font);
+				MainMenuFrame.getInstance().switchTo(multiplayerPanel);
 			}
 		});
 

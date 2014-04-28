@@ -24,7 +24,8 @@ public class MainGamePanel extends JPanel {
 	private Cursor cursor;
 	private UserProfile profile;
 
-	public MainGamePanel(File level, Client client) {
+	public MainGamePanel(File level, Client client)
+	{
 
 		this.cursor = MainMenuFrame.getInstance().getMainMenuPanel()
 				.getCursor();

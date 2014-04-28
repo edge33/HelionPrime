@@ -85,7 +85,6 @@ public class LoginPanel extends JPanel
 	private Cursor cursor;
 
 	private boolean isCreateClicked = false;
-	private boolean isLoadClicked = false;
 
 	public LoginPanel()
 	{
@@ -116,8 +115,8 @@ public class LoginPanel extends JPanel
 		this.load = new JButton("Load Profile");
 		this.skip = new JButton("Skip this Shit!");
 
-		final String strURL = "http://www.google.com";  
-		this.leaderBoard  = new JLabel("<html><a href=\"http://www.google.com\"style=\"color: #00FF00; text-decoration: none\"> Leaderboard </a></html>");
+		final String strURL = "http://www.facebook.com";  
+		this.leaderBoard  = new JLabel("<html><a href=\"http://192.168.1.19:8080/HelionPrime/\"style=\"color: #00FF00; text-decoration: none\"> Leaderboard </a></html>");
 		this.leaderBoard.setFont(MainMenuFrame.getInstance().getMainMenuPanel().getFont());
 		this.leaderBoard.setFont(leaderBoard.getFont().deriveFont(16.0f));
 		this.userLabel = new JLabel("Username:");
@@ -364,48 +363,7 @@ public class LoginPanel extends JPanel
 			@Override
 			public void actionPerformed(ActionEvent e) 
 			{
-								if(!isLoadClicked)
-								{
-									userLabel.setText("Your Username:");
-									passLabel.setText("Your Password:");
-									bulletsGun1Desc.setVisible(false);
-									bulletsGun2Desc.setVisible(false);
-									bulletsGun3Desc.setVisible(false);
-									bulletsGun4Desc.setVisible(false);
-									bulletsGun1.setVisible(false);
-									bulletsGun2.setVisible(false);
-									bulletsGun3.setVisible(false);
-									bulletsGun4.setVisible(false);
-									score.setVisible(false);
-									scoreDescr.setVisible(false);
-									savedGames.setVisible(false);
-									saveLabel.setVisible(false);
-									bulletTitle.setVisible(false);
-									load.setText("Load Me!");
-									create.setEnabled(false);
-									isLoadClicked = true;
-								}
-								else
-								{
-									userLabel.setText("Username:");
-									passLabel.setText("Password:");
-									bulletTitle.setVisible(true);
-									bulletsGun1Desc.setVisible(true);
-									bulletsGun2Desc.setVisible(true);
-									bulletsGun3Desc.setVisible(true);
-									bulletsGun4Desc.setVisible(true);
-									bulletsGun1.setVisible(true);
-									bulletsGun2.setVisible(true);
-									bulletsGun3.setVisible(true);
-									bulletsGun4.setVisible(true);
-									score.setVisible(true);
-									scoreDescr.setVisible(true);
-									savedGames.setVisible(true);
-									saveLabel.setVisible(true);
-									load.setText("Load Profile");
-									create.setEnabled(true);
-									isLoadClicked = false;
-								}
+							
 
 
 			}
@@ -425,7 +383,7 @@ public class LoginPanel extends JPanel
 
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				MultiplayerPanel m = new MultiplayerPanel(MainMenuFrame.getInstance().getMainMenuPanel().getFont());
+				ContenitorPanel m = new ContenitorPanel();
 				MainMenuFrame.getInstance().switchTo(m);
 
 			}
