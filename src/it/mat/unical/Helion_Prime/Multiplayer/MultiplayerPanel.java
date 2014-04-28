@@ -36,12 +36,12 @@ public class MultiplayerPanel extends JPanel {
 	public MultiplayerPanel(final Font font) {
 		this.centerPanel = new JPanel();
 		this.southPanel = new JPanel();
-		this.setLayout(new BorderLayout());	
-		
+		this.setLayout(new BorderLayout());
+
 		this.cursor = MainMenuFrame.getInstance().getMainMenuPanel()
 				.getCursor();
 		this.setCursor(cursor);
-		
+
 		this.layout = new GridBagLayout();
 		this.c = new GridBagConstraints();
 		this.centerPanel.setLayout(layout);
@@ -61,18 +61,17 @@ public class MultiplayerPanel extends JPanel {
 		this.font = font;
 		this.setVisible(true);
 
-		
 		this.createButton();
 		this.addListener();
 		this.fillPanel();
 
 		this.centerPanel.setBackground(Color.BLACK);
 		this.southPanel.setBackground(Color.BLACK);
-		this.add(centerPanel,BorderLayout.CENTER);
-		this.add(southPanel,BorderLayout.SOUTH);
-    }
-	public void fillPanel()
-	{
+		this.add(centerPanel, BorderLayout.CENTER);
+		this.add(southPanel, BorderLayout.SOUTH);
+	}
+
+	public void fillPanel() {
 		this.c.gridwidth = GridBagConstraints.REMAINDER;
 		this.layout.setConstraints(newMultiplayer, c);
 		this.centerPanel.add(newMultiplayer);
@@ -82,16 +81,13 @@ public class MultiplayerPanel extends JPanel {
 		c.insets = new Insets(200, 0, 0, 0);
 		c.gridwidth = 1;
 
-		
-		
-		this.centerPanel.add(joinMultiplayer);
-		this.c.gridwidth = GridBagConstraints.REMAINDER; 
+		this.c.gridwidth = GridBagConstraints.REMAINDER;
 		this.layout.setConstraints(joinMultiplayer, c);
 		this.centerPanel.add(joinMultiplayer);
-		c.insets = new Insets(0,0,0,0); 
+		c.insets = new Insets(0, 0, 0, 0);
 		this.layout.setConstraints(joinDescr, c);
 		this.centerPanel.add(joinDescr);
-		
+
 		this.southPanel.add(back);
 	}
 
@@ -103,7 +99,7 @@ public class MultiplayerPanel extends JPanel {
 		back.setFont(back.getFont().deriveFont(25.0f));
 		back.setBorderPainted(false);
 		back.setFocusPainted(false);
-		
+
 		back.setBackground(Color.black);
 		back.setForeground(Color.green);
 		back.setOpaque(false);
@@ -111,7 +107,7 @@ public class MultiplayerPanel extends JPanel {
 		back.setFont(back.getFont().deriveFont(25.0f));
 		back.setBorderPainted(false);
 		back.setFocusPainted(false);
-		
+
 		newMultiplayer.setBackground(Color.black);
 		newMultiplayer.setForeground(Color.green);
 		newMultiplayer.setOpaque(false);
@@ -160,7 +156,7 @@ public class MultiplayerPanel extends JPanel {
 				MainMenuFrame.getInstance().switchTo(waitPanel);
 			}
 		});
-		
+
 		this.back.addActionListener(new ActionListener() {
 
 			@Override
