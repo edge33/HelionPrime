@@ -1,4 +1,5 @@
 package it.mat.unical.Helion_Prime.GFX;
+import it.mat.unical.Helion_Prime.Logic.UserProfile;
 import it.mat.unical.Helion_Prime.Multiplayer.MultiplayerPanel;
 import it.mat.unical.Helion_Prime.SavesManager.PlayerState;
 import it.mat.unical.Helion_Prime.SavesManager.SaveManager;
@@ -35,11 +36,13 @@ import javax.swing.JComboBox;
 import javax.swing.JEditorPane;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
+import javax.swing.SwingUtilities;
 import javax.swing.text.PasswordView;
 
 
@@ -357,18 +360,7 @@ public class LoginPanel extends JPanel
 
 			}
 		});
-
-		this.load.addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent e) 
-			{
-							
-
-
-			}
-		});
-
+		
 		this.back.addActionListener(new ActionListener()
 		{
 
@@ -393,19 +385,25 @@ public class LoginPanel extends JPanel
 		this.load.addActionListener(new ActionListener() {
 
 			@Override
-			public void actionPerformed(ActionEvent arg0) {
-				if ( userField.getText().length() > 0 ) {
-
+			public void actionPerformed(ActionEvent arg0)
+			{
+				if ( userField.getText().length() > 0 )
+				{
 					savedGames.removeAllItems();
 
 					String username = userField.getText();
 
 					ArrayList<Timestamp> profiles = SaveManagerImpl.getInstance().fetchSaves(username);
-
-					for (Timestamp timestamp : profiles) {
+					if(profiles.size()==0)
+					{
+						JOptionPane.showMessageDialog(LoginPanel.this, "Profilo non trovato");
+					}
+					else
+					for (Timestamp timestamp : profiles)
+					{
 						savedGames.addItem(timestamp);
 					}
-
+					
 				}
 			}
 		});
