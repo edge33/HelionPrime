@@ -102,6 +102,11 @@ public class PlayerState {
 		this.score = score;
 	}
 	
+	@Override
+	public String toString() {
+		return new String( username + " " + timestamp.toString());
+	}
+	
 	
 	
 }

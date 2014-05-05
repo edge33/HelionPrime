@@ -31,7 +31,7 @@ import javax.swing.JLayeredPane;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
-public class StoryPanel extends JPanel 
+public class StoryPanel extends JLayeredPane 
 {
 	private JLabel level;
 	private ImageIcon levelPreview;
