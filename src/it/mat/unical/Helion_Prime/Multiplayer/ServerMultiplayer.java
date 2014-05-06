@@ -148,7 +148,7 @@ public class ServerMultiplayer extends Thread {
 				while (!GameManagerImpl.getInstance().isGameStopped()
 						&& !GameManagerImpl.getInstance().gameIsOver()) {
 					gameManager.updateMultiplayer();
-
+					System.out.println("dddd");
 					try {
 						sleep(100);
 					} catch (InterruptedException e) {

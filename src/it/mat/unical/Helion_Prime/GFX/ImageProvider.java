@@ -1,7 +1,7 @@
 package it.mat.unical.Helion_Prime.GFX;
 
+import it.mat.unical.Helion_Prime.Logic.AbstractNativeLite;
 import it.mat.unical.Helion_Prime.Logic.GameManagerImpl;
-import it.mat.unical.Helion_Prime.Logic.Character.AbstractNative;
 import it.mat.unical.Helion_Prime.Online.ClientManager;
 
 import java.awt.Image;
@@ -79,7 +79,7 @@ public class ImageProvider extends Thread {
 	private Image imageSwitchedDownRunning;
 	private Image imageSwitchedRightRunning;
 	private Image imageSwitchedLeftRunning;
-	
+
 	private Image imageSwitched2Standing;
 	private Image imageSwitched2UpRunning;
 	private Image imageSwitched2DownRunning;
@@ -513,7 +513,8 @@ public class ImageProvider extends Thread {
 		this.acidTrap = toolKit.getImage("Resources/AcidTrap.png");
 		this.electricTrap = toolKit.getImage("Resources/ElectricTrap.png");
 		this.powerTrap = toolKit.getImage("Resources/PowerTrap.png");
-		this.decoyTrap = toolKit.getImage("Resources/Char Resources/FilippoBack2.png");
+		this.decoyTrap = toolKit
+				.getImage("Resources/Char Resources/FilippoBack2.png");
 		this.i8 = toolKit.getImage("Resources/8.jpg");
 		this.i9 = toolKit.getImage("Resources/9.jpg");
 		this.i10 = toolKit.getImage("Resources/10.jpg");
@@ -1093,12 +1094,12 @@ public class ImageProvider extends Thread {
 		return bullet;
 	}
 
-	public Image getCorrectNative(AbstractNative currentNative) {
-		enemyType = currentNative.getType();
+	public Image getCorrectNative(AbstractNativeLite currentNative) {
+		enemyType = currentNative.getTypeNative();
 		direction = currentNative.getDirection();
 		currentPosition = currentNative.getCurrentPosition();
 		if (enemyType == 0) {
-			enemyResistance = currentNative.getResistance();
+			// enemyResistance = currentNative.getResistance();
 			// System.out.println(enemyResistance);
 		}
 		switch (enemyType) {
@@ -1166,7 +1167,7 @@ public class ImageProvider extends Thread {
 				break;
 			}
 		}
-		break;
+			break;
 		case 1: {
 			switch (direction) {
 			case 0:
@@ -1231,7 +1232,7 @@ public class ImageProvider extends Thread {
 				break;
 			}
 		}
-		break;
+			break;
 
 		case 2: {
 			switch (direction) {
@@ -1297,7 +1298,7 @@ public class ImageProvider extends Thread {
 				break;
 			}
 		}
-		break;
+			break;
 		}
 		enemyResistance = 5;
 		return back;
@@ -1391,15 +1392,13 @@ public class ImageProvider extends Thread {
 
 	}
 
-	public void initSecondPlayer()
-	{
-		new Thread()
-		{
+	public void initSecondPlayer() {
+		new Thread() {
 			@Override
-			public void run()
-			{
+			public void run() {
 				while (!ClientManager.isFinishGame()) {
-					// thread che alterna le immagini per dare l'animazione al player2
+					// thread che alterna le immagini per dare l'animazione al
+					// player2
 
 					while (GameManagerImpl.isPaused()) {
 						System.out.println("Sono in pausa  - ImageProvider");
@@ -1484,9 +1483,5 @@ public class ImageProvider extends Thread {
 			}
 		}.start();
 
-	}////////////
+	}// //////////
 }
-
-
-
-

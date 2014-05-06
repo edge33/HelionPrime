@@ -18,6 +18,7 @@ public class BountyHunterNative extends AbstractNative {
 		super.nativeAi = BasicAI.getInstance();
 		super.coolDownManager = new CoolDownManager(this, coolDownTime);
 		coolDownManager.start();
+
 	}
 
 	@Override

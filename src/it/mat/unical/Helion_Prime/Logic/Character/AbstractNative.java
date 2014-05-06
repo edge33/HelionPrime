@@ -20,7 +20,7 @@ public class AbstractNative extends AbstractCharacter implements Resistance {
 	private ConcurrentHashMap<Point, AbstractTrap> currentTrap;
 	protected NativeAI nativeAi;
 	protected Player player;
-	protected boolean canAttack;
+	private boolean canAttack;
 	protected Thread coolDownManager;
 	protected int currentPosition = 1;
 	protected boolean firstMove = false;
@@ -87,27 +87,32 @@ public class AbstractNative extends AbstractCharacter implements Resistance {
 
 	public void attack(int attackPower) {
 
+		System.out.println(isCanAttack() + " AbstractNative");
+
 		// TODO: attacking method working on RN - Maida
+		// System.out.println("Can-ATTACK" + canAttack);
 
 		World innerWorld = player.getWorld();
 		if (getX() == player.getX() && getY() == player.getY() && canAttack) {
 			player.setLife(player.getLife() - attackPower);
 			System.out.println("dopo attacco " + player.getLife());
-			canAttack = false;
+			setAttack(false);
+			if (GameManagerImpl.getInstance().isMultiplayerGame())
+				GameManagerImpl.getInstance().getServerMuliplayer()
+						.outBroadcast("life " + player.getLife());
 
-		} else if (getX() == world.getFakeX() && getY() == world.getFakeY()
-				&& canAttack) {
-			world.getDecoy().setLife(1);
-			System.out.println("Ho attaccato il Decoy");
-			canAttack = false;
 		}
 
 		else if (getX() == room.getX() && getY() == room.getY() && canAttack) {
 			room.setLife(room.getLife() - attackPower);
 			System.out.println("room dopo attacco " + room.getLife());
 			world.setRoomLife(room.getLife());
-			canAttack = false;
+			setAttack(false);
+			if (GameManagerImpl.getInstance().isMultiplayerGame())
+				GameManagerImpl.getInstance().getServerMuliplayer()
+						.outBroadcast("lifeRoom " + room.getLife());
 		}
+
 	}
 
 	private AbilityInterface ability = null;
@@ -177,4 +182,11 @@ public class AbstractNative extends AbstractCharacter implements Resistance {
 		this.currentPosition = currentPosition;
 	}
 
+	public boolean isCanAttack() {
+		return canAttack;
+	}
+
+	public void setAttack(boolean bool) {
+		canAttack = bool;
+	}
 }

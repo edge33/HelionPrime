@@ -14,6 +14,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 
 import javax.imageio.ImageIO;
@@ -91,6 +92,12 @@ public class StageClearPanel extends JPanel {
 						System.out.println("SIAMO READY INIZIA IL GIOCO");
 						mainGamePanel = new MainGamePanel(level, client,
 								profile);
+						try {
+							GameManagerImpl.getInstance().init(level, false);
+						} catch (FileNotFoundException e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
+						}
 						MainMenuFrame.getInstance().switchTo(mainGamePanel);
 					}
 

@@ -6,8 +6,8 @@ import it.mat.unical.Helion_Prime.GFX.GamePane;
 import it.mat.unical.Helion_Prime.GFX.MainMenuFrame;
 import it.mat.unical.Helion_Prime.GFX.StageClearPanel;
 import it.mat.unical.Helion_Prime.GFX.ThreadPoolBulletClient;
+import it.mat.unical.Helion_Prime.Logic.AbstractNativeLite;
 import it.mat.unical.Helion_Prime.Logic.UserProfile;
-import it.mat.unical.Helion_Prime.Logic.Character.AbstractNative;
 
 import java.awt.Point;
 import java.util.concurrent.BlockingQueue;
@@ -252,10 +252,13 @@ public class ClientManager {
 			UserProfile.incrLevel();
 			StageClearPanel clearPanel = new StageClearPanel(this,
 					gamePane.getCurrentFileLevel());
-			this.finishGame = true;
+
 			MainMenuFrame.getInstance().switchTo(clearPanel);
 		} else if (responseFromServer.substring(0, 1).equals("o")) {
-			GameOverPanel gameOverPanel = new GameOverPanel();
+			GameOverPanel gameOverPanel = new GameOverPanel(
+					ClientManager.this.gamePane.getCurrentFileLevel());
+			this.finishGame = true;
+			sendAllFinish();
 			MainMenuFrame.getInstance().switchTo(gameOverPanel);
 		} else if (responseFromServer.substring(0, 1).equals("l")) {
 			String[] splitted = responseFromServer.split(" ");
@@ -328,7 +331,7 @@ public class ClientManager {
 						String[] splitted = movement.split(" ");
 
 						if (!movement.equals("finish")) {
-							AbstractNative abstractNative = gamePane.natives
+							AbstractNativeLite abstractNative = gamePane.natives
 									.get(Integer.parseInt(splitted[1]));
 
 							if (movement.substring(1, 2).equals("U")) {

@@ -22,26 +22,25 @@ public class SoldierNative extends AbstractNative {
 		super.setLife(100);
 		this.direction = 0;
 		super.nativeAi = FindRoomAI.getInstance();
-		int resistanceSelector = (int) (Math.random()*4);
-		switch(resistanceSelector)
-		{
-		
-		 case 1:
-			 	resistance = new AcidResistance();
-			 	break;
-		 case 2:
-			 	resistance = new FireResistance();
-			 	break;
-		 case 3:
-			 	resistance = new ElectricResistance();
-			 	break;
-		 case 4:
-			 	resistance = new IceResistance();
-			 	break;
-		 case 0:
-		 default:
-				resistance = new NoResistance();
-				break;
+		int resistanceSelector = (int) (Math.random() * 4);
+		switch (resistanceSelector) {
+
+		case 1:
+			resistance = new AcidResistance();
+			break;
+		case 2:
+			resistance = new FireResistance();
+			break;
+		case 3:
+			resistance = new ElectricResistance();
+			break;
+		case 4:
+			resistance = new IceResistance();
+			break;
+		case 0:
+		default:
+			resistance = new NoResistance();
+			break;
 		}
 		coolDownManager = new CoolDownManager(this, cooldownTime);
 		coolDownManager.start();
@@ -62,10 +61,9 @@ public class SoldierNative extends AbstractNative {
 	public int getDirection() {
 		return direction;
 	}
-	
-	@Override 
-	public int getResistance()
-	{
+
+	@Override
+	public int getResistance() {
 		return resistance.getResistance();
 	}
 

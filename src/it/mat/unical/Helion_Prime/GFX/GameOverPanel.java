@@ -1,16 +1,21 @@
 package it.mat.unical.Helion_Prime.GFX;
 
-import it.mat.unical.Helion_Prime.LevelEditor.GridPanel;
+import it.mat.unical.Helion_Prime.Logic.GameManagerImpl;
+import it.mat.unical.Helion_Prime.Logic.UserProfile;
+import it.mat.unical.Helion_Prime.Multiplayer.ServerMultiplayer;
+import it.mat.unical.Helion_Prime.Online.Client;
+import it.mat.unical.Helion_Prime.Online.ClientManager;
+import it.mat.unical.Helion_Prime.Online.Server;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Cursor;
-import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 
 import javax.imageio.ImageIO;
@@ -21,7 +26,6 @@ import javax.swing.JPanel;
 
 public class GameOverPanel extends JLayeredPane {
 
-
 	private JPanel previewPaneL;
 	private JPanel overlay;
 	private JButton backToMenuButton;
@@ -30,19 +34,28 @@ public class GameOverPanel extends JLayeredPane {
 	private MainMenuFrame mainMenuFrame;
 	private BufferedImage gameOverImage;
 	private Cursor cursor;
+	private UserProfile profile;
+	private Server server;
+	private ServerMultiplayer serverMultiplayer;
+	private File lastlevelPlayed;
 
-	public GameOverPanel() {
+	public GameOverPanel(File level) {
 
+		profile = ClientManager.getInstance().getUserProfile();
 		try {
-			gameOverImage= ImageIO.read(new File("Resources/gameOver.png"));
+			gameOverImage = ImageIO.read(new File("Resources/gameOver.png"));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+
+		lastlevelPlayed = level;
+
 		this.setLayout(new BorderLayout());
 		this.overlay = new JPanel();
 		this.overlay.setOpaque(false);
 		this.previewPaneL = null;
-		this.cursor = MainMenuFrame.getInstance().getMainMenuPanel().getCursor();
+		this.cursor = MainMenuFrame.getInstance().getMainMenuPanel()
+				.getCursor();
 		this.setCursor(cursor);
 		this.mainMenuFrame = MainMenuFrame.getInstance();
 		this.backToMenuButton = new JButton("Back to Menu");
@@ -51,21 +64,18 @@ public class GameOverPanel extends JLayeredPane {
 		this.createButton();
 		this.addListener();
 
-		this.add(overlay,BorderLayout.CENTER);
+		this.add(overlay, BorderLayout.CENTER);
 		this.overlay.add(backToMenuButton);
 		this.overlay.add(saveLevel);
 		this.overlay.add(retryButton);
 
 	}
 
-	public void addListener()
-	{
-		this.saveLevel.addActionListener(new ActionListener()
-		{
+	public void addListener() {
+		this.saveLevel.addActionListener(new ActionListener() {
 
 			@Override
-			public void actionPerformed(ActionEvent e)
-			{
+			public void actionPerformed(ActionEvent e) {
 				int frameWidth = MainMenuFrame.getInstance().getWidth();
 				int frameHeight = MainMenuFrame.getInstance().getHeight();
 				int prevPanelX;
@@ -89,9 +99,11 @@ public class GameOverPanel extends JLayeredPane {
 				}
 				previewPaneL = new JPanel();
 				previewPaneL.setBackground(Color.BLACK);
-				previewPaneL.setBorder(BorderFactory.createLineBorder(Color.GREEN, 1,true));
+				previewPaneL.setBorder(BorderFactory.createLineBorder(
+						Color.GREEN, 1, true));
 				previewPaneL.setBounds(x, y, prevPanelX, prevPanelY);
-				GameOverPanel.this.add(previewPaneL,BorderLayout.CENTER, new Integer(10));
+				GameOverPanel.this.add(previewPaneL, BorderLayout.CENTER,
+						new Integer(10));
 				previewPaneL.setVisible(true);
 				previewPaneL.repaint();
 				repaint();
@@ -102,7 +114,9 @@ public class GameOverPanel extends JLayeredPane {
 
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				GameOverPanel.this.mainMenuFrame.switchTo(GameOverPanel.this.mainMenuFrame.getMainMenuPanel());
+				GameOverPanel.this.mainMenuFrame
+						.switchTo(GameOverPanel.this.mainMenuFrame
+								.getMainMenuPanel());
 			}
 		});
 
@@ -110,14 +124,66 @@ public class GameOverPanel extends JLayeredPane {
 
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				GameOverPanel.this.mainMenuFrame.switchTo(GameOverPanel.this.mainMenuFrame.getInstance().getMainMenuPanel().getLevelSwitchPanel());
-			}
-		});
+				String name = lastlevelPlayed.getName();
 
+				if (!ClientManager.getInstance().isMultiplayerGame()) {
+					MainGamePanel mainGamePanel = null;
+
+					try {
+						server = new Server(7777);
+					} catch (IOException e2) {
+						// TODO Auto-generated catch block
+						e2.printStackTrace();
+					}
+
+					server.start();
+					GameManagerImpl.getInstance().setServer(server);
+					Client client = new Client("localhost", false);
+					client.sendMessage(name);
+
+					if (client.recieveMessage().equals("ready")) {
+
+						System.out.println("SIAMO READY INIZIA IL GIOCO");
+						if (MainMenuFrame.getInstance().getMainMenuPanel()
+								.isStoryModeOn())
+							mainGamePanel = new MainGamePanel(lastlevelPlayed,
+									client, profile);
+						else
+							mainGamePanel = new MainGamePanel(lastlevelPlayed,
+									client);
+
+					}
+					try {
+						GameManagerImpl.getInstance().init(lastlevelPlayed,
+								false);
+					} catch (FileNotFoundException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+					MainMenuFrame.getInstance().switchTo(mainGamePanel);
+				} else {
+
+					ClientManager.getInstance().sendMessage("retry");
+
+					System.out.println("ATTENDO MESSAGGIO DAL SERVER");
+
+					ClientManager.getInstance().getClient().recieveMessage();
+
+					System.out.println("MESSAGGIO DAL SERVER ARRIVATO");
+
+					MainGamePanel mgGamePanel = new MainGamePanel(
+							lastlevelPlayed, ClientManager.getInstance()
+									.getClient());
+
+					MainMenuFrame.getInstance().switchTo(mgGamePanel);
+
+				}
+			}
+
+		});
 	}
 
-	public void createButton()
-	{
+	public void createButton() {
 		retryButton.setBackground(Color.black);
 		retryButton.setForeground(Color.green);
 		retryButton.setFont(mainMenuFrame.getMainMenuPanel().getFont());

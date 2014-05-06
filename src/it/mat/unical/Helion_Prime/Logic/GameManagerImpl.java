@@ -77,7 +77,7 @@ public class GameManagerImpl implements GameManager {
 						.getPlayerSpawner().getY(), world);
 			}
 
-			wave = new WaveImpl(this.world, level);
+			wave = new WaveImpl(this.world, level, true);
 			world.setWave(wave); // manager
 
 			threadPoolbullets = new ThreadPoolBullet();
@@ -259,6 +259,7 @@ public class GameManagerImpl implements GameManager {
 				gameStopped = true;
 
 				this.server.sendMessage("over");
+
 			}
 
 		} else {

@@ -15,6 +15,7 @@ import it.mat.unical.Helion_Prime.Logic.Trap.TrapPower;
 import java.awt.Point;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.concurrent.ConcurrentHashMap;
 
 public class Player extends AbstractCharacter implements TrapPlacing {
@@ -33,6 +34,7 @@ public class Player extends AbstractCharacter implements TrapPlacing {
 	private World world;
 	private Collection weapon = null;
 	private ArrayList<RangedWeapon> army = new ArrayList<RangedWeapon>();
+	private HashMap<RangedWeapon, Integer> bulletsArmy = new HashMap<RangedWeapon, Integer>();
 	private ConcurrentHashMap<Point, AbstractTrap> placedTrap = new ConcurrentHashMap<Point, AbstractTrap>(); // array
 	// delle
 	// trappole
@@ -99,6 +101,12 @@ public class Player extends AbstractCharacter implements TrapPlacing {
 		army.add(new UziGun(this.world));
 		army.add(new RifleGun(this.world));
 		army.add(new HeavyWeapon(this.world));
+
+		bulletsArmy.put(army.get(0), 20);
+		bulletsArmy.put(army.get(1), 100);
+		bulletsArmy.put(army.get(2), 100);
+		bulletsArmy.put(army.get(3), 100);
+
 		currentGunSelected = army.get(0);
 
 	}
@@ -160,6 +168,10 @@ public class Player extends AbstractCharacter implements TrapPlacing {
 	// incremento lo score
 	public void setScore(int newScore) {
 		this.score += newScore;
+	}
+
+	public HashMap<RangedWeapon, Integer> getBulletsArmy() {
+		return bulletsArmy;
 	}
 
 	@Override

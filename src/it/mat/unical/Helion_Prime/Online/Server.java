@@ -176,9 +176,9 @@ public class Server extends Thread {
 		} else if (message.substring(0, 1).equals("p")) {
 			placemenTrap.put(splitted[1]);
 		} else if (message.equals("sh")) {
-
-			sendMessage("sh " + String.valueOf(canShoot() + " ")
-					+ playerOne.getDirection());
+			if (canShoot())
+				sendMessage("sh " + String.valueOf(playerOne.shoot() + " ")
+						+ playerOne.getDirection());
 
 		} else if (splitted[0].equals("switchGun")) {
 			swintchGunForPlayer(splitted[1]);
@@ -187,10 +187,6 @@ public class Server extends Thread {
 		} else if (splitted[0].equals("retry")) {
 			initServer(f);
 		}
-
-	}
-
-	private void re_setGame() {
 
 	}
 
@@ -210,8 +206,20 @@ public class Server extends Thread {
 
 	}
 
-	private Integer canShoot() {
-		return gameManager.getPlayerOne().shoot();
+	private boolean canShoot() {
+		int bulletsCurrent = playerOne.getBulletsArmy().get(
+				playerOne.getCurrentGunSelected());
+
+		System.out.println("ARMY" + playerOne.getCurrentGunSelected() + " "
+				+ bulletsCurrent);
+
+		if (bulletsCurrent != 0) {
+			bulletsCurrent--;
+			playerOne.getBulletsArmy().put(playerOne.getCurrentGunSelected(),
+					bulletsCurrent);
+			return true;
+		} else
+			return false;
 
 	}
 

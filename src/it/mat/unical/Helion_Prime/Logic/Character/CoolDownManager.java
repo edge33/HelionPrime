@@ -17,6 +17,8 @@ public class CoolDownManager extends Thread {
 
 	public void run() {
 
+		this.setName("COOLDOWN MANAGER");
+
 		while (theNative.isAlive() && !ClientManager.isFinishGame()) {
 
 			while (GameManagerImpl.isPaused()) {
@@ -24,10 +26,12 @@ public class CoolDownManager extends Thread {
 				GameManagerImpl.waitForCondition();
 			}
 
-			if (!theNative.canAttack) {
-				theNative.canAttack = true;
+			if (!theNative.isCanAttack()) {
+				theNative.setAttack(true);
 
 			}
+
+			System.out.println(theNative.isCanAttack() + " COOLDOWN");
 
 			try {
 				// System.out.println("dormo " + this.getId());
