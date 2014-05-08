@@ -113,10 +113,18 @@ public class StageClearPanel extends JPanel {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 
-				StageClearPanel.this.mainMenuFrame
-						.switchTo(StageClearPanel.this.mainMenuFrame
-								.getMainMenuPanel());
+				if (!StageClearPanel.this.clientManager.isMultiplayerGame()) {
+					StageClearPanel.this.mainMenuFrame
+							.switchTo(StageClearPanel.this.mainMenuFrame
+									.getMainMenuPanel());
 
+				} else {
+					StageClearPanel.this.clientManager.sendMessage("finish");
+					StageClearPanel.this.mainMenuFrame
+							.switchTo(StageClearPanel.this.mainMenuFrame
+									.getMainMenuPanel());
+
+				}
 			}
 		});
 
@@ -153,6 +161,13 @@ public class StageClearPanel extends JPanel {
 							mainGamePanel = new MainGamePanel(lastLevelPlayed,
 									client);
 
+						try {
+							GameManagerImpl.getInstance().init(lastLevelPlayed,
+									false);
+						} catch (FileNotFoundException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
 					}
 					MainMenuFrame.getInstance().switchTo(mainGamePanel);
 				} else {
@@ -161,8 +176,8 @@ public class StageClearPanel extends JPanel {
 
 					System.out.println("ATTENDO MESSAGGIO DAL SERVER");
 
-					StageClearPanel.this.clientManager.getClient()
-							.recieveMessage();
+					String responseFromServer = StageClearPanel.this.clientManager
+							.getClient().recieveMessage();
 
 					System.out.println("MESSAGGIO DAL SERVER ARRIVATO");
 
@@ -171,6 +186,14 @@ public class StageClearPanel extends JPanel {
 									.getClient());
 
 					MainMenuFrame.getInstance().switchTo(mgGamePanel);
+
+					// } else if (responseFromServer.equals("nOk")) {
+					//
+					// StageClearPanel.this.mainMenuFrame
+					// .switchTo(StageClearPanel.this.mainMenuFrame
+					// .getMainMenuPanel());
+					//
+					// }
 
 				}
 
