@@ -1,0 +1,6 @@
+		saveLevel.setBackground(Color.black);
+		saveLevel.setForeground(Color.green);
+		saveLevel.setFont(mainMenuFrame.getMainMenuPanel().getFont());
+		saveLevel.setFont(saveLevel.getFont().deriveFont(25.0f));
+		saveLevel.setBorderPainted(false);
+		saveLevel.setFocusPainted(false);
