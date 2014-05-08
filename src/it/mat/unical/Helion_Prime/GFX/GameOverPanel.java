@@ -9,8 +9,12 @@ import it.mat.unical.Helion_Prime.Online.Server;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Cursor;
 import java.awt.Graphics;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
@@ -21,6 +25,8 @@ import java.io.IOException;
 import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
+import javax.swing.JComponent;
+import javax.swing.JLabel;
 import javax.swing.JLayeredPane;
 import javax.swing.JPanel;
 
@@ -28,9 +34,28 @@ public class GameOverPanel extends JLayeredPane {
 
 	private JPanel previewPaneL;
 	private JPanel overlay;
+
 	private JButton backToMenuButton;
 	private JButton saveLevel;
 	private JButton retryButton;
+	private JButton confirmButton;
+	private JButton hideButton;
+
+	private JLabel time;
+	private JLabel timeDesc;
+	private JLabel bulletTitle;
+	private JLabel bulletsGun1Desc;
+	private JLabel bulletsGun2Desc;
+	private JLabel bulletsGun3Desc;
+	private JLabel bulletsGun4Desc;
+	private JLabel bulletsGun1;
+	private JLabel bulletsGun2;
+	private JLabel bulletsGun3;
+	private JLabel bulletsGun4;
+
+	private GridBagLayout eastLayout;
+	private GridBagConstraints eC;
+
 	private MainMenuFrame mainMenuFrame;
 	private BufferedImage gameOverImage;
 	private Cursor cursor;
@@ -38,10 +63,11 @@ public class GameOverPanel extends JLayeredPane {
 	private Server server;
 	private ServerMultiplayer serverMultiplayer;
 	private File lastlevelPlayed;
+	private ClientManager manager;
 
-	public GameOverPanel(File level) {
-
-		profile = ClientManager.getInstance().getUserProfile();
+	public GameOverPanel(ClientManager manager, File level) {
+		this.manager = manager;
+		profile = manager.getUserProfile();
 		try {
 			gameOverImage = ImageIO.read(new File("Resources/gameOver.png"));
 		} catch (IOException e) {
@@ -61,9 +87,34 @@ public class GameOverPanel extends JLayeredPane {
 		this.backToMenuButton = new JButton("Back to Menu");
 		this.saveLevel = new JButton("Save Level");
 		this.retryButton = new JButton("Retry");
+		this.confirmButton = new JButton("Save");
+		this.hideButton = new JButton("Hide");
+
+		this.time = new JLabel("0");
+		this.timeDesc = new JLabel ("Tempo:");
+		this.bulletTitle = new JLabel("Proiettili Rimanenti:");
+		this.bulletsGun1Desc = new JLabel(" Plasma Gun:");
+		this.bulletsGun2Desc = new JLabel(" Laser Rifle:");
+		this.bulletsGun3Desc = new JLabel(" Shootgun:");
+		this.bulletsGun4Desc = new JLabel(" Plasma Cannon:");
+		this.bulletsGun1 = new JLabel("-");
+		this.bulletsGun2 = new JLabel("0");
+		this.bulletsGun3 = new JLabel("0");
+		this.bulletsGun4 = new JLabel("0");
+
 		this.createButton();
 		this.addListener();
 
+		confirmButton.setForeground(Color.green);
+		confirmButton.setBackground(Color.black);
+		confirmButton.setFont(MainMenuFrame.getInstance().getMainMenuPanel().getFont());
+		confirmButton.setFont(saveLevel.getFont().deriveFont(16.0f));
+
+		hideButton.setForeground(Color.green);
+		hideButton.setBackground(Color.black);
+		hideButton.setFont(MainMenuFrame.getInstance().getMainMenuPanel().getFont());
+		hideButton.setFont(saveLevel.getFont().deriveFont(16.0f));
+		
 		this.add(overlay, BorderLayout.CENTER);
 		this.overlay.add(backToMenuButton);
 		this.overlay.add(saveLevel);
@@ -76,47 +127,31 @@ public class GameOverPanel extends JLayeredPane {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				int frameWidth = MainMenuFrame.getInstance().getWidth();
-				int frameHeight = MainMenuFrame.getInstance().getHeight();
-				int prevPanelX;
-				int prevPanelY;
-				int x, y;
-
-				if (frameWidth >= 300) {
-					prevPanelX = (MainMenuFrame.getInstance().getWidth() - 200);
-					x = (frameWidth - prevPanelX) / 2;
-				} else {
-					prevPanelX = frameHeight;
-					x = 0;
-				}
-
-				if (frameHeight >= 300) {
-					prevPanelY = (MainMenuFrame.getInstance().getHeight() - 200);
-					y = (frameHeight - prevPanelY) / 2;
-				} else {
-					prevPanelY = frameHeight;
-					y = 0;
-				}
-				previewPaneL = new JPanel();
-				previewPaneL.setBackground(Color.BLACK);
-				previewPaneL.setBorder(BorderFactory.createLineBorder(
-						Color.GREEN, 1, true));
-				previewPaneL.setBounds(x, y, prevPanelX, prevPanelY);
-				GameOverPanel.this.add(previewPaneL, BorderLayout.CENTER,
-						new Integer(10));
-				previewPaneL.setVisible(true);
-				previewPaneL.repaint();
-				repaint();
-
+				createSavePanel();
+				backToMenuButton.setEnabled(false);
+				saveLevel.setEnabled(false);
+				retryButton.setEnabled(false);
 			}
 		});
+		
+		this.hideButton.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				previewPaneL.setVisible(false);
+				backToMenuButton.setEnabled(true);
+				saveLevel.setEnabled(true);
+				retryButton.setEnabled(true);
+			}
+		});
+		
 		this.backToMenuButton.addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				GameOverPanel.this.mainMenuFrame
-						.switchTo(GameOverPanel.this.mainMenuFrame
-								.getMainMenuPanel());
+				.switchTo(GameOverPanel.this.mainMenuFrame
+						.getMainMenuPanel());
 			}
 		});
 
@@ -126,7 +161,7 @@ public class GameOverPanel extends JLayeredPane {
 			public void actionPerformed(ActionEvent arg0) {
 				String name = lastlevelPlayed.getName();
 
-				if (!ClientManager.getInstance().isMultiplayerGame()) {
+				if (!manager.isMultiplayerGame()) {
 					MainGamePanel mainGamePanel = null;
 
 					try {
@@ -163,17 +198,16 @@ public class GameOverPanel extends JLayeredPane {
 					MainMenuFrame.getInstance().switchTo(mainGamePanel);
 				} else {
 
-					ClientManager.getInstance().sendMessage("retry");
+					manager.sendMessage("retry");
 
 					System.out.println("ATTENDO MESSAGGIO DAL SERVER");
 
-					ClientManager.getInstance().getClient().recieveMessage();
+					manager.getClient().recieveMessage();
 
 					System.out.println("MESSAGGIO DAL SERVER ARRIVATO");
 
 					MainGamePanel mgGamePanel = new MainGamePanel(
-							lastlevelPlayed, ClientManager.getInstance()
-									.getClient());
+							lastlevelPlayed, manager.getClient());
 
 					MainMenuFrame.getInstance().switchTo(mgGamePanel);
 
@@ -202,6 +236,114 @@ public class GameOverPanel extends JLayeredPane {
 		backToMenuButton.setFont(retryButton.getFont().deriveFont(25.0f));
 		backToMenuButton.setBorderPainted(false);
 		backToMenuButton.setFocusPainted(false);
+	}
+
+	public void createSavePanel()
+	{
+
+		this.eastLayout = new GridBagLayout();
+		this.eC = new GridBagConstraints();
+		this.eC.fill = GridBagConstraints.CENTER;
+		this.eC.weightx = 1.0;
+		
+		int frameWidth = MainMenuFrame.getInstance().getWidth();
+		int frameHeight = MainMenuFrame.getInstance().getHeight();
+		int prevPanelX;
+		int prevPanelY;
+		int x, y;
+
+		if (frameWidth >= 300) {
+			prevPanelX = (MainMenuFrame.getInstance().getWidth() - 200);
+			x = (frameWidth - prevPanelX) / 2;
+		} else {
+			prevPanelX = frameHeight;
+			x = 0;
+		}
+
+		if (frameHeight >= 300) {
+			prevPanelY = (MainMenuFrame.getInstance().getHeight() - 200);
+			y = (frameHeight - prevPanelY) / 2;
+		} else {
+			prevPanelY = frameHeight;
+			y = 0;
+		}
+		previewPaneL = new JPanel();
+		JPanel filler = new JPanel();
+		JPanel recap = new JPanel();
+		recap.setOpaque(false);
+		recap.setLayout(eastLayout);
+		filler.setOpaque(false);
+		previewPaneL.setLayout(new BorderLayout());
+		filler.add(confirmButton);
+		filler.add(hideButton);
+		previewPaneL.setBackground(Color.BLACK);
+		previewPaneL.setBorder(BorderFactory.createLineBorder(Color.GRAY, 1, true));
+		previewPaneL.setBounds(x, y, prevPanelX, prevPanelY);
+		previewPaneL.setVisible(true);
+
+		this.eastLayout.setConstraints(timeDesc, eC);
+		recap.add(timeDesc);
+		this.eC.gridwidth = GridBagConstraints.REMAINDER;
+		this.eastLayout.setConstraints(time, eC);
+		recap.add(time);
+		eC.gridwidth = 1;
+
+		this.eC.insets = new Insets(40,0,0,0); 
+		this.eC.gridwidth = 1;
+
+		this.eC.gridwidth = GridBagConstraints.REMAINDER;
+		this.eastLayout.setConstraints(bulletTitle, eC);
+		recap.add(bulletTitle);
+
+		this.eC.insets = new Insets(10,0,0,0); 
+		this.eC.gridwidth = 1;
+
+		this.eastLayout.setConstraints(bulletsGun1Desc, eC);
+		recap.add(bulletsGun1Desc);
+		this.eC.gridwidth = GridBagConstraints.REMAINDER;
+		this.eastLayout.setConstraints(bulletsGun1, eC);
+		recap.add(bulletsGun1);
+		eC.gridwidth = 1;
+
+		this.eastLayout.setConstraints(bulletsGun2Desc, eC);
+		recap.add(bulletsGun2Desc);
+		this.eC.gridwidth = GridBagConstraints.REMAINDER;
+		this.eastLayout.setConstraints(bulletsGun2, eC);
+		recap.add(bulletsGun2);
+		eC.gridwidth = 1;
+
+		this.eastLayout.setConstraints(bulletsGun3Desc, eC);
+		recap.add(bulletsGun3Desc);
+		this.eC.gridwidth = GridBagConstraints.REMAINDER;
+		this.eastLayout.setConstraints(bulletsGun3, eC);
+		recap.add(bulletsGun3);
+		eC.gridwidth = 1;
+
+		this.eastLayout.setConstraints(bulletsGun4Desc, eC);
+		recap.add(bulletsGun4Desc);
+		this.eC.gridwidth = GridBagConstraints.REMAINDER;
+		this.eastLayout.setConstraints(bulletsGun4, eC);
+		recap.add(bulletsGun4);
+		eC.gridwidth = 1;
+
+		this.eC.insets = new Insets(10,0,0,0); 
+		this.eC.gridwidth = 1;
+		this.eC.weightx = 1.0;
+
+		for(int i=0; i<recap.getComponentCount();i++)
+		{
+			Component component = recap.getComponent(i);
+			component.setForeground(Color.green);
+			((JLabel)component).setOpaque(false);
+			component.setFont(MainMenuFrame.getInstance().getMainMenuPanel().getFont());
+			component.setFont(component.getFont().deriveFont(16.0f));
+		}
+
+
+
+		previewPaneL.add(recap,BorderLayout.CENTER);
+		previewPaneL.add(filler, BorderLayout.SOUTH);
+		GameOverPanel.this.add(previewPaneL, BorderLayout.CENTER,new Integer(10));
 	}
 
 	@Override

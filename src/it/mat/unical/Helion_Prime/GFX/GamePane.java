@@ -14,6 +14,7 @@ import it.mat.unical.Helion_Prime.Logic.Wave;
 import it.mat.unical.Helion_Prime.Logic.WaveImpl;
 import it.mat.unical.Helion_Prime.Logic.WorldImpl;
 import it.mat.unical.Helion_Prime.Multiplayer.ClientManagerMultiplayer;
+import it.mat.unical.Helion_Prime.Multiplayer.ThreadPoolMovementPlayerTwo;
 import it.mat.unical.Helion_Prime.Online.Client;
 import it.mat.unical.Helion_Prime.Online.ClientManager;
 
@@ -37,32 +38,32 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 public class GamePane extends JPanel {
-	/*
-	 * 
-	 * incviare al managerOnline il livello scelto
-	 */
-
+	
 	public static final int TILE_SIZE = 50;
+	
 	private JLabel controllerInfo;
 	private ImageProvider imageProvider;
-	private int playerX, playerY, playerTwoX, playerTwoY;
+	private int playerX;
+	private int playerY;
+	private int playerTwoX;
+	private int playerTwoY;
 	private int imagePlayer;
 	private int imagePlayer2;
+
+	private ThreadPoolMovementPlayerTwo movementPlayerTwo;
 	private boolean isConnectedPad = false;
 	// public int clientManager.getPlayerDirection();
-	private double scaleFactor;
 	private UserProfile profile;
-	int cont = 0;
 
 	public ConcurrentHashMap<Integer, BulletsClient> bullets;
-	// private static Integer codeBullet = 0;
+	
+	private int cont = 0;
 	private int curentLife;
-	private int sizeBulletForPrint = 0; // quando avremo le immaggini per i
-	// proiettili quasta variabile non ci
-	// servira piu
+	private int sizeBulletForPrint = 0;
 	private int movementOffset = TILE_SIZE / 10;
 	private int drawingHorizontalOffset;
 
+	private double scaleFactor;
 	private boolean UP = false;
 	private boolean DOWN = false;
 	private boolean LEFT = false;
@@ -86,7 +87,6 @@ public class GamePane extends JPanel {
 
 	private GamePadController gamePadController;
 	public ConcurrentHashMap<Integer, AbstractNativeLite> natives;
-
 	public ConcurrentHashMap<Point, Integer> placedTrap;
 
 	private int currentGunSelected = 0;
@@ -746,70 +746,67 @@ public class GamePane extends JPanel {
 
 				switch (imagePlayer2) {
 				case 0:
-					g.drawImage(imageProvider.getPlayer2Standing(), tempY
-							* TILE_SIZE
-					/* + drawingHorizontalOffset */, tempX * TILE_SIZE,
-							TILE_SIZE, TILE_SIZE, this);
+					g.drawImage(imageProvider.getPlayer2Standing(), playerTwoY
+					/* + drawingHorizontalOffset */, playerTwoX, TILE_SIZE,
+							TILE_SIZE, this);
 					break;
 
 				case 1:
-					g.drawImage(imageProvider.getPlayer2UpRunning(), tempY
-							* TILE_SIZE
-					/* + drawingHorizontalOffset */, tempX * TILE_SIZE,
-							TILE_SIZE, TILE_SIZE, this);
+					g.drawImage(imageProvider.getPlayer2UpRunning(), playerTwoY
+					/* + drawingHorizontalOffset */, playerTwoX, TILE_SIZE,
+							TILE_SIZE, this);
 					break;
 				case 2:
-					g.drawImage(imageProvider.getPlayer2DownRunning(), tempY
-							* TILE_SIZE
-					/* + drawingHorizontalOffset */, tempX * TILE_SIZE,
+					g.drawImage(imageProvider.getPlayer2DownRunning(),
+							playerTwoY
+							/* + drawingHorizontalOffset */, playerTwoX,
 							TILE_SIZE, TILE_SIZE, this);
 					break;
 				case 3:
-					g.drawImage(imageProvider.getPlayer2RightRunning(), tempY
-							* TILE_SIZE
-					/* + drawingHorizontalOffset */, tempX * TILE_SIZE,
+					g.drawImage(imageProvider.getPlayer2RightRunning(),
+							playerTwoY
+							/* + drawingHorizontalOffset */, playerTwoX,
 							TILE_SIZE, TILE_SIZE, this);
 					break;
 				case 4:
-					g.drawImage(imageProvider.getPlayer2LeftRunning(), tempY
-							* TILE_SIZE
-					/* + drawingHorizontalOffset */, tempX * TILE_SIZE,
+					g.drawImage(imageProvider.getPlayer2LeftRunning(),
+							playerTwoY
+							/* + drawingHorizontalOffset */, playerTwoX,
 							TILE_SIZE, TILE_SIZE, this);
 					break;
 				default:
 					break;
+
 				}
 			} else {
 				switch (imagePlayer) {
 				case 0:
-					g.drawImage(imageProvider.getPlayerStanding(), tempY
-							* TILE_SIZE
-					/* + drawingHorizontalOffset */, tempX * TILE_SIZE,
-							TILE_SIZE, TILE_SIZE, this);
+					g.drawImage(imageProvider.getPlayerStanding(), playerTwoY
+					/* + drawingHorizontalOffset */, playerTwoX, TILE_SIZE,
+							TILE_SIZE, this);
 					break;
 
 				case 1:
-					g.drawImage(imageProvider.getPlayerUpRunning(), tempY
-							* TILE_SIZE
-					/* + drawingHorizontalOffset */, tempX * TILE_SIZE,
-							TILE_SIZE, TILE_SIZE, this);
+					g.drawImage(imageProvider.getPlayerUpRunning(), playerTwoY
+					/* + drawingHorizontalOffset */, playerTwoX, TILE_SIZE,
+							TILE_SIZE, this);
 					break;
 				case 2:
-					g.drawImage(imageProvider.getPlayerDownRunning(), tempY
-							* TILE_SIZE
-					/* + drawingHorizontalOffset */, tempX * TILE_SIZE,
+					g.drawImage(imageProvider.getPlayerDownRunning(),
+							playerTwoY
+							/* + drawingHorizontalOffset */, playerTwoX,
 							TILE_SIZE, TILE_SIZE, this);
 					break;
 				case 3:
-					g.drawImage(imageProvider.getPlayerRightRunning(), tempY
-							* TILE_SIZE
-					/* + drawingHorizontalOffset */, tempX * TILE_SIZE,
+					g.drawImage(imageProvider.getPlayerRightRunning(),
+							playerTwoY
+							/* + drawingHorizontalOffset */, playerTwoX,
 							TILE_SIZE, TILE_SIZE, this);
 					break;
 				case 4:
-					g.drawImage(imageProvider.getPlayerLeftRunning(), tempY
-							* TILE_SIZE
-					/* + drawingHorizontalOffset */, tempX * TILE_SIZE,
+					g.drawImage(imageProvider.getPlayerLeftRunning(),
+							playerTwoY
+							/* + drawingHorizontalOffset */, playerTwoX,
 							TILE_SIZE, TILE_SIZE, this);
 					break;
 				default:
@@ -1184,5 +1181,21 @@ public class GamePane extends JPanel {
 
 	public File getCurrentFileLevel() {
 		return this.currentFileLevel;
+	}
+
+	public int getPlayerTwoX() {
+		return playerTwoX;
+	}
+
+	public void setPlayerTwoX(int playerTwoX) {
+		this.playerTwoX = playerTwoX;
+	}
+
+	public int getPlayerTwoY() {
+		return playerTwoY;
+	}
+
+	public void setPlayerTwoY(int playerTwoY) {
+		this.playerTwoY = playerTwoY;
 	}
 }

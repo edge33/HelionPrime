@@ -7,9 +7,14 @@ import it.mat.unical.Helion_Prime.Online.Client;
 import it.mat.unical.Helion_Prime.Online.ClientManager;
 import it.mat.unical.Helion_Prime.Online.Server;
 
+import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Cursor;
 import java.awt.Graphics;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
@@ -18,14 +23,36 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 
 import javax.imageio.ImageIO;
+import javax.swing.BorderFactory;
 import javax.swing.JButton;
+import javax.swing.JLabel;
+import javax.swing.JLayeredPane;
 import javax.swing.JPanel;
 
-public class StageClearPanel extends JPanel {
+public class StageClearPanel extends JLayeredPane {
 
 	private JButton backToMenuButton;
+	private JButton saveLevel;
 	private JButton retryButton;
 	private JButton nextLevel;
+
+	private JPanel previewPaneL;
+	private JPanel overlay;
+	private JButton confirmButton;
+	private JButton hideButton;
+
+	private JLabel time;
+	private JLabel timeDesc;
+	private JLabel bulletTitle;
+	private JLabel bulletsGun1Desc;
+	private JLabel bulletsGun2Desc;
+	private JLabel bulletsGun3Desc;
+	private JLabel bulletsGun4Desc;
+	private JLabel bulletsGun1;
+	private JLabel bulletsGun2;
+	private JLabel bulletsGun3;
+	private JLabel bulletsGun4;
+
 	private MainMenuFrame mainMenuFrame;
 	private BufferedImage stageClearImage;
 	private Cursor cursor;
@@ -35,7 +62,31 @@ public class StageClearPanel extends JPanel {
 	private ServerMultiplayer serverMultiplayer;
 	private File lastLevelPlayed;
 
-	public StageClearPanel(ClientManager clientManager, File level) {
+	private GridBagLayout eastLayout;
+	private GridBagConstraints eC;
+
+	public StageClearPanel(ClientManager clientManager, File level) 
+	{
+
+		this.confirmButton = new JButton("Save");
+		this.hideButton = new JButton("Hide");
+
+		this.overlay = new JPanel();
+		this.overlay.setOpaque(false);
+		this.setLayout(new BorderLayout());
+
+		this.time = new JLabel("0");
+		this.timeDesc = new JLabel ("Tempo:");
+		this.bulletTitle = new JLabel("Proiettili Rimanenti:");
+		this.bulletsGun1Desc = new JLabel(" Plasma Gun:");
+		this.bulletsGun2Desc = new JLabel(" Laser Rifle:");
+		this.bulletsGun3Desc = new JLabel(" Shootgun:");
+		this.bulletsGun4Desc = new JLabel(" Plasma Cannon:");
+		this.bulletsGun1 = new JLabel("-");
+		this.bulletsGun2 = new JLabel("0");
+		this.bulletsGun3 = new JLabel("0");
+		this.bulletsGun4 = new JLabel("0");
+
 		this.clientManager = clientManager;
 		this.profile = clientManager.getUserProfile();
 		this.cursor = MainMenuFrame.getInstance().getMainMenuPanel()
@@ -44,11 +95,18 @@ public class StageClearPanel extends JPanel {
 		this.lastLevelPlayed = level;
 		this.mainMenuFrame = MainMenuFrame.getInstance();
 		this.backToMenuButton = new JButton("Back to Menu");
+		this.saveLevel = new JButton("Save Level");
 		this.retryButton = new JButton("Retry");
 
 		if (MainMenuFrame.getInstance().getMainMenuPanel().isStoryModeOn()) {
-			this.nextLevel = new JButton("Next Level");
 
+			this.nextLevel = new JButton("Next Level");
+			nextLevel.setBackground(Color.black);
+			nextLevel.setForeground(Color.green);
+			nextLevel.setFont(mainMenuFrame.getMainMenuPanel().getFont());
+			nextLevel.setFont(nextLevel.getFont().deriveFont(25.0f));
+			nextLevel.setBorderPainted(false);
+			nextLevel.setFocusPainted(false);
 			this.nextLevel.addActionListener(new ActionListener() {
 
 				@Override
@@ -62,7 +120,7 @@ public class StageClearPanel extends JPanel {
 							+ name);
 					File level = new File(name);
 					System.out
-							.println("------------------------------------------------");
+					.println("------------------------------------------------");
 					MainGamePanel mainGamePanel = null;
 
 					if (!Server.isServerStarted)
@@ -115,16 +173,47 @@ public class StageClearPanel extends JPanel {
 
 				if (!StageClearPanel.this.clientManager.isMultiplayerGame()) {
 					StageClearPanel.this.mainMenuFrame
-							.switchTo(StageClearPanel.this.mainMenuFrame
-									.getMainMenuPanel());
+					.switchTo(StageClearPanel.this.mainMenuFrame
+							.getMainMenuPanel());
 
 				} else {
 					StageClearPanel.this.clientManager.sendMessage("finish");
 					StageClearPanel.this.mainMenuFrame
-							.switchTo(StageClearPanel.this.mainMenuFrame
-									.getMainMenuPanel());
+					.switchTo(StageClearPanel.this.mainMenuFrame
+							.getMainMenuPanel());
 
 				}
+			}
+		});
+
+		this.saveLevel.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+
+
+			}
+		});
+
+		this.saveLevel.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				createSavePanel();
+				backToMenuButton.setEnabled(false);
+				saveLevel.setEnabled(false);
+				retryButton.setEnabled(false);
+			}
+		});
+
+		this.hideButton.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				previewPaneL.setVisible(false);
+				backToMenuButton.setEnabled(true);
+				saveLevel.setEnabled(true);
+				retryButton.setEnabled(true);
 			}
 		});
 
@@ -183,7 +272,7 @@ public class StageClearPanel extends JPanel {
 
 					MainGamePanel mgGamePanel = new MainGamePanel(
 							lastLevelPlayed, StageClearPanel.this.clientManager
-									.getClient());
+							.getClient());
 
 					MainMenuFrame.getInstance().switchTo(mgGamePanel);
 
@@ -212,16 +301,32 @@ public class StageClearPanel extends JPanel {
 			e.printStackTrace();
 		}
 
-		this.add(backToMenuButton);
-		this.add(retryButton);
+		this.overlay.add(backToMenuButton);
+		this.overlay.add(saveLevel);
+		this.overlay.add(retryButton);
 
 		if (MainMenuFrame.getInstance().getMainMenuPanel().isStoryModeOn()) {
-			this.add(nextLevel);
+			this.overlay.add(nextLevel);
 		}
-
+		this.add(overlay,BorderLayout.NORTH);
 	}
 
 	public void createButton() {
+
+		saveLevel.setBackground(Color.black);
+		saveLevel.setForeground(Color.green);
+		saveLevel.setFont(mainMenuFrame.getMainMenuPanel().getFont());
+		saveLevel.setFont(saveLevel.getFont().deriveFont(25.0f));
+		saveLevel.setBorderPainted(false);
+		saveLevel.setFocusPainted(false);
+		confirmButton.setForeground(Color.green);
+		confirmButton.setBackground(Color.black);
+		confirmButton.setFont(MainMenuFrame.getInstance().getMainMenuPanel().getFont());
+		confirmButton.setFont(saveLevel.getFont().deriveFont(16.0f));
+		hideButton.setForeground(Color.green);
+		hideButton.setBackground(Color.black);
+		hideButton.setFont(MainMenuFrame.getInstance().getMainMenuPanel().getFont());
+		hideButton.setFont(saveLevel.getFont().deriveFont(16.0f));
 		retryButton.setBackground(Color.black);
 		retryButton.setForeground(Color.green);
 		retryButton.setFont(mainMenuFrame.getMainMenuPanel().getFont());
@@ -244,6 +349,114 @@ public class StageClearPanel extends JPanel {
 			retryButton.setFocusPainted(false);
 		}
 	}
+	public void createSavePanel()
+	{
+
+		this.eastLayout = new GridBagLayout();
+		this.eC = new GridBagConstraints();
+		this.eC.fill = GridBagConstraints.CENTER;
+		this.eC.weightx = 1.0;
+
+		int frameWidth = MainMenuFrame.getInstance().getWidth();
+		int frameHeight = MainMenuFrame.getInstance().getHeight();
+		int prevPanelX;
+		int prevPanelY;
+		int x, y;
+
+		if (frameWidth >= 300) {
+			prevPanelX = (MainMenuFrame.getInstance().getWidth() - 200);
+			x = (frameWidth - prevPanelX) / 2;
+		} else {
+			prevPanelX = frameHeight;
+			x = 0;
+		}
+
+		if (frameHeight >= 300) {
+			prevPanelY = (MainMenuFrame.getInstance().getHeight() - 200);
+			y = (frameHeight - prevPanelY) / 2;
+		} else {
+			prevPanelY = frameHeight;
+			y = 0;
+		}
+		previewPaneL = new JPanel();
+		JPanel filler = new JPanel();
+		JPanel recap = new JPanel();
+		recap.setOpaque(false);
+		recap.setLayout(eastLayout);
+		filler.setOpaque(false);
+		previewPaneL.setLayout(new BorderLayout());
+		filler.add(confirmButton);
+		filler.add(hideButton);
+		previewPaneL.setBackground(Color.BLACK);
+		previewPaneL.setBorder(BorderFactory.createLineBorder(Color.GRAY, 1, true));
+		previewPaneL.setBounds(x, y, prevPanelX, prevPanelY);
+		previewPaneL.setVisible(true);
+
+		this.eastLayout.setConstraints(timeDesc, eC);
+		recap.add(timeDesc);
+		this.eC.gridwidth = GridBagConstraints.REMAINDER;
+		this.eastLayout.setConstraints(time, eC);
+		recap.add(time);
+		eC.gridwidth = 1;
+
+		this.eC.insets = new Insets(40,0,0,0); 
+		this.eC.gridwidth = 1;
+
+		this.eC.gridwidth = GridBagConstraints.REMAINDER;
+		this.eastLayout.setConstraints(bulletTitle, eC);
+		recap.add(bulletTitle);
+
+		this.eC.insets = new Insets(10,0,0,0); 
+		this.eC.gridwidth = 1;
+
+		this.eastLayout.setConstraints(bulletsGun1Desc, eC);
+		recap.add(bulletsGun1Desc);
+		this.eC.gridwidth = GridBagConstraints.REMAINDER;
+		this.eastLayout.setConstraints(bulletsGun1, eC);
+		recap.add(bulletsGun1);
+		eC.gridwidth = 1;
+
+		this.eastLayout.setConstraints(bulletsGun2Desc, eC);
+		recap.add(bulletsGun2Desc);
+		this.eC.gridwidth = GridBagConstraints.REMAINDER;
+		this.eastLayout.setConstraints(bulletsGun2, eC);
+		recap.add(bulletsGun2);
+		eC.gridwidth = 1;
+
+		this.eastLayout.setConstraints(bulletsGun3Desc, eC);
+		recap.add(bulletsGun3Desc);
+		this.eC.gridwidth = GridBagConstraints.REMAINDER;
+		this.eastLayout.setConstraints(bulletsGun3, eC);
+		recap.add(bulletsGun3);
+		eC.gridwidth = 1;
+
+		this.eastLayout.setConstraints(bulletsGun4Desc, eC);
+		recap.add(bulletsGun4Desc);
+		this.eC.gridwidth = GridBagConstraints.REMAINDER;
+		this.eastLayout.setConstraints(bulletsGun4, eC);
+		recap.add(bulletsGun4);
+		eC.gridwidth = 1;
+
+		this.eC.insets = new Insets(10,0,0,0); 
+		this.eC.gridwidth = 1;
+		this.eC.weightx = 1.0;
+
+		for(int i=0; i<recap.getComponentCount();i++)
+		{
+			Component component = recap.getComponent(i);
+			component.setForeground(Color.green);
+			((JLabel)component).setOpaque(false);
+			component.setFont(MainMenuFrame.getInstance().getMainMenuPanel().getFont());
+			component.setFont(component.getFont().deriveFont(16.0f));
+		}
+
+
+
+		previewPaneL.add(recap,BorderLayout.CENTER);
+		previewPaneL.add(filler, BorderLayout.SOUTH);
+		StageClearPanel.this.add(previewPaneL, BorderLayout.CENTER,new Integer(10));
+	}
+
 
 	@Override
 	protected void paintComponent(Graphics g) {
