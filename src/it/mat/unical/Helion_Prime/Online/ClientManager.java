@@ -255,10 +255,11 @@ public class ClientManager {
 
 			MainMenuFrame.getInstance().switchTo(clearPanel);
 		} else if (responseFromServer.substring(0, 1).equals("o")) {
-			GameOverPanel gameOverPanel = new GameOverPanel(
-					ClientManager.this.gamePane.getCurrentFileLevel());
 			this.finishGame = true;
 			sendAllFinish();
+			GameOverPanel gameOverPanel = new GameOverPanel(this,
+					gamePane.getCurrentFileLevel());
+
 			MainMenuFrame.getInstance().switchTo(gameOverPanel);
 		} else if (responseFromServer.substring(0, 1).equals("l")) {
 			String[] splitted = responseFromServer.split(" ");

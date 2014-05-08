@@ -94,7 +94,8 @@ public class GamePane extends JPanel {
 	// protected int idButton = 0;
 	private static final int DELAY = 40;
 
-	public GamePane(File level, Client client,TrapPanel trapPanel, WestGamePanel westPanel,InformationPanel informationPanel,
+	public GamePane(File level, Client client, TrapPanel trapPanel,
+			WestGamePanel westPanel, InformationPanel informationPanel,
 			GamePadController gamePadController, UserProfile profile)
 
 	throws FileNotCorrectlyFormattedException {
@@ -136,9 +137,14 @@ public class GamePane extends JPanel {
 			this.clientManager = ClientManager.getInstance();
 			clientManager.createClientManager(client, this, profile);
 		} else {
+
 			this.clientManager = ClientManagerMultiplayer.getInstance();
 			((ClientManagerMultiplayer) this.clientManager)
 					.createClientManagerMultiplayer(client, this);
+			this.movementPlayerTwo = new ThreadPoolMovementPlayerTwo(
+					ClientManagerMultiplayer.getInstance()
+							.getMovementOffsetPlayer2(), this);
+			movementPlayerTwo.start();
 			imageProvider.initSecondPlayer();
 		}
 
