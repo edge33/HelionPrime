@@ -190,6 +190,12 @@ public class GameOverPanel extends JLayeredPane {
 		retryButton.setFont(retryButton.getFont().deriveFont(25.0f));
 		retryButton.setBorderPainted(false);
 		retryButton.setFocusPainted(false);
+		saveLevel.setBackground(Color.black);
+		saveLevel.setForeground(Color.green);
+		saveLevel.setFont(mainMenuFrame.getMainMenuPanel().getFont());
+		saveLevel.setFont(saveLevel.getFont().deriveFont(25.0f));
+		saveLevel.setBorderPainted(false);
+		saveLevel.setFocusPainted(false);
 		backToMenuButton.setBackground(Color.black);
 		backToMenuButton.setForeground(Color.green);
 		backToMenuButton.setFont(mainMenuFrame.getMainMenuPanel().getFont());

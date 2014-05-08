@@ -1,15 +1,19 @@
 package it.mat.unical.Helion_Prime.Logic;
 
+import java.util.Random;
+
 public class AbstractNativeLite {
 
 	private int x;
 	private int y;
 	private int key;
 	private int typeNative;
-	private int currentPosition = 1;
+	private int currentPosition = 2;
+	
 	private int direction;
 	private int graphicX;
 	private int graphicY;
+	private int enemyResistance;
 
 	public AbstractNativeLite(int x, int y, int typeNative, int key) {
 
@@ -17,7 +21,31 @@ public class AbstractNativeLite {
 		this.y = y;
 		this.key = key;
 		this.typeNative = typeNative;
-		this.direction = -1;
+		this.direction = 1;
+		new Thread() {
+			public void run() 
+			{
+				while (true)
+				{
+
+					if (currentPosition == 1)
+						currentPosition = 2;
+					else if (currentPosition == 2)
+						currentPosition = 3;
+					else if (currentPosition == 3)
+						currentPosition = 4;
+					else if (currentPosition == 4)
+						currentPosition = 1;
+
+					try {
+						sleep(250);
+					} catch (InterruptedException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				}
+			}
+		}.start();
 
 	}
 
@@ -77,6 +105,14 @@ public class AbstractNativeLite {
 	public void setGraphicY(int i) {
 		this.graphicY = i;
 
+	}
+
+	public int getResistance() {
+		return enemyResistance;
+	}
+	
+	public void setResistance(int r) {
+		enemyResistance = r;
 	}
 
 }

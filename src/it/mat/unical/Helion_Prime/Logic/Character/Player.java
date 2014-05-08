@@ -317,4 +317,8 @@ public class Player extends AbstractCharacter implements TrapPlacing {
 
 		}
 	}
+
+	public ArrayList<RangedWeapon> getArmy() {
+		return army;
+	}
 }

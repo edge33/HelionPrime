@@ -1098,9 +1098,9 @@ public class ImageProvider extends Thread {
 		enemyType = currentNative.getTypeNative();
 		direction = currentNative.getDirection();
 		currentPosition = currentNative.getCurrentPosition();
-		if (enemyType == 0) {
-			// enemyResistance = currentNative.getResistance();
-			// System.out.println(enemyResistance);
+		if (enemyType == 0)
+		{
+			 enemyResistance = currentNative.getResistance();
 		}
 		switch (enemyType) {
 		case 0: {

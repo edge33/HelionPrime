@@ -7,6 +7,7 @@ import it.mat.unical.Helion_Prime.Logic.Character.SoldierNative;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.util.Random;
 import java.util.Scanner;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -33,7 +34,7 @@ public class WaveImpl implements Wave {
 		this.nativeSpawner = world.getNativeSpawner();
 		this.playerSpawner = world.getPlayerSpawner();
 
-		this.nativeIndex = 0;
+		this.nativeIndex = 1;
 
 		if (b) {
 			this.natives = new ConcurrentHashMap<Integer, AbstractNative>();
@@ -154,23 +155,20 @@ public class WaveImpl implements Wave {
 
 		if (soldierNumber != 0)
 			for (int i = 0; i < soldierNumber; i++) {
-				this.nativesLite.put(nativeIndex, new AbstractNativeLite(
-						nativeSpawner.getX(), nativeSpawner.getY(),
-						nativeIndex++, 0));
+				AbstractNativeLite ogo = new AbstractNativeLite(nativeSpawner.getX(), nativeSpawner.getY(), 0, nativeIndex);
+				ogo.setResistance(new Random().nextInt(5));
+				System.out.println("Ogo res:" + ogo.getResistance());
+				this.nativesLite.put(nativeIndex++, ogo);
 			}// soldier for
 
 		if (bountyNumber != 0)
 			for (int i = 0; i < bountyNumber; i++) {
-				this.nativesLite.put(nativeIndex, new AbstractNativeLite(
-						nativeSpawner.getX(), nativeSpawner.getY(),
-						nativeIndex++, 1));
+				this.nativesLite.put(nativeIndex, new AbstractNativeLite(nativeSpawner.getX(), nativeSpawner.getY(), 1,nativeIndex++));
 			}// bounty for
 
 		if (saboteurNumber != 0)
 			for (int i = 0; i < saboteurNumber; i++) {
-				this.nativesLite.put(nativeIndex, new AbstractNativeLite(
-						nativeSpawner.getX(), nativeSpawner.getY(),
-						nativeIndex++, 2));
+				this.nativesLite.put(nativeIndex, new AbstractNativeLite(nativeSpawner.getX(), nativeSpawner.getY(), 2,nativeIndex++));
 			}// saboteur for
 
 	}

@@ -5,7 +5,11 @@ import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.Graphics;
+import java.awt.Image;
+import java.io.File;
+import java.io.IOException;
 
+import javax.imageio.ImageIO;
 import javax.swing.JPanel;
 import javax.swing.JProgressBar;
 import javax.swing.JTextField;
@@ -16,21 +20,22 @@ public class InformationPanel extends JPanel {
 	private JTextField moneyField;
 	private JTextField roomField;
 	private Font font;
+	private Image overlay;
 
 	// private BufferedImage background;
 
 	public InformationPanel() {
 
+		try {
+			overlay = ImageIO.read(new File ("Resources/Overlay/UpperOverlay.png"));
+		} catch (IOException e) {
+			System.out.println("UpperOverlay mancante");
+		}
+
 		font = MainMenuFrame.getInstance().getMainMenuPanel().getFont();
-		// try {
-		// background = ImageIO.read(new File("Resources/Immagine.png"));
-		// } catch (IOException e) {
-		// // TODO Auto-generated catch block
-		// e.printStackTrace();
-		// }
 		setLayout(new FlowLayout());
 		setBackground(Color.BLACK);
-		setPreferredSize(new Dimension(200, 30));
+		setPreferredSize(new Dimension(900, 50));
 		moneyField = new JTextField();
 		moneyField.setEditable(false);
 		moneyField.setFont(font);
@@ -63,6 +68,7 @@ public class InformationPanel extends JPanel {
 		// this);
 		g.setColor(Color.black);
 		g.fillRect(0, 0, this.getWidth(), this.getHeight());
+		g.drawImage(overlay, 0, 0, this);
 	}
 
 	public void setLife(int lifePoints) {
@@ -81,4 +87,6 @@ public class InformationPanel extends JPanel {
 		else
 			roomField.setText("0");
 	}
+	
+
 }

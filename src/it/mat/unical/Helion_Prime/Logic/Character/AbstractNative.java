@@ -47,33 +47,6 @@ public class AbstractNative extends AbstractCharacter implements Resistance {
 
 		type = 999;
 
-		new Thread() {
-			public void run() {
-				while (GameManagerImpl.getInstance().isGameStopped()
-						&& GameManagerImpl.getInstance().gameIsOver()) {
-					while (GameManagerImpl.isPaused()) {
-						System.out.println("Sono in Pausa - AbstractNative");
-						GameManagerImpl.waitForCondition();
-					}
-
-					if (currentPosition == 1)
-						currentPosition = 2;
-					else if (currentPosition == 2)
-						currentPosition = 3;
-					else if (currentPosition == 3)
-						currentPosition = 4;
-					else if (currentPosition == 4)
-						currentPosition = 1;
-
-					try {
-						sleep(150);
-					} catch (InterruptedException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
-				}
-			}
-		}.start();
 
 	}
 
@@ -87,7 +60,6 @@ public class AbstractNative extends AbstractCharacter implements Resistance {
 
 	public void attack(int attackPower) {
 
-		System.out.println(isCanAttack() + " AbstractNative");
 
 		// TODO: attacking method working on RN - Maida
 		// System.out.println("Can-ATTACK" + canAttack);

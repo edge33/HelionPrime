@@ -7,11 +7,15 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Graphics;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
 import java.awt.Image;
+import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 
@@ -28,6 +32,8 @@ import javax.swing.border.Border;
 
 public class TrapPanel extends JPanel {
 
+	
+	
 	private JLabel spikeTrapIcon; // label delle icone
 	private JLabel fireTrapIcon;
 	private JLabel acidTrapIcon;
@@ -36,6 +42,7 @@ public class TrapPanel extends JPanel {
 	private JLabel decoyTrapIcon;
 	private Image disabledDecoyTrapIcon;
 	private Image enabledDecoyTrapIcon;
+	private Image overlay;
 
 	private Border border;
 	private Border greenBorder;
@@ -44,51 +51,33 @@ public class TrapPanel extends JPanel {
 	private JLabel uziGunLabel;
 	private JLabel shootGunLabel;
 	private JLabel heavyWeaponLabel;
-	private GameManagerImpl manager;
+	private JLabel gapLabel;
+	
 	private boolean decoy = true;
 	private int currentTrapSelected; // intero che serve a sapere che "tipo" di
 	private int currentGunSelected; // trappola si ha selezionato dalle
+	private GridBagLayout layout;
 									// label
+	private GridBagConstraints c;
 
-	private final JButton backButton;
-	private ClientManager clientManager;
 
-	public TrapPanel() {
-
-		super(new FlowLayout());
-		this.manager = GameManagerImpl.getInstance();
+	public TrapPanel()
+	{
+		this.layout = new GridBagLayout();
+		this.c = new GridBagConstraints();
+		this.c.fill = GridBagConstraints.BOTH;
+		this.c.weightx = 1.0;
 		this.setOpaque(false);
 		this.border = BorderFactory.createLineBorder(Color.BLUE, 2);
 		this.greenBorder = BorderFactory.createLineBorder(Color.GREEN, 2);
-		this.backButton = new JButton("Main Menu"); // bottone che permette di
-													// torna al menu precedente
-		setFocusable(true);
-		backButton.addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				UIManager.put("Button.select", Color.black);
-				TrapPanel.this.manager.stopGame();
-				ClientManager.setFinishGame(true);
-				try {
-					clientManager.sendAllFinish();
-				} catch (InterruptedException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}
-				MainMenuFrame.getInstance().switchTo(
-						MainMenuFrame.getInstance().getMainMenuPanel());
-			}
-		});
+		this.setPreferredSize(new Dimension(900,60));
 		setBackground(Color.BLACK);
-		setPreferredSize(new Dimension(200, 50));
 		Image currentLabelImage = null;
 		currentTrapSelected = 0;
 
 		try {
-			currentLabelImage = ImageIO.read(
-					new File("Resources/SpikeTrapIcon.png")).getScaledInstance(
-					40, 40, Image.SCALE_SMOOTH);
+			overlay = ImageIO.read(new File ("Resources/Overlay/Overlay.png"));
+			currentLabelImage = ImageIO.read(new File("Resources/SpikeTrapIcon.png")).getScaledInstance(40, 40, Image.SCALE_SMOOTH);
 		} catch (IOException e) {
 			System.out.println("SpikeTrapIcon Mancante");
 		}
@@ -162,6 +151,16 @@ public class TrapPanel extends JPanel {
 		}
 
 		// ///////////////////////////////////////////////////////////////////////////////////
+		
+		try {
+			currentLabelImage = ImageIO.read(
+					new File("Resources/Overlay/Gap.png"))
+					.getScaledInstance(10, 40, Image.SCALE_SMOOTH);
+		} catch (IOException e) {
+			System.out.println("Gap Mancante");
+		}
+		
+		gapLabel = new JLabel(new ImageIcon(currentLabelImage));
 
 		try {
 			currentLabelImage = ImageIO
@@ -200,6 +199,7 @@ public class TrapPanel extends JPanel {
 		} catch (IOException e) {
 			System.out.println("heavyWeapon Mancante");
 		}
+
 
 		heavyWeaponLabel = new JLabel(new ImageIcon(currentLabelImage));
 
@@ -282,23 +282,34 @@ public class TrapPanel extends JPanel {
 				repaint();
 			}
 		});
+		
+		this.fillPanel();
 
+		repaint();
+	}
+	
+	public void fillPanel()
+	{
+		this.c.insets = new Insets(10,0,0,0); 
+		this.c.gridwidth = 1;
+		
+		((FlowLayout)this.getLayout()).setVgap(11);
 		this.add(spikeTrapIcon);
 		this.add(fireTrapIcon);
 		this.add(acidTrapIcon);
 		this.add(electricTrapIcon);
 		this.add(powerTrapIcon);
 		this.add(decoyTrapIcon);
-
+		
+		this.add(gapLabel);
+		
 		this.add(simpleGunLabel);
 		this.add(uziGunLabel);
 		this.add(shootGunLabel);
 		this.add(heavyWeaponLabel);
-		this.add(backButton);
 
 		simpleGunLabel.setBorder(greenBorder);
 		spikeTrapIcon.setBorder(border);
-
 	}
 
 	public void selectHeavy() {
@@ -434,11 +445,8 @@ public class TrapPanel extends JPanel {
 	protected void paintComponent(Graphics g) {
 		g.setColor(Color.BLACK);
 		g.fillRect(0, 0, this.getWidth(), this.getHeight());
+		g.drawImage(overlay,0,0,this);
 	}
 
-	public void setClientManager(ClientManager clientManager) {
-
-		this.clientManager = clientManager;
-	}
 
 }

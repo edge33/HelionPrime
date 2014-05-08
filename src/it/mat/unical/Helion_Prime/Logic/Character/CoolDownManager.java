@@ -31,7 +31,6 @@ public class CoolDownManager extends Thread {
 
 			}
 
-			System.out.println(theNative.isCanAttack() + " COOLDOWN");
 
 			try {
 				// System.out.println("dormo " + this.getId());

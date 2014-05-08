@@ -11,6 +11,7 @@ import java.awt.Cursor;
 import java.awt.Dimension;
 import java.io.File;
 
+import javax.swing.BorderFactory;
 import javax.swing.JPanel;
 
 public class MainGamePanel extends JPanel {
@@ -18,27 +19,24 @@ public class MainGamePanel extends JPanel {
 	private GamePane levelPanel;
 	private InformationPanel informationPanel;
 	private TrapPanel trapPanel;
-	private JPanel eastPanel;
-	private JPanel westPanel;
+	private EastGamePanel eastPanel;
+	private WestGamePanel westPanel;
 	private GamePadController gamePadController;
 	private Cursor cursor;
 	private UserProfile profile;
 
 	public MainGamePanel(File level, Client client)
 	{
-
-		this.cursor = MainMenuFrame.getInstance().getMainMenuPanel()
-				.getCursor();
+		int outerPanelWith = MainMenuFrame.getInstance().getWidth()/4;
+		int innerPanelWith = MainMenuFrame.getInstance().getWidth()/2;
+		this.cursor = MainMenuFrame.getInstance().getMainMenuPanel().getCursor();
 		this.setCursor(cursor);
 		setLayout(new BorderLayout());
-		gamePadController = new GamePadController();
-		eastPanel = new JPanel();
-		westPanel = new JPanel();
+		//gamePadController = new GamePadController();
+		eastPanel = new EastGamePanel();
+		westPanel = new WestGamePanel();
 		westPanel.setBackground(Color.black);
-		westPanel.setPreferredSize(new Dimension(150, 620));
-		eastPanel.setPreferredSize(new Dimension(150, 620));
-		eastPanel.setBackground(Color.black);
-		eastPanel.setSize(150, 620);
+
 		trapPanel = new TrapPanel();
 		informationPanel = new InformationPanel();
 		/*
@@ -47,13 +45,20 @@ public class MainGamePanel extends JPanel {
 		 */
 
 		try {
-			levelPanel = new GamePane(level, client, trapPanel,
+			levelPanel = new GamePane(level, client, trapPanel, westPanel,
 					informationPanel, gamePadController, null);
 		} catch (FileNotCorrectlyFormattedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		
 
+		eastPanel.setPreferredSize(new Dimension(150, 620));
+		westPanel.setPreferredSize(new Dimension(150, 620));
+		levelPanel.setPreferredSize(new Dimension(innerPanelWith, 620));
+		CustomBorder b1 = new CustomBorder(Color.GREEN, 10);
+		eastPanel.setBorder(b1);
+		westPanel.setBorder(b1);
 		add(informationPanel, BorderLayout.NORTH);
 		add(trapPanel, BorderLayout.SOUTH);
 		add(eastPanel, BorderLayout.EAST);
@@ -73,8 +78,8 @@ public class MainGamePanel extends JPanel {
 		this.setCursor(cursor);
 		setLayout(new BorderLayout());
 		gamePadController = new GamePadController();
-		eastPanel = new JPanel();
-		westPanel = new JPanel();
+		eastPanel = new EastGamePanel();
+		westPanel = new WestGamePanel();
 		westPanel.setBackground(Color.black);
 		westPanel.setPreferredSize(new Dimension(150, 620));
 		eastPanel.setPreferredSize(new Dimension(150, 620));
@@ -90,8 +95,7 @@ public class MainGamePanel extends JPanel {
 		 */
 
 		try {
-			levelPanel = new GamePane(level, client, trapPanel,
-					informationPanel, gamePadController, profile);
+			levelPanel = new GamePane(level, client, trapPanel, westPanel,informationPanel, gamePadController, profile);
 		} catch (FileNotCorrectlyFormattedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

@@ -1,6 +1,7 @@
 package it.mat.unical.Helion_Prime.GFX;
 
 import java.awt.BorderLayout;
+import java.awt.geom.RoundRectangle2D;
 import java.sql.Timestamp;
 
 import javax.swing.JFrame;
@@ -27,6 +28,7 @@ public class MainMenuFrame extends JFrame {
 	}
 
 	private MainMenuFrame() {
+
 	}
 
 	public void start() {

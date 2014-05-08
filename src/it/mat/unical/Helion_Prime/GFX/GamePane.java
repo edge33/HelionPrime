@@ -80,6 +80,7 @@ public class GamePane extends JPanel {
 	private ClientManager clientManager;
 	private Wave wave;
 
+	public WestGamePanel westPanel;
 	public TrapPanel trapPanel;
 	public InformationPanel informationPanel;
 
@@ -93,8 +94,7 @@ public class GamePane extends JPanel {
 	// protected int idButton = 0;
 	private static final int DELAY = 40;
 
-	public GamePane(File level, Client client, TrapPanel trapPanel,
-			InformationPanel informationPanel,
+	public GamePane(File level, Client client,TrapPanel trapPanel, WestGamePanel westPanel,InformationPanel informationPanel,
 			GamePadController gamePadController, UserProfile profile)
 
 	throws FileNotCorrectlyFormattedException {
@@ -120,6 +120,7 @@ public class GamePane extends JPanel {
 		this.controllerInfo.setFont(controllerInfo.getFont().deriveFont(50.0f));
 		this.controllerInfo.setBounds(200, 350, 636, 248);
 		this.gamePadController = gamePadController;
+		this.westPanel = westPanel;
 		this.trapPanel = trapPanel;
 		this.informationPanel = informationPanel;
 		this.placedTrap = new ConcurrentHashMap<Point, Integer>();
@@ -143,7 +144,7 @@ public class GamePane extends JPanel {
 
 		clientManager.init();
 
-		this.trapPanel.setClientManager(this.clientManager);
+		this.westPanel.setClientManager(this.clientManager);
 
 		informationPanel.setRoomLife(world.getRoomLife());
 
