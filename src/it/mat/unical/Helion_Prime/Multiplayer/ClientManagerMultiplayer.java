@@ -5,15 +5,19 @@ import it.mat.unical.Helion_Prime.GFX.GamePane;
 import it.mat.unical.Helion_Prime.Online.Client;
 import it.mat.unical.Helion_Prime.Online.ClientManager;
 
+import java.util.concurrent.LinkedBlockingQueue;
+
 public class ClientManagerMultiplayer extends ClientManager {
 
 	private int logicXPlayerTwo;
 	private int logicYPlayerTwo;
 	private int directionPlayerTwo;
+	private LinkedBlockingQueue<Integer> movementOffsetPlayer2;
 	private static ClientManagerMultiplayer instance;
 
 	private ClientManagerMultiplayer(Client client, GamePane gamePane) {
 		super(client, gamePane);
+		movementOffsetPlayer2 = new LinkedBlockingQueue<Integer>();
 		logicXPlayerTwo = gamePane.getWorld().getPlayerSpawner().getX();
 		logicYPlayerTwo = gamePane.getWorld().getPlayerSpawner().getY();
 		this.startMovementPlayer();
@@ -36,7 +40,7 @@ public class ClientManagerMultiplayer extends ClientManager {
 	public void createClientManagerMultiplayer(Client client, GamePane gamePane) {
 
 		this.createClientManager(client, gamePane, null);
-
+		movementOffsetPlayer2 = new LinkedBlockingQueue<Integer>();
 		logicXPlayerTwo = gamePane.getWorld().getPlayerSpawner().getX();
 		logicYPlayerTwo = gamePane.getWorld().getPlayerSpawner().getY();
 		this.startMovementPlayer();
@@ -46,12 +50,36 @@ public class ClientManagerMultiplayer extends ClientManager {
 	public void moveLogicPlayer(String string) {
 		if (string.equals("mUP")) {
 			logicXPlayerTwo -= 1;
+			try {
+				movementOffsetPlayer2.put(0);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		} else if (string.equals("mDOWN")) {
 			logicXPlayerTwo += 1;
+			try {
+				movementOffsetPlayer2.put(1);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		} else if (string.equals("mRIGHT")) {
 			logicYPlayerTwo -= 1;
+			try {
+				movementOffsetPlayer2.put(2);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		} else if (string.equals("mLEFT")) {
 			logicYPlayerTwo += 1;
+			try {
+				movementOffsetPlayer2.put(3);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		} else if (string.equals("dUP")) { // per settare le direzione del
 
 			setPlayerTwoDirection(0);
@@ -191,5 +219,9 @@ public class ClientManagerMultiplayer extends ClientManager {
 
 	public void setPlayerTwoDirection(int directionPlayerTwo) {
 		this.directionPlayerTwo = directionPlayerTwo;
+	}
+
+	public LinkedBlockingQueue<Integer> getMovementOffsetPlayer2() {
+		return movementOffsetPlayer2;
 	}
 }

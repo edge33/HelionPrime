@@ -14,6 +14,7 @@ import it.mat.unical.Helion_Prime.Logic.Wave;
 import it.mat.unical.Helion_Prime.Logic.WaveImpl;
 import it.mat.unical.Helion_Prime.Logic.WorldImpl;
 import it.mat.unical.Helion_Prime.Multiplayer.ClientManagerMultiplayer;
+import it.mat.unical.Helion_Prime.Multiplayer.ThreadPoolMovementPlayerTwo;
 import it.mat.unical.Helion_Prime.Online.Client;
 import it.mat.unical.Helion_Prime.Online.ClientManager;
 
@@ -48,6 +49,8 @@ public class GamePane extends JPanel {
 	private int playerX, playerY, playerTwoX, playerTwoY;
 	private int imagePlayer;
 	private int imagePlayer2;
+
+	private ThreadPoolMovementPlayerTwo movementPlayerTwo;
 	private boolean isConnectedPad = false;
 	// public int clientManager.getPlayerDirection();
 	private double scaleFactor;
@@ -94,7 +97,8 @@ public class GamePane extends JPanel {
 	// protected int idButton = 0;
 	private static final int DELAY = 40;
 
-	public GamePane(File level, Client client,TrapPanel trapPanel, WestGamePanel westPanel,InformationPanel informationPanel,
+	public GamePane(File level, Client client, TrapPanel trapPanel,
+			WestGamePanel westPanel, InformationPanel informationPanel,
 			GamePadController gamePadController, UserProfile profile)
 
 	throws FileNotCorrectlyFormattedException {
@@ -136,9 +140,14 @@ public class GamePane extends JPanel {
 			this.clientManager = ClientManager.getInstance();
 			clientManager.createClientManager(client, this, profile);
 		} else {
+
 			this.clientManager = ClientManagerMultiplayer.getInstance();
 			((ClientManagerMultiplayer) this.clientManager)
 					.createClientManagerMultiplayer(client, this);
+			this.movementPlayerTwo = new ThreadPoolMovementPlayerTwo(
+					ClientManagerMultiplayer.getInstance()
+							.getMovementOffsetPlayer2(), this);
+			movementPlayerTwo.start();
 			imageProvider.initSecondPlayer();
 		}
 
@@ -746,70 +755,67 @@ public class GamePane extends JPanel {
 
 				switch (imagePlayer2) {
 				case 0:
-					g.drawImage(imageProvider.getPlayer2Standing(), tempY
-							* TILE_SIZE
-					/* + drawingHorizontalOffset */, tempX * TILE_SIZE,
-							TILE_SIZE, TILE_SIZE, this);
+					g.drawImage(imageProvider.getPlayer2Standing(), playerTwoY
+					/* + drawingHorizontalOffset */, playerTwoX, TILE_SIZE,
+							TILE_SIZE, this);
 					break;
 
 				case 1:
-					g.drawImage(imageProvider.getPlayer2UpRunning(), tempY
-							* TILE_SIZE
-					/* + drawingHorizontalOffset */, tempX * TILE_SIZE,
-							TILE_SIZE, TILE_SIZE, this);
+					g.drawImage(imageProvider.getPlayer2UpRunning(), playerTwoY
+					/* + drawingHorizontalOffset */, playerTwoX, TILE_SIZE,
+							TILE_SIZE, this);
 					break;
 				case 2:
-					g.drawImage(imageProvider.getPlayer2DownRunning(), tempY
-							* TILE_SIZE
-					/* + drawingHorizontalOffset */, tempX * TILE_SIZE,
+					g.drawImage(imageProvider.getPlayer2DownRunning(),
+							playerTwoY
+							/* + drawingHorizontalOffset */, playerTwoX,
 							TILE_SIZE, TILE_SIZE, this);
 					break;
 				case 3:
-					g.drawImage(imageProvider.getPlayer2RightRunning(), tempY
-							* TILE_SIZE
-					/* + drawingHorizontalOffset */, tempX * TILE_SIZE,
+					g.drawImage(imageProvider.getPlayer2RightRunning(),
+							playerTwoY
+							/* + drawingHorizontalOffset */, playerTwoX,
 							TILE_SIZE, TILE_SIZE, this);
 					break;
 				case 4:
-					g.drawImage(imageProvider.getPlayer2LeftRunning(), tempY
-							* TILE_SIZE
-					/* + drawingHorizontalOffset */, tempX * TILE_SIZE,
+					g.drawImage(imageProvider.getPlayer2LeftRunning(),
+							playerTwoY
+							/* + drawingHorizontalOffset */, playerTwoX,
 							TILE_SIZE, TILE_SIZE, this);
 					break;
 				default:
 					break;
+
 				}
 			} else {
 				switch (imagePlayer) {
 				case 0:
-					g.drawImage(imageProvider.getPlayerStanding(), tempY
-							* TILE_SIZE
-					/* + drawingHorizontalOffset */, tempX * TILE_SIZE,
-							TILE_SIZE, TILE_SIZE, this);
+					g.drawImage(imageProvider.getPlayerStanding(), playerTwoY
+					/* + drawingHorizontalOffset */, playerTwoX, TILE_SIZE,
+							TILE_SIZE, this);
 					break;
 
 				case 1:
-					g.drawImage(imageProvider.getPlayerUpRunning(), tempY
-							* TILE_SIZE
-					/* + drawingHorizontalOffset */, tempX * TILE_SIZE,
-							TILE_SIZE, TILE_SIZE, this);
+					g.drawImage(imageProvider.getPlayerUpRunning(), playerTwoY
+					/* + drawingHorizontalOffset */, playerTwoX, TILE_SIZE,
+							TILE_SIZE, this);
 					break;
 				case 2:
-					g.drawImage(imageProvider.getPlayerDownRunning(), tempY
-							* TILE_SIZE
-					/* + drawingHorizontalOffset */, tempX * TILE_SIZE,
+					g.drawImage(imageProvider.getPlayerDownRunning(),
+							playerTwoY
+							/* + drawingHorizontalOffset */, playerTwoX,
 							TILE_SIZE, TILE_SIZE, this);
 					break;
 				case 3:
-					g.drawImage(imageProvider.getPlayerRightRunning(), tempY
-							* TILE_SIZE
-					/* + drawingHorizontalOffset */, tempX * TILE_SIZE,
+					g.drawImage(imageProvider.getPlayerRightRunning(),
+							playerTwoY
+							/* + drawingHorizontalOffset */, playerTwoX,
 							TILE_SIZE, TILE_SIZE, this);
 					break;
 				case 4:
-					g.drawImage(imageProvider.getPlayerLeftRunning(), tempY
-							* TILE_SIZE
-					/* + drawingHorizontalOffset */, tempX * TILE_SIZE,
+					g.drawImage(imageProvider.getPlayerLeftRunning(),
+							playerTwoY
+							/* + drawingHorizontalOffset */, playerTwoX,
 							TILE_SIZE, TILE_SIZE, this);
 					break;
 				default:
@@ -1184,5 +1190,21 @@ public class GamePane extends JPanel {
 
 	public File getCurrentFileLevel() {
 		return this.currentFileLevel;
+	}
+
+	public int getPlayerTwoX() {
+		return playerTwoX;
+	}
+
+	public void setPlayerTwoX(int playerTwoX) {
+		this.playerTwoX = playerTwoX;
+	}
+
+	public int getPlayerTwoY() {
+		return playerTwoY;
+	}
+
+	public void setPlayerTwoY(int playerTwoY) {
+		this.playerTwoY = playerTwoY;
 	}
 }

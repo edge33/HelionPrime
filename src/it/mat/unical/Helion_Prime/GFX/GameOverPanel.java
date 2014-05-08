@@ -38,10 +38,11 @@ public class GameOverPanel extends JLayeredPane {
 	private Server server;
 	private ServerMultiplayer serverMultiplayer;
 	private File lastlevelPlayed;
+	private ClientManager manager;
 
-	public GameOverPanel(File level) {
-
-		profile = ClientManager.getInstance().getUserProfile();
+	public GameOverPanel(ClientManager manager, File level) {
+		this.manager = manager;
+		profile = manager.getUserProfile();
 		try {
 			gameOverImage = ImageIO.read(new File("Resources/gameOver.png"));
 		} catch (IOException e) {
@@ -126,7 +127,7 @@ public class GameOverPanel extends JLayeredPane {
 			public void actionPerformed(ActionEvent arg0) {
 				String name = lastlevelPlayed.getName();
 
-				if (!ClientManager.getInstance().isMultiplayerGame()) {
+				if (!manager.isMultiplayerGame()) {
 					MainGamePanel mainGamePanel = null;
 
 					try {
@@ -163,17 +164,16 @@ public class GameOverPanel extends JLayeredPane {
 					MainMenuFrame.getInstance().switchTo(mainGamePanel);
 				} else {
 
-					ClientManager.getInstance().sendMessage("retry");
+					manager.sendMessage("retry");
 
 					System.out.println("ATTENDO MESSAGGIO DAL SERVER");
 
-					ClientManager.getInstance().getClient().recieveMessage();
+					manager.getClient().recieveMessage();
 
 					System.out.println("MESSAGGIO DAL SERVER ARRIVATO");
 
 					MainGamePanel mgGamePanel = new MainGamePanel(
-							lastlevelPlayed, ClientManager.getInstance()
-									.getClient());
+							lastlevelPlayed, manager.getClient());
 
 					MainMenuFrame.getInstance().switchTo(mgGamePanel);
 
