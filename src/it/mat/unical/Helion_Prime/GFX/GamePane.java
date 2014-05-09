@@ -30,6 +30,8 @@ import java.awt.event.MouseEvent;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.concurrent.ConcurrentHashMap;
 
 import javax.imageio.ImageIO;
@@ -38,9 +40,9 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 public class GamePane extends JPanel {
-	
+
 	public static final int TILE_SIZE = 50;
-	
+
 	private JLabel controllerInfo;
 	private ImageProvider imageProvider;
 	private int playerX;
@@ -56,7 +58,7 @@ public class GamePane extends JPanel {
 	private UserProfile profile;
 
 	public ConcurrentHashMap<Integer, BulletsClient> bullets;
-	
+
 	private int cont = 0;
 	private int curentLife;
 	private int sizeBulletForPrint = 0;
@@ -74,7 +76,7 @@ public class GamePane extends JPanel {
 	private boolean threadAlive = false;
 	private boolean gameOver = false;
 	private boolean stageClear = false;
-
+	private EnemyMoverGraphic enemyMover;
 	private File currentFileLevel;
 	private WorldImpl world;
 	private Client client;
@@ -88,6 +90,7 @@ public class GamePane extends JPanel {
 	private GamePadController gamePadController;
 	public ConcurrentHashMap<Integer, AbstractNativeLite> natives;
 	public ConcurrentHashMap<Point, Integer> placedTrap;
+	private HashMap<AbstractNativeLite, ArrayList<Integer>> movementGraphicWave;
 
 	private int currentGunSelected = 0;
 	private boolean levelClear = false;
@@ -126,6 +129,7 @@ public class GamePane extends JPanel {
 		this.informationPanel = informationPanel;
 		this.placedTrap = new ConcurrentHashMap<Point, Integer>();
 		this.bullets = new ConcurrentHashMap<Integer, BulletsClient>();
+		this.movementGraphicWave = new HashMap<AbstractNativeLite, ArrayList<Integer>>();
 		// this.threadPoolClient = new ThreadPoolBulletClient(bullets);
 		// this.manager.init(level);
 		// this.threadPoolClient.start();
@@ -176,7 +180,13 @@ public class GamePane extends JPanel {
 					* TILE_SIZE);
 			currentNative.setGraphicY(this.world.getNativeSpawner().getY()
 					* TILE_SIZE);
+
+			movementGraphicWave.put(currentNative, new ArrayList<Integer>());
 		}
+
+		enemyMover = new EnemyMoverGraphic(this);
+
+		enemyMover.start();
 
 		Repainter repainter = new Repainter(this);
 		repainter.start();
@@ -842,10 +852,14 @@ public class GamePane extends JPanel {
 			// currentNative.getGraphicX() + 10, TILE_SIZE, TILE_SIZE,
 			// this);
 
+			// g.drawImage(imageProvider.getCorrectNative(currentNative),
+			// /* drawingHorizontalOffset */+currentNative.getY() * TILE_SIZE,
+			// currentNative.getX() * TILE_SIZE, TILE_SIZE, TILE_SIZE,
+			// this);
+
 			g.drawImage(imageProvider.getCorrectNative(currentNative),
-			/* drawingHorizontalOffset */+currentNative.getY() * TILE_SIZE,
-					currentNative.getX() * TILE_SIZE, TILE_SIZE, TILE_SIZE,
-					this);
+			/* drawingHorizontalOffset */currentNative.getGraphicY(),
+					currentNative.getGraphicX(), TILE_SIZE, TILE_SIZE, this);
 
 			// if (currentNative instanceof SoldierNative) {
 			// g.setColor(Color.BLACK);
@@ -1203,5 +1217,14 @@ public class GamePane extends JPanel {
 
 	public void setPlayerTwoY(int playerTwoY) {
 		this.playerTwoY = playerTwoY;
+	}
+
+	public HashMap<AbstractNativeLite, ArrayList<Integer>> getMovementGraphicWave() {
+		return movementGraphicWave;
+	}
+
+	public void setMovementGraphicWave(
+			HashMap<AbstractNativeLite, ArrayList<Integer>> movementGraphicWave) {
+		this.movementGraphicWave = movementGraphicWave;
 	}
 }

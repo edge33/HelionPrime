@@ -21,6 +21,7 @@ public class ClientManager {
 	private BlockingQueue<String> movementWawe;
 	private BlockingQueue<String> placementTrap;
 	private BlockingQueue<String> outToServer;
+
 	public static boolean isPlayerOne;
 	protected GamePane gamePane;
 	private UserProfile profile;
@@ -127,13 +128,6 @@ public class ClientManager {
 						sentence = outToServer.take();
 
 						client.sendMessage(sentence);
-					} catch (InterruptedException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
-
-					try {
-						sleep(10);
 					} catch (InterruptedException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
@@ -338,18 +332,38 @@ public class ClientManager {
 							if (movement.substring(1, 2).equals("U")) {
 
 								abstractNative.setX(abstractNative.getX() - 1);
+
+								gamePane.getMovementGraphicWave()
+										.get(abstractNative).add(0);
+
 							} else if (movement.substring(1, 2).equals("D")) {
 								abstractNative.setX(abstractNative.getX() + 1);
+
+								gamePane.getMovementGraphicWave()
+										.get(abstractNative).add(1);
+
 							} else if (movement.substring(1, 2).equals("L")) {
 								abstractNative.setY(abstractNative.getY() - 1);
+
+								gamePane.getMovementGraphicWave()
+										.get(abstractNative).add(2);
+
 							} else if (movement.substring(1, 2).equals("R")) {
 								abstractNative.setY(abstractNative.getY() + 1);
+
+								gamePane.getMovementGraphicWave()
+										.get(abstractNative).add(3);
+
 							} else if (splitted[0].equals("nr")) {
+
+								gamePane.getMovementGraphicWave().remove(
+										abstractNative);
+
 								gamePane.natives.remove(Integer
 										.parseInt(splitted[1]));
 							}
 						}
-						sleep(20);
+
 					} catch (InterruptedException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
@@ -372,7 +386,7 @@ public class ClientManager {
 					try {
 						placement = placementTrap.take();
 						placeTrapOnGraphicMap(placement);
-						sleep(100);
+
 					} catch (InterruptedException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
@@ -449,7 +463,6 @@ public class ClientManager {
 							// .parseInt(movementSplitted[1]))
 							// .getY() + 1);
 
-						sleep(10);
 					} catch (InterruptedException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();

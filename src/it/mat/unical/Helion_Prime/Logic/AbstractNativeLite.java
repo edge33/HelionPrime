@@ -1,6 +1,6 @@
 package it.mat.unical.Helion_Prime.Logic;
 
-import java.util.Random;
+import it.mat.unical.Helion_Prime.Online.ClientManager;
 
 public class AbstractNativeLite {
 
@@ -9,11 +9,13 @@ public class AbstractNativeLite {
 	private int key;
 	private int typeNative;
 	private int currentPosition = 2;
-	
+
 	private int direction;
 	private int graphicX;
 	private int graphicY;
 	private int enemyResistance;
+
+	private int numberOfMovement = 10;
 
 	public AbstractNativeLite(int x, int y, int typeNative, int key) {
 
@@ -23,10 +25,8 @@ public class AbstractNativeLite {
 		this.typeNative = typeNative;
 		this.direction = 1;
 		new Thread() {
-			public void run() 
-			{
-				while (true)
-				{
+			public void run() {
+				while (!ClientManager.isFinishGame()) {
 
 					if (currentPosition == 1)
 						currentPosition = 2;
@@ -110,9 +110,30 @@ public class AbstractNativeLite {
 	public int getResistance() {
 		return enemyResistance;
 	}
-	
+
 	public void setResistance(int r) {
 		enemyResistance = r;
+	}
+
+	public int getGraphicX() {
+		return graphicX;
+	}
+
+	public int getGraphicY() {
+		return graphicY;
+	}
+
+	public void decrMovement() {
+		numberOfMovement--;
+
+	}
+
+	public int getNumberOfMovement() {
+		return numberOfMovement;
+	}
+
+	public void setNumberOfMovement(int numberOfMovement) {
+		this.numberOfMovement = numberOfMovement;
 	}
 
 }
