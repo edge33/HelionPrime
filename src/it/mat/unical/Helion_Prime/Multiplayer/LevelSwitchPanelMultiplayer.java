@@ -1,6 +1,7 @@
 package it.mat.unical.Helion_Prime.Multiplayer;
 
 import it.mat.unical.Helion_Prime.GFX.GameOverPanel;
+import it.mat.unical.Helion_Prime.GFX.LevelSwitchPanel;
 import it.mat.unical.Helion_Prime.GFX.MainGamePanel;
 import it.mat.unical.Helion_Prime.GFX.MainMenuFrame;
 import it.mat.unical.Helion_Prime.Online.Client;
@@ -25,7 +26,7 @@ public class LevelSwitchPanelMultiplayer extends JPanel {
 
 	private BufferedImage levelSwitchWallpaper;
 	private BufferedImage levelPreview;
-	private JComboBox<File> comboBox;
+	private JComboBox<String> comboBox;
 	private JButton menuButton;
 	private JButton startGameButton;
 	private ServerMultiplayer server;
@@ -55,19 +56,20 @@ public class LevelSwitchPanelMultiplayer extends JPanel {
 		File path = new File("levels");
 		levels = path.listFiles();
 		String currentLevelName;
+		String levelExtension;
 		this.comboBox = new JComboBox();
-
-		for (File level : levels) {
+		for (File level : levels) 
+		{
 			currentLevelName = level.getName();
-			currentLevelName = currentLevelName.substring(
-					currentLevelName.lastIndexOf(".") + 1,
-					currentLevelName.length());
-			if (!(currentLevelName.equals("jpg"))) {
-				this.comboBox.addItem(level);
+			levelExtension = currentLevelName.substring(currentLevelName.lastIndexOf(".") + 1,currentLevelName.length());
+			if (!(levelExtension.equals("jpg")))
+			{
+				currentLevelName = currentLevelName.substring(0,
+						currentLevelName.indexOf('.'));
+				this.comboBox.addItem(currentLevelName);
 			}
 		}
 		this.add(comboBox);
-
 		this.menuButton = new JButton("Back To Menu");
 		this.startGameButton = new JButton("Start Game");
 		createButton();
@@ -77,9 +79,6 @@ public class LevelSwitchPanelMultiplayer extends JPanel {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				String levelName = String.valueOf(comboBox.getSelectedItem());
-				;
-				levelName = levelName.substring(0, levelName.lastIndexOf("."));
-				levelName = levelName.substring(7, levelName.length());
 				levelName = levelName + (".jpg");
 				createPreview(levelName);
 				repaint();
@@ -98,15 +97,14 @@ public class LevelSwitchPanelMultiplayer extends JPanel {
 					client.sendMessage("Client 1 connesso (SERVER)");
 					ClientManagerMultiplayer.isPlayerOne = true;
 					System.out.println(client.recieveMessage());
-					File choosenLevel = (File) LevelSwitchPanelMultiplayer.this.comboBox
-							.getSelectedItem();
-					String levelName = choosenLevel.getName();
-					client.sendMessage(levelName);
+					String currentLevel = (String) LevelSwitchPanelMultiplayer.this.comboBox.getSelectedItem();
+					String name = "levels/" + currentLevel + ".txt";
+					client.sendMessage(currentLevel);
 
 					System.out.println("ATTENDO GIOCATORE 2");
 
 					System.out.println(client.recieveMessage());
-
+					File choosenLevel = new File(name);
 					MainGamePanel mainGamePanel = null;
 					mainGamePanel = new MainGamePanel(choosenLevel, client);
 
