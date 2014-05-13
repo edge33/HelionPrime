@@ -1,6 +1,5 @@
 package it.mat.unical.Helion_Prime.Logic.Character;
 
-import it.mat.unical.Helion_Prime.Logic.StaticObject;
 import it.mat.unical.Helion_Prime.Logic.Wall;
 import it.mat.unical.Helion_Prime.Logic.World;
 import it.mat.unical.Helion_Prime.Logic.Trap.AbstractTrap;
@@ -14,6 +13,7 @@ public class BasicAI implements NativeAI {
 
 	private static BasicAI instance;
 
+	
 	protected BasicAI() {
 
 	}
@@ -26,9 +26,9 @@ public class BasicAI implements NativeAI {
 
 	private static class Cell {
 
-		final int x;
+		int x;
 
-		final int y;
+		 int y;
 
 		public Cell(final int x, final int y) {
 			this.x = x;
@@ -58,6 +58,7 @@ public class BasicAI implements NativeAI {
 	}
 
 
+
 	@Override
 	public int getDirection(AbstractNative currentNative,Object target, World world) {
 
@@ -85,6 +86,8 @@ public class BasicAI implements NativeAI {
 					 ( player.getX() == currentCell.x && player.getY() == currentCell.y + 1 )
 				) {
 					found = true;
+
+				
 					return findDirectionFromCell(tree, currentCell, currentNative);
 
 				}

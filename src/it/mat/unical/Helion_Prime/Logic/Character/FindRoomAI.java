@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 
 import it.mat.unical.Helion_Prime.Logic.MaintenanceRoom;
 import it.mat.unical.Helion_Prime.Logic.StaticObject;
@@ -14,8 +15,9 @@ import it.mat.unical.Helion_Prime.Logic.Trap.AbstractTrap;
 public class FindRoomAI implements NativeAI {
 
 	private static FindRoomAI instance;
-	
+
 	private FindRoomAI() {
+
 	}
 	
 	
@@ -27,9 +29,9 @@ public class FindRoomAI implements NativeAI {
 
 private static class Cell {
 		
-		final int x;
+		 int x;
 		
-		final int y;
+		int y;
 		
 		public Cell(final int x, final int y) {
 			this.x = x;
@@ -87,6 +89,8 @@ private static class Cell {
 					 ( room.getX() == currentCell.x && room.getY() == currentCell.y + 1 )
 			) {
 				
+				
+	
 				found = true;
 				return findDirectionFromCell(tree,currentCell,currentNative);
 				
@@ -139,6 +143,8 @@ private void addChildren(List<Cell> queue, Map<Cell, Cell> tree, Cell currentCel
         }
 		
 	}
+
+
 
 	private int findDirectionFromCell(Map<Cell, Cell> tree, Cell currentCell,AbstractNative currentNative) {
 		

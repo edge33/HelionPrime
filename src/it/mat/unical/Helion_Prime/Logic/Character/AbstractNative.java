@@ -65,8 +65,11 @@ public class AbstractNative extends AbstractCharacter implements Resistance {
 		// TODO: attacking method working on RN - Maida
 		// System.out.println("Can-ATTACK" + canAttack);
 
-		World innerWorld = player.getWorld();
-		if (getX() == player.getX() && getY() == player.getY() && canAttack) {
+		if ( canAttack && ( ( player.getX() == getX() - 1 && player.getY() == getY() ) || 
+				 ( player.getX() == getX() + 1 && player.getY() == getY() ) ||
+				 ( player.getX() == getX() && player.getY() == getY() - 1 ) ||
+				 ( player.getX() == getX() && player.getY() == getY() + 1 ) )
+		    ) {
 			player.setLife(player.getLife() - attackPower);
 			System.out.println("dopo attacco " + player.getLife());
 			setAttack(false);
@@ -76,7 +79,11 @@ public class AbstractNative extends AbstractCharacter implements Resistance {
 
 		}
 
-		else if (getX() == room.getX() && getY() == room.getY() && canAttack) {
+		else if ( canAttack && ( ( room.getX() == getX() - 1 && room.getY() == getY() ) || 
+				 ( room.getX() == getX() + 1 && room.getY() == getY() ) ||
+				 ( room.getX() == getX() && room.getY() == getY() - 1 ) ||
+				 ( room.getX() == getX() && room.getY() == getY() + 1 ) )
+				)  {
 			room.setLife(room.getLife() - attackPower);
 			System.out.println("room dopo attacco " + room.getLife());
 			world.setRoomLife(room.getLife());
