@@ -87,22 +87,25 @@ public class BasicAI implements NativeAI {
 
 		while (!found && last < queue.size()) {
 			Cell currentCell = queue.get(last++);
-			if (!world.getFake()) {
-				if (player.getX() == currentCell.x
-						&& player.getY() == currentCell.y) {
+			if(!world.getFake())
+			{
+				if (player.getX() == currentCell.x && player.getY() == currentCell.y)
+				{
 					found = true;
-					return findDirectionFromCell(tree, currentCell,
-							currentNative);
+					return findDirectionFromCell(tree, currentCell, currentNative);
 
-				} else {
+				}
+				else
+				{
 					addChildren(queue, tree, currentCell, world);
 				}
-			} else {
-				if (world.getFakeX() == currentCell.x
-						&& world.getFakeY() == currentCell.y) {
+			}
+			else
+			{
+				if (world.getFakeX() == currentCell.x && world.getFakeY() == currentCell.y)
+				{
 					found = true;
-					return findDirectionFromCell(tree, currentCell,
-							currentNative);
+					return findDirectionFromCell(tree, currentCell, currentNative);
 
 				}
 				else
