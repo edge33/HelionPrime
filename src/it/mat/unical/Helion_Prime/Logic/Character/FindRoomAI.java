@@ -174,7 +174,7 @@ private void addChildren(List<Cell> queue, Map<Cell, Cell> tree, Cell currentCel
 	            return Character.RIGHT;
 	    }
 	    else {
-	            return (int) (Math.random() * 4);
+	    	return -1;
 	    }
 		
 		

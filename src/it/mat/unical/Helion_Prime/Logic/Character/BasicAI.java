@@ -179,7 +179,7 @@ public class BasicAI implements NativeAI {
 		} else if (directionCell.y > currentNative.getY()) {
 			return Character.RIGHT;
 		} else {
-			return (int) (Math.random() * 4);
+			return -1;
 		}
 
 	}
