@@ -47,7 +47,6 @@ public class AbstractNative extends AbstractCharacter implements Resistance {
 
 		type = 999;
 
-
 	}
 
 	public boolean getFisrtMove() {
@@ -60,8 +59,6 @@ public class AbstractNative extends AbstractCharacter implements Resistance {
 
 	public void attack(int attackPower) {
 
-
-		// TODO: attacking method working on RN - Maida
 		// System.out.println("Can-ATTACK" + canAttack);
 
 		World innerWorld = player.getWorld();

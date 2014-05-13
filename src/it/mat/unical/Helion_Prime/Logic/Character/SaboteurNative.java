@@ -23,9 +23,11 @@ public class SaboteurNative extends AbstractNative {
 
 	@Override
 	public void move(int direction) {
+		super.attack(attackPower);
+
 		super.move(direction);
 		this.direction = direction;
-		attack(attackPower);
+
 	}
 
 	@Override
@@ -39,13 +41,6 @@ public class SaboteurNative extends AbstractNative {
 
 	public int getType() {
 		return type;
-	}
-
-	@Override
-	public void attack(int attackPower) {
-		super.attack(attackPower);
-		// if ( !this.cooldownManager.isAlive() )
-		//
 	}
 
 }

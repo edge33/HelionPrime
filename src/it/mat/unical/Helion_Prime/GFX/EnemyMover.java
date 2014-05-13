@@ -59,8 +59,6 @@ public class EnemyMover extends Thread {
 			// logica
 			if (currentNative.getGraphicX() <= ((currentNative.getX() - 1) * this.TileSize)
 					+ this.TileSize / 2) {
-				currentNative.setDirection(Character.UP);
-				currentNative.move(Character.UP);
 
 				if (!GameManagerImpl.getInstance().isMultiplayerGame())
 					GameManagerImpl.getInstance().getServer()
@@ -70,6 +68,10 @@ public class EnemyMover extends Thread {
 							.outBroadcast("nU " + currentNative.getKey());
 
 				}
+
+				currentNative.setDirection(Character.UP);
+				currentNative.move(Character.UP);
+
 			}
 			break;
 		case Character.DOWN:
@@ -87,8 +89,6 @@ public class EnemyMover extends Thread {
 
 			if (currentNative.getGraphicX() > ((currentNative.getX() + 1) * this.TileSize)
 					- this.TileSize / 2) {
-				currentNative.move(Character.DOWN);
-				currentNative.setDirection(Character.DOWN);
 
 				if (!GameManagerImpl.getInstance().isMultiplayerGame())
 					GameManagerImpl.getInstance().getServer()
@@ -96,6 +96,10 @@ public class EnemyMover extends Thread {
 				else
 					GameManagerImpl.getInstance().getServerMuliplayer()
 							.outBroadcast("nD " + currentNative.getKey());
+
+				currentNative.move(Character.DOWN);
+				currentNative.setDirection(Character.DOWN);
+
 			}
 
 			break;
@@ -111,8 +115,6 @@ public class EnemyMover extends Thread {
 			}
 			if (currentNative.getGraphicY() < ((currentNative.getY() - 1) * this.TileSize)
 					+ this.TileSize / 2) {
-				currentNative.move(Character.LEFT);
-				currentNative.setDirection(Character.LEFT);
 
 				if (!GameManagerImpl.getInstance().isMultiplayerGame())
 					GameManagerImpl.getInstance().getServer()
@@ -120,6 +122,10 @@ public class EnemyMover extends Thread {
 				else
 					GameManagerImpl.getInstance().getServerMuliplayer()
 							.outBroadcast("nL " + currentNative.getKey());
+
+				currentNative.move(Character.LEFT);
+				currentNative.setDirection(Character.LEFT);
+
 			}
 
 			break;
@@ -134,8 +140,6 @@ public class EnemyMover extends Thread {
 			}
 			if (currentNative.getGraphicY() > ((currentNative.getY() + 1) * this.TileSize)
 					- this.TileSize / 2) {
-				currentNative.move(Character.RIGHT);
-				currentNative.setDirection(Character.RIGHT);
 
 				if (!GameManagerImpl.getInstance().isMultiplayerGame())
 					GameManagerImpl.getInstance().getServer()
@@ -143,6 +147,9 @@ public class EnemyMover extends Thread {
 				else
 					GameManagerImpl.getInstance().getServerMuliplayer()
 							.outBroadcast("nR " + currentNative.getKey());
+
+				currentNative.move(Character.RIGHT);
+				currentNative.setDirection(Character.RIGHT);
 
 			}
 
@@ -169,7 +176,7 @@ public class EnemyMover extends Thread {
 							MoveNative(currentNative);
 
 							try {
-								sleep(120);
+								sleep(150);
 							} catch (InterruptedException e) {
 								// TODO Auto-generated catch block
 								e.printStackTrace();
@@ -218,7 +225,7 @@ public class EnemyMover extends Thread {
 			}
 
 			try {
-				sleep(120);
+				sleep(150);
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}

@@ -842,10 +842,10 @@ public class GamePane extends JPanel {
 		//
 		for (AbstractNativeLite currentNative : natives.values()) {
 
-			// g.setColor(Color.red);
-			// g.fillRect(/* drawingHorizontalOffset */+currentNative.getY()
-			// * TILE_SIZE, currentNative.getX() * TILE_SIZE, TILE_SIZE,
-			// TILE_SIZE);
+			g.setColor(Color.red);
+			g.fillRect(/* drawingHorizontalOffset */+currentNative.getY()
+					* TILE_SIZE, currentNative.getX() * TILE_SIZE, TILE_SIZE,
+					TILE_SIZE);
 
 			// g.drawImage(imageProvider.getCorrectNative(currentNative),
 			// /* drawingHorizontalOffset */+currentNative.getGraphicY() + 10,

@@ -48,9 +48,11 @@ public class SoldierNative extends AbstractNative {
 
 	@Override
 	public void move(int direction) {
+		super.attack(attackPower);
+
 		super.move(direction);
 		this.direction = direction;
-		attack(attackPower);
+
 	}
 
 	@Override
@@ -71,10 +73,4 @@ public class SoldierNative extends AbstractNative {
 		return type;
 	}
 
-	@Override
-	public void attack(int attackPower) {
-		super.attack(attackPower);
-		// if ( !this.cooldownManager.isAlive() )
-		//
-	}
 }
