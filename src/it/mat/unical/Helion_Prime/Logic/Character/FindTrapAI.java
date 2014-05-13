@@ -10,6 +10,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.print.attribute.standard.MediaSize.NA;
+
 public class FindTrapAI extends BasicAI {
 
 	private static FindTrapAI instance;
@@ -56,44 +58,88 @@ public class FindTrapAI extends BasicAI {
 
 	}
 
+
 	@Override
-	public int getDirectionFromRoomAi(AbstractNative currentNative,
-			StaticObject room, World world) {
-		return 0;
+	public int getDirection(AbstractNative currentNative,Object target, World world) {
+
+		if ( ! ( target instanceof Player) ) {
+			return findTrap(currentNative, target, world);
+		} else {
+			return findPlayer(currentNative, target, world);
+		}
+		
 	}
 
-	@Override
-	public int getDirectionFromTrapAi(AbstractNative currentNative,
-			AbstractTrap trap, World world) {
-
+	private int findTrap(AbstractNative currentNative, Object target,
+			World world) {
+		
+		StaticObject trap = (StaticObject) target;
 		final List<Cell> queue = new ArrayList<Cell>();
-
+		
 		Cell cell = new Cell(currentNative.getX(), currentNative.getY());
-
+		
 		queue.add(cell);
-
+		
 		boolean found = false;
-
+		
 		int last = 0;
-
+		
 		final Map<Cell, Cell> tree = new HashMap<Cell, Cell>();
-
+		
 		while (!found && last < queue.size()) {
-
+			
 			Cell currentCell = queue.get(last++);
-
+			
 			if (trap.getX() == currentCell.x && trap.getY() == currentCell.y) {
-
+				
 				found = true;
 				return findDirectionFromCell(tree, currentCell, currentNative);
-
+				
 			} else {
 				addChildren(queue, tree, currentCell, world);
 			}
 		}
-
+		
 		return -1;
 	}
+	
+	private int findPlayer(AbstractNative currentNative, Object target,
+			World world) {
+		
+		StaticObject player = (Player) target;
+		final List<Cell> queue = new ArrayList<Cell>();
+		
+		Cell cell = new Cell(currentNative.getX(), currentNative.getY());
+		
+		queue.add(cell);
+		
+		boolean found = false;
+		
+		int last = 0;
+		
+		final Map<Cell, Cell> tree = new HashMap<Cell, Cell>();
+		
+		while (!found && last < queue.size()) {
+			
+			Cell currentCell = queue.get(last++);
+			
+			if ( ( player.getX() == currentCell.x - 1 && player.getY() == currentCell.y ) || 
+					 ( player.getX() == currentCell.x + 1 && player.getY() == currentCell.y ) ||
+					 ( player.getX() == currentCell.x && player.getY() == currentCell.y - 1 ) ||
+					 ( player.getX() == currentCell.x && player.getY() == currentCell.y + 1 )
+				) {
+				
+				found = true;
+				return findDirectionFromCell(tree, currentCell, currentNative);
+				
+			} else {
+				addChildren(queue, tree, currentCell, world);
+			}
+		}
+		
+		return -1;
+	}
+
 
 	private void addChildren(List<Cell> queue, Map<Cell, Cell> tree,
 			Cell currentCell, World world) {
@@ -164,7 +210,7 @@ public class FindTrapAI extends BasicAI {
 
 	@Override
 	public int getAiType() {
-		return 2;
+		return NativeAI.TRAP_FINDER;
 	}
 
 }

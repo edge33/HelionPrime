@@ -57,22 +57,12 @@ public class BasicAI implements NativeAI {
 
 	}
 
-	@Override
-	public int getDirectionFromRoomAi(AbstractNative currentNative,
-			StaticObject room, World world) {
-		return 0;
-	}
 
 	@Override
-	public int getDirectionFromTrapAi(AbstractNative currentNative,
-			AbstractTrap trap, World world) {
-		return 0;
-	}
+	public int getDirection(AbstractNative currentNative,Object target, World world) {
 
-	@Override
-	public int getDirectionFromPlayerAi(AbstractNative currentNative,
-			Player player, World world) {
-
+		Player player = (Player) target;
+		
 		final List<Cell> queue = new ArrayList<Cell>();
 
 		Cell cell = new Cell(currentNative.getX(), currentNative.getY());
@@ -89,8 +79,11 @@ public class BasicAI implements NativeAI {
 			Cell currentCell = queue.get(last++);
 			if(!world.getFake())
 			{
-				if (player.getX() == currentCell.x && player.getY() == currentCell.y)
-				{
+				if ( ( player.getX() == currentCell.x - 1 && player.getY() == currentCell.y ) || 
+					 ( player.getX() == currentCell.x + 1 && player.getY() == currentCell.y ) ||
+					 ( player.getX() == currentCell.x && player.getY() == currentCell.y - 1 ) ||
+					 ( player.getX() == currentCell.x && player.getY() == currentCell.y + 1 )
+				) {
 					found = true;
 					return findDirectionFromCell(tree, currentCell, currentNative);
 
@@ -178,13 +171,15 @@ public class BasicAI implements NativeAI {
 			return Character.LEFT;
 		} else if (directionCell.y > currentNative.getY()) {
 			return Character.RIGHT;
-		} else {
+		} 
+		else {
 			return -1;
 		}
-
+		
 	}
 
 	public int getAiType() {
-		return 0;
+		return NativeAI.PLAYER_FINDER;
 	}
+
 }
