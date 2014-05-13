@@ -55,6 +55,8 @@ public class EastGamePanel extends JPanel
 		this.createButton();
 		this.getInfo();
 		this.fillPanel();
+		CustomBorder b1 = new CustomBorder(Color.GREEN, 10);
+		this.setBorder(b1);
 		
 	}
 	

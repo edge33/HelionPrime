@@ -106,6 +106,10 @@ public class PlayerState {
 	public String toString() {
 		return new String( username + " " + timestamp.toString());
 	}
+
+	public void setTimestamp(Timestamp newTimeStamp) {
+		this.timestamp = newTimeStamp;
+	}
 	
 	
 	

@@ -445,7 +445,7 @@ public class TrapPanel extends JPanel {
 	protected void paintComponent(Graphics g) {
 		g.setColor(Color.BLACK);
 		g.fillRect(0, 0, this.getWidth(), this.getHeight());
-		g.drawImage(overlay,0,0,this);
+		g.drawImage(overlay, 0, 0, this.getWidth(), this.getHeight(), this);
 	}
 
 

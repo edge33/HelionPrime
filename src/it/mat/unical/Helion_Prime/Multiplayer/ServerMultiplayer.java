@@ -105,7 +105,7 @@ public class ServerMultiplayer extends Thread {
 	public void initServerMultiplayer() {
 		sendToClientOne("GIOCATORE 2 ARRIVATO");
 
-		level = new File("levels/" + levelName);
+		level = new File("levels/" + levelName +".txt");
 
 		gameManager = GameManagerImpl.getInstance();
 		try {

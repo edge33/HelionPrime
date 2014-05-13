@@ -6,6 +6,7 @@ import it.mat.unical.Helion_Prime.Multiplayer.ServerMultiplayer;
 import it.mat.unical.Helion_Prime.Online.Client;
 import it.mat.unical.Helion_Prime.Online.ClientManager;
 import it.mat.unical.Helion_Prime.Online.Server;
+import it.mat.unical.Helion_Prime.SavesManager.PlayerState;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -189,16 +190,10 @@ public class StageClearPanel extends JLayeredPane {
 		this.saveLevel.addActionListener(new ActionListener() {
 
 			@Override
-			public void actionPerformed(ActionEvent arg0) {
-
-
-			}
-		});
-
-		this.saveLevel.addActionListener(new ActionListener() {
-
-			@Override
 			public void actionPerformed(ActionEvent e) {
+				
+				PlayerState playerState = PlayerState.getInstance();
+				
 				createSavePanel();
 				backToMenuButton.setEnabled(false);
 				saveLevel.setEnabled(false);

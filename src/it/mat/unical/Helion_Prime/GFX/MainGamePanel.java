@@ -56,9 +56,6 @@ public class MainGamePanel extends JPanel {
 		eastPanel.setPreferredSize(new Dimension(150, 620));
 		westPanel.setPreferredSize(new Dimension(150, 620));
 		levelPanel.setPreferredSize(new Dimension(innerPanelWith, 620));
-		CustomBorder b1 = new CustomBorder(Color.GREEN, 10);
-		eastPanel.setBorder(b1);
-		westPanel.setBorder(b1);
 		add(informationPanel, BorderLayout.NORTH);
 		add(trapPanel, BorderLayout.SOUTH);
 		add(eastPanel, BorderLayout.EAST);
@@ -77,7 +74,7 @@ public class MainGamePanel extends JPanel {
 				.getCursor();
 		this.setCursor(cursor);
 		setLayout(new BorderLayout());
-		gamePadController = new GamePadController();
+		//gamePadController = new GamePadController();
 		eastPanel = new EastGamePanel();
 		westPanel = new WestGamePanel();
 		westPanel.setBackground(Color.black);

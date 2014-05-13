@@ -7,12 +7,17 @@ import it.mat.unical.Helion_Prime.Online.Client;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Cursor;
+import java.awt.FlowLayout;
 import java.awt.Font;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 
 import javax.swing.BorderFactory;
+import javax.swing.Box;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -31,14 +36,26 @@ public class WaitLobbyPanel extends JPanel {
 	private JLabel separator1;
 	private JLabel separator2;
 	private JLabel separator3;
+	private JLabel title;
+	private JLabel lobbyDesc;
 
 	private JPanel southPanel;
 	private JPanel centerPanel;
 	private JPanel northPanel;
+	
+	private GridBagLayout layout;
+	private GridBagConstraints c;
+	
 	private Cursor cursor;
 	private Font font;
 
 	public WaitLobbyPanel() {
+		
+		this.layout = new GridBagLayout();
+		this.c = new GridBagConstraints();
+		this.c.fill = GridBagConstraints.CENTER;
+		this.c.weightx = 1.0;
+		
 		this.northPanel = new JPanel();
 		this.southPanel = new JPanel();
 		this.centerPanel = new JPanel();
@@ -48,11 +65,16 @@ public class WaitLobbyPanel extends JPanel {
 
 		this.setLayout(new BorderLayout());
 
+		this.title = new JLabel("Multiplayer Mode");
+		this.lobbyDesc = new JLabel("Inserisci nei campi sottostanti l'indirizzo della partita a cui vuoi connetterti!");
+		
 		this.separator1 = new JLabel(" - ");
 		this.separator2 = new JLabel(" - ");
 		this.separator3 = new JLabel(" - ");
 		this.separator = new JLabel(" / ");
 
+		this.title.setHorizontalAlignment(JTextField.CENTER);
+		this.lobbyDesc.setHorizontalAlignment(JTextField.CENTER); 
 		this.separator1.setHorizontalAlignment(JTextField.CENTER);
 		this.separator2.setHorizontalAlignment(JTextField.CENTER);
 		this.separator3.setHorizontalAlignment(JTextField.CENTER);
@@ -106,6 +128,13 @@ public class WaitLobbyPanel extends JPanel {
 		separator.setFont(MainMenuFrame.getInstance().getMainMenuPanel()
 				.getFont());
 		separator.setFont(separator.getFont().deriveFont(25.0f));
+		
+		title.setBackground(Color.black);
+		title.setForeground(Color.green);
+		title.setOpaque(false);
+		title.setFont(MainMenuFrame.getInstance().getMainMenuPanel()
+				.getFont());
+		title.setFont(title.getFont().deriveFont(25.0f));
 
 		separator1.setBackground(Color.black);
 		separator1.setForeground(Color.green);
@@ -181,6 +210,13 @@ public class WaitLobbyPanel extends JPanel {
 		this.add(northPanel, BorderLayout.NORTH);
 		this.add(southPanel, BorderLayout.SOUTH);
 		this.add(centerPanel, BorderLayout.CENTER);
+		this.northPanel.setLayout(layout);
+		this.c.gridwidth = GridBagConstraints.REMAINDER;
+		this.layout.setConstraints(title, c);
+		this.northPanel.add(title);
+		this.northPanel.add(lobbyDesc);
+		this.c.gridwidth = 1;
+		((FlowLayout)this.centerPanel.getLayout()).setVgap(200);
 		this.centerPanel.add(f1);
 		this.centerPanel.add(separator1);
 		this.centerPanel.add(f2);
@@ -205,7 +241,7 @@ public class WaitLobbyPanel extends JPanel {
 				String levelName = client.recieveMessage();
 				System.out.println("livello scelto dal server" + levelName);
 
-				File choosenLevel = new File("levels/" + levelName);
+				File choosenLevel = new File("levels/" + levelName + ".txt");
 
 				MainGamePanel mainGamePanel = null;
 				mainGamePanel = new MainGamePanel(choosenLevel, client);

@@ -22,7 +22,9 @@ public class WestGamePanel extends JPanel
 		this.manager = GameManagerImpl.getInstance();
 		this.addListener();
 		this.createButton();
-		this.add(backButton);				
+		this.add(backButton);
+		CustomBorder b1 = new CustomBorder(Color.GREEN, 10);
+		this.setBorder(b1);
 	}
 	
 public void createButton()

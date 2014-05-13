@@ -68,7 +68,7 @@ public class InformationPanel extends JPanel {
 		// this);
 		g.setColor(Color.black);
 		g.fillRect(0, 0, this.getWidth(), this.getHeight());
-		g.drawImage(overlay, 0, 0, this);
+		g.drawImage(overlay, 0, 0, this.getWidth(), this.getHeight(), this);
 	}
 
 	public void setLife(int lifePoints) {
