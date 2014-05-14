@@ -26,7 +26,7 @@ public class ClientManager {
 	private BlockingQueue<String> placementTrap;
 	private BlockingQueue<String> outToServer;
 
-	public static boolean isPlayerOne;
+	public static boolean isPlayerOne = true;
 	protected GamePane gamePane;
 	private UserProfile profile;
 	private int logicXPlayerOne;
@@ -380,9 +380,9 @@ public class ClientManager {
 
 					} catch (InterruptedException e) {
 						// TODO Auto-generated catch block
-						e.printStackTrace();
+						// e.printStackTrace();
 					} catch (NullPointerException e2) {
-						e2.printStackTrace();
+						// e2.printStackTrace();
 						continue;
 					}
 				}
