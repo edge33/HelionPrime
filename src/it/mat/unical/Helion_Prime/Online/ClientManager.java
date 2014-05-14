@@ -529,6 +529,7 @@ public class ClientManager {
 	public boolean isMultiplayerGame() {
 		return false;
 	}
+
 	// public ConcurrentHashMap<Point, Integer> getPlacedTrap() {
 	// return placedTrap;
 	// }
@@ -537,5 +538,11 @@ public class ClientManager {
 	// // TODO Auto-generated method stub
 	// return this.bullets;
 	// }
+
+	public void reset() {
+		finishGame = false;
+		gameOver = false;
+
+	}
 
 }

@@ -19,13 +19,11 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 
 import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
-import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JLayeredPane;
 import javax.swing.JPanel;
@@ -91,7 +89,7 @@ public class GameOverPanel extends JLayeredPane {
 		this.hideButton = new JButton("Hide");
 
 		this.time = new JLabel("0");
-		this.timeDesc = new JLabel ("Tempo:");
+		this.timeDesc = new JLabel("Tempo:");
 		this.bulletTitle = new JLabel("Proiettili Rimanenti:");
 		this.bulletsGun1Desc = new JLabel(" Plasma Gun:");
 		this.bulletsGun2Desc = new JLabel(" Laser Rifle:");
@@ -107,14 +105,16 @@ public class GameOverPanel extends JLayeredPane {
 
 		confirmButton.setForeground(Color.green);
 		confirmButton.setBackground(Color.black);
-		confirmButton.setFont(MainMenuFrame.getInstance().getMainMenuPanel().getFont());
+		confirmButton.setFont(MainMenuFrame.getInstance().getMainMenuPanel()
+				.getFont());
 		confirmButton.setFont(saveLevel.getFont().deriveFont(16.0f));
 
 		hideButton.setForeground(Color.green);
 		hideButton.setBackground(Color.black);
-		hideButton.setFont(MainMenuFrame.getInstance().getMainMenuPanel().getFont());
+		hideButton.setFont(MainMenuFrame.getInstance().getMainMenuPanel()
+				.getFont());
 		hideButton.setFont(saveLevel.getFont().deriveFont(16.0f));
-		
+
 		this.add(overlay, BorderLayout.CENTER);
 		this.overlay.add(backToMenuButton);
 		this.overlay.add(saveLevel);
@@ -133,7 +133,7 @@ public class GameOverPanel extends JLayeredPane {
 				retryButton.setEnabled(false);
 			}
 		});
-		
+
 		this.hideButton.addActionListener(new ActionListener() {
 
 			@Override
@@ -144,14 +144,14 @@ public class GameOverPanel extends JLayeredPane {
 				retryButton.setEnabled(true);
 			}
 		});
-		
+
 		this.backToMenuButton.addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				GameOverPanel.this.mainMenuFrame
-				.switchTo(GameOverPanel.this.mainMenuFrame
-						.getMainMenuPanel());
+						.switchTo(GameOverPanel.this.mainMenuFrame
+								.getMainMenuPanel());
 			}
 		});
 
@@ -171,7 +171,9 @@ public class GameOverPanel extends JLayeredPane {
 						e2.printStackTrace();
 					}
 
+					server.setLevel(lastlevelPlayed.getName());
 					server.start();
+
 					GameManagerImpl.getInstance().setServer(server);
 					Client client = new Client("localhost", false);
 					client.sendMessage(name);
@@ -187,14 +189,10 @@ public class GameOverPanel extends JLayeredPane {
 							mainGamePanel = new MainGamePanel(lastlevelPlayed,
 									client);
 
+						System.err.println("HO RICEVUTO IL READY");
+
 					}
-					try {
-						GameManagerImpl.getInstance().init(lastlevelPlayed,
-								false);
-					} catch (FileNotFoundException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
+
 					MainMenuFrame.getInstance().switchTo(mainGamePanel);
 				} else {
 
@@ -238,14 +236,13 @@ public class GameOverPanel extends JLayeredPane {
 		backToMenuButton.setFocusPainted(false);
 	}
 
-	public void createSavePanel()
-	{
+	public void createSavePanel() {
 
 		this.eastLayout = new GridBagLayout();
 		this.eC = new GridBagConstraints();
 		this.eC.fill = GridBagConstraints.CENTER;
 		this.eC.weightx = 1.0;
-		
+
 		int frameWidth = MainMenuFrame.getInstance().getWidth();
 		int frameHeight = MainMenuFrame.getInstance().getHeight();
 		int prevPanelX;
@@ -277,7 +274,8 @@ public class GameOverPanel extends JLayeredPane {
 		filler.add(confirmButton);
 		filler.add(hideButton);
 		previewPaneL.setBackground(Color.BLACK);
-		previewPaneL.setBorder(BorderFactory.createLineBorder(Color.GRAY, 1, true));
+		previewPaneL.setBorder(BorderFactory.createLineBorder(Color.GRAY, 1,
+				true));
 		previewPaneL.setBounds(x, y, prevPanelX, prevPanelY);
 		previewPaneL.setVisible(true);
 
@@ -288,14 +286,14 @@ public class GameOverPanel extends JLayeredPane {
 		recap.add(time);
 		eC.gridwidth = 1;
 
-		this.eC.insets = new Insets(40,0,0,0); 
+		this.eC.insets = new Insets(40, 0, 0, 0);
 		this.eC.gridwidth = 1;
 
 		this.eC.gridwidth = GridBagConstraints.REMAINDER;
 		this.eastLayout.setConstraints(bulletTitle, eC);
 		recap.add(bulletTitle);
 
-		this.eC.insets = new Insets(10,0,0,0); 
+		this.eC.insets = new Insets(10, 0, 0, 0);
 		this.eC.gridwidth = 1;
 
 		this.eastLayout.setConstraints(bulletsGun1Desc, eC);
@@ -326,24 +324,23 @@ public class GameOverPanel extends JLayeredPane {
 		recap.add(bulletsGun4);
 		eC.gridwidth = 1;
 
-		this.eC.insets = new Insets(10,0,0,0); 
+		this.eC.insets = new Insets(10, 0, 0, 0);
 		this.eC.gridwidth = 1;
 		this.eC.weightx = 1.0;
 
-		for(int i=0; i<recap.getComponentCount();i++)
-		{
+		for (int i = 0; i < recap.getComponentCount(); i++) {
 			Component component = recap.getComponent(i);
 			component.setForeground(Color.green);
-			((JLabel)component).setOpaque(false);
-			component.setFont(MainMenuFrame.getInstance().getMainMenuPanel().getFont());
+			((JLabel) component).setOpaque(false);
+			component.setFont(MainMenuFrame.getInstance().getMainMenuPanel()
+					.getFont());
 			component.setFont(component.getFont().deriveFont(16.0f));
 		}
 
-
-
-		previewPaneL.add(recap,BorderLayout.CENTER);
+		previewPaneL.add(recap, BorderLayout.CENTER);
 		previewPaneL.add(filler, BorderLayout.SOUTH);
-		GameOverPanel.this.add(previewPaneL, BorderLayout.CENTER,new Integer(10));
+		GameOverPanel.this.add(previewPaneL, BorderLayout.CENTER, new Integer(
+				10));
 	}
 
 	@Override

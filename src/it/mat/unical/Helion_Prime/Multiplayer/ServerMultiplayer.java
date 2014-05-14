@@ -105,7 +105,7 @@ public class ServerMultiplayer extends Thread {
 	public void initServerMultiplayer() {
 		sendToClientOne("GIOCATORE 2 ARRIVATO");
 
-		level = new File("levels/" + levelName +".txt");
+		level = new File("levels/" + levelName + ".txt");
 
 		gameManager = GameManagerImpl.getInstance();
 		try {
@@ -359,12 +359,14 @@ public class ServerMultiplayer extends Thread {
 														// corrispondente alla
 														// vita;
 
-								gameManager
-										.setServerMultiplayer(ServerMultiplayer.this);
-
 								try {
-									GameManagerImpl.getInstance().init(level,
-											true);
+									gameManager.init(level, true);
+									playerOne = GameManagerImpl.getInstance()
+											.getPlayerOne();
+									playertwo = GameManagerImpl.getInstance()
+											.getPlayerTwo();
+									gameManager
+											.setServerMultiplayer(ServerMultiplayer.this);
 									ServerMultiplayer.this.startUpdater();
 								} catch (FileNotFoundException e) {
 									// TODO Auto-generated catch block

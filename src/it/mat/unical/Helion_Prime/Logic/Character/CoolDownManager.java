@@ -1,7 +1,6 @@
 package it.mat.unical.Helion_Prime.Logic.Character;
 
 import it.mat.unical.Helion_Prime.Logic.GameManagerImpl;
-import it.mat.unical.Helion_Prime.Online.ClientManager;
 
 public class CoolDownManager extends Thread {
 
@@ -16,10 +15,12 @@ public class CoolDownManager extends Thread {
 	}
 
 	public void run() {
-
+		System.out.println("COOLDOWN");
 		this.setName("COOLDOWN MANAGER");
 
-		while (theNative.isAlive() && !ClientManager.isFinishGame()) {
+		while (theNative.isAlive()
+				&& !GameManagerImpl.getInstance().isGameStopped()
+				&& !GameManagerImpl.getInstance().gameIsOver()) {
 
 			while (GameManagerImpl.isPaused()) {
 				System.out.println("Sono in pausa  - CoolDownManager");
@@ -30,7 +31,6 @@ public class CoolDownManager extends Thread {
 				theNative.setAttack(true);
 
 			}
-
 
 			try {
 				// System.out.println("dormo " + this.getId());

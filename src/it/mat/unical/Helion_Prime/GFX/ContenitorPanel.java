@@ -122,6 +122,7 @@ public class ContenitorPanel extends JLayeredPane {
 				}
 
 				server.start();
+
 				GameManagerImpl.getInstance().setServer(server);
 				Client client = new Client("localhost", false);
 				client.sendMessage(choosenLevel);
@@ -196,7 +197,8 @@ public class ContenitorPanel extends JLayeredPane {
 
 		System.out.println("Sto cliccando " + frameWidth);
 		previewPaneL = new PreviewPanel(this, name);
-		previewPaneL.setBorder(BorderFactory.createLineBorder(Color.GREEN, 1,true));
+		previewPaneL.setBorder(BorderFactory.createLineBorder(Color.GREEN, 1,
+				true));
 		previewPaneL.setBounds(x, y, prevPanelX, prevPanelY);
 		this.add(previewPaneL, BorderLayout.CENTER, new Integer(10));
 		previewPaneL.setVisible(true);

@@ -20,7 +20,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 
 import javax.imageio.ImageIO;
@@ -66,8 +65,7 @@ public class StageClearPanel extends JLayeredPane {
 	private GridBagLayout eastLayout;
 	private GridBagConstraints eC;
 
-	public StageClearPanel(ClientManager clientManager, File level) 
-	{
+	public StageClearPanel(ClientManager clientManager, File level) {
 
 		this.confirmButton = new JButton("Save");
 		this.hideButton = new JButton("Hide");
@@ -77,7 +75,7 @@ public class StageClearPanel extends JLayeredPane {
 		this.setLayout(new BorderLayout());
 
 		this.time = new JLabel("0");
-		this.timeDesc = new JLabel ("Tempo:");
+		this.timeDesc = new JLabel("Tempo:");
 		this.bulletTitle = new JLabel("Proiettili Rimanenti:");
 		this.bulletsGun1Desc = new JLabel(" Plasma Gun:");
 		this.bulletsGun2Desc = new JLabel(" Laser Rifle:");
@@ -121,7 +119,7 @@ public class StageClearPanel extends JLayeredPane {
 							+ name);
 					File level = new File(name);
 					System.out
-					.println("------------------------------------------------");
+							.println("------------------------------------------------");
 					MainGamePanel mainGamePanel = null;
 
 					if (!Server.isServerStarted)
@@ -140,7 +138,7 @@ public class StageClearPanel extends JLayeredPane {
 						}
 
 					}
-
+					server.setLevel(lastLevelPlayed.getName());
 					server.start();
 					GameManagerImpl.getInstance().setServer(server);
 					Client client = new Client("localhost", false);
@@ -151,12 +149,7 @@ public class StageClearPanel extends JLayeredPane {
 						System.out.println("SIAMO READY INIZIA IL GIOCO");
 						mainGamePanel = new MainGamePanel(level, client,
 								profile);
-						try {
-							GameManagerImpl.getInstance().init(level, false);
-						} catch (FileNotFoundException e1) {
-							// TODO Auto-generated catch block
-							e1.printStackTrace();
-						}
+
 						MainMenuFrame.getInstance().switchTo(mainGamePanel);
 					}
 
@@ -174,14 +167,14 @@ public class StageClearPanel extends JLayeredPane {
 
 				if (!StageClearPanel.this.clientManager.isMultiplayerGame()) {
 					StageClearPanel.this.mainMenuFrame
-					.switchTo(StageClearPanel.this.mainMenuFrame
-							.getMainMenuPanel());
+							.switchTo(StageClearPanel.this.mainMenuFrame
+									.getMainMenuPanel());
 
 				} else {
 					StageClearPanel.this.clientManager.sendMessage("finish");
 					StageClearPanel.this.mainMenuFrame
-					.switchTo(StageClearPanel.this.mainMenuFrame
-							.getMainMenuPanel());
+							.switchTo(StageClearPanel.this.mainMenuFrame
+									.getMainMenuPanel());
 
 				}
 			}
@@ -191,9 +184,9 @@ public class StageClearPanel extends JLayeredPane {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				
+
 				PlayerState playerState = PlayerState.getInstance();
-				
+
 				createSavePanel();
 				backToMenuButton.setEnabled(false);
 				saveLevel.setEnabled(false);
@@ -222,13 +215,14 @@ public class StageClearPanel extends JLayeredPane {
 				if (!StageClearPanel.this.clientManager.isMultiplayerGame()) {
 					MainGamePanel mainGamePanel = null;
 
+					StageClearPanel.this.clientManager.reset();
 					try {
 						server = new Server(7777);
 					} catch (IOException e2) {
 						// TODO Auto-generated catch block
 						e2.printStackTrace();
 					}
-
+					server.setLevel(lastLevelPlayed.getName());
 					server.start();
 					GameManagerImpl.getInstance().setServer(server);
 					Client client = new Client("localhost", false);
@@ -245,13 +239,13 @@ public class StageClearPanel extends JLayeredPane {
 							mainGamePanel = new MainGamePanel(lastLevelPlayed,
 									client);
 
-						try {
-							GameManagerImpl.getInstance().init(lastLevelPlayed,
-									false);
-						} catch (FileNotFoundException e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
-						}
+						// try {
+						// GameManagerImpl.getInstance().init(lastLevelPlayed,
+						// false);
+						// } catch (FileNotFoundException e) {
+						// // TODO Auto-generated catch block
+						// e.printStackTrace();
+						// }
 					}
 					MainMenuFrame.getInstance().switchTo(mainGamePanel);
 				} else {
@@ -267,7 +261,7 @@ public class StageClearPanel extends JLayeredPane {
 
 					MainGamePanel mgGamePanel = new MainGamePanel(
 							lastLevelPlayed, StageClearPanel.this.clientManager
-							.getClient());
+									.getClient());
 
 					MainMenuFrame.getInstance().switchTo(mgGamePanel);
 
@@ -303,7 +297,7 @@ public class StageClearPanel extends JLayeredPane {
 		if (MainMenuFrame.getInstance().getMainMenuPanel().isStoryModeOn()) {
 			this.overlay.add(nextLevel);
 		}
-		this.add(overlay,BorderLayout.NORTH);
+		this.add(overlay, BorderLayout.NORTH);
 	}
 
 	public void createButton() {
@@ -316,11 +310,13 @@ public class StageClearPanel extends JLayeredPane {
 		saveLevel.setFocusPainted(false);
 		confirmButton.setForeground(Color.green);
 		confirmButton.setBackground(Color.black);
-		confirmButton.setFont(MainMenuFrame.getInstance().getMainMenuPanel().getFont());
+		confirmButton.setFont(MainMenuFrame.getInstance().getMainMenuPanel()
+				.getFont());
 		confirmButton.setFont(saveLevel.getFont().deriveFont(16.0f));
 		hideButton.setForeground(Color.green);
 		hideButton.setBackground(Color.black);
-		hideButton.setFont(MainMenuFrame.getInstance().getMainMenuPanel().getFont());
+		hideButton.setFont(MainMenuFrame.getInstance().getMainMenuPanel()
+				.getFont());
 		hideButton.setFont(saveLevel.getFont().deriveFont(16.0f));
 		retryButton.setBackground(Color.black);
 		retryButton.setForeground(Color.green);
@@ -344,8 +340,8 @@ public class StageClearPanel extends JLayeredPane {
 			retryButton.setFocusPainted(false);
 		}
 	}
-	public void createSavePanel()
-	{
+
+	public void createSavePanel() {
 
 		this.eastLayout = new GridBagLayout();
 		this.eC = new GridBagConstraints();
@@ -383,7 +379,8 @@ public class StageClearPanel extends JLayeredPane {
 		filler.add(confirmButton);
 		filler.add(hideButton);
 		previewPaneL.setBackground(Color.BLACK);
-		previewPaneL.setBorder(BorderFactory.createLineBorder(Color.GRAY, 1, true));
+		previewPaneL.setBorder(BorderFactory.createLineBorder(Color.GRAY, 1,
+				true));
 		previewPaneL.setBounds(x, y, prevPanelX, prevPanelY);
 		previewPaneL.setVisible(true);
 
@@ -394,14 +391,14 @@ public class StageClearPanel extends JLayeredPane {
 		recap.add(time);
 		eC.gridwidth = 1;
 
-		this.eC.insets = new Insets(40,0,0,0); 
+		this.eC.insets = new Insets(40, 0, 0, 0);
 		this.eC.gridwidth = 1;
 
 		this.eC.gridwidth = GridBagConstraints.REMAINDER;
 		this.eastLayout.setConstraints(bulletTitle, eC);
 		recap.add(bulletTitle);
 
-		this.eC.insets = new Insets(10,0,0,0); 
+		this.eC.insets = new Insets(10, 0, 0, 0);
 		this.eC.gridwidth = 1;
 
 		this.eastLayout.setConstraints(bulletsGun1Desc, eC);
@@ -432,26 +429,24 @@ public class StageClearPanel extends JLayeredPane {
 		recap.add(bulletsGun4);
 		eC.gridwidth = 1;
 
-		this.eC.insets = new Insets(10,0,0,0); 
+		this.eC.insets = new Insets(10, 0, 0, 0);
 		this.eC.gridwidth = 1;
 		this.eC.weightx = 1.0;
 
-		for(int i=0; i<recap.getComponentCount();i++)
-		{
+		for (int i = 0; i < recap.getComponentCount(); i++) {
 			Component component = recap.getComponent(i);
 			component.setForeground(Color.green);
-			((JLabel)component).setOpaque(false);
-			component.setFont(MainMenuFrame.getInstance().getMainMenuPanel().getFont());
+			((JLabel) component).setOpaque(false);
+			component.setFont(MainMenuFrame.getInstance().getMainMenuPanel()
+					.getFont());
 			component.setFont(component.getFont().deriveFont(16.0f));
 		}
 
-
-
-		previewPaneL.add(recap,BorderLayout.CENTER);
+		previewPaneL.add(recap, BorderLayout.CENTER);
 		previewPaneL.add(filler, BorderLayout.SOUTH);
-		StageClearPanel.this.add(previewPaneL, BorderLayout.CENTER,new Integer(10));
+		StageClearPanel.this.add(previewPaneL, BorderLayout.CENTER,
+				new Integer(10));
 	}
-
 
 	@Override
 	protected void paintComponent(Graphics g) {

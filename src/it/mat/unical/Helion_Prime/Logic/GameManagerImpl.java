@@ -61,6 +61,8 @@ public class GameManagerImpl implements GameManager {
 	public void init(File level, boolean isMultiplayerGame)
 			throws FileNotFoundException {
 
+		System.out.println("SONO IN INIIIIIIIIIT");
+
 		try {
 			this.isMultiplayerGame = isMultiplayerGame;
 			world = new WorldImpl(level);

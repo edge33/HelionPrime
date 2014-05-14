@@ -31,6 +31,7 @@ public class Server extends Thread {
 	private Player playerOne;
 	private boolean finishGame = false;
 	private String level;
+	private boolean isRetry = false;
 
 	public Server(int port) throws IOException {
 
@@ -41,6 +42,7 @@ public class Server extends Thread {
 		placemenTrap = new ArrayBlockingQueue<String>(20);
 		messageToClient = new ArrayBlockingQueue<String>(200);
 		this.isServerStarted = true;
+		setLevel(null);
 
 	}
 
@@ -63,11 +65,12 @@ public class Server extends Thread {
 		gameManager = GameManagerImpl.getInstance();
 		System.out.println("ATTENDO NOME LIVELLO");
 
-		level = null;
+		// setLevel(null);
 		startSendMessageToClient();
-		level = recieveMessage();
-		System.out.println("NOME DEL LIVELLO ARRIVATA INSTANZIO " + level);
-		f = new File("levels/" + level);
+		if (getLevel() == null)
+			setLevel(recieveMessage());
+		System.out.println("NOME DEL LIVELLO ARRIVATA INSTANZIO " + getLevel());
+		f = new File("levels/" + getLevel());
 
 		initServer(f);
 
@@ -121,6 +124,7 @@ public class Server extends Thread {
 	}
 
 	private void initServer(File f) {
+
 		try {
 
 			gameManager.init(f, false);
@@ -409,6 +413,14 @@ public class Server extends Thread {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+	}
+
+	public String getLevel() {
+		return level;
+	}
+
+	public void setLevel(String level) {
+		this.level = level;
 	}
 
 }
