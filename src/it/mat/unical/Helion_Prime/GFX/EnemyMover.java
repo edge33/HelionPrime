@@ -180,7 +180,7 @@ public class EnemyMover extends Thread {
 							try {
 								sleep(150);
 							} catch (InterruptedException e) {
-								// TODO Auto-generated catch block
+
 								e.printStackTrace();
 							}
 
@@ -189,7 +189,7 @@ public class EnemyMover extends Thread {
 					try {
 						sleep(120);
 					} catch (InterruptedException e) {
-						// TODO Auto-generated catch block
+
 						e.printStackTrace();
 					}
 				}
@@ -207,7 +207,7 @@ public class EnemyMover extends Thread {
 		try {
 			sleep(1000);
 		} catch (InterruptedException e1) {
-			// TODO Auto-generated catch block
+
 			e1.printStackTrace();
 		}
 
