@@ -123,7 +123,7 @@ public class PlayerState {
 
 	@Override
 	public String toString() {
-		return new String(username + " " + timestamp.toString());
+		return new String(username + " " + timestamp.toString() + " " + gunBullets1 + " " + " " + gunBullets2 + " " + gunBullets3 + " " + gunBullets4 + " " + lastLevelCleared + " " + score);
 	}
 
 	public void setTimestamp(Timestamp newTimeStamp) {

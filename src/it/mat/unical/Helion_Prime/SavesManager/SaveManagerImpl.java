@@ -179,8 +179,9 @@ public class SaveManagerImpl implements SaveManager {
 			 playerState.setTimestamp(newTimeStamp);
 			 
 			 
-			 if ( preparedStatement.execute() )
+			 if ( preparedStatement.executeUpdate() != 0  )
 				 return true;
+			 return false;
 			 
 			 
 		} catch (SQLException e) {
