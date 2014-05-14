@@ -90,6 +90,8 @@ public class LoginPanel extends JPanel
 
 	private boolean isCreateClicked = false;
 
+	
+	
 	public LoginPanel()
 	{
 		this.cursor = MainMenuFrame.getInstance().getMainMenuPanel().getCursor();
@@ -387,6 +389,7 @@ public class LoginPanel extends JPanel
 
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
+				
 				if ( userField.getText().length() > 0 ) {
 
 					savedGames.removeAllItems();
@@ -394,7 +397,7 @@ public class LoginPanel extends JPanel
 					String username = userField.getText();
 
 					ArrayList<Timestamp> profiles = SaveManagerImpl.getInstance().fetchSaves(username);
-
+					
 					for (Timestamp timestamp : profiles) {
 						savedGames.addItem(timestamp);
 					}
@@ -406,14 +409,24 @@ public class LoginPanel extends JPanel
 
 		this.savedGames.addItemListener(new ItemListener() {
 
+			
 			@Override
 			public void itemStateChanged(ItemEvent e) {
-				PlayerState playerstate =  PlayerState.getInstance().loadProfile(userField.getText(), (Timestamp) savedGames.getSelectedItem());
-				score.setText(String.valueOf( playerstate.getScore() ));
-				bulletsGun1.setText(String.valueOf( playerstate.getGunBullets1() ));
-				bulletsGun2.setText(String.valueOf( playerstate.getGunBullets2() ));
-				bulletsGun3.setText(String.valueOf( playerstate.getGunBullets3() ));
-				bulletsGun4.setText(String.valueOf( playerstate.getGunBullets4() ));
+				
+				if ( savedGames.getItemCount() > 0 ) {
+					PlayerState playerstate =  PlayerState.getInstance().loadProfile(userField.getText(), (Timestamp) savedGames.getSelectedItem());
+					score.setText(String.valueOf( playerstate.getScore() ));
+					bulletsGun1.setText(String.valueOf( playerstate.getGunBullets1() ));
+					bulletsGun2.setText(String.valueOf( playerstate.getGunBullets2() ));
+					bulletsGun3.setText(String.valueOf( playerstate.getGunBullets3() ));
+					bulletsGun4.setText(String.valueOf( playerstate.getGunBullets4() ));
+				} else {
+					score.setText("0");
+					bulletsGun1.setText("0");
+					bulletsGun2.setText("0");
+					bulletsGun3.setText("0");
+					bulletsGun4.setText("0");
+				}
 			}
 		});
 	}
