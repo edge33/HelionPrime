@@ -104,3 +104,19 @@ quando committiamo nuove immagini(per sostituire cose precedenti), fate in quest
 2)push and commit
 3)inserire nuove immagini
 4)push and commit
+
+
+Maida 14/05/2014
+
+Ultima checklist:
+
+01) reimplementare Observer;
+02) David
+03) uzi
+04) cursore su elementi editor
+05) score
+06) animazioni
+07) upload score
+08) collegamento listener savegames
+09) rimuovere cablaggi databases
+10) server su terza macchina
