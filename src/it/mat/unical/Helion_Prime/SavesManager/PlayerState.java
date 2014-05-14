@@ -6,39 +6,38 @@ public class PlayerState {
 
 	private String username;
 	private Timestamp timestamp;
-	
+
 	private int gunBullets1;
 	private int gunBullets2;
 	private int gunBullets3;
 	private int gunBullets4;
-	
+
 	private int lastLevelCleared;
 	private int score;
-	
-	
+
 	private static PlayerState instance;
 
 	public static PlayerState getInstance() {
-		if ( instance == null ) 
+		if (instance == null)
 			instance = new PlayerState();
 		return instance;
 	}
-	
+
 	private PlayerState() {
-		
+
 	}
-	
+
 	public void init(final String username) {
 		this.username = username;
-		this.timestamp = new Timestamp( new java.util.Date().getTime()  );
+		this.timestamp = new Timestamp(new java.util.Date().getTime());
 	}
-	
-	public PlayerState loadProfile(String username,Timestamp timestamp) {
+
+	public PlayerState loadProfile(String username, Timestamp timestamp) {
 		this.username = username;
 		this.timestamp = timestamp;
-		
-		SaveManagerImpl.getInstance().loadGame(username, timestamp,this);
-		
+
+		SaveManagerImpl.getInstance().loadGame(username, timestamp, this);
+
 		return this;
 	}
 
@@ -53,7 +52,7 @@ public class PlayerState {
 	public Timestamp getTimeStamp() {
 		return timestamp;
 	}
-	
+
 	public int getGunBullets1() {
 		return gunBullets1;
 	}
@@ -94,6 +93,26 @@ public class PlayerState {
 		this.lastLevelCleared = lastLevelCleared;
 	}
 
+	public void incrBulletState(int currentGun) {
+		switch (currentGun) {
+		case 0:
+			gunBullets1++;
+			break;
+		case 1:
+			gunBullets2++;
+			break;
+		case 2:
+			gunBullets3++;
+			break;
+		case 3:
+			gunBullets4++;
+			break;
+		default:
+			break;
+		}
+
+	}
+
 	public int getScore() {
 		return score;
 	}
@@ -101,16 +120,14 @@ public class PlayerState {
 	public void setScore(int score) {
 		this.score = score;
 	}
-	
+
 	@Override
 	public String toString() {
-		return new String( username + " " + timestamp.toString());
+		return new String(username + " " + timestamp.toString());
 	}
 
 	public void setTimestamp(Timestamp newTimeStamp) {
 		this.timestamp = newTimeStamp;
 	}
-	
-	
-	
+
 }

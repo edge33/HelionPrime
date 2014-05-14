@@ -4,8 +4,6 @@ import it.mat.unical.Helion_Prime.Logic.RangedWeapon;
 import it.mat.unical.Helion_Prime.Online.ClientManager;
 
 import java.awt.Color;
-import java.awt.Component;
-import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
@@ -14,10 +12,9 @@ import java.util.ArrayList;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-public class EastGamePanel extends JPanel
-{
+public class EastGamePanel extends JPanel {
 	private ArrayList<RangedWeapon> army;
-	
+
 	private JLabel titleLabel;
 	private JLabel bulletsGun1Desc;
 	private JLabel bulletsGun2Desc;
@@ -28,14 +25,12 @@ public class EastGamePanel extends JPanel
 	private JLabel bulletsGun3;
 	private JLabel bulletsGun4;
 	private JLabel score;
-	private JLabel scoreDescr;	
+	private JLabel scoreDescr;
 
 	private GridBagLayout eastLayout;
 	private GridBagConstraints eC;
 
-	
-	public EastGamePanel()
-	{
+	public EastGamePanel() {
 		this.eastLayout = new GridBagLayout();
 		this.eC = new GridBagConstraints();
 		this.eC.fill = GridBagConstraints.BOTH;
@@ -57,74 +52,79 @@ public class EastGamePanel extends JPanel
 		this.fillPanel();
 		CustomBorder b1 = new CustomBorder(Color.GREEN, 10);
 		this.setBorder(b1);
-		
+
 	}
-	
-	public void createButton()
-	{
+
+	public void createButton() {
 		titleLabel.setForeground(Color.green);
 		titleLabel.setOpaque(false);
-		titleLabel.setFont(MainMenuFrame.getInstance().getMainMenuPanel().getFont());
+		titleLabel.setFont(MainMenuFrame.getInstance().getMainMenuPanel()
+				.getFont());
 		titleLabel.setFont(titleLabel.getFont().deriveFont(25.0f));
 
 		bulletsGun1Desc.setForeground(Color.green);
 		bulletsGun1Desc.setOpaque(false);
-		bulletsGun1Desc.setFont(MainMenuFrame.getInstance().getMainMenuPanel().getFont());
+		bulletsGun1Desc.setFont(MainMenuFrame.getInstance().getMainMenuPanel()
+				.getFont());
 		bulletsGun1Desc.setFont(bulletsGun1Desc.getFont().deriveFont(16.0f));
 
 		bulletsGun2Desc.setForeground(Color.green);
 		bulletsGun2Desc.setOpaque(false);
-		bulletsGun2Desc.setFont(MainMenuFrame.getInstance().getMainMenuPanel().getFont());
+		bulletsGun2Desc.setFont(MainMenuFrame.getInstance().getMainMenuPanel()
+				.getFont());
 		bulletsGun2Desc.setFont(bulletsGun2Desc.getFont().deriveFont(16.0f));
 
 		bulletsGun3Desc.setForeground(Color.green);
 		bulletsGun3Desc.setOpaque(false);
-		bulletsGun3Desc.setFont(MainMenuFrame.getInstance().getMainMenuPanel().getFont());
+		bulletsGun3Desc.setFont(MainMenuFrame.getInstance().getMainMenuPanel()
+				.getFont());
 		bulletsGun3Desc.setFont(bulletsGun3Desc.getFont().deriveFont(16.0f));
 
 		bulletsGun4Desc.setForeground(Color.green);
 		bulletsGun4Desc.setOpaque(false);
-		bulletsGun4Desc.setFont(MainMenuFrame.getInstance().getMainMenuPanel().getFont());
+		bulletsGun4Desc.setFont(MainMenuFrame.getInstance().getMainMenuPanel()
+				.getFont());
 		bulletsGun4Desc.setFont(bulletsGun4Desc.getFont().deriveFont(16.0f));
 
 		bulletsGun1.setForeground(Color.green);
 		bulletsGun1.setOpaque(false);
-		bulletsGun1.setFont(MainMenuFrame.getInstance().getMainMenuPanel().getFont());
+		bulletsGun1.setFont(MainMenuFrame.getInstance().getMainMenuPanel()
+				.getFont());
 		bulletsGun1.setFont(bulletsGun1.getFont().deriveFont(10.0f));
 
 		bulletsGun2.setForeground(Color.green);
 		bulletsGun2.setOpaque(false);
-		bulletsGun2.setFont(MainMenuFrame.getInstance().getMainMenuPanel().getFont());
+		bulletsGun2.setFont(MainMenuFrame.getInstance().getMainMenuPanel()
+				.getFont());
 		bulletsGun2.setFont(bulletsGun2.getFont().deriveFont(10.0f));
 
 		bulletsGun3.setForeground(Color.green);
 		bulletsGun3.setOpaque(false);
-		bulletsGun3.setFont(MainMenuFrame.getInstance().getMainMenuPanel().getFont());
+		bulletsGun3.setFont(MainMenuFrame.getInstance().getMainMenuPanel()
+				.getFont());
 		bulletsGun3.setFont(bulletsGun3.getFont().deriveFont(10.0f));
 
 		bulletsGun4.setForeground(Color.green);
 		bulletsGun4.setOpaque(false);
-		bulletsGun4.setFont(MainMenuFrame.getInstance().getMainMenuPanel().getFont());
+		bulletsGun4.setFont(MainMenuFrame.getInstance().getMainMenuPanel()
+				.getFont());
 		bulletsGun4.setFont(bulletsGun4.getFont().deriveFont(10.0f));
 
 	}
-	
-	public void getInfo()
-	{
-		boolean multi =ClientManager.getInstance().isMultiplayerGame();
-		if(!multi)
-		{
-			
+
+	public void getInfo() {
+		boolean multi = ClientManager.getInstance().isMultiplayerGame();
+		if (!multi) {
+
 		}
 	}
-	
-	public void fillPanel()
-	{
+
+	public void fillPanel() {
 		this.eC.gridwidth = GridBagConstraints.REMAINDER;
 		this.eastLayout.setConstraints(titleLabel, eC);
 		this.add(titleLabel);
 
-		this.eC.insets = new Insets(10,0,0,0); 
+		this.eC.insets = new Insets(10, 0, 0, 0);
 		this.eC.gridwidth = 1;
 
 		this.eastLayout.setConstraints(bulletsGun1Desc, eC);
@@ -155,7 +155,68 @@ public class EastGamePanel extends JPanel
 		this.add(bulletsGun4);
 		eC.gridwidth = 1;
 
-		this.eC.insets = new Insets(10,0,0,0); 
+		this.eC.insets = new Insets(10, 0, 0, 0);
 		this.eC.gridwidth = 1;
+	}
+
+	public void incrBulletState(int currentGun) {
+		int bullet = 0;
+		switch (currentGun) {
+		case 0:
+			bullet = Integer.parseInt(bulletsGun1.getText());
+			bullet++;
+			bulletsGun1.setText(String.valueOf(bullet));
+			break;
+		case 1:
+			bullet = Integer.parseInt(bulletsGun2.getText());
+			bullet++;
+			bulletsGun2.setText(String.valueOf(bullet));
+			break;
+		case 2:
+			bullet = Integer.parseInt(bulletsGun3.getText());
+			bullet++;
+			bulletsGun3.setText(String.valueOf(bullet));
+			break;
+		case 3:
+			bullet = Integer.parseInt(bulletsGun4.getText());
+			bullet++;
+			bulletsGun4.setText(String.valueOf(bullet));
+			break;
+		default:
+			break;
+		}
+
+	}
+
+	public JLabel getBulletsGun1() {
+		return bulletsGun1;
+	}
+
+	public void setBulletsGun1(JLabel bulletsGun1) {
+		this.bulletsGun1 = bulletsGun1;
+	}
+
+	public JLabel getBulletsGun2() {
+		return bulletsGun2;
+	}
+
+	public void setBulletsGun2(JLabel bulletsGun2) {
+		this.bulletsGun2 = bulletsGun2;
+	}
+
+	public JLabel getBulletsGun3() {
+		return bulletsGun3;
+	}
+
+	public void setBulletsGun3(JLabel bulletsGun3) {
+		this.bulletsGun3 = bulletsGun3;
+	}
+
+	public JLabel getBulletsGun4() {
+		return bulletsGun4;
+	}
+
+	public void setBulletsGun4(JLabel bulletsGun4) {
+		this.bulletsGun4 = bulletsGun4;
 	}
 }
