@@ -28,8 +28,18 @@ public class PlayerState {
 	}
 
 	public void init(final String username) {
+		reset();
 		this.username = username;
 		this.timestamp = new Timestamp(new java.util.Date().getTime());
+	}
+
+	private void reset() {
+		this.gunBullets1 = 0;
+		this.gunBullets2 = 0;
+		this.gunBullets3 = 0;
+		this.gunBullets4 = 0;
+		this.lastLevelCleared = 0;
+		this.score = 0;
 	}
 
 	public PlayerState loadProfile(String username, Timestamp timestamp) {
