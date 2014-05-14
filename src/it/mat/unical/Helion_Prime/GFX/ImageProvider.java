@@ -1,7 +1,6 @@
 package it.mat.unical.Helion_Prime.GFX;
 
 import it.mat.unical.Helion_Prime.Logic.AbstractNativeLite;
-import it.mat.unical.Helion_Prime.Logic.GameManagerImpl;
 import it.mat.unical.Helion_Prime.Online.ClientManager;
 
 import java.awt.Image;
@@ -1098,9 +1097,8 @@ public class ImageProvider extends Thread {
 		enemyType = currentNative.getTypeNative();
 		direction = currentNative.getDirection();
 		currentPosition = currentNative.getCurrentPosition();
-		if (enemyType == 0)
-		{
-			 enemyResistance = currentNative.getResistance();
+		if (enemyType == 0) {
+			enemyResistance = currentNative.getResistance();
 		}
 		switch (enemyType) {
 		case 0: {
@@ -1311,10 +1309,10 @@ public class ImageProvider extends Thread {
 		while (!ClientManager.isFinishGame()) {
 			// thread che alterna le immagini per dare l'animazione al player
 
-			while (GameManagerImpl.isPaused()) {
-				System.out.println("Sono in pausa  - ImageProvider");
-				GameManagerImpl.waitForCondition();
-			}
+			// while (!ClientManager.isPaused()) {
+			// System.out.println("Sono in pausa  - ImageProvider");
+			// GameManagerImpl.waitForCondition();
+			// }
 
 			// //////////////////////////////////////////////
 
@@ -1402,10 +1400,10 @@ public class ImageProvider extends Thread {
 					// thread che alterna le immagini per dare l'animazione al
 					// player2
 
-					while (GameManagerImpl.isPaused()) {
-						System.out.println("Sono in pausa  - ImageProvider");
-						GameManagerImpl.waitForCondition();
-					}
+					// while (GameManagerImpl.isPaused()) {
+					// System.out.println("Sono in pausa  - ImageProvider");
+					// GameManagerImpl.waitForCondition();
+					// }
 
 					// //////////////////////////////////////////////
 

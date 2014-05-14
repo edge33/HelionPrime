@@ -322,7 +322,7 @@ public class GamePane extends JPanel {
 									.getPlayerDirection() != 0) {
 								GamePane.this.clientManager
 										.setPlayerDirection(0);
-								imagePlayer = 1;
+								// imagePlayer = 1;
 
 								GamePane.this.clientManager
 										.pushToQueueForServer("dUP");
@@ -335,7 +335,7 @@ public class GamePane extends JPanel {
 									.getPlayerDirection() != 1) {
 								GamePane.this.clientManager
 										.setPlayerDirection(1);
-								imagePlayer = 2;
+								// imagePlayer = 2;
 								GamePane.this.clientManager
 										.pushToQueueForServer("dDOWN");
 							}
@@ -348,7 +348,7 @@ public class GamePane extends JPanel {
 									.getPlayerDirection() != 2) {
 								GamePane.this.clientManager
 										.setPlayerDirection(2);
-								imagePlayer = 3;
+								// imagePlayer = 3;
 								GamePane.this.clientManager
 										.pushToQueueForServer("dRIGHT");
 							}
@@ -361,7 +361,7 @@ public class GamePane extends JPanel {
 									.getPlayerDirection() != 3) {
 								GamePane.this.clientManager
 										.setPlayerDirection(3);
-								imagePlayer = 4;
+								// imagePlayer = 4;
 								GamePane.this.clientManager
 										.pushToQueueForServer("dLEFT");
 							}
@@ -392,6 +392,9 @@ public class GamePane extends JPanel {
 
 					if (UP) {
 
+						if (imagePlayer != 1)
+							imagePlayer = 1;
+
 						if (!(world.getElementAt(
 								GamePane.this.clientManager.getLogicX() - 1,
 								GamePane.this.clientManager.getLogicY()) instanceof Wall)
@@ -414,6 +417,8 @@ public class GamePane extends JPanel {
 					}
 
 					else if (DOWN) { // DOWN
+						if (imagePlayer != 2)
+							imagePlayer = 2;
 
 						if (!(world.getElementAt(
 								GamePane.this.clientManager.getLogicX() + 1,
@@ -436,7 +441,8 @@ public class GamePane extends JPanel {
 					}
 
 					else if (RIGHT) {
-
+						if (imagePlayer != 3)
+							imagePlayer = 3;
 						if (!(world.getElementAt(
 								GamePane.this.clientManager.getLogicX(),
 								GamePane.this.clientManager.getLogicY() - 1) instanceof Wall)
@@ -458,7 +464,8 @@ public class GamePane extends JPanel {
 					}
 
 					else if (LEFT) {
-
+						if (imagePlayer != 4)
+							imagePlayer = 4;
 						if (!(world.getElementAt(
 								GamePane.this.clientManager.getLogicX(),
 								GamePane.this.clientManager.getLogicY() + 1) instanceof Wall)
@@ -712,7 +719,7 @@ public class GamePane extends JPanel {
 
 		// // in base alla direzione del player stampa
 		// // l'immagine corrispondente
-		if (!clientManager.isPlayerOne) {
+		if (clientManager.isPlayerOne) {
 			switch (imagePlayer) {
 			case 0:
 				g.drawImage(imageProvider.getPlayerStanding(), playerY
