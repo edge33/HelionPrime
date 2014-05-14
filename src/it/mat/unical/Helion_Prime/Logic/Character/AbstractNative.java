@@ -19,6 +19,7 @@ public class AbstractNative extends AbstractCharacter implements Resistance {
 	private MaintenanceRoom room;
 	private ConcurrentHashMap<Point, AbstractTrap> currentTrap;
 	protected NativeAI nativeAi;
+	protected int attackPower;
 	protected Player player;
 	private boolean canAttack;
 	protected Thread coolDownManager;
@@ -59,10 +60,16 @@ public class AbstractNative extends AbstractCharacter implements Resistance {
 
 	public void attack(int attackPower) {
 
+		
+
+		// TODO: attacking method working on RN - Maida
 		// System.out.println("Can-ATTACK" + canAttack);
 
-		World innerWorld = player.getWorld();
-		if (getX() == player.getX() && getY() == player.getY() && canAttack) {
+		if ( canAttack && ( ( player.getX() == getX() - 1 && player.getY() == getY() ) || 
+				 ( player.getX() == getX() + 1 && player.getY() == getY() ) ||
+				 ( player.getX() == getX() && player.getY() == getY() - 1 ) ||
+				 ( player.getX() == getX() && player.getY() == getY() + 1 ) )
+		    ) {
 			player.setLife(player.getLife() - attackPower);
 			System.out.println("dopo attacco " + player.getLife());
 			setAttack(false);
@@ -72,7 +79,11 @@ public class AbstractNative extends AbstractCharacter implements Resistance {
 
 		}
 
-		else if (getX() == room.getX() && getY() == room.getY() && canAttack) {
+		else if ( canAttack && ( ( room.getX() == getX() - 1 && room.getY() == getY() ) || 
+				 ( room.getX() == getX() + 1 && room.getY() == getY() ) ||
+				 ( room.getX() == getX() && room.getY() == getY() - 1 ) ||
+				 ( room.getX() == getX() && room.getY() == getY() + 1 ) )
+				)  {
 			room.setLife(room.getLife() - attackPower);
 			System.out.println("room dopo attacco " + room.getLife());
 			world.setRoomLife(room.getLife());
@@ -100,28 +111,27 @@ public class AbstractNative extends AbstractCharacter implements Resistance {
 							// if
 							// può essere migliorata con la reflection
 		int move = 0;
-		if (nativeAi.getAiType() == 0)
-			move = nativeAi.getDirectionFromPlayerAi(this, player, world);
-		else if (nativeAi.getAiType() == 1)
+		if (nativeAi.getAiType() == NativeAI.PLAYER_FINDER)
+			move = nativeAi.getDirection(this, player, world);
+		else if (nativeAi.getAiType() == NativeAI.ROOM_FINDER)
 			move = nativeAi
-					.getDirectionFromRoomAi(this, world.getRoom(), world);
-		else if (nativeAi.getAiType() == 2) {
+					.getDirection(this, world.getRoom(), world);
+		else if (nativeAi.getAiType() == NativeAI.TRAP_FINDER) {
 			currentTrap = player.getTrap();
 			if (currentTrap.size() > 0) {
 
-				Collection<AbstractTrap> tmp = currentTrap.values();
 
 				// System.out.println(((AbstractTrap) tmp.toArray()[0]).getY());
 
-				move = nativeAi.getDirectionFromTrapAi(this, currentTrap
+				move = nativeAi.getDirection(this, currentTrap
 						.entrySet().iterator().next().getValue(), world);
 
 				// System.out.println(((AbstractTrap) tmp.toArray()[0]).getX()
 				// + " " + ((AbstractTrap) tmp.toArray()[0]).getY());
 
-			} else
-				move = nativeAi.getDirectionFromPlayerAi(this, player, world);
-
+			} else {
+				move = nativeAi.getDirection(this, player, world);
+			}
 		}
 
 		return move;
@@ -158,4 +168,9 @@ public class AbstractNative extends AbstractCharacter implements Resistance {
 	public void setAttack(boolean bool) {
 		canAttack = bool;
 	}
+
+	public int getAttackPower() {
+		return attackPower;
+	}
+
 }

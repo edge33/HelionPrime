@@ -57,7 +57,7 @@ public class EnemyMover extends Thread {
 			// setta i parametri della
 			// posizione del nemico nella
 			// logica
-			if (currentNative.getGraphicX() <= ((currentNative.getX() - 1) * this.TileSize)
+			if ( currentNative.getGraphicX() <= ((currentNative.getX() - 1) * this.TileSize)
 					+ this.TileSize / 2) {
 
 				if (!GameManagerImpl.getInstance().isMultiplayerGame())
@@ -73,6 +73,7 @@ public class EnemyMover extends Thread {
 				currentNative.move(Character.UP);
 
 			}
+			currentNative.attack(currentNative.getAttackPower());
 			break;
 		case Character.DOWN:
 
@@ -101,7 +102,7 @@ public class EnemyMover extends Thread {
 				currentNative.setDirection(Character.DOWN);
 
 			}
-
+			currentNative.attack(currentNative.getAttackPower());
 			break;
 
 		case Character.LEFT:
@@ -127,7 +128,7 @@ public class EnemyMover extends Thread {
 				currentNative.setDirection(Character.LEFT);
 
 			}
-
+			currentNative.attack(currentNative.getAttackPower());
 			break;
 		case Character.RIGHT:
 
@@ -152,9 +153,10 @@ public class EnemyMover extends Thread {
 				currentNative.setDirection(Character.RIGHT);
 
 			}
-
+			currentNative.attack(currentNative.getAttackPower());
 			break;
 		default:
+			currentNative.attack(currentNative.getAttackPower());
 			break;
 
 		}

@@ -1,6 +1,5 @@
 package it.mat.unical.Helion_Prime.Logic.Character;
 
-import it.mat.unical.Helion_Prime.Logic.StaticObject;
 import it.mat.unical.Helion_Prime.Logic.Wall;
 import it.mat.unical.Helion_Prime.Logic.World;
 import it.mat.unical.Helion_Prime.Logic.Trap.AbstractTrap;
@@ -14,6 +13,7 @@ public class BasicAI implements NativeAI {
 
 	private static BasicAI instance;
 
+	
 	protected BasicAI() {
 
 	}
@@ -26,9 +26,9 @@ public class BasicAI implements NativeAI {
 
 	private static class Cell {
 
-		final int x;
+		int x;
 
-		final int y;
+		 int y;
 
 		public Cell(final int x, final int y) {
 			this.x = x;
@@ -57,22 +57,13 @@ public class BasicAI implements NativeAI {
 
 	}
 
-	@Override
-	public int getDirectionFromRoomAi(AbstractNative currentNative,
-			StaticObject room, World world) {
-		return 0;
-	}
+
 
 	@Override
-	public int getDirectionFromTrapAi(AbstractNative currentNative,
-			AbstractTrap trap, World world) {
-		return 0;
-	}
+	public int getDirection(AbstractNative currentNative,Object target, World world) {
 
-	@Override
-	public int getDirectionFromPlayerAi(AbstractNative currentNative,
-			Player player, World world) {
-
+		Player player = (Player) target;
+		
 		final List<Cell> queue = new ArrayList<Cell>();
 
 		Cell cell = new Cell(currentNative.getX(), currentNative.getY());
@@ -89,9 +80,14 @@ public class BasicAI implements NativeAI {
 			Cell currentCell = queue.get(last++);
 			if(!world.getFake())
 			{
-				if (player.getX() == currentCell.x && player.getY() == currentCell.y)
-				{
+				if ( ( player.getX() == currentCell.x - 1 && player.getY() == currentCell.y ) || 
+					 ( player.getX() == currentCell.x + 1 && player.getY() == currentCell.y ) ||
+					 ( player.getX() == currentCell.x && player.getY() == currentCell.y - 1 ) ||
+					 ( player.getX() == currentCell.x && player.getY() == currentCell.y + 1 )
+				) {
 					found = true;
+
+				
 					return findDirectionFromCell(tree, currentCell, currentNative);
 
 				}
@@ -178,13 +174,15 @@ public class BasicAI implements NativeAI {
 			return Character.LEFT;
 		} else if (directionCell.y > currentNative.getY()) {
 			return Character.RIGHT;
-		} else {
+		} 
+		else {
 			return -1;
 		}
-
+		
 	}
 
 	public int getAiType() {
-		return 0;
+		return NativeAI.PLAYER_FINDER;
 	}
+
 }

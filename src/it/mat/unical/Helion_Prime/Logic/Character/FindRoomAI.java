@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 
 import it.mat.unical.Helion_Prime.Logic.MaintenanceRoom;
 import it.mat.unical.Helion_Prime.Logic.StaticObject;
@@ -14,8 +15,9 @@ import it.mat.unical.Helion_Prime.Logic.Trap.AbstractTrap;
 public class FindRoomAI implements NativeAI {
 
 	private static FindRoomAI instance;
-	
+
 	private FindRoomAI() {
+
 	}
 	
 	
@@ -27,9 +29,9 @@ public class FindRoomAI implements NativeAI {
 
 private static class Cell {
 		
-		final int x;
+		 int x;
 		
-		final int y;
+		int y;
 		
 		public Cell(final int x, final int y) {
 			this.x = x;
@@ -60,21 +62,9 @@ private static class Cell {
 	}
 	
 	@Override
-	public int getDirectionFromPlayerAi(AbstractNative currentNative,Player player, World world)
-	{
-		return 0;
-	}
-	
-	@Override
-	public int getDirectionFromTrapAi(AbstractNative currentNative,AbstractTrap trap, World world)
-	{
-	 return 0;
-	}
-	
-	@Override
-	public int getDirectionFromRoomAi(AbstractNative currentNative,StaticObject room, World world) {
+	public int getDirection(AbstractNative currentNative,Object target, World world) {
 		
-		
+		StaticObject room = (StaticObject) target;
 		
 		final List<Cell> queue = new ArrayList<Cell>();
 		
@@ -93,8 +83,14 @@ private static class Cell {
 			
 			Cell currentCell = queue.get(last++); 
 			                                      
-			if ( room.getX() == currentCell.x && room.getY() == currentCell.y ) {
+			if ( ( room.getX() == currentCell.x - 1 && room.getY() == currentCell.y ) || 
+					 ( room.getX() == currentCell.x + 1 && room.getY() == currentCell.y ) ||
+					 ( room.getX() == currentCell.x && room.getY() == currentCell.y - 1 ) ||
+					 ( room.getX() == currentCell.x && room.getY() == currentCell.y + 1 )
+			) {
 				
+				
+	
 				found = true;
 				return findDirectionFromCell(tree,currentCell,currentNative);
 				
@@ -148,6 +144,8 @@ private void addChildren(List<Cell> queue, Map<Cell, Cell> tree, Cell currentCel
 		
 	}
 
+
+
 	private int findDirectionFromCell(Map<Cell, Cell> tree, Cell currentCell,AbstractNative currentNative) {
 		
 		Cell parent = tree.get(currentCell);
@@ -182,7 +180,7 @@ private void addChildren(List<Cell> queue, Map<Cell, Cell> tree, Cell currentCel
 	@Override
 	public int getAiType()
 	{
-	  return 1;
+	  return NativeAI.ROOM_FINDER;
 	}
 
 }
