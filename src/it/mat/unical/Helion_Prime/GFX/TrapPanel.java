@@ -1,6 +1,6 @@
 package it.mat.unical.Helion_Prime.GFX;
 
-import it.mat.unical.Helion_Prime.Logic.GameManagerImpl;
+import it.mat.unical.Helion_Prime.Multiplayer.ClientManagerMultiplayer;
 import it.mat.unical.Helion_Prime.Online.ClientManager;
 
 import java.awt.Color;
@@ -11,29 +11,22 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Image;
 import java.awt.Insets;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 
 import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
-import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.UIManager;
 import javax.swing.border.Border;
 
 //pannello corrispondente alla parte a destra dove risiedono le trappole , successivamente saranno aggiunte anche le armi
 
 public class TrapPanel extends JPanel {
 
-	
-	
 	private JLabel spikeTrapIcon; // label delle icone
 	private JLabel fireTrapIcon;
 	private JLabel acidTrapIcon;
@@ -52,17 +45,15 @@ public class TrapPanel extends JPanel {
 	private JLabel shootGunLabel;
 	private JLabel heavyWeaponLabel;
 	private JLabel gapLabel;
-	
+	private boolean isMultiplayerGame;
 	private boolean decoy = true;
 	private int currentTrapSelected; // intero che serve a sapere che "tipo" di
 	private int currentGunSelected; // trappola si ha selezionato dalle
 	private GridBagLayout layout;
-									// label
+	// label
 	private GridBagConstraints c;
 
-
-	public TrapPanel()
-	{
+	public TrapPanel(boolean isMultiplayerGame) {
 		this.layout = new GridBagLayout();
 		this.c = new GridBagConstraints();
 		this.c.fill = GridBagConstraints.BOTH;
@@ -70,14 +61,17 @@ public class TrapPanel extends JPanel {
 		this.setOpaque(false);
 		this.border = BorderFactory.createLineBorder(Color.BLUE, 2);
 		this.greenBorder = BorderFactory.createLineBorder(Color.GREEN, 2);
-		this.setPreferredSize(new Dimension(900,60));
+		this.setPreferredSize(new Dimension(900, 60));
 		setBackground(Color.BLACK);
 		Image currentLabelImage = null;
 		currentTrapSelected = 0;
+		this.isMultiplayerGame = isMultiplayerGame;
 
 		try {
-			overlay = ImageIO.read(new File ("Resources/Overlay/Overlay.png"));
-			currentLabelImage = ImageIO.read(new File("Resources/SpikeTrapIcon.png")).getScaledInstance(40, 40, Image.SCALE_SMOOTH);
+			overlay = ImageIO.read(new File("Resources/Overlay/Overlay.png"));
+			currentLabelImage = ImageIO.read(
+					new File("Resources/SpikeTrapIcon.png")).getScaledInstance(
+					40, 40, Image.SCALE_SMOOTH);
 		} catch (IOException e) {
 			System.out.println("SpikeTrapIcon Mancante");
 		}
@@ -151,15 +145,15 @@ public class TrapPanel extends JPanel {
 		}
 
 		// ///////////////////////////////////////////////////////////////////////////////////
-		
+
 		try {
 			currentLabelImage = ImageIO.read(
-					new File("Resources/Overlay/Gap.png"))
-					.getScaledInstance(10, 40, Image.SCALE_SMOOTH);
+					new File("Resources/Overlay/Gap.png")).getScaledInstance(
+					10, 40, Image.SCALE_SMOOTH);
 		} catch (IOException e) {
 			System.out.println("Gap Mancante");
 		}
-		
+
 		gapLabel = new JLabel(new ImageIcon(currentLabelImage));
 
 		try {
@@ -200,13 +194,13 @@ public class TrapPanel extends JPanel {
 			System.out.println("heavyWeapon Mancante");
 		}
 
-
 		heavyWeaponLabel = new JLabel(new ImageIcon(currentLabelImage));
 
 		spikeTrapIcon.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
 				selectSpikeTrap();
+
 			}
 
 		});
@@ -282,27 +276,26 @@ public class TrapPanel extends JPanel {
 				repaint();
 			}
 		});
-		
+
 		this.fillPanel();
 
 		repaint();
 	}
-	
-	public void fillPanel()
-	{
-		this.c.insets = new Insets(10,0,0,0); 
+
+	public void fillPanel() {
+		this.c.insets = new Insets(10, 0, 0, 0);
 		this.c.gridwidth = 1;
-		
-		((FlowLayout)this.getLayout()).setVgap(11);
+
+		((FlowLayout) this.getLayout()).setVgap(11);
 		this.add(spikeTrapIcon);
 		this.add(fireTrapIcon);
 		this.add(acidTrapIcon);
 		this.add(electricTrapIcon);
 		this.add(powerTrapIcon);
 		this.add(decoyTrapIcon);
-		
+
 		this.add(gapLabel);
-		
+
 		this.add(simpleGunLabel);
 		this.add(uziGunLabel);
 		this.add(shootGunLabel);
@@ -320,6 +313,13 @@ public class TrapPanel extends JPanel {
 			simpleGunLabel.setBorder(null);
 			uziGunLabel.setBorder(null);
 			currentGunSelected = 3;
+			if (!isMultiplayerGame) {
+				ClientManager.getInstance().setCurrentGunSelected(
+						currentGunSelected);
+			} else
+				ClientManagerMultiplayer.getInstance().setCurrentGunSelected(
+						currentGunSelected);
+
 		}
 	}
 
@@ -331,6 +331,12 @@ public class TrapPanel extends JPanel {
 			simpleGunLabel.setBorder(null);
 			uziGunLabel.setBorder(null);
 			currentGunSelected = 2;
+			if (!isMultiplayerGame) {
+				ClientManager.getInstance().setCurrentGunSelected(
+						currentGunSelected);
+			} else
+				ClientManagerMultiplayer.getInstance().setCurrentGunSelected(
+						currentGunSelected);
 		}
 	}
 
@@ -342,6 +348,12 @@ public class TrapPanel extends JPanel {
 			simpleGunLabel.setBorder(null);
 			uziGunLabel.setBorder(greenBorder);
 			currentGunSelected = 1;
+			if (!isMultiplayerGame) {
+				ClientManager.getInstance().setCurrentGunSelected(
+						currentGunSelected);
+			} else
+				ClientManagerMultiplayer.getInstance().setCurrentGunSelected(
+						currentGunSelected);
 		}
 	}
 
@@ -353,6 +365,12 @@ public class TrapPanel extends JPanel {
 			simpleGunLabel.setBorder(greenBorder);
 			uziGunLabel.setBorder(null);
 			currentGunSelected = 0;
+			if (!isMultiplayerGame) {
+				ClientManager.getInstance().setCurrentGunSelected(
+						currentGunSelected);
+			} else
+				ClientManagerMultiplayer.getInstance().setCurrentGunSelected(
+						currentGunSelected);
 		}
 	}
 
@@ -447,6 +465,5 @@ public class TrapPanel extends JPanel {
 		g.fillRect(0, 0, this.getWidth(), this.getHeight());
 		g.drawImage(overlay, 0, 0, this.getWidth(), this.getHeight(), this);
 	}
-
 
 }

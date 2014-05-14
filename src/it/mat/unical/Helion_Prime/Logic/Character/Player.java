@@ -102,10 +102,10 @@ public class Player extends AbstractCharacter implements TrapPlacing {
 		army.add(new RifleGun(this.world));
 		army.add(new HeavyWeapon(this.world));
 
-		bulletsArmy.put(army.get(0), 20);
-		bulletsArmy.put(army.get(1), 100);
-		bulletsArmy.put(army.get(2), 100);
-		bulletsArmy.put(army.get(3), 100);
+		bulletsArmy.put(army.get(0), 0);
+		bulletsArmy.put(army.get(1), 0);
+		bulletsArmy.put(army.get(2), 0);
+		bulletsArmy.put(army.get(3), 0);
 
 		currentGunSelected = army.get(0);
 

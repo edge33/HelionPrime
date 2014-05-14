@@ -8,6 +8,7 @@ import it.mat.unical.Helion_Prime.GFX.StageClearPanel;
 import it.mat.unical.Helion_Prime.GFX.ThreadPoolBulletClient;
 import it.mat.unical.Helion_Prime.Logic.AbstractNativeLite;
 import it.mat.unical.Helion_Prime.Logic.UserProfile;
+import it.mat.unical.Helion_Prime.SavesManager.PlayerState;
 
 import java.awt.Point;
 import java.util.concurrent.BlockingQueue;
@@ -28,6 +29,8 @@ public class ClientManager {
 	private int logicXPlayerOne;
 	private int logicYPlayerOne;
 	private int movementOffset;
+	private int currentGunSelected = 0;
+	private int[] numberOfBullet;
 	private int money = 0;
 	private int life = 0;
 	protected boolean gameOver = false;
@@ -417,6 +420,12 @@ public class ClientManager {
 											.parseInt(movementSplitted[2]),
 											logicXPlayerOne, logicYPlayerOne));
 
+							PlayerState.getInstance().incrBulletState(
+									Integer.parseInt(movementSplitted[3]));
+
+							gamePane.getEastPanel().incrBulletState(
+									Integer.parseInt(movementSplitted[3]));
+
 						} else if (movementSplitted[0].equals("srm")) {
 							gamePane.bullets
 									.put(Integer.parseInt(movementSplitted[1]),
@@ -543,6 +552,15 @@ public class ClientManager {
 		finishGame = false;
 		gameOver = false;
 
+	}
+
+	public int getCurrentGunSelected() {
+		return currentGunSelected;
+	}
+
+	public void setCurrentGunSelected(int currentGunSelected) {
+		this.currentGunSelected = currentGunSelected;
+		pushToQueueForServer("switchGun " + currentGunSelected);
 	}
 
 }

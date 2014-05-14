@@ -84,6 +84,7 @@ public class GamePane extends JPanel {
 	private Wave wave;
 
 	public WestGamePanel westPanel;
+	public EastGamePanel eastPanel;
 	public TrapPanel trapPanel;
 	public InformationPanel informationPanel;
 
@@ -92,14 +93,14 @@ public class GamePane extends JPanel {
 	public ConcurrentHashMap<Point, Integer> placedTrap;
 	private HashMap<AbstractNativeLite, ArrayList<Integer>> movementGraphicWave;
 
-	private int currentGunSelected = 0;
 	private boolean levelClear = false;
 	// protected int idButton = 0;
 	private static final int DELAY = 40;
 
 	public GamePane(File level, Client client, TrapPanel trapPanel,
 			WestGamePanel westPanel, InformationPanel informationPanel,
-			GamePadController gamePadController, UserProfile profile)
+			GamePadController gamePadController, UserProfile profile,
+			EastGamePanel eastPanel)
 
 	throws FileNotCorrectlyFormattedException {
 		super();
@@ -126,6 +127,7 @@ public class GamePane extends JPanel {
 		this.gamePadController = gamePadController;
 		this.westPanel = westPanel;
 		this.trapPanel = trapPanel;
+		this.eastPanel = eastPanel;
 		this.informationPanel = informationPanel;
 		this.placedTrap = new ConcurrentHashMap<Point, Integer>();
 		this.bullets = new ConcurrentHashMap<Integer, BulletsClient>();
@@ -236,22 +238,45 @@ public class GamePane extends JPanel {
 						GamePane.this.trapPanel.selectGun();
 						GamePane.this.clientManager
 								.pushToQueueForServer("switchGun 0");
+						if (!GamePane.this.client.isMultiplayerGame())
+							ClientManager.getInstance()
+									.setCurrentGunSelected(0);
+						else
+							ClientManagerMultiplayer.getInstance()
+									.setCurrentGunSelected(0);
 						break;
 					case KeyEvent.VK_2:
 						GamePane.this.trapPanel.selectUzi();
 						GamePane.this.clientManager
 								.pushToQueueForServer("switchGun 1");
-						currentGunSelected = 1;
+						if (!GamePane.this.client.isMultiplayerGame())
+							ClientManager.getInstance()
+									.setCurrentGunSelected(1);
+						else
+							ClientManagerMultiplayer.getInstance()
+									.setCurrentGunSelected(1);
 						break;
 					case KeyEvent.VK_3:
-						currentGunSelected = 2;
+
+						if (!GamePane.this.client.isMultiplayerGame())
+							ClientManager.getInstance()
+									.setCurrentGunSelected(2);
+						else
+							ClientManagerMultiplayer.getInstance()
+									.setCurrentGunSelected(2);
 						GamePane.this.trapPanel.selectShootGun();
 						GamePane.this.clientManager
 								.pushToQueueForServer("switchGun 2");
 						break;
 					case KeyEvent.VK_4:
-						currentGunSelected = 3;
+						if (!GamePane.this.client.isMultiplayerGame())
+							ClientManager.getInstance()
+									.setCurrentGunSelected(3);
+						else
+							ClientManagerMultiplayer.getInstance()
+									.setCurrentGunSelected(3);
 						GamePane.this.trapPanel.selectHeavy();
+
 						GamePane.this.clientManager
 								.pushToQueueForServer("switchGun 3");
 						break;
@@ -841,13 +866,11 @@ public class GamePane extends JPanel {
 		// // semplice cerchi poi saranno sostituite con le immagini
 		//
 		for (AbstractNativeLite currentNative : natives.values()) {
-			
-	
 
-			 g.setColor(Color.red);
-			 g.fillRect(/* drawingHorizontalOffset */+currentNative.getY()
-			 * TILE_SIZE, currentNative.getX() * TILE_SIZE, TILE_SIZE,
-			 TILE_SIZE);
+			g.setColor(Color.red);
+			g.fillRect(/* drawingHorizontalOffset */+currentNative.getY()
+					* TILE_SIZE, currentNative.getX() * TILE_SIZE, TILE_SIZE,
+					TILE_SIZE);
 
 			// g.drawImage(imageProvider.getCorrectNative(currentNative),
 			// /* drawingHorizontalOffset */+currentNative.getGraphicY() + 10,
@@ -1228,5 +1251,9 @@ public class GamePane extends JPanel {
 	public void setMovementGraphicWave(
 			HashMap<AbstractNativeLite, ArrayList<Integer>> movementGraphicWave) {
 		this.movementGraphicWave = movementGraphicWave;
+	}
+
+	public EastGamePanel getEastPanel() {
+		return eastPanel;
 	}
 }
