@@ -22,9 +22,14 @@ import java.awt.event.ItemListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.net.URL;
+import java.net.URLConnection;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 
@@ -46,11 +51,9 @@ import javax.swing.text.PasswordView;
 
 public class LoginPanel extends JPanel 
 {
-	private JPasswordField passField;
 	private JTextField userField;
 
 	private final JLabel leaderBoard; 
-	private JLabel passLabel;
 	private JLabel saveLabel;
 	private JLabel userLabel;
 	private JLabel bulletTitle;
@@ -121,7 +124,6 @@ public class LoginPanel extends JPanel
 		this.leaderBoard.setFont(MainMenuFrame.getInstance().getMainMenuPanel().getFont());
 		this.leaderBoard.setFont(leaderBoard.getFont().deriveFont(16.0f));
 		this.userLabel = new JLabel("Username:");
-		this.passLabel = new JLabel("Password:");
 		this.saveLabel = new JLabel("Saved Game:");
 		this.scoreDescr = new JLabel("Score");
 
@@ -139,9 +141,7 @@ public class LoginPanel extends JPanel
 		this.savedGames = new JComboBox();
 
 		this.userField = new JTextField(20);
-		this.passField = new JPasswordField(20);
 		this.userField.setHorizontalAlignment(SwingConstants.CENTER);
-		this.passField.setHorizontalAlignment(SwingConstants.CENTER);
 
 		this.createButton();
 		this.addListener();
@@ -187,7 +187,10 @@ public class LoginPanel extends JPanel
 			{  
 				frame.setVisible(true);
 				try {  
-					htmlPane.setPage(new URL(strURL));  
+					URL url = new URL(strURL);
+					htmlPane.setPage(url);  
+
+		 
 				}  
 				catch(Exception e) {  
 					System.out.println(e);  
@@ -203,11 +206,6 @@ public class LoginPanel extends JPanel
 		userLabel.setOpaque(false);
 		userLabel.setFont(MainMenuFrame.getInstance().getMainMenuPanel().getFont());
 		userLabel.setFont(userLabel.getFont().deriveFont(25.0f));
-
-		passLabel.setForeground(Color.green);
-		passLabel.setOpaque(false);
-		passLabel.setFont(MainMenuFrame.getInstance().getMainMenuPanel().getFont());
-		passLabel.setFont(userLabel.getFont().deriveFont(25.0f));
 
 		saveLabel.setForeground(Color.green);
 		saveLabel.setOpaque(false);
@@ -313,7 +311,7 @@ public class LoginPanel extends JPanel
 				if(!isCreateClicked)
 				{
 					userLabel.setText("New Username:");
-					passLabel.setText("New Password:");
+					userField.setText("");
 					bulletsGun1Desc.setVisible(false);
 					bulletsGun2Desc.setVisible(false);
 					bulletsGun3Desc.setVisible(false);
@@ -336,7 +334,6 @@ public class LoginPanel extends JPanel
 				else
 				{
 					userLabel.setText("Username:");
-					passLabel.setText("Password:");
 					bulletTitle.setVisible(true);
 					bulletsGun1Desc.setVisible(true);
 					bulletsGun2Desc.setVisible(true);
@@ -496,10 +493,6 @@ public class LoginPanel extends JPanel
 
 		this.layout.setConstraints(dummyLabel, c);
 		this.centerPanel.add(dummyLabel);
-		this.layout.setConstraints(passLabel, c);
-		this.centerPanel.add(passLabel);
-		this.layout.setConstraints(passField, c);
-		this.centerPanel.add(passField);
 		this.c.gridwidth = GridBagConstraints.REMAINDER; 	
 		this.layout.setConstraints(dummyLabel2, c);
 		this.centerPanel.add(dummyLabel2);

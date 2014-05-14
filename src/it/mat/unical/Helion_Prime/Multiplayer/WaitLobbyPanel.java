@@ -65,7 +65,7 @@ public class WaitLobbyPanel extends JPanel {
 
 		this.setLayout(new BorderLayout());
 
-		this.title = new JLabel("Multiplayer Mode");
+		this.title = new JLabel("Guest Mode");
 		this.lobbyDesc = new JLabel("Inserisci nei campi sottostanti l'indirizzo della partita a cui vuoi connetterti!");
 		
 		this.separator1 = new JLabel(" - ");

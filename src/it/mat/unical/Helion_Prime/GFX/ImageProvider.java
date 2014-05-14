@@ -313,60 +313,60 @@ public class ImageProvider extends Thread {
 				.getImage("Resources/Char Resources/David/FilippoLeft2.png");
 
 		this.hunterDownRunning1 = toolKit
-				.getImage("Resources/Robo/Yellow/RoboBack1.png");
-		this.hunterDownRunning2 = toolKit
-				.getImage("Resources/Robo/Yellow/RoboBack2.png");
-		this.hunterDownRunning3 = toolKit
-				.getImage("Resources/Robo/Yellow/RoboBack3.png");
-
-		this.hunterUpRunning1 = toolKit
-				.getImage("Resources/Robo/Yellow/RoboFront1.png");
-		this.hunterUpRunning2 = toolKit
-				.getImage("Resources/Robo/Yellow/RoboFront2.png");
-		this.hunterUpRunning3 = toolKit
-				.getImage("Resources/Robo/Yellow/RoboFront3.png");
-
-		this.hunterLeftRunning1 = toolKit
-				.getImage("Resources/Robo/Yellow/RoboLeft1.png");
-		this.hunterLeftRunning2 = toolKit
-				.getImage("Resources/Robo/Yellow/RoboLeft2.png");
-		this.hunterLeftRunning3 = toolKit
-				.getImage("Resources/Robo/Yellow/RoboLeft3.png");
-
-		this.hunterRightRunning1 = toolKit
-				.getImage("Resources/Robo/Yellow/RoboRight1.png");
-		this.hunterRightRunning2 = toolKit
-				.getImage("Resources/Robo/Yellow/RoboRight2.png");
-		this.hunterRightRunning3 = toolKit
-				.getImage("Resources/Robo/Yellow/RoboRight3.png");
-
-		this.saboteurDownRunning1 = toolKit
 				.getImage("Resources/Random/RandomBack1.png");
-		this.saboteurDownRunning2 = toolKit
+		this.hunterDownRunning2 = toolKit
 				.getImage("Resources/Random/RandomBack2.png");
-		this.saboteurDownRunning3 = toolKit
+		this.hunterDownRunning3 = toolKit
 				.getImage("Resources/Random/RandomBack3.png");
 
-		this.saboteurUpRunning1 = toolKit
+		this.hunterUpRunning1 = toolKit
 				.getImage("Resources/Random/RandomFront1.png");
-		this.saboteurUpRunning2 = toolKit
+		this.hunterUpRunning2 = toolKit
 				.getImage("Resources/Random/RandomFront2.png");
-		this.saboteurUpRunning3 = toolKit
+		this.hunterUpRunning3 = toolKit
 				.getImage("Resources/Random/RandomFront3.png");
 
-		this.saboteurLeftRunning1 = toolKit
+		this.hunterLeftRunning1 = toolKit
 				.getImage("Resources/Random/RandomLeft1.png");
-		this.saboteurLeftRunning2 = toolKit
+		this.hunterLeftRunning2 = toolKit
 				.getImage("Resources/Random/RandomLeft2.png");
-		this.saboteurLeftRunning3 = toolKit
+		this.hunterLeftRunning3 = toolKit
 				.getImage("Resources/Random/RandomLeft3.png");
 
-		this.saboteurRightRunning1 = toolKit
+		this.hunterRightRunning1 = toolKit
 				.getImage("Resources/Random/RandomRight1.png");
-		this.saboteurRightRunning2 = toolKit
+		this.hunterRightRunning2 = toolKit
 				.getImage("Resources/Random/RandomRight2.png");
-		this.saboteurRightRunning3 = toolKit
+		this.hunterRightRunning3 = toolKit
 				.getImage("Resources/Random/RandomRight3.png");
+
+		this.saboteurDownRunning1 = toolKit
+				.getImage("Resources/Native/NativeBack1.png");
+		this.saboteurDownRunning2 = toolKit
+				.getImage("Resources/Native/NativeBack2.png");
+		this.saboteurDownRunning3 = toolKit
+				.getImage("Resources/Native/NativeBack3.png");
+
+		this.saboteurUpRunning1 = toolKit
+				.getImage("Resources/Native/NativeFront1.png");
+		this.saboteurUpRunning2 = toolKit
+				.getImage("Resources/Native/NativeFront2.png");
+		this.saboteurUpRunning3 = toolKit
+				.getImage("Resources/Native/NativeFront3.png");
+
+		this.saboteurLeftRunning1 = toolKit
+				.getImage("Resources/Native/NativeLeft1.png");
+		this.saboteurLeftRunning2 = toolKit
+				.getImage("Resources/Native/NativeLeft2.png");
+		this.saboteurLeftRunning3 = toolKit
+				.getImage("Resources/Native/NativeLeft3.png");
+
+		this.saboteurRightRunning1 = toolKit
+				.getImage("Resources/Native/NativeRight1.png");
+		this.saboteurRightRunning2 = toolKit
+				.getImage("Resources/Native/NativeRight2.png");
+		this.saboteurRightRunning3 = toolKit
+				.getImage("Resources/Native/NativeRight3.png");
 
 		this.nativeDownRunning1 = toolKit
 				.getImage("Resources/Robo/Gray/RoboGrayBack1.png");
@@ -1169,6 +1169,8 @@ public class ImageProvider extends Thread {
 		}
 			break;
 		case 1: {
+
+			System.out.println("Hunter");
 			switch (direction) {
 			case 0:
 				if (currentNative.getCurrentPosition() == 1) {
