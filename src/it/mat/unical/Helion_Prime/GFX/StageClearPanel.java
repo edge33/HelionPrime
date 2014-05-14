@@ -7,6 +7,7 @@ import it.mat.unical.Helion_Prime.Online.Client;
 import it.mat.unical.Helion_Prime.Online.ClientManager;
 import it.mat.unical.Helion_Prime.Online.Server;
 import it.mat.unical.Helion_Prime.SavesManager.PlayerState;
+import it.mat.unical.Helion_Prime.SavesManager.SaveManagerImpl;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -25,8 +26,11 @@ import java.io.IOException;
 import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
+import javax.swing.JDesktopPane;
+import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JLayeredPane;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 public class StageClearPanel extends JLayeredPane {
@@ -76,12 +80,12 @@ public class StageClearPanel extends JLayeredPane {
 
 		this.time = new JLabel("0");
 		this.timeDesc = new JLabel("Tempo:");
-		this.bulletTitle = new JLabel("Proiettili Rimanenti:");
+		this.bulletTitle = new JLabel("Proiettili Sparati:");
 		this.bulletsGun1Desc = new JLabel(" Plasma Gun:");
 		this.bulletsGun2Desc = new JLabel(" Laser Rifle:");
 		this.bulletsGun3Desc = new JLabel(" Shootgun:");
 		this.bulletsGun4Desc = new JLabel(" Plasma Cannon:");
-		this.bulletsGun1 = new JLabel("-");
+		this.bulletsGun1 = new JLabel("0");
 		this.bulletsGun2 = new JLabel("0");
 		this.bulletsGun3 = new JLabel("0");
 		this.bulletsGun4 = new JLabel("0");
@@ -97,6 +101,7 @@ public class StageClearPanel extends JLayeredPane {
 		this.saveLevel = new JButton("Save Level");
 		this.retryButton = new JButton("Retry");
 
+		
 		if (MainMenuFrame.getInstance().getMainMenuPanel().isStoryModeOn()) {
 
 			this.nextLevel = new JButton("Next Level");
@@ -339,6 +344,20 @@ public class StageClearPanel extends JLayeredPane {
 			retryButton.setBorderPainted(false);
 			retryButton.setFocusPainted(false);
 		}
+		
+		this.confirmButton.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				PlayerState playerState = PlayerState.getInstance();
+				if ( SaveManagerImpl.getInstance().overrideSave(playerState) ) {
+					JOptionPane.showMessageDialog(mainMenuFrame.getInstance(), "Salvataggio effettuato, slot: " + playerState.getUsername() + " " + playerState.getTimeStamp());
+				} else {
+					JOptionPane.showMessageDialog(mainMenuFrame.getInstance(), "Errore Salvataggio!");
+				}
+			}
+		});
+		
 	}
 
 	public void createSavePanel() {
@@ -401,11 +420,14 @@ public class StageClearPanel extends JLayeredPane {
 		this.eC.insets = new Insets(10, 0, 0, 0);
 		this.eC.gridwidth = 1;
 
+		PlayerState playerState = PlayerState.getInstance();
+		
 		this.eastLayout.setConstraints(bulletsGun1Desc, eC);
 		recap.add(bulletsGun1Desc);
 		this.eC.gridwidth = GridBagConstraints.REMAINDER;
 		this.eastLayout.setConstraints(bulletsGun1, eC);
 		recap.add(bulletsGun1);
+		this.bulletsGun1.setText(String.valueOf( playerState.getGunBullets1() ));
 		eC.gridwidth = 1;
 
 		this.eastLayout.setConstraints(bulletsGun2Desc, eC);
@@ -413,6 +435,7 @@ public class StageClearPanel extends JLayeredPane {
 		this.eC.gridwidth = GridBagConstraints.REMAINDER;
 		this.eastLayout.setConstraints(bulletsGun2, eC);
 		recap.add(bulletsGun2);
+		this.bulletsGun2.setText(String.valueOf( playerState.getGunBullets2() ));
 		eC.gridwidth = 1;
 
 		this.eastLayout.setConstraints(bulletsGun3Desc, eC);
@@ -420,12 +443,14 @@ public class StageClearPanel extends JLayeredPane {
 		this.eC.gridwidth = GridBagConstraints.REMAINDER;
 		this.eastLayout.setConstraints(bulletsGun3, eC);
 		recap.add(bulletsGun3);
+		this.bulletsGun3.setText(String.valueOf( playerState.getGunBullets3() ));
 		eC.gridwidth = 1;
 
 		this.eastLayout.setConstraints(bulletsGun4Desc, eC);
 		recap.add(bulletsGun4Desc);
 		this.eC.gridwidth = GridBagConstraints.REMAINDER;
 		this.eastLayout.setConstraints(bulletsGun4, eC);
+		this.bulletsGun4.setText(String.valueOf( playerState.getGunBullets4() ));
 		recap.add(bulletsGun4);
 		eC.gridwidth = 1;
 
