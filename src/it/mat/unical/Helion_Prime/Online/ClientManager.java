@@ -13,6 +13,9 @@ import it.mat.unical.Helion_Prime.SavesManager.PlayerState;
 import java.awt.Point;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
+import java.util.concurrent.locks.Condition;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
 
 public class ClientManager {
 	private Client client;
@@ -38,6 +41,8 @@ public class ClientManager {
 	private int playerDirection;
 	private ThreadPoolBulletClient threadPool;
 	private static ClientManager instance;
+	private static Lock lock;
+	private static Condition condition;
 
 	protected ClientManager(Client client, GamePane gamePane) {
 
@@ -48,6 +53,8 @@ public class ClientManager {
 		// LinkedBlockingQueue<String>();
 		finishGame = false;
 		gameOver = false;
+		lock = new ReentrantLock();
+		this.condition = lock.newCondition();
 		this.placementTrap = new LinkedBlockingQueue<String>();
 		this.movementPlayer = new LinkedBlockingQueue<String>();
 		this.createBullets = new LinkedBlockingQueue<String>();
@@ -68,6 +75,8 @@ public class ClientManager {
 		// this.movementBulletsForThreadPool = new
 		// LinkedBlockingQueue<String>();
 		finishGame = false;
+		lock = new ReentrantLock();
+		this.condition = lock.newCondition();
 		this.placementTrap = new LinkedBlockingQueue<String>();
 		this.movementPlayer = new LinkedBlockingQueue<String>();
 		this.createBullets = new LinkedBlockingQueue<String>();
@@ -99,6 +108,8 @@ public class ClientManager {
 		// this.bullets = new ConcurrentHashMap<Integer, BulletsClient>();
 		// this.movementBulletsForThreadPool = new
 		// LinkedBlockingQueue<String>();
+		lock = new ReentrantLock();
+		this.condition = lock.newCondition();
 		finishGame = false;
 		this.placementTrap = new LinkedBlockingQueue<String>();
 		this.movementPlayer = new LinkedBlockingQueue<String>();
@@ -335,25 +346,25 @@ public class ClientManager {
 							if (movement.substring(1, 2).equals("U")) {
 
 								abstractNative.setX(abstractNative.getX() - 1);
-
+								abstractNative.setDirection(0);
 								gamePane.getMovementGraphicWave()
 										.get(abstractNative).add(0);
 
 							} else if (movement.substring(1, 2).equals("D")) {
 								abstractNative.setX(abstractNative.getX() + 1);
-
+								abstractNative.setDirection(1);
 								gamePane.getMovementGraphicWave()
 										.get(abstractNative).add(1);
 
 							} else if (movement.substring(1, 2).equals("L")) {
 								abstractNative.setY(abstractNative.getY() - 1);
-
+								abstractNative.setDirection(2);
 								gamePane.getMovementGraphicWave()
 										.get(abstractNative).add(2);
 
 							} else if (movement.substring(1, 2).equals("R")) {
 								abstractNative.setY(abstractNative.getY() + 1);
-
+								abstractNative.setDirection(3);
 								gamePane.getMovementGraphicWave()
 										.get(abstractNative).add(3);
 
@@ -563,4 +574,24 @@ public class ClientManager {
 		pushToQueueForServer("switchGun " + currentGunSelected);
 	}
 
+	public static void waitForCondition() {
+		try {
+			lock.lock();
+			condition.await();
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			lock.unlock();
+		}
+	}
+
+	public static void signallAll() {
+		try {
+			lock.lock();
+			condition.signalAll();
+		} finally {
+			lock.unlock();
+		}
+	}
 }

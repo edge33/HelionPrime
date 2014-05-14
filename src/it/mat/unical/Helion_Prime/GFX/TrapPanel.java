@@ -292,7 +292,7 @@ public class TrapPanel extends JPanel {
 		this.add(acidTrapIcon);
 		this.add(electricTrapIcon);
 		this.add(powerTrapIcon);
-		this.add(decoyTrapIcon);
+		// this.add(decoyTrapIcon);
 
 		this.add(gapLabel);
 

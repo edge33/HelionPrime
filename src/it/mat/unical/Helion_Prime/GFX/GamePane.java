@@ -54,28 +54,17 @@ public class GamePane extends JPanel {
 
 	private ThreadPoolMovementPlayerTwo movementPlayerTwo;
 	private boolean isConnectedPad = false;
-	// public int clientManager.getPlayerDirection();
-	private UserProfile profile;
-
 	public ConcurrentHashMap<Integer, BulletsClient> bullets;
 
-	private int cont = 0;
-	private int curentLife;
-	private int sizeBulletForPrint = 0;
 	private int movementOffset = TILE_SIZE / 10;
-	private int drawingHorizontalOffset;
-
 	private double scaleFactor;
 	private boolean UP = false;
 	private boolean DOWN = false;
 	private boolean LEFT = false;
 	private boolean RIGHT = false;
-	private boolean STAND = false;
-	private boolean shoot = false;
-	private boolean shooter = true;
-	private boolean threadAlive = false;
 	private boolean gameOver = false;
 	private boolean stageClear = false;
+	private boolean isPaused = false;
 	private EnemyMoverGraphic enemyMover;
 	private File currentFileLevel;
 	private WorldImpl world;
@@ -88,14 +77,9 @@ public class GamePane extends JPanel {
 	public TrapPanel trapPanel;
 	public InformationPanel informationPanel;
 
-	private GamePadController gamePadController;
 	public ConcurrentHashMap<Integer, AbstractNativeLite> natives;
 	public ConcurrentHashMap<Point, Integer> placedTrap;
 	private HashMap<AbstractNativeLite, ArrayList<Integer>> movementGraphicWave;
-
-	private boolean levelClear = false;
-	// protected int idButton = 0;
-	private static final int DELAY = 40;
 
 	public GamePane(File level, Client client, TrapPanel trapPanel,
 			WestGamePanel westPanel, InformationPanel informationPanel,
@@ -118,13 +102,11 @@ public class GamePane extends JPanel {
 		this.currentFileLevel = level;
 		this.setLayout(null);
 		this.client = client;
-		this.profile = profile;
 		this.controllerInfo = new JLabel(new ImageIcon(currentLabelImage));
 		this.controllerInfo.setForeground(Color.MAGENTA);
 		this.controllerInfo.setVisible(false);
 		this.controllerInfo.setFont(controllerInfo.getFont().deriveFont(50.0f));
 		this.controllerInfo.setBounds(200, 350, 636, 248);
-		this.gamePadController = gamePadController;
 		this.westPanel = westPanel;
 		this.trapPanel = trapPanel;
 		this.eastPanel = eastPanel;
@@ -203,22 +185,23 @@ public class GamePane extends JPanel {
 
 				@Override
 				public void mouseReleased(MouseEvent arg0) {
+					if (!isPaused) {
+						double x, y;
+						x = arg0.getX();
+						y = arg0.getY();
+						System.out.println("x:" + x);
+						System.out.println("y:" + y);
+						int realX = (int) (x / (TILE_SIZE * scaleFactor));
+						int realY = (int) (y / (TILE_SIZE * scaleFactor));
 
-					double x, y;
-					x = arg0.getX();
-					y = arg0.getY();
-					System.out.println("x:" + x);
-					System.out.println("y:" + y);
-					int realX = (int) (x / (TILE_SIZE * scaleFactor));
-					int realY = (int) (y / (TILE_SIZE * scaleFactor));
-
-					System.out.println(realX + " " + realY);
-					Integer numberOftrap = GamePane.this.trapPanel
-							.getCurrentTrapSelected();
-					GamePane.this.clientManager
-							.pushToQueueForServer("place.trap " + numberOftrap
-									+ "/" + realX + "/" + realY);
-
+						System.out.println(realX + " " + realY);
+						Integer numberOftrap = GamePane.this.trapPanel
+								.getCurrentTrapSelected();
+						GamePane.this.clientManager
+								.pushToQueueForServer("place.trap "
+										+ numberOftrap + "/" + realX + "/"
+										+ realY);
+					}
 				}
 			});
 			this.addKeyListener(new KeyAdapter() { // semplice key listener che
@@ -227,7 +210,7 @@ public class GamePane extends JPanel {
 
 				@Override
 				public void keyReleased(KeyEvent arg0) {
-					imagePlayer = 0; // per il momento la posizione di default
+					// per il momento la posizione di default
 					// quando viene rilasciato il tasto è quella
 					// con il player rivolto verso
 					// l'alto ossia posizione 2
@@ -282,31 +265,43 @@ public class GamePane extends JPanel {
 						break;
 					case KeyEvent.VK_W:
 						GamePane.this.UP = false;
-
+						imagePlayer = 0;
 						// clientManager.getPlayerDirection() = -1;
 						break;
 					case KeyEvent.VK_S:
 						GamePane.this.DOWN = false;
+						imagePlayer = 0;
 						// clientManager.getPlayerDirection() = -2;
 						break;
 					case KeyEvent.VK_A:
 						GamePane.this.RIGHT = false;
+						imagePlayer = 0;
 						// clientManager.getPlayerDirection() = -3;
 						break;
 					case KeyEvent.VK_D:
 						GamePane.this.LEFT = false;
+						imagePlayer = 0;
 						// clientManager.getPlayerDirection() = -3;
 						break;
+					case KeyEvent.VK_P:
 
+						if (!GamePane.this.client.isMultiplayerGame()) {
+							isPaused = !isPaused;
+							if (isPaused)
+								ClientManager.getInstance()
+										.pushToQueueForServer("iPause");
+							else {
+								ClientManager.getInstance()
+										.pushToQueueForServer("iResume");
+								ClientManager.signallAll();
+							}
+						}
+
+						break;
 					case KeyEvent.VK_SPACE:
-						shoot = false;
-						shooter = true;
-						// if (!(manager.getPlayer().getCurrentGunSelected()
-						// instanceof UziGun)) {
-						// playerOne.shoot();
-						// }
-
-						GamePane.this.clientManager.pushToQueueForServer("sh");
+						if (!isPaused)
+							GamePane.this.clientManager
+									.pushToQueueForServer("sh");
 						break;
 					default:
 						break;
@@ -319,56 +314,69 @@ public class GamePane extends JPanel {
 
 				@Override
 				public void keyPressed(KeyEvent paramKeyEvent) {
+					if (!isPaused) {
+						if (paramKeyEvent.getKeyCode() == KeyEvent.VK_W) {
 
-					if (paramKeyEvent.getKeyCode() == KeyEvent.VK_W) {
+							GamePane.this.UP = true;
+							if (GamePane.this.clientManager
+									.getPlayerDirection() != 0) {
+								GamePane.this.clientManager
+										.setPlayerDirection(0);
+								imagePlayer = 1;
 
-						GamePane.this.UP = true;
-						if (GamePane.this.clientManager.getPlayerDirection() != 0) {
-							GamePane.this.clientManager.setPlayerDirection(0);
-							GamePane.this.clientManager
-									.pushToQueueForServer("dUP");
+								GamePane.this.clientManager
+										.pushToQueueForServer("dUP");
+							}
+							// playerOne.setDirection(AbstractCharacter.UP);
+
+						} else if (paramKeyEvent.getKeyCode() == KeyEvent.VK_S) {
+							GamePane.this.DOWN = true;
+							if (GamePane.this.clientManager
+									.getPlayerDirection() != 1) {
+								GamePane.this.clientManager
+										.setPlayerDirection(1);
+								imagePlayer = 2;
+								GamePane.this.clientManager
+										.pushToQueueForServer("dDOWN");
+							}
+
+							// playerOne.setDirection(AbstractCharacter.DOWN);
+
+						} else if (paramKeyEvent.getKeyCode() == KeyEvent.VK_A) {
+							GamePane.this.RIGHT = true;
+							if (GamePane.this.clientManager
+									.getPlayerDirection() != 2) {
+								GamePane.this.clientManager
+										.setPlayerDirection(2);
+								imagePlayer = 3;
+								GamePane.this.clientManager
+										.pushToQueueForServer("dRIGHT");
+							}
+
+							// playerOne.setDirection(AbstractCharacter.LEFT);
+
+						} else if (paramKeyEvent.getKeyCode() == KeyEvent.VK_D) {
+							GamePane.this.LEFT = true;
+							if (GamePane.this.clientManager
+									.getPlayerDirection() != 3) {
+								GamePane.this.clientManager
+										.setPlayerDirection(3);
+								imagePlayer = 4;
+								GamePane.this.clientManager
+										.pushToQueueForServer("dLEFT");
+							}
+
+							// playerOne.setDirection(AbstractCharacter.RIGHT);
+						} else if (paramKeyEvent.getKeyCode() == KeyEvent.VK_P) {
+
+							// GameManagerImpl.getInstance().setPause();
+
+						} else if (paramKeyEvent.getKeyCode() == KeyEvent.VK_SPACE) {
+							// shootForUziGun();
 						}
-						// playerOne.setDirection(AbstractCharacter.UP);
 
-					} else if (paramKeyEvent.getKeyCode() == KeyEvent.VK_S) {
-						GamePane.this.DOWN = true;
-						if (GamePane.this.clientManager.getPlayerDirection() != 1) {
-							GamePane.this.clientManager.setPlayerDirection(1);
-							GamePane.this.clientManager
-									.pushToQueueForServer("dDOWN");
-						}
-
-						// playerOne.setDirection(AbstractCharacter.DOWN);
-
-					} else if (paramKeyEvent.getKeyCode() == KeyEvent.VK_A) {
-						GamePane.this.RIGHT = true;
-						if (GamePane.this.clientManager.getPlayerDirection() != 2) {
-							GamePane.this.clientManager.setPlayerDirection(2);
-							GamePane.this.clientManager
-									.pushToQueueForServer("dRIGHT");
-						}
-
-						// playerOne.setDirection(AbstractCharacter.LEFT);
-
-					} else if (paramKeyEvent.getKeyCode() == KeyEvent.VK_D) {
-						GamePane.this.LEFT = true;
-						if (GamePane.this.clientManager.getPlayerDirection() != 3) {
-							GamePane.this.clientManager.setPlayerDirection(3);
-							GamePane.this.clientManager
-									.pushToQueueForServer("dLEFT");
-						}
-
-						// playerOne.setDirection(AbstractCharacter.RIGHT);
-					} else if (paramKeyEvent.getKeyCode() == KeyEvent.VK_P) {
-
-						// GameManagerImpl.getInstance().setPause();
-
-					} else if (paramKeyEvent.getKeyCode() == KeyEvent.VK_SPACE) {
-						// shootForUziGun();
 					}
-
 				}
-
 			});
 		}
 
@@ -376,16 +384,13 @@ public class GamePane extends JPanel {
 
 			public void run() {
 
-				// while (!manager.gameIsOver() && !manager.isGameStopped()) {
-				//
-				// GameManagerImpl.getInstance();
-				// while (GameManagerImpl.isPaused()) {
-				// GameManagerImpl.waitForCondition();
-				// }
 				while (!ClientManager.isFinishGame()) {
 
+					while (isPaused) {
+						ClientManager.waitForCondition();
+					}
+
 					if (UP) {
-						imagePlayer = 1;
 
 						if (!(world.getElementAt(
 								GamePane.this.clientManager.getLogicX() - 1,
@@ -410,7 +415,6 @@ public class GamePane extends JPanel {
 
 					else if (DOWN) { // DOWN
 
-						imagePlayer = 2;
 						if (!(world.getElementAt(
 								GamePane.this.clientManager.getLogicX() + 1,
 								GamePane.this.clientManager.getLogicY()) instanceof Wall)
@@ -433,7 +437,6 @@ public class GamePane extends JPanel {
 
 					else if (RIGHT) {
 
-						imagePlayer = 3;
 						if (!(world.getElementAt(
 								GamePane.this.clientManager.getLogicX(),
 								GamePane.this.clientManager.getLogicY() - 1) instanceof Wall)
@@ -456,7 +459,6 @@ public class GamePane extends JPanel {
 
 					else if (LEFT) {
 
-						imagePlayer = 4;
 						if (!(world.getElementAt(
 								GamePane.this.clientManager.getLogicX(),
 								GamePane.this.clientManager.getLogicY() + 1) instanceof Wall)
@@ -710,7 +712,7 @@ public class GamePane extends JPanel {
 
 		// // in base alla direzione del player stampa
 		// // l'immagine corrispondente
-		if (clientManager.isPlayerOne) {
+		if (!clientManager.isPlayerOne) {
 			switch (imagePlayer) {
 			case 0:
 				g.drawImage(imageProvider.getPlayerStanding(), playerY
@@ -776,11 +778,9 @@ public class GamePane extends JPanel {
 		}
 		if (client.isMultiplayerGame()) {
 
-			int tempX = ((ClientManagerMultiplayer) clientManager)
-					.getLogicXPlayerTwo();
+			((ClientManagerMultiplayer) clientManager).getLogicXPlayerTwo();
 
-			int tempY = ((ClientManagerMultiplayer) clientManager)
-					.getLogicYPlayerTwo();
+			((ClientManagerMultiplayer) clientManager).getLogicYPlayerTwo();
 			// System.out.println("--------------------------------------------------------Client ;"
 			// + clientManager.isPlayerOne);
 			if (clientManager.isPlayerOne) {
@@ -903,12 +903,12 @@ public class GamePane extends JPanel {
 			// 25);
 			// }
 
-			// if (GameManagerImpl.isPaused()) {
-			// g.setColor(new Color(0, 0, 0, 34));
-			//
-			// g.fillRect(0, 0, this.getWidth() * TILE_SIZE, this.getHeight()
-			// * TILE_SIZE);
-			// }
+			if (isPaused()) {
+				g.setColor(new Color(0, 0, 0, 34));
+
+				g.fillRect(0, 0, this.getWidth() * TILE_SIZE, this.getHeight()
+						* TILE_SIZE);
+			}
 		}
 
 	}
@@ -1189,7 +1189,6 @@ public class GamePane extends JPanel {
 	} // end of startPolling()
 
 	private void canMovePlayer() {
-		boolean canMove = false;
 
 	}
 
@@ -1255,5 +1254,10 @@ public class GamePane extends JPanel {
 
 	public EastGamePanel getEastPanel() {
 		return eastPanel;
+	}
+
+	public boolean isPaused() {
+
+		return isPaused;
 	}
 }

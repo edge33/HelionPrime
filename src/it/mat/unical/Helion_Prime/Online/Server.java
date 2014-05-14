@@ -12,6 +12,9 @@ import java.io.InputStreamReader;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.concurrent.ArrayBlockingQueue;
+import java.util.concurrent.locks.Condition;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
 
 public class Server extends Thread {
 	private static final int TILE_SIZE = 50;
@@ -32,11 +35,16 @@ public class Server extends Thread {
 	private boolean finishGame = false;
 	private String level;
 	private boolean isRetry = false;
+	private boolean isPaused = false;
+
+	private Lock lock;
+	private Condition condition;
 
 	public Server(int port) throws IOException {
 
 		this.server = new ServerSocket(port);
-
+		this.lock = new ReentrantLock();
+		this.condition = lock.newCondition();
 		this.setName("SERVER");
 		movementPlayer = new ArrayBlockingQueue<String>(20);
 		placemenTrap = new ArrayBlockingQueue<String>(20);
@@ -194,6 +202,10 @@ public class Server extends Thread {
 			closeConnection();
 		} else if (splitted[0].equals("retry")) {
 			initServer(f);
+		} else if (splitted[0].equals("iPause")) {
+			GameManagerImpl.getInstance().setPause();
+		} else if (splitted[0].equals("iResume")) {
+			GameManagerImpl.getInstance().setPause();
 		}
 
 	}

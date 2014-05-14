@@ -20,6 +20,11 @@ public class ThreadPoolBulletClient extends Thread {
 	public void run() {
 		while (!gamePane.isGameOver() && !gamePane.isStageClear()
 				&& !ClientManager.isFinishGame()) {
+
+			while (gamePane.isPaused()) {
+				gamePane.getClientManager().waitForCondition();
+			}
+
 			if (gamePane.bullets.size() > 0)
 				for (Integer key : bullets.keySet()) {
 

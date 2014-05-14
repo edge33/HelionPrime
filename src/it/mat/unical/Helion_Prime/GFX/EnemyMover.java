@@ -57,7 +57,7 @@ public class EnemyMover extends Thread {
 			// setta i parametri della
 			// posizione del nemico nella
 			// logica
-			if ( currentNative.getGraphicX() <= ((currentNative.getX() - 1) * this.TileSize)
+			if (currentNative.getGraphicX() <= ((currentNative.getX() - 1) * this.TileSize)
 					+ this.TileSize / 2) {
 
 				if (!GameManagerImpl.getInstance().isMultiplayerGame())
@@ -174,6 +174,12 @@ public class EnemyMover extends Thread {
 				for (AbstractNative currentNative : nativesList.values()) {
 					if (!currentNative.getFisrtMove())
 						for (int i = 0; i < 5; i++) {
+
+							while (GameManagerImpl.isPaused()) {
+								System.out
+										.println("Sono in pausa -  ThreadPoolBullets");
+								GameManagerImpl.waitForCondition();
+							}
 
 							MoveNative(currentNative);
 
