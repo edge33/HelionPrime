@@ -102,6 +102,7 @@ public class StageClearPanel extends JLayeredPane {
 		this.retryButton = new JButton("Retry");
 
 		
+		
 		if (MainMenuFrame.getInstance().getMainMenuPanel().isStoryModeOn()) {
 
 			this.nextLevel = new JButton("Next Level");
@@ -353,7 +354,7 @@ public class StageClearPanel extends JLayeredPane {
 				if ( SaveManagerImpl.getInstance().overrideSave(playerState) ) {
 					JOptionPane.showMessageDialog(mainMenuFrame.getInstance(), "Salvataggio effettuato, slot: " + playerState.getUsername() + " " + playerState.getTimeStamp());
 				} else {
-					JOptionPane.showMessageDialog(mainMenuFrame.getInstance(), "Errore Salvataggio!");
+					JOptionPane.showMessageDialog(mainMenuFrame.getInstance(), "Errore Salvataggio; Slot inesistente, crea un nuovo slot");
 				}
 			}
 		});
