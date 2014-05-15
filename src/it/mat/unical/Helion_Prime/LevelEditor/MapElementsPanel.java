@@ -10,7 +10,7 @@ import javax.swing.JButton;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
-public class MapElementsPanel extends JPanel {
+public class MapElementsPanel extends JPanel implements SimpleObserver {
 
 	private LevelStruct levelStruct;
 	private JButton roomEntranceButton;
@@ -37,17 +37,19 @@ public class MapElementsPanel extends JPanel {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-						MapElementsPanel.this.levelStruct.setObjectID(StaticObject.PLAYER_SPAWNER);
+				MapElementsPanel.this.levelStruct.setObjectID(StaticObject.PLAYER_SPAWNER);
+				enableButtons();
 			}
 
-		});
+			});
 		cornerButton = new JButton("Corner");
 		cornerButton.addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				MapElementsPanel.this.levelStruct.setObjectID(StaticObject.CORNER);
-
+				enableButtons();				
+				MapElementsPanel.this.cornerButton.setEnabled(false);
 			}
 
 		});
@@ -57,7 +59,8 @@ public class MapElementsPanel extends JPanel {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				MapElementsPanel.this.levelStruct.setObjectID(StaticObject.WALL);
-
+				enableButtons();
+				MapElementsPanel.this.wallButton.setEnabled(false);
 			}
 
 		});
@@ -67,7 +70,8 @@ public class MapElementsPanel extends JPanel {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				MapElementsPanel.this.levelStruct.setObjectID(StaticObject.FLOOR);
-
+				enableButtons();
+				MapElementsPanel.this.floorButton.setEnabled(false);
 			}
 
 		});
@@ -77,6 +81,7 @@ public class MapElementsPanel extends JPanel {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 			MapElementsPanel.this.levelStruct.setObjectID(StaticObject.ENEMY_SPAWNER);
+				enableButtons();
 			}
 
 		});
@@ -86,6 +91,7 @@ public class MapElementsPanel extends JPanel {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				MapElementsPanel.this.levelStruct.setObjectID(StaticObject.MAINTENANCE_ROOM);
+				enableButtons();
 			}
 
 		});
@@ -102,6 +108,36 @@ public class MapElementsPanel extends JPanel {
 
 	public void setLevelStruct(LevelStruct levelStruct) {
 		this.levelStruct = levelStruct;
+	}
+
+
+	@Override
+	public void update(int mapElement) {
+		if ( mapElement == StaticObject.ENEMY_SPAWNER ) {
+			if ( this.enemySpawnerButton.isEnabled() ) 
+				this.enemySpawnerButton.setEnabled(false);
+			else 
+				this.enemySpawnerButton.setEnabled(true);
+		} else if ( mapElement == StaticObject.PLAYER_SPAWNER ) {
+			if ( this.filippoSpawnButton.isEnabled() ) 
+				this.filippoSpawnButton.setEnabled(false);
+			else 
+				this.filippoSpawnButton.setEnabled(true);
+		} else if ( mapElement == StaticObject.MAINTENANCE_ROOM ) {
+			if ( this.roomEntranceButton.isEnabled() ) 
+				this.roomEntranceButton.setEnabled(false);
+			else 
+				this.roomEntranceButton.setEnabled(true);
+		}
+		
+		this.levelStruct.setObjectID(StaticObject.FLOOR);;
+			
+	}
+	
+	private void enableButtons() {
+		this.cornerButton.setEnabled(true);
+		this.floorButton.setEnabled(true);
+		this.wallButton.setEnabled(true);
 	}
 	
 }

@@ -18,7 +18,7 @@ import javax.swing.JOptionPane;
 
 public class LevelStruct {
 
-
+	SimpleObserver observer;
 	
 	private int row;				//numero di righe che avrà la struttura
 	private int column;			//numero di colonne che avrà la struttura
@@ -30,9 +30,6 @@ public class LevelStruct {
 	private boolean enemySpawnerAlreadyPlaced;
 	private boolean maintenanceRoomAlreadyPlaced;
 	
-	private Point playerSpawnerPosition;
-	private Point enemySpawnerPosition;
-	private Point maintenanceRoomPosition;
 	private int roomLife;
 
 	public LevelStruct(int row, int column) { //Costruttore della Struttura
@@ -47,9 +44,6 @@ public class LevelStruct {
 		this.playerSpawnerAlreadyPlaced = false;
 		this.maintenanceRoomAlreadyPlaced = false;
 		
-		this.enemySpawnerPosition = null;
-		this.playerSpawnerPosition = null;
-		this.maintenanceRoomPosition = null;
 		
 		matrix = new int[row][column];
 		
@@ -159,21 +153,21 @@ public class LevelStruct {
 			
 			matrix[i][j] = StaticObject.FLOOR;
 			this.enemySpawnerAlreadyPlaced = false;
-			
+			observer.update(StaticObject.ENEMY_SPAWNER);
 			break;
 
 		case StaticObject.PLAYER_SPAWNER:
 			
 			matrix[i][j] = StaticObject.FLOOR;
 			this.playerSpawnerAlreadyPlaced = false;
-			
+			observer.update(StaticObject.PLAYER_SPAWNER);
 			break;
 			
 		case StaticObject.MAINTENANCE_ROOM :
 			
 			matrix[i][j] = StaticObject.FLOOR;
 			this.maintenanceRoomAlreadyPlaced = false;
-			
+			observer.update(StaticObject.MAINTENANCE_ROOM);
 			break;
 		}
 		
@@ -191,23 +185,27 @@ public class LevelStruct {
 		if ( element == StaticObject.ENEMY_SPAWNER && !enemySpawnerAlreadyPlaced ) {
 			this.matrix[i][j] = element;
 			this.enemySpawnerAlreadyPlaced = true;
-			this.enemySpawnerPosition = new Point(i, j);
+			observer.update(StaticObject.ENEMY_SPAWNER);
 			return true;
 		} else if ( element == StaticObject.PLAYER_SPAWNER && !playerSpawnerAlreadyPlaced ) {
 			this.matrix[i][j] = element;
 			this.playerSpawnerAlreadyPlaced = true;
-			this.enemySpawnerPosition = new Point(i, j);
+			observer.update(StaticObject.PLAYER_SPAWNER);
 			return true;
 		} else if ( element == StaticObject.MAINTENANCE_ROOM && !maintenanceRoomAlreadyPlaced ) {
 			this.matrix[i][j] = element;
 			this.maintenanceRoomAlreadyPlaced = true;
-			this.maintenanceRoomPosition = new Point(i,j);
+			observer.update(StaticObject.MAINTENANCE_ROOM);
 			return true;
 		}
 		
 		return false;
 	}
 
+	public void addObserver(SimpleObserver observer) {
+		this.observer = observer;
+	}
+	
 	public int getObjectID() {
 		return objectID;
 	}
