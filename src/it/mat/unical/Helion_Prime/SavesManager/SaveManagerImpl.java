@@ -7,6 +7,7 @@ import java.sql.ResultSet;
 import java.sql.SQLData;
 import java.sql.SQLDataException;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 
@@ -35,6 +36,9 @@ public class SaveManagerImpl implements SaveManager {
 		
 		String statement = "INSERT INTO Record(Username,Time,Gun1_Bullets,Gun2_Bullets,Gun3_Bullets,Gun4_Bullets,LastLevel,Score) values(?,?,?,?,?,?,?,?)";
 		
+		Timestamp newTimeStamp = new Timestamp( new java.util.Date().getTime());
+		playerState.setTimestamp(newTimeStamp);
+		
 		PreparedStatement preparedStatement = null;
 		try {
 			 preparedStatement = connection.prepareStatement(statement);
@@ -50,14 +54,16 @@ public class SaveManagerImpl implements SaveManager {
 			 
 			 
 			 
-			 if ( preparedStatement.execute() )
+			 if ( preparedStatement.executeUpdate() != 0 )
 				 return true;
 			 
 			 
 		} catch (SQLException e) {
+			e.printStackTrace();
 			testException(e);
 			return false;
 		} finally {
+			database.H2disengange();
 		}
 		
 		return false;
@@ -91,6 +97,8 @@ public class SaveManagerImpl implements SaveManager {
 			 
 		} catch (SQLException e) {
 			testException(e);
+		} finally {
+			database.H2disengange();
 		}
 	}
 
@@ -130,6 +138,8 @@ public class SaveManagerImpl implements SaveManager {
 			 
 		} catch (SQLException e) {
 			testException(e);
+		} finally {
+			database.H2disengange();
 		}
 		return null;
 		
@@ -173,7 +183,9 @@ public class SaveManagerImpl implements SaveManager {
 		} catch (SQLException e) {
 			testException(e);
 			return false;
-		} 
+		} finally {
+			database.H2disengange();
+		}
 		
 		
 	}
@@ -181,9 +193,43 @@ public class SaveManagerImpl implements SaveManager {
 	private void testException(SQLException e) {
 		if ( e.getSQLState() == "42S02" ) {
 			System.out.println("creating from scratch");
-			H2DbManager.createDB();
+			createDB();
 		}
 	}
+
+	private void createDB() {
+			
+		database.H2engage();
+			
+		String dbString ="CREATE USER IF NOT EXISTS INSERTER SALT \'bfaf9df3363b9ad0\' HASH \'ad847a2a11932a09d6b1d08bd8b4ba45308267e546802aa158ec5bb80bd0ba63\'; \n"+
+				"CREATE USER IF NOT EXISTS SA SALT \'3b3627323eaa0e2b\' HASH \'f0d682116e343bc817c5a864d27dfeecf67bec41cca47f780c8d1786ff236aee\' ADMIN; \n"+
+				"CREATE CACHED TABLE PUBLIC.RECORD(\n"+
+				" USERNAME VARCHAR(255) NOT NULL,\n"+
+				" TIME TIMESTAMP NOT NULL,\n"+
+				" GUN1_BULLETS INT,\n"+
+				" GUN2_BULLETS INT,\n"+
+				" GUN3_BULLETS INT,\n"+
+				" GUN4_BULLETS INT,\n"+
+				" LASTLEVEL INT,\n"+
+				" SCORE INT\n"+
+				"); \n"+
+				"ALTER TABLE PUBLIC.RECORD ADD CONSTRAINT PUBLIC.CONSTRAINT_8 PRIMARY KEY(USERNAME, TIME); \n"+
+				"-- 1 +/- SELECT COUNT(*) FROM PUBLIC.RECORD; \n"+
+				"GRANT SELECT, INSERT, UPDATE ON PUBLIC.RECORD TO INSERTER; ";
+			
+		try {
+			Statement createStatement = instance.connection.createStatement();
+			createStatement.execute(dbString);
+			
+			
+			System.out.println("db created");
+		} catch (SQLException e) {
+		} finally {
+			database.H2disengange();
+		}
+		
+	}
+		
 
 
 }

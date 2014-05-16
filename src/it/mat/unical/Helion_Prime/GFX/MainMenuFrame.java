@@ -126,14 +126,6 @@ public class MainMenuFrame extends JFrame {
 			}
 		}
 		
-		Runtime.getRuntime().addShutdownHook(new Thread() {
-			@Override
-			public void run() {
-				H2DbManager db = H2DbManager.getInstance();
-					db.H2disengange();
-			}
-		});
-		
 	}
 
 	public MainMenuPanel getMainMenuPanel() {

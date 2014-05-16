@@ -42,7 +42,8 @@ public class StageClearPanel extends JLayeredPane {
 
 	private JPanel previewPaneL;
 	private JPanel overlay;
-	private JButton confirmButton;
+	private JButton overrideSaveButton;
+	private JButton newSaveGameButton;
 	private JButton hideButton;
 
 	private JLabel time;
@@ -71,7 +72,8 @@ public class StageClearPanel extends JLayeredPane {
 
 	public StageClearPanel(ClientManager clientManager, File level) {
 
-		this.confirmButton = new JButton("Save");
+		this.overrideSaveButton = new JButton("Overwrite savegame");
+		this.newSaveGameButton = new JButton("Save Game");
 		this.hideButton = new JButton("Hide");
 
 		this.overlay = new JPanel();
@@ -99,6 +101,13 @@ public class StageClearPanel extends JLayeredPane {
 		this.mainMenuFrame = MainMenuFrame.getInstance();
 		this.backToMenuButton = new JButton("Back to Menu");
 		this.saveLevel = new JButton("Save Level");
+		
+		if ( PlayerState.getInstance().isSet() ) {
+			this.saveLevel.setEnabled(true);
+		} else {
+			this.saveLevel.setEnabled(false);
+		}
+		
 		this.retryButton = new JButton("Retry");
 
 		
@@ -314,11 +323,14 @@ public class StageClearPanel extends JLayeredPane {
 		saveLevel.setFont(saveLevel.getFont().deriveFont(25.0f));
 		saveLevel.setBorderPainted(false);
 		saveLevel.setFocusPainted(false);
-		confirmButton.setForeground(Color.green);
-		confirmButton.setBackground(Color.black);
-		confirmButton.setFont(MainMenuFrame.getInstance().getMainMenuPanel()
-				.getFont());
-		confirmButton.setFont(saveLevel.getFont().deriveFont(16.0f));
+		overrideSaveButton.setForeground(Color.green);
+		overrideSaveButton.setBackground(Color.black);
+		overrideSaveButton.setFont(MainMenuFrame.getInstance().getMainMenuPanel().getFont());
+		overrideSaveButton.setFont(saveLevel.getFont().deriveFont(16.0f));
+		newSaveGameButton.setForeground(Color.green);
+		newSaveGameButton.setBackground(Color.black);
+		newSaveGameButton.setFont(MainMenuFrame.getInstance().getMainMenuPanel().getFont());
+		newSaveGameButton.setFont(saveLevel.getFont().deriveFont(16.0f));
 		hideButton.setForeground(Color.green);
 		hideButton.setBackground(Color.black);
 		hideButton.setFont(MainMenuFrame.getInstance().getMainMenuPanel()
@@ -346,7 +358,7 @@ public class StageClearPanel extends JLayeredPane {
 			retryButton.setFocusPainted(false);
 		}
 		
-		this.confirmButton.addActionListener(new ActionListener() {
+		this.overrideSaveButton.addActionListener(new ActionListener() {
 			
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
@@ -355,6 +367,19 @@ public class StageClearPanel extends JLayeredPane {
 					JOptionPane.showMessageDialog(mainMenuFrame.getInstance(), "Salvataggio effettuato, slot: " + playerState.getUsername() + " " + playerState.getTimeStamp());
 				} else {
 					JOptionPane.showMessageDialog(mainMenuFrame.getInstance(), "Errore Salvataggio; Slot inesistente, crea un nuovo slot");
+				}
+			}
+		});
+		
+		this.newSaveGameButton.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				PlayerState playerState = PlayerState.getInstance();
+				if ( SaveManagerImpl.getInstance().saveNewGame(playerState) ) {
+					JOptionPane.showMessageDialog(mainMenuFrame.getInstance(), "Salvataggio effettuato, slot: " + playerState.getUsername() + " " + playerState.getTimeStamp());
+				} else {
+					JOptionPane.showMessageDialog(mainMenuFrame.getInstance(), "Errore Salvataggio");
 				}
 			}
 		});
@@ -396,7 +421,8 @@ public class StageClearPanel extends JLayeredPane {
 		recap.setLayout(eastLayout);
 		filler.setOpaque(false);
 		previewPaneL.setLayout(new BorderLayout());
-		filler.add(confirmButton);
+		filler.add(overrideSaveButton);
+		filler.add(newSaveGameButton);
 		filler.add(hideButton);
 		previewPaneL.setBackground(Color.BLACK);
 		previewPaneL.setBorder(BorderFactory.createLineBorder(Color.GRAY, 1,
