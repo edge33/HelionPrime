@@ -4,6 +4,8 @@ package it.mat.unical.Helion_Prime.SavesManager;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLData;
+import java.sql.SQLDataException;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
@@ -53,6 +55,7 @@ public class SaveManagerImpl implements SaveManager {
 			 
 			 
 		} catch (SQLException e) {
+			testException(e);
 			return false;
 		} finally {
 		}
@@ -87,8 +90,7 @@ public class SaveManagerImpl implements SaveManager {
 		 playerState.setScore(rs.getInt("Score"));
 			 
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			testException(e);
 		}
 	}
 
@@ -121,15 +123,15 @@ public class SaveManagerImpl implements SaveManager {
 	 
 					Timestamp timeStamp = rs.getTimestamp("TIME");
 					profiles.add(timeStamp);
-					
 	 
 				}
 				
 				return profiles;
 			 
 		} catch (SQLException e) {
-			return null;
-		} 
+			testException(e);
+		}
+		return null;
 		
 	}
 
@@ -169,10 +171,18 @@ public class SaveManagerImpl implements SaveManager {
 			 
 			 
 		} catch (SQLException e) {
+			testException(e);
 			return false;
 		} 
 		
 		
+	}
+
+	private void testException(SQLException e) {
+		if ( e.getSQLState() == "42S02" ) {
+			System.out.println("creating from scratch");
+			H2DbManager.createDB();
+		}
 	}
 
 

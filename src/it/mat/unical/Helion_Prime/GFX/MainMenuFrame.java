@@ -106,14 +106,13 @@ public class MainMenuFrame extends JFrame {
 		
 		
 		try {
-			CommonProperties.getInstance().loadProperties(new File("DataBase/database.properties"));
+			CommonProperties.getInstance().loadProperties(new File("database.properties"));
 		} catch (FileNotFoundException e) {
 			int choice = JOptionPane.showConfirmDialog(instance,"Nessun file di configurazione trovato, vuoi cercarne uno?","Errore",JOptionPane.YES_NO_OPTION);
 			
 			if ( choice == JOptionPane.YES_OPTION ) {
 				JFileChooser chooser = new JFileChooser();
-				FileNameExtensionFilter filter = new FileNameExtensionFilter(
-						"properties files","properties");
+				FileNameExtensionFilter filter = new FileNameExtensionFilter("properties files","properties");
 				chooser.setFileFilter(filter);
 				int returnVal = chooser.showOpenDialog(instance);
 				if(returnVal == JFileChooser.APPROVE_OPTION) {

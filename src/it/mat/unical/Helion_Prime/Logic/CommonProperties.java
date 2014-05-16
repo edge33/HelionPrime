@@ -54,6 +54,6 @@ public class CommonProperties {
 	public String getDbPassword() {
 		return dbPassword;
 	}
-	
+
 	
 }

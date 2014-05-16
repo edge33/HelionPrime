@@ -38,6 +38,8 @@ import javax.swing.Box;
 import javax.swing.GroupLayout;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
+import javax.swing.JDesktopPane;
+import javax.swing.JDialog;
 import javax.swing.JEditorPane;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -400,17 +402,17 @@ public class LoginPanel extends JPanel
 					String username = userField.getText();
 
 					ArrayList<Timestamp> profiles = null;
-					try {
-						profiles = SaveManagerImpl.getInstance().fetchSaves(username);
 						
+					profiles = SaveManagerImpl.getInstance().fetchSaves(username);
+					
+					if ( profiles.size() > 0 ) {
 						for (Timestamp timestamp : profiles) {
 							savedGames.addItem(timestamp);
 						}
-					} catch (Exception e) {
-						JOptionPane.showMessageDialog(MainMenuFrame.getInstance(),"Nessun File di configurazione trovato");
+					} else {
+						JOptionPane.showMessageDialog(MainMenuFrame.getInstance(),
+							    "Nessun salvataggio trovato, creane uno nuovo!","Attenzione",JOptionPane.WARNING_MESSAGE);
 					}
-					
-
 				}
 			}
 		});
