@@ -86,10 +86,10 @@ public class MainMenuPanel extends JPanel {
 			public void actionPerformed(ActionEvent arg0) {
 
 				if (!musicIsOn) {
-					// clip.start();
+					clip.start();
 					musicIsOn = true;
 				} else {
-					// clip.stop();
+					clip.stop();
 					musicIsOn = false;
 				}
 			}
@@ -149,7 +149,7 @@ public class MainMenuPanel extends JPanel {
 		southPane.add(playButton);
 		southPane.add(multiplayerButton);
 		southPane.add(editorButton);
-		southPane.add(enemyEditor);
+		//southPane.add(enemyEditor);
 		southPane.add(escButton);
 		add(southPane, BorderLayout.SOUTH);
 		add(centerPane, BorderLayout.CENTER);

@@ -16,6 +16,9 @@ import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+import javax.swing.LookAndFeel;
+import javax.swing.UIManager;
+import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.plaf.basic.BasicScrollBarUI;
 
 public class OptionsPanel extends JPanel {
@@ -26,9 +29,11 @@ public class OptionsPanel extends JPanel {
 	private JComboBox<Integer> rowsComboBox;
 	private JComboBox<Integer> colsComboBox;
 	private MainMenuPanel mainMenuPanel;
+	private static LookAndFeel originalLookAndFeel;
 
 	public OptionsPanel(EditorMainPanel editorMainPanel,MainMenuPanel mainMenuPanel)
 	{
+		this.originalLookAndFeel = UIManager.getLookAndFeel();
 		this.editorMainPanel = editorMainPanel;
 		this.mainMenuPanel = mainMenuPanel;
 		this.setVisible(true);
@@ -80,6 +85,14 @@ public class OptionsPanel extends JPanel {
 		this.add(okButton);
 		this.add(backButton);
 
+		try {
+			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+		} catch (ClassNotFoundException | InstantiationException
+				| IllegalAccessException | UnsupportedLookAndFeelException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
 	}
 	
 	public void createButton()
@@ -114,6 +127,10 @@ public class OptionsPanel extends JPanel {
 
 		super.paintComponent(g);
 		
+	}
+
+	public static LookAndFeel getOriginalLookAndFeel() {
+		return originalLookAndFeel;
 	}
 
 }

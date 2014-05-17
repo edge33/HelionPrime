@@ -23,6 +23,7 @@ import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.UIManager;
+import javax.swing.UnsupportedLookAndFeelException;
 
 public class EditorOptionsPanel extends JPanel {
 
@@ -167,6 +168,13 @@ public class EditorOptionsPanel extends JPanel {
 
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
+
+				try {
+					UIManager.setLookAndFeel(OptionsPanel.getOriginalLookAndFeel());
+				} catch (UnsupportedLookAndFeelException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 				EditorOptionsPanel.this.mainMenuFrame.switchTo(EditorOptionsPanel.this.mainMenuPanel);
 			}
 		});
