@@ -240,8 +240,8 @@ public class EditorOptionsPanel extends JPanel {
 				EditorOptionsPanel.this.gridPanel.getLevelStruct().initMatrix();
 				String a = "Editor Resettato!";
 				JOptionPane.showMessageDialog(EditorOptionsPanel.this, a);
-
 				EditorOptionsPanel.this.gridPanel.repaint();
+				mapElementsPanel.resetButtons();
 			}
 
 		});

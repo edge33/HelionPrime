@@ -45,6 +45,7 @@ public class LevelStruct {
 		this.maintenanceRoomAlreadyPlaced = false;
 		
 		
+		
 		matrix = new int[row][column];
 		
 		for (int i = 0; i < row; i++) {

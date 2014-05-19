@@ -176,5 +176,15 @@ public class MapElementsPanel extends JPanel implements SimpleObserver {
 		this.floorButton.setEnabled(true);
 		this.wallButton.setEnabled(true);
 	}
+	
+	public void resetButtons() {
+		this.cornerButton.setEnabled(true);
+		this.floorButton.setEnabled(true);
+		this.wallButton.setEnabled(true);
+		this.roomEntranceButton.setEnabled(true);
+		this.filippoSpawnButton.setEnabled(true);
+		this.enemySpawnerButton.setEnabled(true);
+		levelStruct.setObjectID(StaticObject.FLOOR);
+	}
 
 }
