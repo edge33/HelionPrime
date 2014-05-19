@@ -1,27 +1,6 @@
-		this.saboteurDownRunning1 = toolKit
-				.getImage("Resources/Native/NativeBack1.png");
-		this.saboteurDownRunning2 = toolKit
-				.getImage("Resources/Native/NativeBack2.png");
-		this.saboteurDownRunning3 = toolKit
-				.getImage("Resources/Native/NativeBack3.png");
 
-		this.saboteurUpRunning1 = toolKit
-				.getImage("Resources/Native/NativeFront1.png");
-		this.saboteurUpRunning2 = toolKit
-				.getImage("Resources/Native/NativeFront2.png");
-		this.saboteurUpRunning3 = toolKit
-				.getImage("Resources/Native/NativeFront3.png");
-
-		this.saboteurLeftRunning1 = toolKit
-				.getImage("Resources/Native/NativeLeft1.png");
-		this.saboteurLeftRunning2 = toolKit
-				.getImage("Resources/Native/NativeLeft2.png");
-		this.saboteurLeftRunning3 = toolKit
-				.getImage("Resources/Native/NativeLeft3.png");
-
-		this.saboteurRightRunning1 = toolKit
-				.getImage("Resources/Native/NativeRight1.png");
-		this.saboteurRightRunning2 = toolKit
-				.getImage("Resources/Native/NativeRight2.png");
-		this.saboteurRightRunning3 = toolKit
-				.getImage("Resources/Native/NativeRight3.png");
+		newSaveButton.setForeground(Color.green);
+		newSaveButton.setBackground(Color.black);
+		newSaveButton.setFont(MainMenuFrame.getInstance().getMainMenuPanel()
+				.getFont());
+		newSaveButton.setFont(saveLevel.getFont().deriveFont(16.0f));

@@ -15,6 +15,8 @@ import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
 import javax.swing.JPanel;
 import javax.swing.JSplitPane;
+import javax.swing.UIManager;
+import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.border.Border;
 import javax.swing.plaf.basic.BasicSplitPaneDivider;
 import javax.swing.plaf.basic.BasicSplitPaneUI;
@@ -42,9 +44,7 @@ public class EditorMainPanel extends JPanel {
 		this.optionsPanel = new OptionsPanel(this,mainMenuPanel);
 		this.setCursor(MainMenuFrame.getInstance().getMainMenuPanel().getCursor());
 		this.add(optionsPanel);
-
 		this.setVisible(true);
-
 	}
 
 	public void switchToGrid(int rows, int cols) {
@@ -67,9 +67,11 @@ public class EditorMainPanel extends JPanel {
 
 		horizontalEditorPanel = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT );
 
-		mapElementsPanel = new MapElementsPanel(gridPanel.getLevelStruct());
+		mapElementsPanel = new MapElementsPanel(gridPanel.getLevelStruct(),gridPanel);
 		editorOptionsPanel = new EditorOptionsPanel(gridPanel,mapElementsPanel,mainMenuPanel,wavePanel);
 
+		gridPanel.getLevelStruct().addObserver(this.mapElementsPanel);
+		
 		horizontalEditorPanel.setLeftComponent(mapElementsPanel);
 		horizontalEditorPanel.setRightComponent(editorOptionsPanel);
 

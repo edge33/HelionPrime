@@ -38,9 +38,12 @@ import javax.swing.Box;
 import javax.swing.GroupLayout;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
+import javax.swing.JDesktopPane;
+import javax.swing.JDialog;
 import javax.swing.JEditorPane;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JScrollPane;
@@ -353,6 +356,8 @@ public class LoginPanel extends JPanel
 					PlayerState playerState = PlayerState.getInstance();
 					playerState.init(username);
 					
+					savedGames.removeAllItems();
+					
 					saveLabel.setVisible(true);
 					create.setText("Create Profile");
 					load.setEnabled(true);
@@ -396,12 +401,18 @@ public class LoginPanel extends JPanel
 
 					String username = userField.getText();
 
-					ArrayList<Timestamp> profiles = SaveManagerImpl.getInstance().fetchSaves(username);
+					ArrayList<Timestamp> profiles = null;
+						
+					profiles = SaveManagerImpl.getInstance().fetchSaves(username);
 					
-					for (Timestamp timestamp : profiles) {
-						savedGames.addItem(timestamp);
+					if ( profiles.size() > 0 ) {
+						for (Timestamp timestamp : profiles) {
+							savedGames.addItem(timestamp);
+						}
+					} else {
+						JOptionPane.showMessageDialog(MainMenuFrame.getInstance(),
+							    "Nessun salvataggio trovato, creane uno nuovo!","Attenzione",JOptionPane.WARNING_MESSAGE);
 					}
-
 				}
 			}
 		});

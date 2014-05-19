@@ -1,8 +1,18 @@
 package it.mat.unical.Helion_Prime.SavesManager;
 
+import it.mat.unical.Helion_Prime.Logic.CommonProperties;
+
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.Properties;
+
+import org.h2.tools.RunScript;
 
 public class H2DbManager {
 
@@ -10,46 +20,49 @@ public class H2DbManager {
 	private Connection connection;
 	
 	public static H2DbManager getInstance() {
-		if ( instance == null )
+		if ( instance == null ) {
 			instance = new H2DbManager();
+		}
 		return instance;
 	}
 	
 	private H2DbManager() {
-		
 	}
 	
 	public void H2engage() {
-		
+	
 		try {
 			Class.forName("org.h2.Driver");
 		} catch (ClassNotFoundException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
 		}
-        try {
-			connection = DriverManager.getConnection("jdbc:h2:DataBase/helionPrime", "inserter", "afg98501fds2013");
-			System.err.println("Local DB up and running");
-        } catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		try {
+			
+			String db = CommonProperties.getInstance().getDatabase();
+			String dbUser = CommonProperties.getInstance().getDbUser();
+			String dbPassword = CommonProperties.getInstance().getDbPassword();
+			
+			connection = DriverManager.getConnection(db,dbUser,dbPassword);
+		} catch (SQLException e) {
 		}
-        
-        
+    
 	}
 	
 	
 	public void H2disengange() {
+		
 		try {
 			connection.close();
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
 		}
 	}
 	
 	public Connection getConnection() {
 		return connection;
 	}
+
+	
+	
+	
+	
 	
 }

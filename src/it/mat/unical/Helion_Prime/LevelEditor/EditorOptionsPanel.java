@@ -9,6 +9,8 @@ import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -23,6 +25,7 @@ import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.UIManager;
+import javax.swing.UnsupportedLookAndFeelException;
 
 public class EditorOptionsPanel extends JPanel {
 
@@ -67,42 +70,67 @@ public class EditorOptionsPanel extends JPanel {
 		this.add(backButton);
 		this.addListener();
 		this.createButton();
-		
-		this.setBackground(Color.black);
 	}
 	
 	public void createButton()
 	{
-		backButton.setBackground(Color.black);
-		backButton.setForeground(Color.GREEN);
 		backButton.setFont(MainMenuFrame.getInstance().getMainMenuPanel().getFont());
 		backButton.setFont(backButton.getFont().deriveFont(15.0f));
 		backButton.setBorderPainted(false);
 		//backButton.setBorder(BorderFactory.createLineBorder(Color.green, 1));
 		
-		showfloorButton.setBackground(Color.black);
 		showfloorButton.setFont(MainMenuFrame.getInstance().getMainMenuPanel().getFont());
 		showfloorButton.setFont(showfloorButton.getFont().deriveFont(15.0f));
 		showfloorButton.setBorderPainted(false);
 		//showfloorButton.setBorder(BorderFactory.createLineBorder(Color.green, 1));
-		
-		saveButton.setBackground(Color.black);
+	
 		saveButton.setFont(MainMenuFrame.getInstance().getMainMenuPanel().getFont());
 		saveButton.setFont(saveButton.getFont().deriveFont(15.0f));
 		saveButton.setBorderPainted(false);
 		//saveButton.setBorder(BorderFactory.createLineBorder(Color.green, 1));
 		
-		loadButton.setBackground(Color.black);
 		loadButton.setFont(MainMenuFrame.getInstance().getMainMenuPanel().getFont());
 		loadButton.setFont(loadButton.getFont().deriveFont(15.0f));
 		loadButton.setBorderPainted(false);
 		//loadButton.setBorder(BorderFactory.createLineBorder(Color.green, 1));
 		
-		resetButton.setBackground(Color.black);
 		resetButton.setFont(MainMenuFrame.getInstance().getMainMenuPanel().getFont());
 		resetButton.setFont(resetButton.getFont().deriveFont(15.0f));
 		resetButton.setBorderPainted(false);
 		//resetButton.setBorder(BorderFactory.createLineBorder(Color.green, 1));
+		
+		this.addMouseListener(new MouseListener() {
+			
+			@Override
+			public void mouseReleased(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void mousePressed(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void mouseExited(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				setCursor(MainMenuFrame.getInstance().getMainMenuPanel().createCustomCursor(null));
+				
+			}
+			
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+		});
 	}
 	
 	public void showFloor()
@@ -167,6 +195,14 @@ public class EditorOptionsPanel extends JPanel {
 
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
+
+				try {
+					UIManager.setLookAndFeel(OptionsPanel.getOriginalLookAndFeel());
+					setCursor(MainMenuFrame.getInstance().getMainMenuPanel().createCustomCursor(null));
+				} catch (UnsupportedLookAndFeelException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 				EditorOptionsPanel.this.mainMenuFrame.switchTo(EditorOptionsPanel.this.mainMenuPanel);
 			}
 		});
@@ -204,8 +240,8 @@ public class EditorOptionsPanel extends JPanel {
 				EditorOptionsPanel.this.gridPanel.getLevelStruct().initMatrix();
 				String a = "Editor Resettato!";
 				JOptionPane.showMessageDialog(EditorOptionsPanel.this, a);
-
 				EditorOptionsPanel.this.gridPanel.repaint();
+				mapElementsPanel.resetButtons();
 			}
 
 		});

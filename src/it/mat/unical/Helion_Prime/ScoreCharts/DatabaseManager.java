@@ -1,5 +1,7 @@
 package it.mat.unical.Helion_Prime.ScoreCharts;
 
+import it.mat.unical.Helion_Prime.Logic.CommonProperties;
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
@@ -8,8 +10,9 @@ public class DatabaseManager {
 
 	private static DatabaseManager instance;
 	
-	private final String user = new String("user");
-	private final String pwd = new String("userpasswd");
+	private final String db = CommonProperties.getInstance().getRemoteDb();
+	private final String user = CommonProperties.getInstance().getRemoteUser();
+	private final String pwd = CommonProperties.getInstance().getRemotePwd();
 
 	private Connection connection;
 	
@@ -47,7 +50,7 @@ public class DatabaseManager {
 		// mi connetto al database con i dati inseriti nel main
         // la password può non essere necessaria
         try {
-			connection =  DriverManager.getConnection("jdbc:mysql://localhost:3306/helionprime",user,pwd);
+			connection =  DriverManager.getConnection(db,user,pwd);
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
