@@ -83,10 +83,10 @@ public class MainMenuPanel extends JPanel {
 			public void actionPerformed(ActionEvent arg0) {
 
 				if (!musicIsOn) {
-					// clip.start();
+					clip.start();
 					musicIsOn = true;
 				} else {
-					// clip.stop();
+					clip.stop();
 					musicIsOn = false;
 				}
 			}
@@ -156,10 +156,11 @@ public class MainMenuPanel extends JPanel {
 		southPane.add(playButton);
 		southPane.add(multiplayerButton);
 		southPane.add(editorButton);
-		// southPane.add(enemyEditor);
+		//southPane.add(enemyEditor);
 		southPane.add(escButton);
 		add(southPane, BorderLayout.SOUTH);
 		add(centerPane, BorderLayout.CENTER);
+		
 		southPane.add(serverMachine);
 
 		setVisible(true);
@@ -175,7 +176,7 @@ public class MainMenuPanel extends JPanel {
 			e.printStackTrace();
 		}
 		createButton();
-		createCustomCursor();
+		createCustomCursor(null);
 		this.setCursor(cursor);
 
 	}
@@ -278,12 +279,22 @@ public class MainMenuPanel extends JPanel {
 		return font;
 	}
 
-	public void createCustomCursor() {
+	public Cursor createCustomCursor(Image img) {
 		Toolkit toolkit = Toolkit.getDefaultToolkit();
-		Image image = toolkit.getImage("Resources/Cursor.png");
-		Point hotSpot = new Point(0, 0);
-		cursor = toolkit.createCustomCursor(image, hotSpot, "Pencil");
-		setCursor(cursor);
+		if(img == null)
+		{
+			Image image = toolkit.getImage("Resources/Cursor.png");
+			Point hotSpot = new Point(0, 0);
+			cursor = toolkit.createCustomCursor(image, hotSpot, "Pencil");
+		}
+		else
+		{
+			Point hotSpot = new Point(0, 0);
+			System.out.println("sono nell'else");
+			cursor = toolkit.createCustomCursor(img, hotSpot, "Pencil");
+		}
+		
+		return cursor;
 	}
 
 	public Cursor getCursor() {
