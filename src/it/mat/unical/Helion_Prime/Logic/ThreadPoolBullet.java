@@ -25,6 +25,8 @@ public class ThreadPoolBullet extends Thread {
 				GameManagerImpl.waitForCondition();
 			}
 
+			System.out.println("dsdd");
+
 			if (bullets.size() > 0) {
 				for (Integer key : bullets.keySet()) {
 
@@ -32,7 +34,7 @@ public class ThreadPoolBullet extends Thread {
 							|| bullets.get(key).getStopBullet()) {
 						if (!gameManager.isMultiplayerGame()) {
 							gameManager.getServer().sendMessage("sr " + key);
-							System.out.println("dsdd");
+
 						} else
 							gameManager.getServerMuliplayer().outBroadcast(
 									"sr " + key);

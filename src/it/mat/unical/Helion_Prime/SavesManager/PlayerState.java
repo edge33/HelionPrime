@@ -15,6 +15,8 @@ public class PlayerState {
 	private int lastLevelCleared;
 	private int score;
 
+	private boolean profileSet;
+	
 	private static PlayerState instance;
 
 	public static PlayerState getInstance() {
@@ -30,7 +32,7 @@ public class PlayerState {
 	public void init(final String username) {
 		reset();
 		this.username = username;
-		this.timestamp = new Timestamp(new java.util.Date().getTime());
+		profileSet = true;
 	}
 
 	private void reset() {
@@ -45,9 +47,9 @@ public class PlayerState {
 	public PlayerState loadProfile(String username, Timestamp timestamp) {
 		this.username = username;
 		this.timestamp = timestamp;
-
+		profileSet = true;
 		SaveManagerImpl.getInstance().loadGame(username, timestamp, this);
-
+		
 		return this;
 	}
 
@@ -138,6 +140,10 @@ public class PlayerState {
 
 	public void setTimestamp(Timestamp newTimeStamp) {
 		this.timestamp = newTimeStamp;
+	}
+
+	public boolean isSet() {
+		return profileSet;
 	}
 
 }

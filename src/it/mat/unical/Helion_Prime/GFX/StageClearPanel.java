@@ -26,8 +26,6 @@ import java.io.IOException;
 import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
-import javax.swing.JDesktopPane;
-import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JLayeredPane;
 import javax.swing.JOptionPane;
@@ -42,7 +40,8 @@ public class StageClearPanel extends JLayeredPane {
 
 	private JPanel previewPaneL;
 	private JPanel overlay;
-	private JButton confirmButton;
+	private JButton overrideSaveButton;
+	private JButton newSaveGameButton;
 	private JButton hideButton;
 
 	private JLabel time;
@@ -71,7 +70,8 @@ public class StageClearPanel extends JLayeredPane {
 
 	public StageClearPanel(ClientManager clientManager, File level) {
 
-		this.confirmButton = new JButton("Save");
+		this.overrideSaveButton = new JButton("Overwrite savegame");
+		this.newSaveGameButton = new JButton("Save Game");
 		this.hideButton = new JButton("Hide");
 
 		this.overlay = new JPanel();
@@ -99,8 +99,16 @@ public class StageClearPanel extends JLayeredPane {
 		this.mainMenuFrame = MainMenuFrame.getInstance();
 		this.backToMenuButton = new JButton("Back to Menu");
 		this.saveLevel = new JButton("Save Level");
+		
+		if ( PlayerState.getInstance().isSet() ) {
+			this.saveLevel.setEnabled(true);
+		} else {
+			this.saveLevel.setEnabled(false);
+		}
+		
 		this.retryButton = new JButton("Retry");
 
+		
 		
 		if (MainMenuFrame.getInstance().getMainMenuPanel().isStoryModeOn()) {
 
@@ -127,26 +135,20 @@ public class StageClearPanel extends JLayeredPane {
 							.println("------------------------------------------------");
 					MainGamePanel mainGamePanel = null;
 
-					if (!Server.isServerStarted)
-						try {
-							server = new Server(7777);
-						} catch (IOException e2) {
-							e2.printStackTrace();
-						}
-					else {
-						server = null;
-						try {
-							server = new Server(7777);
-						} catch (IOException e3) {
-							// TODO Auto-generated catch block
-							e3.printStackTrace();
-						}
+					StageClearPanel.this.clientManager.reset();
 
+					try {
+						server = new Server(7777);
+					} catch (IOException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
 					}
-					server.setLevel(lastLevelPlayed.getName());
+
+					server.setLevel(choosenLevel);
 					server.start();
 					GameManagerImpl.getInstance().setServer(server);
-					Client client = new Client("localhost", false);
+					Client client = new Client("localhost", Client
+							.getDefaultNumberPort(), false);
 					client.sendMessage(choosenLevel);
 
 					if (client.recieveMessage().equals("ready")) {
@@ -230,7 +232,8 @@ public class StageClearPanel extends JLayeredPane {
 					server.setLevel(lastLevelPlayed.getName());
 					server.start();
 					GameManagerImpl.getInstance().setServer(server);
-					Client client = new Client("localhost", false);
+					Client client = new Client("localhost", Client
+							.getDefaultNumberPort(), false);
 					client.sendMessage(name);
 
 					if (client.recieveMessage().equals("ready")) {
@@ -313,11 +316,14 @@ public class StageClearPanel extends JLayeredPane {
 		saveLevel.setFont(saveLevel.getFont().deriveFont(25.0f));
 		saveLevel.setBorderPainted(false);
 		saveLevel.setFocusPainted(false);
-		confirmButton.setForeground(Color.green);
-		confirmButton.setBackground(Color.black);
-		confirmButton.setFont(MainMenuFrame.getInstance().getMainMenuPanel()
-				.getFont());
-		confirmButton.setFont(saveLevel.getFont().deriveFont(16.0f));
+		overrideSaveButton.setForeground(Color.green);
+		overrideSaveButton.setBackground(Color.black);
+		overrideSaveButton.setFont(MainMenuFrame.getInstance().getMainMenuPanel().getFont());
+		overrideSaveButton.setFont(saveLevel.getFont().deriveFont(16.0f));
+		newSaveGameButton.setForeground(Color.green);
+		newSaveGameButton.setBackground(Color.black);
+		newSaveGameButton.setFont(MainMenuFrame.getInstance().getMainMenuPanel().getFont());
+		newSaveGameButton.setFont(saveLevel.getFont().deriveFont(16.0f));
 		hideButton.setForeground(Color.green);
 		hideButton.setBackground(Color.black);
 		hideButton.setFont(MainMenuFrame.getInstance().getMainMenuPanel()
@@ -344,8 +350,9 @@ public class StageClearPanel extends JLayeredPane {
 			retryButton.setBorderPainted(false);
 			retryButton.setFocusPainted(false);
 		}
+
 		
-		this.confirmButton.addActionListener(new ActionListener() {
+		this.overrideSaveButton.addActionListener(new ActionListener() {
 			
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
@@ -353,7 +360,20 @@ public class StageClearPanel extends JLayeredPane {
 				if ( SaveManagerImpl.getInstance().overrideSave(playerState) ) {
 					JOptionPane.showMessageDialog(mainMenuFrame.getInstance(), "Salvataggio effettuato, slot: " + playerState.getUsername() + " " + playerState.getTimeStamp());
 				} else {
-					JOptionPane.showMessageDialog(mainMenuFrame.getInstance(), "Errore Salvataggio!");
+					JOptionPane.showMessageDialog(mainMenuFrame.getInstance(), "Errore Salvataggio; Slot inesistente, crea un nuovo slot");
+				}
+			}
+		});
+		
+		this.newSaveGameButton.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				PlayerState playerState = PlayerState.getInstance();
+				if ( SaveManagerImpl.getInstance().saveNewGame(playerState) ) {
+					JOptionPane.showMessageDialog(mainMenuFrame.getInstance(), "Salvataggio effettuato, slot: " + playerState.getUsername() + " " + playerState.getTimeStamp());
+				} else {
+					JOptionPane.showMessageDialog(mainMenuFrame.getInstance(), "Errore Salvataggio");
 				}
 			}
 		});
@@ -395,7 +415,8 @@ public class StageClearPanel extends JLayeredPane {
 		recap.setLayout(eastLayout);
 		filler.setOpaque(false);
 		previewPaneL.setLayout(new BorderLayout());
-		filler.add(confirmButton);
+		filler.add(overrideSaveButton);
+		filler.add(newSaveGameButton);
 		filler.add(hideButton);
 		previewPaneL.setBackground(Color.BLACK);
 		previewPaneL.setBorder(BorderFactory.createLineBorder(Color.GRAY, 1,
@@ -421,13 +442,13 @@ public class StageClearPanel extends JLayeredPane {
 		this.eC.gridwidth = 1;
 
 		PlayerState playerState = PlayerState.getInstance();
-		
+
 		this.eastLayout.setConstraints(bulletsGun1Desc, eC);
 		recap.add(bulletsGun1Desc);
 		this.eC.gridwidth = GridBagConstraints.REMAINDER;
 		this.eastLayout.setConstraints(bulletsGun1, eC);
 		recap.add(bulletsGun1);
-		this.bulletsGun1.setText(String.valueOf( playerState.getGunBullets1() ));
+		this.bulletsGun1.setText(String.valueOf(playerState.getGunBullets1()));
 		eC.gridwidth = 1;
 
 		this.eastLayout.setConstraints(bulletsGun2Desc, eC);
@@ -435,7 +456,7 @@ public class StageClearPanel extends JLayeredPane {
 		this.eC.gridwidth = GridBagConstraints.REMAINDER;
 		this.eastLayout.setConstraints(bulletsGun2, eC);
 		recap.add(bulletsGun2);
-		this.bulletsGun2.setText(String.valueOf( playerState.getGunBullets2() ));
+		this.bulletsGun2.setText(String.valueOf(playerState.getGunBullets2()));
 		eC.gridwidth = 1;
 
 		this.eastLayout.setConstraints(bulletsGun3Desc, eC);
@@ -443,14 +464,14 @@ public class StageClearPanel extends JLayeredPane {
 		this.eC.gridwidth = GridBagConstraints.REMAINDER;
 		this.eastLayout.setConstraints(bulletsGun3, eC);
 		recap.add(bulletsGun3);
-		this.bulletsGun3.setText(String.valueOf( playerState.getGunBullets3() ));
+		this.bulletsGun3.setText(String.valueOf(playerState.getGunBullets3()));
 		eC.gridwidth = 1;
 
 		this.eastLayout.setConstraints(bulletsGun4Desc, eC);
 		recap.add(bulletsGun4Desc);
 		this.eC.gridwidth = GridBagConstraints.REMAINDER;
 		this.eastLayout.setConstraints(bulletsGun4, eC);
-		this.bulletsGun4.setText(String.valueOf( playerState.getGunBullets4() ));
+		this.bulletsGun4.setText(String.valueOf(playerState.getGunBullets4()));
 		recap.add(bulletsGun4);
 		eC.gridwidth = 1;
 

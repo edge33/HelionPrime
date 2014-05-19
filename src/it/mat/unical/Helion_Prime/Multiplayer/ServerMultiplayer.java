@@ -44,6 +44,7 @@ public class ServerMultiplayer extends Thread {
 	public ServerMultiplayer(int port) {
 		try {
 			serverMultiplayer = new ServerSocket(port);
+			System.out.println("port server " + port);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -58,6 +59,7 @@ public class ServerMultiplayer extends Thread {
 		broadcastMessage = new LinkedBlockingQueue<String>();
 		forPlayerOne = new LinkedBlockingQueue<String>();
 		forPlayerTwo = new LinkedBlockingQueue<String>();
+		levelName = null;
 
 	}
 
@@ -66,8 +68,10 @@ public class ServerMultiplayer extends Thread {
 
 		while (connectedClient < 2) {
 			try {
+				System.out.println("starto il server sono su accept");
+				System.out.println("default level " + levelName);
 				client = serverMultiplayer.accept();
-
+				System.out.println("sono su dopo accept");
 				if (connectedClient < 1) {
 					connectedClient++;
 					// System.out.println("CREO IL CLIENT 1");
@@ -77,7 +81,10 @@ public class ServerMultiplayer extends Thread {
 
 					System.out.println(in.readLine());
 					out.writeBytes("Welcome player1" + "\n");
-					levelName = in.readLine();
+					if (levelName == null)
+						levelName = in.readLine();
+					else
+						out.writeBytes(levelName + "\n");
 
 					System.out.println("livello scelto dal player 1(SERVER) "
 							+ levelName);
@@ -89,9 +96,13 @@ public class ServerMultiplayer extends Thread {
 					outTwo = new DataOutputStream(client.getOutputStream());
 
 					System.out.println(inTwo.readLine());
-
+					outTwo.writeBytes("Welcome player1" + "\n");
 					outTwo.writeBytes(levelName + "\n");
 					connectedClient++;
+
+					out.writeBytes("ok" + "\n");
+					outTwo.writeBytes("ok" + "\n");
+
 				}
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
@@ -103,11 +114,12 @@ public class ServerMultiplayer extends Thread {
 	}
 
 	public void initServerMultiplayer() {
-		sendToClientOne("GIOCATORE 2 ARRIVATO");
+		// sendToClientOne("GIOCATORE 2 ARRIVATO");
 
 		level = new File("levels/" + levelName + ".txt");
 
 		gameManager = GameManagerImpl.getInstance();
+		gameManager.setServerMultiplayer(this);
 		try {
 			gameManager.init(level, true);
 		} catch (FileNotFoundException e) {
@@ -137,6 +149,10 @@ public class ServerMultiplayer extends Thread {
 		this.startSendMessagePlayerOne();
 		this.startSendMessagePlayerTwo();
 		this.startUpdater();
+	}
+
+	public void setLevelName(String levelName) {
+		this.levelName = levelName;
 	}
 
 	private void startUpdater() {

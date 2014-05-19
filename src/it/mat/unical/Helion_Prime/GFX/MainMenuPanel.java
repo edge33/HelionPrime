@@ -3,6 +3,7 @@ package it.mat.unical.Helion_Prime.GFX;
 import it.mat.unical.Helion_Prime.EnemyEditor.EnemyEditorPanel;
 import it.mat.unical.Helion_Prime.LevelEditor.EditorMainPanel;
 import it.mat.unical.Helion_Prime.Multiplayer.LevelSwitchPanelMultiplayer;
+import it.mat.unical.Helion_Prime.Multiplayer.MacchinaServer;
 import it.mat.unical.Helion_Prime.Multiplayer.MultiplayerPanel;
 
 import java.awt.BorderLayout;
@@ -16,24 +17,18 @@ import java.awt.Point;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.net.URL;
 
 import javax.imageio.ImageIO;
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
 import javax.swing.JButton;
-import javax.swing.JEditorPane;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
-import javax.swing.JScrollPane;
 import javax.swing.UIManager;
 
 public class MainMenuPanel extends JPanel {
@@ -54,6 +49,7 @@ public class MainMenuPanel extends JPanel {
 	private JButton enemyEditor;
 	private JButton escButton;
 	private JButton multiplayerButton;
+	private JButton serverMachine;
 	private Container menuPane;
 	private Cursor cursor;
 
@@ -77,6 +73,7 @@ public class MainMenuPanel extends JPanel {
 		editorButton = new JButton("Editor Mode");
 		enemyEditor = new JButton("Create Mode");
 		escButton = new JButton("Esci");
+		serverMachine = new JButton("Server Machine");
 
 		musicButton.addActionListener(new ActionListener() {
 
@@ -99,7 +96,7 @@ public class MainMenuPanel extends JPanel {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				modeSelect= new ModeSelectPanel();
+				modeSelect = new ModeSelectPanel();
 				MainMenuFrame.getInstance().switchTo(modeSelect);
 
 			}
@@ -111,6 +108,16 @@ public class MainMenuPanel extends JPanel {
 			public void actionPerformed(ActionEvent e) {
 				MainMenuPanel.this.multiplayerPanel = new MultiplayerPanel(font);
 				MainMenuFrame.getInstance().switchTo(multiplayerPanel);
+			}
+		});
+
+		serverMachine.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				MacchinaServer macchinaServer = new MacchinaServer();
+				macchinaServer.startServers();
+
 			}
 		});
 
@@ -142,17 +149,18 @@ public class MainMenuPanel extends JPanel {
 			}
 		});
 
-		//playMusic();
+		// playMusic();
 		setLayout(new BorderLayout());
 		musicButton.setBounds(10, 1, 150, 150);
 		centerPane.add(musicButton);
 		southPane.add(playButton);
 		southPane.add(multiplayerButton);
 		southPane.add(editorButton);
-		southPane.add(enemyEditor);
+		// southPane.add(enemyEditor);
 		southPane.add(escButton);
 		add(southPane, BorderLayout.SOUTH);
 		add(centerPane, BorderLayout.CENTER);
+		southPane.add(serverMachine);
 
 		setVisible(true);
 
@@ -171,8 +179,6 @@ public class MainMenuPanel extends JPanel {
 		this.setCursor(cursor);
 
 	}
-
-
 
 	public void createButton() {
 		UIManager.put("Button.select", Color.black);
@@ -196,7 +202,7 @@ public class MainMenuPanel extends JPanel {
 		multiplayerButton.setForeground(Color.green);
 		multiplayerButton.setFont(font);
 		multiplayerButton
-		.setFont(multiplayerButton.getFont().deriveFont(25.0f));
+				.setFont(multiplayerButton.getFont().deriveFont(25.0f));
 		multiplayerButton.setBorderPainted(false);
 		multiplayerButton.setFocusPainted(false);
 
@@ -229,6 +235,14 @@ public class MainMenuPanel extends JPanel {
 		escButton.setBorderPainted(false);
 		escButton.setFocusPainted(false);
 		escButton.setBorderPainted(false);
+
+		serverMachine.setBackground(Color.black);
+		serverMachine.setForeground(Color.green);
+		serverMachine.setFont(font);
+		serverMachine.setFont(escButton.getFont().deriveFont(25.0f));
+		serverMachine.setBorderPainted(false);
+		serverMachine.setFocusPainted(false);
+		serverMachine.setBorderPainted(false);
 	}
 
 	public void playMusic() {
@@ -236,7 +250,7 @@ public class MainMenuPanel extends JPanel {
 		try {
 			AudioInputStream audioInputStream = AudioSystem
 					.getAudioInputStream(new File("Ost/Lucian.wav")
-					.getAbsoluteFile());
+							.getAbsoluteFile());
 			clip = AudioSystem.getClip();
 			clip.open(audioInputStream);
 			clip.start();

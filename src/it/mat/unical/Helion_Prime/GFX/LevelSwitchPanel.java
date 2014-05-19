@@ -103,7 +103,8 @@ public class LevelSwitchPanel extends JPanel {
 				}
 				server.start();
 				GameManagerImpl.getInstance().setServer(server);
-				Client client = new Client("localhost", false);
+				Client client = new Client("localhost", Client
+						.getDefaultNumberPort(), false);
 				client.sendMessage(choosenLevel + ".txt");
 
 				if (client.recieveMessage().equals("ready")) {
@@ -181,4 +182,3 @@ public class LevelSwitchPanel extends JPanel {
 		g.drawImage(levelPreview, 30, 50, 500, 500, this);
 	}
 }
-

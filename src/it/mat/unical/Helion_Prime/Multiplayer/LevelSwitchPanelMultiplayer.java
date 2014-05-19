@@ -1,7 +1,6 @@
 package it.mat.unical.Helion_Prime.Multiplayer;
 
 import it.mat.unical.Helion_Prime.GFX.GameOverPanel;
-import it.mat.unical.Helion_Prime.GFX.LevelSwitchPanel;
 import it.mat.unical.Helion_Prime.GFX.MainGamePanel;
 import it.mat.unical.Helion_Prime.GFX.MainMenuFrame;
 import it.mat.unical.Helion_Prime.Online.Client;
@@ -58,12 +57,12 @@ public class LevelSwitchPanelMultiplayer extends JPanel {
 		String currentLevelName;
 		String levelExtension;
 		this.comboBox = new JComboBox();
-		for (File level : levels) 
-		{
+		for (File level : levels) {
 			currentLevelName = level.getName();
-			levelExtension = currentLevelName.substring(currentLevelName.lastIndexOf(".") + 1,currentLevelName.length());
-			if (!(levelExtension.equals("jpg")))
-			{
+			levelExtension = currentLevelName.substring(
+					currentLevelName.lastIndexOf(".") + 1,
+					currentLevelName.length());
+			if (!(levelExtension.equals("jpg"))) {
 				currentLevelName = currentLevelName.substring(0,
 						currentLevelName.indexOf('.'));
 				this.comboBox.addItem(currentLevelName);
@@ -91,13 +90,15 @@ public class LevelSwitchPanelMultiplayer extends JPanel {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 
-				Client client = new Client("localhost", true);
+				Client client = new Client("localhost", Client
+						.getDefaultNumberPort(), true);
 
 				if (LevelSwitchPanelMultiplayer.this.asNewMultiplayer) {
-					client.sendMessage("Client 1 connesso (SERVER)");
+					// client.sendMessage("Client 1 connesso (SERVER)");
 					ClientManagerMultiplayer.isPlayerOne = true;
 					System.out.println(client.recieveMessage());
-					String currentLevel = (String) LevelSwitchPanelMultiplayer.this.comboBox.getSelectedItem();
+					String currentLevel = (String) LevelSwitchPanelMultiplayer.this.comboBox
+							.getSelectedItem();
 					String name = "levels/" + currentLevel + ".txt";
 					client.sendMessage(currentLevel);
 

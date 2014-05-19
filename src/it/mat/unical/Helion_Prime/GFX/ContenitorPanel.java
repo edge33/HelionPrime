@@ -124,7 +124,8 @@ public class ContenitorPanel extends JLayeredPane {
 				server.start();
 
 				GameManagerImpl.getInstance().setServer(server);
-				Client client = new Client("localhost", false);
+				Client client = new Client("localhost", Client
+						.getDefaultNumberPort(), false);
 				client.sendMessage(choosenLevel);
 
 				if (client.recieveMessage().equals("ready")) {

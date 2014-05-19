@@ -15,10 +15,10 @@ public class Client {
 	private DataOutputStream out;
 	boolean isMultiplayerGame;
 
-	public Client(String address, boolean b) {
+	public Client(String address, int port, boolean b) {
 
 		try {
-			client = new Socket(address, 7777);
+			client = new Socket(address, port);
 			out = new DataOutputStream(client.getOutputStream());
 			in = new BufferedReader(new InputStreamReader(
 					client.getInputStream()));
@@ -41,6 +41,10 @@ public class Client {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+	}
+
+	public static int getDefaultNumberPort() {
+		return 7777;
 	}
 
 	public String recieveMessage() {
