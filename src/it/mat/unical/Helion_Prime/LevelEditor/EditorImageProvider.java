@@ -23,8 +23,25 @@ public class EditorImageProvider {			//ogni immagine conterrà un componente del
 	private final Image soldierPreview;
 	private final Image bountyPreview;
 	
+	private static Image wallCursor;
+	private static Image enemyCursor;
+	private static Image roomCursor;
+	private static Image filippoCursor;
+	private static Image cornerCursor;
+	private static Image floorCursor;
+	
+	private static EditorImageProvider istance = null;
+	
+	public static EditorImageProvider getIstance()
+	{
+		if(istance == null)
+			istance = new EditorImageProvider();
+		return istance;
+	}
 
-	public EditorImageProvider(){
+	
+	
+	private EditorImageProvider(){
 		final Toolkit toolKit = Toolkit.getDefaultToolkit(); 				//istanziazione del Toolkit necessario alle immagini
 		
 		this.flippedWall = toolKit.getImage("Resources/wallF30x30.jpg");	//search&allocate dell'immagine per il muroVerticale 
@@ -42,6 +59,12 @@ public class EditorImageProvider {			//ogni immagine conterrà un componente del
 		this.saboteruPreview = toolKit.getImage("Resources/11.jpg");		//search&allocate dell'immagine per saboteur
 		this.bountyPreview = toolKit.getImage("Resources/11.jpg");			//search&allocate dell'immagine per bounty
 		
+		this.wallCursor = toolKit.getImage("Resources/WallCursor.png");
+		this.enemyCursor = toolKit.getImage("Resources/EnemyCursor.png");
+		this.roomCursor = toolKit.getImage("Resources/RoomCursor.png");
+		this.filippoCursor = toolKit.getImage("Resources/FilippoCursor.png");
+		this.cornerCursor = toolKit.getImage("Resources/CornerCursor.png");
+		this.floorCursor = toolKit.getImage("Resources/FloorCursor.png");
 		
 		final MediaTracker tracker = new MediaTracker(new JLabel());		//istanziazione del MediaTraker 
 		
@@ -58,6 +81,13 @@ public class EditorImageProvider {			//ogni immagine conterrà un componente del
 		tracker.addImage(soldierPreview, 13);								//load&identify dell'immagine per il soldier
 		tracker.addImage(saboteruPreview, 14);								//load&identify dell'immagine per il saboteur
 		tracker.addImage(bountyPreview, 15);								//load&identify dell'immagine per il bounty
+		tracker.addImage(wallCursor, 16);
+		tracker.addImage(enemyCursor, 17);
+		tracker.addImage(roomCursor, 18);
+		tracker.addImage(filippoCursor, 19);
+		tracker.addImage(cornerCursor, 20);
+		tracker.addImage(floorCursor, 21);
+		
 		try {
 			tracker.waitForAll();											//attende il caricamento di tutte le immagini
 		} catch (InterruptedException e) {
@@ -106,5 +136,23 @@ public class EditorImageProvider {			//ogni immagine conterrà un componente del
 	}
 	public Image getBountyPreview() {
 		return bountyPreview;
+	}
+	public static Image getWallCursor() {
+		return wallCursor;
+	}
+	public static Image getEnemyCursor() {
+		return enemyCursor;
+	}
+	public static Image getRoomCursor() {
+		return roomCursor;
+	}
+	public static Image getFilippoCursor() {
+		return filippoCursor;
+	}
+	public static Image getCornerCursor() {
+		return cornerCursor;
+	}
+	public static Image getFloorCursor() {
+		return floorCursor;
 	}
 }

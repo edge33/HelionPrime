@@ -167,7 +167,7 @@ public class MainMenuPanel extends JPanel {
 			e.printStackTrace();
 		}
 		createButton();
-		createCustomCursor();
+		createCustomCursor(null);
 		this.setCursor(cursor);
 
 	}
@@ -264,12 +264,22 @@ public class MainMenuPanel extends JPanel {
 		return font;
 	}
 
-	public void createCustomCursor() {
+	public Cursor createCustomCursor(Image img) {
 		Toolkit toolkit = Toolkit.getDefaultToolkit();
-		Image image = toolkit.getImage("Resources/Cursor.png");
-		Point hotSpot = new Point(0, 0);
-		cursor = toolkit.createCustomCursor(image, hotSpot, "Pencil");
-		setCursor(cursor);
+		if(img == null)
+		{
+			Image image = toolkit.getImage("Resources/Cursor.png");
+			Point hotSpot = new Point(0, 0);
+			cursor = toolkit.createCustomCursor(image, hotSpot, "Pencil");
+		}
+		else
+		{
+			Point hotSpot = new Point(0, 0);
+			System.out.println("sono nell'else");
+			cursor = toolkit.createCustomCursor(img, hotSpot, "Pencil");
+		}
+		
+		return cursor;
 	}
 
 	public Cursor getCursor() {

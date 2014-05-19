@@ -67,7 +67,7 @@ public class EditorMainPanel extends JPanel {
 
 		horizontalEditorPanel = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT );
 
-		mapElementsPanel = new MapElementsPanel(gridPanel.getLevelStruct());
+		mapElementsPanel = new MapElementsPanel(gridPanel.getLevelStruct(),gridPanel);
 		editorOptionsPanel = new EditorOptionsPanel(gridPanel,mapElementsPanel,mainMenuPanel,wavePanel);
 
 		gridPanel.getLevelStruct().addObserver(this.mapElementsPanel);

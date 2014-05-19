@@ -27,8 +27,7 @@ public class MainGamePanel extends JPanel {
 	public MainGamePanel(File level, Client client) {
 		int outerPanelWith = MainMenuFrame.getInstance().getWidth() / 4;
 		int innerPanelWith = MainMenuFrame.getInstance().getWidth() / 2;
-		this.cursor = MainMenuFrame.getInstance().getMainMenuPanel()
-				.getCursor();
+		this.cursor = MainMenuFrame.getInstance().getMainMenuPanel().getCursor();
 		this.setCursor(cursor);
 		setLayout(new BorderLayout());
 		// gamePadController = new GamePadController();

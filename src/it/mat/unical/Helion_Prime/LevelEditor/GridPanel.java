@@ -33,7 +33,7 @@ public class GridPanel extends JPanel {
 
 		this.rows=rows;
 		this.cols=cols;
-		editorImageProvider = new EditorImageProvider();			//istanziazione degli oggetti dichiarati
+		editorImageProvider = EditorImageProvider.getIstance();			//istanziazione degli oggetti dichiarati
 		setLayout(null);
 		levelStruct = new LevelStruct(rows,cols);
 
