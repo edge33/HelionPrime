@@ -13,6 +13,10 @@ public class CommonProperties {
 	private String dbUser;
 	private String dbPassword;
 	
+	private String remoteDb;
+	private String remoteUser;
+	private String remotePwd;
+	
 	public static CommonProperties instance;
 	
 	public static CommonProperties getInstance() {
@@ -41,6 +45,11 @@ public class CommonProperties {
 		dbUser = properties.getProperty("dbuser");
 		dbPassword = properties.getProperty("dbpassword");
 		
+		remoteDb = properties.getProperty("remotedb");
+		remoteUser = properties.getProperty("remoteuser");
+		dbPassword = properties.getProperty("remotepwd");
+		
+		
 	}
 	
 	public String getDatabase() {
@@ -54,6 +63,19 @@ public class CommonProperties {
 	public String getDbPassword() {
 		return dbPassword;
 	}
+	
+	public String getRemoteDb() {
+		return remoteDb;
+	}
+	
+	public String getRemoteUser() {
+		return remoteUser;
+	}
+	
+	public String getRemotePwd() {
+		return remotePwd;
+	}
+	
 
 	
 }
