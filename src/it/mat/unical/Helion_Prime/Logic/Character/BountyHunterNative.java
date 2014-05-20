@@ -5,19 +5,19 @@ import it.mat.unical.Helion_Prime.Logic.World;
 public class BountyHunterNative extends AbstractNative {
 
 	private int direction;
-	
+
 	private int currentPosition = 1;
 	private final int type = 1;
 
 	private int coolDownTime = 1500;
 
-	public BountyHunterNative(int x, int y, World world, int nativeIndex) {
-		super(x, y, world, nativeIndex);
+	public BountyHunterNative(int x, int y, World world, int nativeIndex, int id) {
+		super(x, y, world, nativeIndex, id);
 		super.setLife(100);
 		super.attackPower = 10;
 		this.direction = 0;
 		super.nativeAi = BasicAI.getInstance();
-		super.coolDownManager = new CoolDownManager(this, coolDownTime);
+		super.coolDownManager = new CoolDownManager(this, coolDownTime, id);
 		coolDownManager.start();
 
 	}

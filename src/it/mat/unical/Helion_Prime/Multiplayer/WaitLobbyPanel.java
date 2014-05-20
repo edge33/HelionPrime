@@ -235,10 +235,12 @@ public class WaitLobbyPanel extends JPanel {
 				setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
 
 				int port = Integer.parseInt(WaitLobbyPanel.this.port.getText());
+				String ipAddress = f1.getText() + "." + f2.getText() + "."
+						+ f3.getText() + "." + f4.getText();
 
 				System.out.println("porta scelta dal client " + port);
 
-				Client client = new Client("localhost", port, true);
+				Client client = new Client(ipAddress, port, true);
 
 				client.sendMessage("Client 2 connesso");
 

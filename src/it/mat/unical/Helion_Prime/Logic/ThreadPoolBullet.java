@@ -10,10 +10,9 @@ public class ThreadPoolBullet extends Thread {
 
 	private String message;
 
-	public ThreadPoolBullet() {
-		this.gameManager = GameManagerImpl.getInstance();
-		this.bullets = this.gameManager.getPlayerOne().getCurrentGunSelected()
-				.getBullets();
+	public ThreadPoolBullet(int id) {
+		this.gameManager = GameManagerImpl.getInstance(id);
+		this.bullets = gameManager.getBullets();
 
 	}
 
@@ -32,7 +31,7 @@ public class ThreadPoolBullet extends Thread {
 							|| bullets.get(key).getStopBullet()) {
 						if (!gameManager.isMultiplayerGame()) {
 							gameManager.getServer().sendMessage("sr " + key);
-
+							System.out.println("dsdd");
 						} else
 							gameManager.getServerMuliplayer().outBroadcast(
 									"sr " + key);

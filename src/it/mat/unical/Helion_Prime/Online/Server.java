@@ -70,7 +70,7 @@ public class Server extends Thread {
 			e.printStackTrace();
 		}
 
-		gameManager = GameManagerImpl.getInstance();
+		gameManager = GameManagerImpl.getInstance(0);
 		System.out.println("ATTENDO NOME LIVELLO");
 
 		// setLevel(null);
@@ -135,7 +135,7 @@ public class Server extends Thread {
 
 		try {
 
-			gameManager.init(f, false);
+			gameManager.init(f, false, 0);
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -147,10 +147,10 @@ public class Server extends Thread {
 		sendMessage("ready");
 		System.out.println("Game manager instanziato");
 
-		sendMessage(((Integer) GameManagerImpl.getInstance().getPlayerOne()
+		sendMessage(((Integer) GameManagerImpl.getInstance(0).getPlayerOne()
 				.getMoney()).toString()); // mando l'intero corrispondente ai
 											// money;
-		sendMessage(((Integer) GameManagerImpl.getInstance().getPlayerOne()
+		sendMessage(((Integer) GameManagerImpl.getInstance(0).getPlayerOne()
 				.getLife()).toString()); // mando l'intero corrispondente alla
 											// vita;
 	}
@@ -163,7 +163,7 @@ public class Server extends Thread {
 				this.setName("UPDATER");
 				while (!isGameOver && !isStageClear) {
 
-					GameManagerImpl.getInstance().update();
+					GameManagerImpl.getInstance(0).update();
 
 					try {
 						sleep(100);
@@ -203,9 +203,9 @@ public class Server extends Thread {
 		} else if (splitted[0].equals("retry")) {
 			initServer(f);
 		} else if (splitted[0].equals("iPause")) {
-			GameManagerImpl.getInstance().setPause();
+			GameManagerImpl.getInstance(0).setPause();
 		} else if (splitted[0].equals("iResume")) {
-			GameManagerImpl.getInstance().setPause();
+			GameManagerImpl.getInstance(0).setPause();
 		}
 
 	}

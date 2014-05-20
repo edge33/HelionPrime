@@ -27,6 +27,7 @@ public class GameManagerImpl implements GameManager {
 	private Player playerOne;
 	private Player playerTwo;
 	private ThreadPoolBullet threadPoolbullets;
+	private ConcurrentHashMap<Integer, Bullet> bullets;
 	private static Condition condition;
 	private static GameManagerImpl instance;
 	private int currentLife;
@@ -40,13 +41,14 @@ public class GameManagerImpl implements GameManager {
 	private boolean isMultiplayerGame;
 	private ServerMultiplayer serverMultiplayer;
 	private int currentRoomLife;
+	private static GameManagerImpl[] instances = new GameManagerImpl[10];
 
-	public static GameManagerImpl getInstance() {
-		if (instance == null) {
+	public static GameManagerImpl getInstance(int id) {
+		if (instances[id] == null) {
 			System.out.println("instanzio");
-			instance = new GameManagerImpl();
+			instances[id] = new GameManagerImpl();
 		}
-		return instance;
+		return instances[id];
 
 	}
 
@@ -58,41 +60,49 @@ public class GameManagerImpl implements GameManager {
 
 	}
 
-	public void init(File level, boolean isMultiplayerGame)
+	public void init(File level, boolean isMultiplayerGame, int id)
 			throws FileNotFoundException {
 
 		System.out.println("SONO IN INIIIIIIIIIT");
 
 		try {
-			this.isMultiplayerGame = isMultiplayerGame;
-			world = new WorldImpl(level);
-			gameOver = false;
-			win = false;
-			gameStopped = false;
-			playerOne = new Player(world.getPlayerSpawner().getX(), world
-					.getPlayerSpawner().getY(), world); // ora il player sara
+			instances[id].bullets = new ConcurrentHashMap<Integer, Bullet>();
+			instances[id].isMultiplayerGame = isMultiplayerGame;
+			instances[id].world = new WorldImpl(level);
+			instances[id].gameOver = false;
+			instances[id].win = false;
+			instances[id].gameStopped = false;
+			instances[id].playerOne = new Player(world.getPlayerSpawner()
+					.getX(), world.getPlayerSpawner().getY(), world, id); // ora
+																			// il
+																			// player
+																			// sara
 			// intanziato nel game
-			currentLife = playerOne.getLife();
-			currentRoomLife = world.getRoomLife();
+			instances[id].currentLife = instances[id].playerOne.getLife();
+			instances[id].currentRoomLife = instances[id].world.getRoomLife();
 			if (isMultiplayerGame) {
-				playerTwo = new Player(world.getPlayerSpawner().getX(), world
-						.getPlayerSpawner().getY(), world);
+				instances[id].playerTwo = new Player(world.getPlayerSpawner()
+						.getX(), world.getPlayerSpawner().getY(), world, id);
 			}
 
-			wave = new WaveImpl(this.world, level, true);
-			world.setWave(wave); // manager
+			instances[id].wave = new WaveImpl(this.world, level, true, id);
+			instances[id].world.setWave(wave); // manager
 
-			threadPoolbullets = new ThreadPoolBullet();
-			pause = false;
+			instances[id].threadPoolbullets = new ThreadPoolBullet(id);
+			instances[id].pause = false;
 
-			threadPoolbullets.start();
-			enemyMover = new EnemyMover();
-			enemyMover.start();
+			instances[id].threadPoolbullets.start();
+			instances[id].enemyMover = new EnemyMover(id);
+			instances[id].enemyMover.start();
 			lock = new ReentrantLock();
 			this.condition = lock.newCondition();
 		} catch (FileNotCorrectlyFormattedException e) {
 		}
 
+	}
+
+	public ConcurrentHashMap<Integer, Bullet> getBullets() {
+		return this.bullets;
 	}
 
 	public static boolean isPaused() {
@@ -123,7 +133,7 @@ public class GameManagerImpl implements GameManager {
 	// termina il gioco
 	@Override
 	public void endGame() {
-		AbstractGun.bullets.clear();
+		this.bullets.clear();
 		gameOver = true;
 	}
 
@@ -361,7 +371,7 @@ public class GameManagerImpl implements GameManager {
 
 	@Override
 	public void stopGame() {
-		AbstractGun.bullets.clear();
+		this.bullets.clear();
 		this.playerOne.getTrap().clear();
 		if (isMultiplayerGame) {
 			this.playerTwo.getTrap().clear();

@@ -20,7 +20,8 @@ public class SimpleGun extends AbstractGun {
 	@Override
 	public Integer shoot(World world, Player player) {
 
-		return SimpleGun.add(new Bullet((WorldImpl) world, player, damage));
+		return super.add(new Bullet((WorldImpl) world, player, damage),
+				player.getId());
 
 	}
 

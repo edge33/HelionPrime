@@ -12,7 +12,8 @@ public class HeavyWeapon extends AbstractGun implements RangedWeapon {
 
 	@Override
 	public Integer shoot(World world, Player player) {
-		return HeavyWeapon.add(new Bullet((WorldImpl) this.world, player,
-				this.damage));
+		return super.add(
+				new Bullet((WorldImpl) this.world, player, this.damage),
+				player.getId());
 	}
 }

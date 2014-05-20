@@ -8,32 +8,30 @@ public abstract class AbstractCharacter implements Character, HasScore {
 
 	private int x;
 	private int y;
-	
+
 	private int graphicX;
 	private int graphicY;
-	
+
 	private int direction;
 	private int score;
 	protected int lifePoints;
 	protected World world;
-	
+
 	protected boolean alive;
 
-		
 	public AbstractCharacter(int x, int y, World world) {
 		this.x = x;
 		this.y = y;
 		this.world = world;
 		this.score = 0;
-		this.lifePoints = 100;
+		this.lifePoints = 100000;
 		this.alive = true;
 	}
 
-	
-	public int getDirection(){
+	public int getDirection() {
 		return direction;
 	}
-	
+
 	@Override
 	public void setX(int positionX) {
 		this.x = positionX;
@@ -66,45 +64,45 @@ public abstract class AbstractCharacter implements Character, HasScore {
 
 	@Override
 	public void setLife(int lifePoints) {
-		if ( this.lifePoints > 0 ) {
+		if (this.lifePoints > 0) {
 			this.lifePoints = lifePoints;
 		}
-		if ( this.lifePoints <= 0 ) {
+		if (this.lifePoints <= 0) {
 			System.out.println("falso filippo morto");
 			this.alive = false;
 		}
 	}
-	
+
 	public boolean isAlive() {
 		return this.alive;
 	}
 
-	//muove i personaggi, tutti i personaggi chiamano come super questa funzione
+	// muove i personaggi, tutti i personaggi chiamano come super questa
+	// funzione
 	@Override
 	public void move(int direction) {
 
-		
 		// TODO: controllare anche i bordi ... forse;
 		switch (direction) {
 		case UP:
 			if (!(world.getElementAt(x - 1, y) instanceof Wall))
 				this.x = x - 1;
-			    this.direction=direction;
+			this.direction = direction;
 			break;
 		case DOWN:
 			if (!(world.getElementAt(x + 1, y) instanceof Wall))
 				this.x = x + 1;
-			    this.direction=direction;
+			this.direction = direction;
 			break;
 		case LEFT:
 			if (!(world.getElementAt(x, y - 1) instanceof Wall))
 				this.y = y - 1;
-			    this.direction=direction;
+			this.direction = direction;
 			break;
 		case RIGHT:
 			if (!(world.getElementAt(x, y + 1) instanceof Wall))
 				this.y = y + 1;
-			    this.direction=direction;
+			this.direction = direction;
 			break;
 		default:
 			break;
@@ -112,36 +110,31 @@ public abstract class AbstractCharacter implements Character, HasScore {
 
 	}
 
-	
-	public World getWorld(){
+	public World getWorld() {
 		return this.world;
 	}
-	
-	
-	
-	//cordinate da usare nell'interfaccia 2d
+
+	// cordinate da usare nell'interfaccia 2d
 	public int getGraphicX() {
 		return graphicX;
 	}
 
-	//imposta i valori di x nella grafica
+	// imposta i valori di x nella grafica
 	public void setGraphicX(int graphicX) {
 		this.graphicX = graphicX;
 	}
 
-	
-	//cordinate da usare nell'interfaccia 2d
+	// cordinate da usare nell'interfaccia 2d
 	public int getGraphicY() {
 		return graphicY;
 	}
 
-
-	//imposta i valori di y nella grafica
+	// imposta i valori di y nella grafica
 	public void setGraphicY(int graphicY) {
 		this.graphicY = graphicY;
 	}
 
-	//cambia la direzione
+	// cambia la direzione
 	public void setDirection(int direction) {
 		this.direction = direction;
 	}

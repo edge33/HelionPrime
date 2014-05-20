@@ -102,7 +102,7 @@ public class LevelSwitchPanel extends JPanel {
 					e2.printStackTrace();
 				}
 				server.start();
-				GameManagerImpl.getInstance().setServer(server);
+				GameManagerImpl.getInstance(0).setServer(server);
 				Client client = new Client("localhost", Client
 						.getDefaultNumberPort(), false);
 				client.sendMessage(choosenLevel + ".txt");

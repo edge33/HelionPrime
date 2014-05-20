@@ -8,11 +8,11 @@ public class MacchinaServer {
 
 	public MacchinaServer() {
 		openMatch = new ArrayList<ServerMultiplayer>();
-		openMatch.add(new ServerMultiplayer(numberPort));
+		openMatch.add(new ServerMultiplayer(numberPort, 0));
 		numberPort++;
-		openMatch.add(new ServerMultiplayer(numberPort));
+		openMatch.add(new ServerMultiplayer(numberPort, 1));
 		numberPort++;
-		openMatch.add(new ServerMultiplayer(numberPort));
+		openMatch.add(new ServerMultiplayer(numberPort, 2));
 	}
 
 	public void startServers() {

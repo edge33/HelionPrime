@@ -14,10 +14,12 @@ public class EnemyMover extends Thread {
 	private int offset;
 	private GameManagerImpl manager;
 	private int TileSize;
+	private int id;
 
-	public EnemyMover() {
+	public EnemyMover(int id) {
+		this.id = id;
 		TileSize = GamePane.TILE_SIZE;
-		this.manager = GameManagerImpl.getInstance();
+		this.manager = GameManagerImpl.getInstance(id);
 		this.offset = GamePane.TILE_SIZE / 5;
 
 		// hash map concorrente essendo che
@@ -60,11 +62,11 @@ public class EnemyMover extends Thread {
 			if (currentNative.getGraphicX() <= ((currentNative.getX() - 1) * this.TileSize)
 					+ this.TileSize / 2) {
 
-				if (!GameManagerImpl.getInstance().isMultiplayerGame())
-					GameManagerImpl.getInstance().getServer()
+				if (!GameManagerImpl.getInstance(id).isMultiplayerGame())
+					GameManagerImpl.getInstance(id).getServer()
 							.sendMessage("nU " + currentNative.getKey());
 				else {
-					GameManagerImpl.getInstance().getServerMuliplayer()
+					GameManagerImpl.getInstance(id).getServerMuliplayer()
 							.outBroadcast("nU " + currentNative.getKey());
 
 				}
@@ -91,11 +93,11 @@ public class EnemyMover extends Thread {
 			if (currentNative.getGraphicX() > ((currentNative.getX() + 1) * this.TileSize)
 					- this.TileSize / 2) {
 
-				if (!GameManagerImpl.getInstance().isMultiplayerGame())
-					GameManagerImpl.getInstance().getServer()
+				if (!GameManagerImpl.getInstance(id).isMultiplayerGame())
+					GameManagerImpl.getInstance(id).getServer()
 							.sendMessage("nD " + currentNative.getKey());
 				else
-					GameManagerImpl.getInstance().getServerMuliplayer()
+					GameManagerImpl.getInstance(id).getServerMuliplayer()
 							.outBroadcast("nD " + currentNative.getKey());
 
 				currentNative.move(Character.DOWN);
@@ -117,11 +119,11 @@ public class EnemyMover extends Thread {
 			if (currentNative.getGraphicY() < ((currentNative.getY() - 1) * this.TileSize)
 					+ this.TileSize / 2) {
 
-				if (!GameManagerImpl.getInstance().isMultiplayerGame())
-					GameManagerImpl.getInstance().getServer()
+				if (!GameManagerImpl.getInstance(id).isMultiplayerGame())
+					GameManagerImpl.getInstance(id).getServer()
 							.sendMessage("nL " + currentNative.getKey());
 				else
-					GameManagerImpl.getInstance().getServerMuliplayer()
+					GameManagerImpl.getInstance(id).getServerMuliplayer()
 							.outBroadcast("nL " + currentNative.getKey());
 
 				currentNative.move(Character.LEFT);
@@ -142,11 +144,11 @@ public class EnemyMover extends Thread {
 			if (currentNative.getGraphicY() > ((currentNative.getY() + 1) * this.TileSize)
 					- this.TileSize / 2) {
 
-				if (!GameManagerImpl.getInstance().isMultiplayerGame())
-					GameManagerImpl.getInstance().getServer()
+				if (!GameManagerImpl.getInstance(id).isMultiplayerGame())
+					GameManagerImpl.getInstance(id).getServer()
 							.sendMessage("nR " + currentNative.getKey());
 				else
-					GameManagerImpl.getInstance().getServerMuliplayer()
+					GameManagerImpl.getInstance(id).getServerMuliplayer()
 							.outBroadcast("nR " + currentNative.getKey());
 
 				currentNative.move(Character.RIGHT);

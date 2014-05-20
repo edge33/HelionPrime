@@ -21,10 +21,11 @@ public class WaveImpl implements Wave {
 	private StaticObject playerSpawner;
 	private int nativeIndex;
 	private File fileWave;
+	private int id;
 
-	public WaveImpl(World world, File level, boolean b)
+	public WaveImpl(World world, File level, boolean b, int id)
 			throws FileNotCorrectlyFormattedException, FileNotFoundException {
-
+		this.id = id;
 		this.fileWave = new File("waves/" + level.getName());
 
 		this.world = world;
@@ -84,14 +85,14 @@ public class WaveImpl implements Wave {
 				this.natives.put(
 						nativeIndex,
 						new SoldierNative(nativeSpawner.getX(), nativeSpawner
-								.getY(), world, nativeIndex++));
+								.getY(), world, nativeIndex++, this.id));
 			}// soldier for
 
 		if (bountyNumber != 0)
 			for (int i = 0; i < bountyNumber; i++) {
 				this.natives.put(nativeIndex, new BountyHunterNative(
 						nativeSpawner.getX(), nativeSpawner.getY(), world,
-						nativeIndex++));
+						nativeIndex++, this.id));
 			}// bounty for
 
 		if (saboteurNumber != 0)
@@ -99,7 +100,7 @@ public class WaveImpl implements Wave {
 				this.natives.put(
 						nativeIndex,
 						new SaboteurNative(nativeSpawner.getX(), nativeSpawner
-								.getY(), world, nativeIndex++));
+								.getY(), world, nativeIndex++, this.id));
 			}// saboteur for
 
 	}
@@ -155,7 +156,9 @@ public class WaveImpl implements Wave {
 
 		if (soldierNumber != 0)
 			for (int i = 0; i < soldierNumber; i++) {
-				AbstractNativeLite ogo = new AbstractNativeLite(nativeSpawner.getX(), nativeSpawner.getY(), 0, nativeIndex);
+				AbstractNativeLite ogo = new AbstractNativeLite(
+						nativeSpawner.getX(), nativeSpawner.getY(), 0,
+						nativeIndex);
 				ogo.setResistance(new Random().nextInt(5));
 				System.out.println("Ogo res:" + ogo.getResistance());
 				this.nativesLite.put(nativeIndex++, ogo);
@@ -163,12 +166,16 @@ public class WaveImpl implements Wave {
 
 		if (bountyNumber != 0)
 			for (int i = 0; i < bountyNumber; i++) {
-				this.nativesLite.put(nativeIndex, new AbstractNativeLite(nativeSpawner.getX(), nativeSpawner.getY(), 1,nativeIndex++));
+				this.nativesLite.put(nativeIndex, new AbstractNativeLite(
+						nativeSpawner.getX(), nativeSpawner.getY(), 1,
+						nativeIndex++));
 			}// bounty for
 
 		if (saboteurNumber != 0)
 			for (int i = 0; i < saboteurNumber; i++) {
-				this.nativesLite.put(nativeIndex, new AbstractNativeLite(nativeSpawner.getX(), nativeSpawner.getY(), 2,nativeIndex++));
+				this.nativesLite.put(nativeIndex, new AbstractNativeLite(
+						nativeSpawner.getX(), nativeSpawner.getY(), 2,
+						nativeIndex++));
 			}// saboteur for
 
 	}

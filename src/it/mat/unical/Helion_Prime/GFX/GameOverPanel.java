@@ -27,11 +27,6 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JLayeredPane;
 import javax.swing.JPanel;
-import javax.swing.JPasswordField;
-import javax.swing.JTextField;
-import javax.swing.SwingConstants;
-
-import org.omg.CosNaming.IstringHelper;
 
 public class GameOverPanel extends JLayeredPane {
 
@@ -43,13 +38,7 @@ public class GameOverPanel extends JLayeredPane {
 	private JButton retryButton;
 	private JButton confirmButton;
 	private JButton hideButton;
-	private JButton submitScore;
 
-	private JTextField userField;
-	private JPasswordField passField;
-
-	private JLabel user;
-	private JLabel pass;
 	private JLabel time;
 	private JLabel timeDesc;
 	private JLabel bulletTitle;
@@ -73,7 +62,6 @@ public class GameOverPanel extends JLayeredPane {
 	private ServerMultiplayer serverMultiplayer;
 	private File lastlevelPlayed;
 	private ClientManager manager;
-	private boolean isStoryModeOn;
 
 	public GameOverPanel(ClientManager manager, File level) {
 		this.manager = manager;
@@ -90,33 +78,15 @@ public class GameOverPanel extends JLayeredPane {
 		this.overlay = new JPanel();
 		this.overlay.setOpaque(false);
 		this.previewPaneL = null;
-		this.cursor = MainMenuFrame.getInstance().getMainMenuPanel().getCursor();
+		this.cursor = MainMenuFrame.getInstance().getMainMenuPanel()
+				.getCursor();
 		this.setCursor(cursor);
 		this.mainMenuFrame = MainMenuFrame.getInstance();
 		this.backToMenuButton = new JButton("Back to Menu");
+		this.saveLevel = new JButton("Save Level");
 		this.retryButton = new JButton("Retry");
-
-		this.isStoryModeOn = MainMenuFrame.getInstance().getMainMenuPanel().isStoryModeOn();
-		if(isStoryModeOn)
-		{
-			this.hideButton = new JButton("Hide");
-			this.saveLevel = new JButton("Save Level");
-			this.confirmButton = new JButton("Save");
-		}
-		else
-		{
-			this.saveLevel = new JButton("Submit score");
-			this.confirmButton = new JButton("Confirm submit");
-			this.hideButton = new JButton("Hide");
-			this.user = new JLabel("User:");
-			this.pass = new JLabel("Password:");
-			this.userField = new JTextField(15);
-			this.passField = new JPasswordField(15);
-			
-			this.userField.setHorizontalAlignment(SwingConstants.CENTER);
-			this.passField.setHorizontalAlignment(SwingConstants.CENTER);
-		}
-
+		this.confirmButton = new JButton("Save");
+		this.hideButton = new JButton("Hide");
 
 		this.time = new JLabel("0");
 		this.timeDesc = new JLabel("Tempo:");
@@ -153,22 +123,6 @@ public class GameOverPanel extends JLayeredPane {
 	}
 
 	public void addListener() {
-
-		this.confirmButton.addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent arg0) {
-				if(isStoryModeOn)
-				{
-					//TO-DO: MAIDA PLZ FILL ME WITH SAVE CODE
-				}
-				else
-				{
-					//TO-DO: MAIDA PLZ FILL ME WITH SUBMIT CODE
-				}
-
-			}
-		});
 		this.saveLevel.addActionListener(new ActionListener() {
 
 			@Override
@@ -196,8 +150,8 @@ public class GameOverPanel extends JLayeredPane {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				GameOverPanel.this.mainMenuFrame
-				.switchTo(GameOverPanel.this.mainMenuFrame
-						.getMainMenuPanel());
+						.switchTo(GameOverPanel.this.mainMenuFrame
+								.getMainMenuPanel());
 			}
 		});
 
@@ -220,7 +174,7 @@ public class GameOverPanel extends JLayeredPane {
 					server.setLevel(lastlevelPlayed.getName());
 					server.start();
 
-					GameManagerImpl.getInstance().setServer(server);
+					GameManagerImpl.getInstance(0).setServer(server);
 					Client client = new Client("localhost", Client
 							.getDefaultNumberPort(), false);
 					client.sendMessage(name);
@@ -364,10 +318,6 @@ public class GameOverPanel extends JLayeredPane {
 		recap.add(bulletsGun3);
 		eC.gridwidth = 1;
 
-		this.eC.insets = new Insets(10, 0, 0, 0);
-		this.eC.gridwidth = 1;
-		this.eC.weightx = 1.0;
-
 		this.eastLayout.setConstraints(bulletsGun4Desc, eC);
 		recap.add(bulletsGun4Desc);
 		this.eC.gridwidth = GridBagConstraints.REMAINDER;
@@ -375,36 +325,17 @@ public class GameOverPanel extends JLayeredPane {
 		recap.add(bulletsGun4);
 		eC.gridwidth = 1;
 
-		this.eC.insets = new Insets(50, 0, 0, 0);
+		this.eC.insets = new Insets(10, 0, 0, 0);
 		this.eC.gridwidth = 1;
-
-		if(!isStoryModeOn)
-		{
-			this.eastLayout.setConstraints(user, eC);
-			recap.add(user);
-			this.eC.gridwidth = GridBagConstraints.REMAINDER;
-			this.eastLayout.setConstraints(pass, eC);
-			recap.add(pass);
-			eC.gridwidth = 1;
-
-			this.eastLayout.setConstraints(userField, eC);
-			recap.add(userField);
-			this.eC.gridwidth = GridBagConstraints.REMAINDER;
-			this.eastLayout.setConstraints(passField, eC);
-			recap.add(passField);
-			eC.gridwidth = 1;
-		}
+		this.eC.weightx = 1.0;
 
 		for (int i = 0; i < recap.getComponentCount(); i++) {
 			Component component = recap.getComponent(i);
-			if(component instanceof JLabel)
-			{
-			component.setForeground(Color.green);		
+			component.setForeground(Color.green);
 			((JLabel) component).setOpaque(false);
 			component.setFont(MainMenuFrame.getInstance().getMainMenuPanel()
 					.getFont());
 			component.setFont(component.getFont().deriveFont(16.0f));
-			}
 		}
 
 		previewPaneL.add(recap, BorderLayout.CENTER);

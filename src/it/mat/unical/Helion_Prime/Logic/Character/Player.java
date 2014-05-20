@@ -55,44 +55,46 @@ public class Player extends AbstractCharacter implements TrapPlacing {
 	// la
 	// mappa
 
-	private AbstractFactoryTrap factoryTrap = new AbstractFactoryTrap(); // E
-																			// AabstractFactoryTrap
-																			// �
-																			// una
-																			// classe
-																			// che
-																			// restituisce
-																			// in
-																			// base
-																			// al
-																			// tipo
-																			// inserito
-																			// una
-																			// nuova
-																			// istanza
-																			// della
-																			// trappola
-																			// specificata
-																			// con
-																			// le
-																			// posizioni
-																			// x
-																			// e
-																			// y
-																			// ci
-																			// servira
-																			// per
-																			// poi
-																			// inserirle
-																			// nella
-																			// array
-																			// "placedTrap"
+	private AbstractFactoryTrap factoryTrap; // E
+												// AabstractFactoryTrap
+												// �
+												// una
+												// classe
+												// che
+												// restituisce
+												// in
+												// base
+												// al
+												// tipo
+												// inserito
+												// una
+												// nuova
+												// istanza
+												// della
+												// trappola
+												// specificata
+												// con
+												// le
+												// posizioni
+												// x
+												// e
+												// y
+												// ci
+												// servira
+												// per
+												// poi
+												// inserirle
+												// nella
+												// array
+												// "placedTrap"
+	private int id;
 
-	public Player(int x, int y, World world) {
+	public Player(int x, int y, World world, int id) {
 		super(x, y, world);
 
+		this.id = id;
 		this.money = 10000;
-
+		factoryTrap = new AbstractFactoryTrap(id);
 		// per ora assumiamo che abbiamo 10 tipi di
 		// trappole parte la revisionare
 		this.world = world;
@@ -281,12 +283,13 @@ public class Player extends AbstractCharacter implements TrapPlacing {
 					public void run() {
 						threadAlive = true;
 						for (int i = 0; i < 5
-								&& !GameManagerImpl.getInstance().gameIsOver()
-								&& !GameManagerImpl.getInstance()
+								&& !GameManagerImpl.getInstance(id)
+										.gameIsOver()
+								&& !GameManagerImpl.getInstance(id)
 										.isGameStopped(); i++) {
 
 							GameManagerImpl
-									.getInstance()
+									.getInstance(id)
 									.getServer()
 									.sendMessage(
 											"shoot "
@@ -320,5 +323,9 @@ public class Player extends AbstractCharacter implements TrapPlacing {
 
 	public ArrayList<RangedWeapon> getArmy() {
 		return army;
+	}
+
+	public int getId() {
+		return this.id;
 	}
 }

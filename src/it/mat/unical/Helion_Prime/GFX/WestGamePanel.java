@@ -9,50 +9,45 @@ import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
 import javax.swing.JPanel;
-import javax.swing.UIManager;
 
-public class WestGamePanel extends JPanel
-{
+public class WestGamePanel extends JPanel {
 	private JButton backButton;
 	private ClientManager clientManager;
 	private GameManagerImpl manager;
 
-	public WestGamePanel()
-	{
-		this.manager = GameManagerImpl.getInstance();
+	public WestGamePanel() {
+		// this.manager = GameManagerImpl.getInstance(id);
 		this.addListener();
 		this.createButton();
 		this.add(backButton);
 		CustomBorder b1 = new CustomBorder(Color.GREEN, 10);
 		this.setBorder(b1);
 	}
-	
-public void createButton()
-{
-	backButton.setBackground(Color.black);
-	backButton.setForeground(Color.green);
-	backButton.setFont(MainMenuFrame.getInstance().getMainMenuPanel().getFont());
-	backButton.setFont(backButton.getFont().deriveFont(16.0f));
-	backButton.setBorderPainted(false);
-	backButton.setFocusPainted(false);
-}
+
+	public void createButton() {
+		backButton.setBackground(Color.black);
+		backButton.setForeground(Color.green);
+		backButton.setFont(MainMenuFrame.getInstance().getMainMenuPanel()
+				.getFont());
+		backButton.setFont(backButton.getFont().deriveFont(16.0f));
+		backButton.setBorderPainted(false);
+		backButton.setFocusPainted(false);
+	}
 
 	public void setClientManager(ClientManager clientManager) {
 
 		this.clientManager = clientManager;
 	}
 
-	public void addListener()
-	{
+	public void addListener() {
 		this.backButton = new JButton("Main Menu"); // bottone che permette di
 		// torna al back precedente
 		setFocusable(true);
 		backButton.addActionListener(new ActionListener() {
 
 			@Override
-			public void actionPerformed(ActionEvent e)
-			{
-				
+			public void actionPerformed(ActionEvent e) {
+
 				WestGamePanel.this.manager.stopGame();
 				ClientManager.setFinishGame(true);
 				try {

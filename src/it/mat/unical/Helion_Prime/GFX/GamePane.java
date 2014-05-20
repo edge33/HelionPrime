@@ -64,7 +64,7 @@ public class GamePane extends JPanel {
 	private boolean LEFT = false;
 	private boolean RIGHT = false;
 	private boolean STAND = false;
-	
+
 	private boolean gameOver = false;
 	private boolean stageClear = false;
 	private boolean isPaused = false;
@@ -83,7 +83,7 @@ public class GamePane extends JPanel {
 	public ConcurrentHashMap<Integer, AbstractNativeLite> natives;
 	public ConcurrentHashMap<Point, Integer> placedTrap;
 	private HashMap<AbstractNativeLite, ArrayList<Integer>> movementGraphicWave;
-	
+
 	private GamePadController gamePadController;
 
 	public GamePane(File level, Client client, TrapPanel trapPanel,
@@ -91,19 +91,19 @@ public class GamePane extends JPanel {
 			GamePadController gamePadController, UserProfile profile,
 			EastGamePanel eastPanel)
 
-					throws FileNotCorrectlyFormattedException {
+	throws FileNotCorrectlyFormattedException {
 		super();
 		this.gamePadController = gamePadController;
 		Image currentLabelImage = null;
 		try {
 			currentLabelImage = ImageIO.read(new File("Resources/MiniPad.png"));
 		} catch (IOException e) {
-			//System.out.println("SpikeTrapIcon Mancante");
+			// System.out.println("SpikeTrapIcon Mancante");
 		}
 		try {
 			currentLabelImage = ImageIO.read(new File("Resources/MiniPad.png"));
 		} catch (IOException e) {
-			//System.out.println("PadPrewiew Mancante");
+			// System.out.println("PadPrewiew Mancante");
 		}
 		this.currentFileLevel = level;
 		this.setLayout(null);
@@ -134,10 +134,10 @@ public class GamePane extends JPanel {
 
 			this.clientManager = ClientManagerMultiplayer.getInstance();
 			((ClientManagerMultiplayer) this.clientManager)
-			.createClientManagerMultiplayer(client, this);
+					.createClientManagerMultiplayer(client, this);
 			this.movementPlayerTwo = new ThreadPoolMovementPlayerTwo(
 					ClientManagerMultiplayer.getInstance()
-					.getMovementOffsetPlayer2(), this);
+							.getMovementOffsetPlayer2(), this);
 			movementPlayerTwo.start();
 			imageProvider.initSecondPlayer();
 		}
@@ -155,7 +155,7 @@ public class GamePane extends JPanel {
 		playerTwoY = world.getPlayerSpawner().getY() * TILE_SIZE;
 
 		try {
-			this.wave = new WaveImpl(this.world, level, false);
+			this.wave = new WaveImpl(this.world, level, false, 0);
 		} catch (FileNotFoundException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
@@ -184,9 +184,9 @@ public class GamePane extends JPanel {
 
 		this.add(controllerInfo);
 
-		if ( gamePadController.isPadConnected()) {
+		if (gamePadController.isPadConnected()) {
 			startPolling();
-			//System.out.println("c'è");
+			// System.out.println("c'è");
 		} else {
 			this.addMouseListener(new MouseAdapter() {
 
@@ -196,18 +196,18 @@ public class GamePane extends JPanel {
 						double x, y;
 						x = arg0.getX();
 						y = arg0.getY();
-						//System.out.println("x:" + x);
-						//System.out.println("y:" + y);
+						// System.out.println("x:" + x);
+						// System.out.println("y:" + y);
 						int realX = (int) (x / (TILE_SIZE * scaleFactor));
 						int realY = (int) (y / (TILE_SIZE * scaleFactor));
 
-						//System.out.println(realX + " " + realY);
+						// System.out.println(realX + " " + realY);
 						Integer numberOftrap = GamePane.this.trapPanel
 								.getCurrentTrapSelected();
 						GamePane.this.clientManager
-						.pushToQueueForServer("place.trap "
-								+ numberOftrap + "/" + realX + "/"
-								+ realY);
+								.pushToQueueForServer("place.trap "
+										+ numberOftrap + "/" + realX + "/"
+										+ realY);
 					}
 				}
 			});
@@ -227,48 +227,48 @@ public class GamePane extends JPanel {
 						// GamePane.this.playerOne.SwitchGun(0);
 						GamePane.this.trapPanel.selectGun();
 						GamePane.this.clientManager
-						.pushToQueueForServer("switchGun 0");
+								.pushToQueueForServer("switchGun 0");
 						if (!GamePane.this.client.isMultiplayerGame())
 							ClientManager.getInstance()
-							.setCurrentGunSelected(0);
+									.setCurrentGunSelected(0);
 						else
 							ClientManagerMultiplayer.getInstance()
-							.setCurrentGunSelected(0);
+									.setCurrentGunSelected(0);
 						break;
 					case KeyEvent.VK_2:
 						GamePane.this.trapPanel.selectUzi();
 						GamePane.this.clientManager
-						.pushToQueueForServer("switchGun 1");
+								.pushToQueueForServer("switchGun 1");
 						if (!GamePane.this.client.isMultiplayerGame())
 							ClientManager.getInstance()
-							.setCurrentGunSelected(1);
+									.setCurrentGunSelected(1);
 						else
 							ClientManagerMultiplayer.getInstance()
-							.setCurrentGunSelected(1);
+									.setCurrentGunSelected(1);
 						break;
 					case KeyEvent.VK_3:
 
 						if (!GamePane.this.client.isMultiplayerGame())
 							ClientManager.getInstance()
-							.setCurrentGunSelected(2);
+									.setCurrentGunSelected(2);
 						else
 							ClientManagerMultiplayer.getInstance()
-							.setCurrentGunSelected(2);
+									.setCurrentGunSelected(2);
 						GamePane.this.trapPanel.selectShootGun();
 						GamePane.this.clientManager
-						.pushToQueueForServer("switchGun 2");
+								.pushToQueueForServer("switchGun 2");
 						break;
 					case KeyEvent.VK_4:
 						if (!GamePane.this.client.isMultiplayerGame())
 							ClientManager.getInstance()
-							.setCurrentGunSelected(3);
+									.setCurrentGunSelected(3);
 						else
 							ClientManagerMultiplayer.getInstance()
-							.setCurrentGunSelected(3);
+									.setCurrentGunSelected(3);
 						GamePane.this.trapPanel.selectHeavy();
 
 						GamePane.this.clientManager
-						.pushToQueueForServer("switchGun 3");
+								.pushToQueueForServer("switchGun 3");
 						break;
 					case KeyEvent.VK_W:
 						GamePane.this.UP = false;
@@ -296,10 +296,10 @@ public class GamePane extends JPanel {
 							isPaused = !isPaused;
 							if (isPaused)
 								ClientManager.getInstance()
-								.pushToQueueForServer("iPause");
+										.pushToQueueForServer("iPause");
 							else {
 								ClientManager.getInstance()
-								.pushToQueueForServer("iResume");
+										.pushToQueueForServer("iResume");
 								ClientManager.signallAll();
 							}
 						}
@@ -308,7 +308,7 @@ public class GamePane extends JPanel {
 					case KeyEvent.VK_SPACE:
 						if (!isPaused)
 							GamePane.this.clientManager
-							.pushToQueueForServer("sh");
+									.pushToQueueForServer("sh");
 						break;
 					default:
 						break;
@@ -328,11 +328,11 @@ public class GamePane extends JPanel {
 							if (GamePane.this.clientManager
 									.getPlayerDirection() != 0) {
 								GamePane.this.clientManager
-								.setPlayerDirection(0);
+										.setPlayerDirection(0);
 								// imagePlayer = 1;
 
 								GamePane.this.clientManager
-								.pushToQueueForServer("dUP");
+										.pushToQueueForServer("dUP");
 							}
 							// playerOne.setDirection(AbstractCharacter.UP);
 
@@ -341,10 +341,10 @@ public class GamePane extends JPanel {
 							if (GamePane.this.clientManager
 									.getPlayerDirection() != 1) {
 								GamePane.this.clientManager
-								.setPlayerDirection(1);
+										.setPlayerDirection(1);
 								// imagePlayer = 2;
 								GamePane.this.clientManager
-								.pushToQueueForServer("dDOWN");
+										.pushToQueueForServer("dDOWN");
 							}
 
 							// playerOne.setDirection(AbstractCharacter.DOWN);
@@ -354,10 +354,10 @@ public class GamePane extends JPanel {
 							if (GamePane.this.clientManager
 									.getPlayerDirection() != 2) {
 								GamePane.this.clientManager
-								.setPlayerDirection(2);
+										.setPlayerDirection(2);
 								// imagePlayer = 3;
 								GamePane.this.clientManager
-								.pushToQueueForServer("dRIGHT");
+										.pushToQueueForServer("dRIGHT");
 							}
 
 							// playerOne.setDirection(AbstractCharacter.LEFT);
@@ -367,10 +367,10 @@ public class GamePane extends JPanel {
 							if (GamePane.this.clientManager
 									.getPlayerDirection() != 3) {
 								GamePane.this.clientManager
-								.setPlayerDirection(3);
+										.setPlayerDirection(3);
 								// imagePlayer = 4;
 								GamePane.this.clientManager
-								.pushToQueueForServer("dLEFT");
+										.pushToQueueForServer("dLEFT");
 							}
 
 							// playerOne.setDirection(AbstractCharacter.RIGHT);
@@ -406,7 +406,7 @@ public class GamePane extends JPanel {
 								GamePane.this.clientManager.getLogicX() - 1,
 								GamePane.this.clientManager.getLogicY()) instanceof Wall)
 								|| playerX > GamePane.this.clientManager
-								.getLogicX() * TILE_SIZE) {
+										.getLogicX() * TILE_SIZE) {
 
 							playerX -= getMovementOffset();
 						}
@@ -414,11 +414,11 @@ public class GamePane extends JPanel {
 						if (playerX <= ((GamePane.this.clientManager
 								.getLogicX() - 1) * TILE_SIZE) + TILE_SIZE / 3) {
 							GamePane.this.clientManager
-							.pushToQueueForServer("mUP");
+									.pushToQueueForServer("mUP");
 
 							GamePane.this.clientManager
-							.setLogicX(GamePane.this.clientManager
-									.getLogicX() - 1);
+									.setLogicX(GamePane.this.clientManager
+											.getLogicX() - 1);
 						}
 
 					}
@@ -431,7 +431,7 @@ public class GamePane extends JPanel {
 								GamePane.this.clientManager.getLogicX() + 1,
 								GamePane.this.clientManager.getLogicY()) instanceof Wall)
 								|| playerX < GamePane.this.clientManager
-								.getLogicX() * TILE_SIZE) {
+										.getLogicX() * TILE_SIZE) {
 
 							playerX += getMovementOffset();
 						}
@@ -440,10 +440,10 @@ public class GamePane extends JPanel {
 								- TILE_SIZE / 2) {
 
 							GamePane.this.clientManager
-							.pushToQueueForServer("mDOWN");
+									.pushToQueueForServer("mDOWN");
 							GamePane.this.clientManager
-							.setLogicX(GamePane.this.clientManager
-									.getLogicX() + 1);
+									.setLogicX(GamePane.this.clientManager
+											.getLogicX() + 1);
 						}
 					}
 
@@ -454,7 +454,7 @@ public class GamePane extends JPanel {
 								GamePane.this.clientManager.getLogicX(),
 								GamePane.this.clientManager.getLogicY() - 1) instanceof Wall)
 								|| playerY > GamePane.this.clientManager
-								.getLogicY() * TILE_SIZE) {
+										.getLogicY() * TILE_SIZE) {
 
 							playerY -= getMovementOffset();
 
@@ -463,10 +463,10 @@ public class GamePane extends JPanel {
 								+ TILE_SIZE / 2) {
 
 							GamePane.this.clientManager
-							.pushToQueueForServer("mRIGHT");
+									.pushToQueueForServer("mRIGHT");
 							GamePane.this.clientManager
-							.setLogicY(GamePane.this.clientManager
-									.getLogicY() - 1);
+									.setLogicY(GamePane.this.clientManager
+											.getLogicY() - 1);
 						}
 					}
 
@@ -477,7 +477,7 @@ public class GamePane extends JPanel {
 								GamePane.this.clientManager.getLogicX(),
 								GamePane.this.clientManager.getLogicY() + 1) instanceof Wall)
 								|| playerY < GamePane.this.clientManager
-								.getLogicY() * TILE_SIZE) {
+										.getLogicY() * TILE_SIZE) {
 
 							playerY += getMovementOffset();
 
@@ -485,10 +485,10 @@ public class GamePane extends JPanel {
 						if (playerY > ((GamePane.this.clientManager.getLogicY() + 1) * TILE_SIZE)
 								- TILE_SIZE / 2) {
 							GamePane.this.clientManager
-							.pushToQueueForServer("mLEFT");
+									.pushToQueueForServer("mLEFT");
 							GamePane.this.clientManager
-							.setLogicY(GamePane.this.clientManager
-									.getLogicY() + 1);
+									.setLogicY(GamePane.this.clientManager
+											.getLogicY() + 1);
 						}
 					}
 					try {
@@ -591,22 +591,22 @@ public class GamePane extends JPanel {
 					switch (type) {
 					case 8:
 						g.drawImage(imageProvider.getI8(),
-								/* drawingHorizontalOffset */+(j * TILE_SIZE), i
+						/* drawingHorizontalOffset */+(j * TILE_SIZE), i
 								* TILE_SIZE, TILE_SIZE, TILE_SIZE, this);
 						break;
 					case 9:
 						g.drawImage(imageProvider.getI9(),
-								/* drawingHorizontalOffset */+(j * TILE_SIZE), i
+						/* drawingHorizontalOffset */+(j * TILE_SIZE), i
 								* TILE_SIZE, TILE_SIZE, TILE_SIZE, this);
 						break;
 					case 10:
 						g.drawImage(imageProvider.getI10(),
-								/* drawingHorizontalOffset */+(j * TILE_SIZE), i
+						/* drawingHorizontalOffset */+(j * TILE_SIZE), i
 								* TILE_SIZE, TILE_SIZE, TILE_SIZE, this);
 						break;
 					case 11:
 						g.drawImage(imageProvider.getI11(),
-								/* drawingHorizontalOffset */+(j * TILE_SIZE), i
+						/* drawingHorizontalOffset */+(j * TILE_SIZE), i
 								* TILE_SIZE, TILE_SIZE, TILE_SIZE, this);
 						break;
 					}
@@ -615,24 +615,24 @@ public class GamePane extends JPanel {
 				else if (element instanceof Wall) {
 					if (((Wall) element).getType() == 0)
 						g.drawImage(imageProvider.getWall(),
-								/* drawingHorizontalOffset */+(j * TILE_SIZE), i
+						/* drawingHorizontalOffset */+(j * TILE_SIZE), i
 								* TILE_SIZE, TILE_SIZE, TILE_SIZE, this);
 					else
 						g.drawImage(imageProvider.getFlippedWall(),
-								/* drawingHorizontalOffset */+(j * TILE_SIZE), i
+						/* drawingHorizontalOffset */+(j * TILE_SIZE), i
 								* TILE_SIZE, TILE_SIZE, TILE_SIZE, this);
 				} else if (element instanceof NativeSpawner) {
 					g.drawImage(imageProvider.getEnemyS(),
-							/* drawingHorizontalOffset */+(j * TILE_SIZE), i
+					/* drawingHorizontalOffset */+(j * TILE_SIZE), i
 							* TILE_SIZE, TILE_SIZE, TILE_SIZE, this);
 
 				} else if (element instanceof MaintenanceRoom) {
 					g.drawImage(imageProvider.getRoom(),
-							/* drawingHorizontalOffset */+(j * TILE_SIZE), i
+					/* drawingHorizontalOffset */+(j * TILE_SIZE), i
 							* TILE_SIZE, TILE_SIZE, TILE_SIZE, this);
 				} else if (element instanceof PlayerSpawner) {
 					g.drawImage(imageProvider.getSpawn(),
-							/* drawingHorizontalOffset */+(j * TILE_SIZE), i
+					/* drawingHorizontalOffset */+(j * TILE_SIZE), i
 							* TILE_SIZE, TILE_SIZE, TILE_SIZE, this);
 				}
 			}
@@ -653,27 +653,27 @@ public class GamePane extends JPanel {
 				break;
 			case 3:
 				g.drawImage(imageProvider.getAcidTrap(),
-						/* drawingHorizontalOffset */+(point.x * TILE_SIZE), point.y
+				/* drawingHorizontalOffset */+(point.x * TILE_SIZE), point.y
 						* TILE_SIZE, TILE_SIZE, TILE_SIZE, this);
 				break;
 			case 4:
 				g.drawImage(imageProvider.getElectricTrap(),
-						/* drawingHorizontalOffset */+(point.x * TILE_SIZE), point.y
+				/* drawingHorizontalOffset */+(point.x * TILE_SIZE), point.y
 						* TILE_SIZE, TILE_SIZE, TILE_SIZE, this);
 				break;
 			case 5:
 				g.drawImage(imageProvider.getPowerTrap(),
-						/* drawingHorizontalOffset */+(point.x * TILE_SIZE), point.y
+				/* drawingHorizontalOffset */+(point.x * TILE_SIZE), point.y
 						* TILE_SIZE, TILE_SIZE, TILE_SIZE, this);
 				break;
 			case 6:
 				g.drawImage(imageProvider.getDecoyTrap(),
-						/* drawingHorizontalOffset */+(point.x * TILE_SIZE), point.y
+				/* drawingHorizontalOffset */+(point.x * TILE_SIZE), point.y
 						* TILE_SIZE, TILE_SIZE, TILE_SIZE, this);
 				break;
 			case 7:
 				g.drawImage(imageProvider.getDecoyTrap(),
-						/* drawingHorizontalOffset */+(point.x * TILE_SIZE), point.y
+				/* drawingHorizontalOffset */+(point.x * TILE_SIZE), point.y
 						* TILE_SIZE, TILE_SIZE, TILE_SIZE, this);
 				break;
 			default:
@@ -730,28 +730,28 @@ public class GamePane extends JPanel {
 			switch (imagePlayer) {
 			case 0:
 				g.drawImage(imageProvider.getPlayerStanding(), playerY
-						/* + drawingHorizontalOffset */, playerX, TILE_SIZE, TILE_SIZE,
+				/* + drawingHorizontalOffset */, playerX, TILE_SIZE, TILE_SIZE,
 						this);
 				break;
 
 			case 1:
 				g.drawImage(imageProvider.getPlayerUpRunning(), playerY
-						/* + drawingHorizontalOffset */, playerX, TILE_SIZE, TILE_SIZE,
+				/* + drawingHorizontalOffset */, playerX, TILE_SIZE, TILE_SIZE,
 						this);
 				break;
 			case 2:
 				g.drawImage(imageProvider.getPlayerDownRunning(), playerY
-						/* + drawingHorizontalOffset */, playerX, TILE_SIZE, TILE_SIZE,
+				/* + drawingHorizontalOffset */, playerX, TILE_SIZE, TILE_SIZE,
 						this);
 				break;
 			case 3:
 				g.drawImage(imageProvider.getPlayerRightRunning(), playerY
-						/* + drawingHorizontalOffset */, playerX, TILE_SIZE, TILE_SIZE,
+				/* + drawingHorizontalOffset */, playerX, TILE_SIZE, TILE_SIZE,
 						this);
 				break;
 			case 4:
 				g.drawImage(imageProvider.getPlayerLeftRunning(), playerY
-						/* + drawingHorizontalOffset */, playerX, TILE_SIZE, TILE_SIZE,
+				/* + drawingHorizontalOffset */, playerX, TILE_SIZE, TILE_SIZE,
 						this);
 				break;
 			default:
@@ -761,28 +761,28 @@ public class GamePane extends JPanel {
 			switch (imagePlayer2) {
 			case 0:
 				g.drawImage(imageProvider.getPlayer2Standing(), playerY
-						/* + drawingHorizontalOffset */, playerX, TILE_SIZE, TILE_SIZE,
+				/* + drawingHorizontalOffset */, playerX, TILE_SIZE, TILE_SIZE,
 						this);
 				break;
 
 			case 1:
 				g.drawImage(imageProvider.getPlayer2UpRunning(), playerY
-						/* + drawingHorizontalOffset */, playerX, TILE_SIZE, TILE_SIZE,
+				/* + drawingHorizontalOffset */, playerX, TILE_SIZE, TILE_SIZE,
 						this);
 				break;
 			case 2:
 				g.drawImage(imageProvider.getPlayer2DownRunning(), playerY
-						/* + drawingHorizontalOffset */, playerX, TILE_SIZE, TILE_SIZE,
+				/* + drawingHorizontalOffset */, playerX, TILE_SIZE, TILE_SIZE,
 						this);
 				break;
 			case 3:
 				g.drawImage(imageProvider.getPlayer2RightRunning(), playerY
-						/* + drawingHorizontalOffset */, playerX, TILE_SIZE, TILE_SIZE,
+				/* + drawingHorizontalOffset */, playerX, TILE_SIZE, TILE_SIZE,
 						this);
 				break;
 			case 4:
 				g.drawImage(imageProvider.getPlayer2LeftRunning(), playerY
-						/* + drawingHorizontalOffset */, playerX, TILE_SIZE, TILE_SIZE,
+				/* + drawingHorizontalOffset */, playerX, TILE_SIZE, TILE_SIZE,
 						this);
 				break;
 			default:
@@ -802,13 +802,13 @@ public class GamePane extends JPanel {
 				switch (imagePlayer2) {
 				case 0:
 					g.drawImage(imageProvider.getPlayer2Standing(), playerTwoY
-							/* + drawingHorizontalOffset */, playerTwoX, TILE_SIZE,
+					/* + drawingHorizontalOffset */, playerTwoX, TILE_SIZE,
 							TILE_SIZE, this);
 					break;
 
 				case 1:
 					g.drawImage(imageProvider.getPlayer2UpRunning(), playerTwoY
-							/* + drawingHorizontalOffset */, playerTwoX, TILE_SIZE,
+					/* + drawingHorizontalOffset */, playerTwoX, TILE_SIZE,
 							TILE_SIZE, this);
 					break;
 				case 2:
@@ -837,13 +837,13 @@ public class GamePane extends JPanel {
 				switch (imagePlayer) {
 				case 0:
 					g.drawImage(imageProvider.getPlayerStanding(), playerTwoY
-							/* + drawingHorizontalOffset */, playerTwoX, TILE_SIZE,
+					/* + drawingHorizontalOffset */, playerTwoX, TILE_SIZE,
 							TILE_SIZE, this);
 					break;
 
 				case 1:
 					g.drawImage(imageProvider.getPlayerUpRunning(), playerTwoY
-							/* + drawingHorizontalOffset */, playerTwoX, TILE_SIZE,
+					/* + drawingHorizontalOffset */, playerTwoX, TILE_SIZE,
 							TILE_SIZE, this);
 					break;
 				case 2:
@@ -897,7 +897,7 @@ public class GamePane extends JPanel {
 			// this);
 
 			g.drawImage(imageProvider.getCorrectNative(currentNative),
-					/* drawingHorizontalOffset */currentNative.getGraphicY(),
+			/* drawingHorizontalOffset */currentNative.getGraphicY(),
 					currentNative.getGraphicX(), TILE_SIZE, TILE_SIZE, this);
 
 			// if (currentNative instanceof SoldierNative) {
@@ -986,8 +986,7 @@ public class GamePane extends JPanel {
 		new Thread() {
 
 			public void run() {
-				while (!clientManager.isFinishGame())
-				{
+				while (!clientManager.isFinishGame()) {
 					gamePadController.poll();
 					int povDirection = gamePadController.getHatDir();
 					double x = 0, y = 0;
@@ -995,46 +994,55 @@ public class GamePane extends JPanel {
 					switch (povDirection) {
 					case 1:
 						x = (GamePane.this.playerX) - 1;
-						y = (GamePane.this.playerY);			
+						y = (GamePane.this.playerY);
 						int realX = (int) (x / (TILE_SIZE * scaleFactor));
 						int realY = (int) (y / (TILE_SIZE * scaleFactor));
-						Integer numberOftrap = GamePane.this.trapPanel.getCurrentTrapSelected();
+						Integer numberOftrap = GamePane.this.trapPanel
+								.getCurrentTrapSelected();
 						GamePane.this.clientManager
-						.pushToQueueForServer("place.trap "
-								+ numberOftrap + "/" + realX + "/"
-								+ realY);
-						
-						//System.out.println("PIAZZO-----------------");
-						GamePane.this.informationPanel.setMoney(clientManager.getMoney());
+								.pushToQueueForServer("place.trap "
+										+ numberOftrap + "/" + realX + "/"
+										+ realY);
+
+						// System.out.println("PIAZZO-----------------");
+						GamePane.this.informationPanel.setMoney(clientManager
+								.getMoney());
 						break;
 					case 3:
 						x = (GamePane.this.playerX);
-						//System.out.println(x);
+						// System.out.println(x);
 						y = (GamePane.this.playerY) - 1;
-						//System.out.println(y);
-						/*manager.placeTrap(x, y, GamePane.this.trapPanel
-								.getCurrentTrapSelected());
-						GamePane.this.informationPanel.setMoney(clientManager.getMoney());*/
+						// System.out.println(y);
+						/*
+						 * manager.placeTrap(x, y, GamePane.this.trapPanel
+						 * .getCurrentTrapSelected());
+						 * GamePane.this.informationPanel
+						 * .setMoney(clientManager.getMoney());
+						 */
 						break;
 					case 5:
 						x = (GamePane.this.playerX);
-						//System.out.println(x);
+						// System.out.println(x);
 						y = (GamePane.this.playerY) + 1;
-						//System.out.println(y);
-						/*manager.placeTrap(x, y, GamePane.this.trapPanel
-								.getCurrentTrapSelected());
-						GamePane.this.informationPanel.setMoney(playerOne
-								.getMoney());*/
+						// System.out.println(y);
+						/*
+						 * manager.placeTrap(x, y, GamePane.this.trapPanel
+						 * .getCurrentTrapSelected());
+						 * GamePane.this.informationPanel.setMoney(playerOne
+						 * .getMoney());
+						 */
 						break;
 					case 7:
 						x = (GamePane.this.playerX) + 1;
-						//System.out.println(x);
+						// System.out.println(x);
 						y = (GamePane.this.playerY);
-						//System.out.println(y);
-						/*manager.placeTrap(x, y, GamePane.this.trapPanel
-								.getCurrentTrapSelected());
-						GamePane.this.informationPanel.setMoney(playerOne
-								.getMoney());*/
+						// System.out.println(y);
+						/*
+						 * manager.placeTrap(x, y, GamePane.this.trapPanel
+						 * .getCurrentTrapSelected());
+						 * GamePane.this.informationPanel.setMoney(playerOne
+						 * .getMoney());
+						 */
 						break;
 					default:
 						break;
@@ -1059,7 +1067,8 @@ public class GamePane extends JPanel {
 						GamePane.this.LEFT = false;
 						GamePane.this.RIGHT = false;
 						clientManager.getPlayerDirection();
-						clientManager.setPlayerDirection(AbstractCharacter.DOWN);
+						clientManager
+								.setPlayerDirection(AbstractCharacter.DOWN);
 						break;
 					case 3:
 						GamePane.this.RIGHT = true;
@@ -1068,7 +1077,8 @@ public class GamePane extends JPanel {
 						GamePane.this.DOWN = false;
 						GamePane.this.LEFT = false;
 						clientManager.getPlayerDirection();
-						clientManager.setPlayerDirection(AbstractCharacter.LEFT);
+						clientManager
+								.setPlayerDirection(AbstractCharacter.LEFT);
 						break;
 					case 5:
 						GamePane.this.LEFT = true;
@@ -1077,7 +1087,8 @@ public class GamePane extends JPanel {
 						GamePane.this.DOWN = false;
 						GamePane.this.RIGHT = false;
 						clientManager.getPlayerDirection();
-						clientManager.setPlayerDirection(AbstractCharacter.RIGHT);
+						clientManager
+								.setPlayerDirection(AbstractCharacter.RIGHT);
 						break;
 					case 4:
 						GamePane.this.STAND = true;
@@ -1097,49 +1108,49 @@ public class GamePane extends JPanel {
 					case 2:
 						if (!GamePane.this.client.isMultiplayerGame())
 							ClientManager.getInstance()
-							.setCurrentGunSelected(0);
+									.setCurrentGunSelected(0);
 						else
 							ClientManagerMultiplayer.getInstance()
-							.setCurrentGunSelected(0);
+									.setCurrentGunSelected(0);
 						GamePane.this.trapPanel.selectGun();
 						GamePane.this.clientManager
-						.pushToQueueForServer("switchGun 0");
+								.pushToQueueForServer("switchGun 0");
 						break;
 					case 0:
 					case 3:
 						if (!GamePane.this.client.isMultiplayerGame())
 							ClientManager.getInstance()
-							.setCurrentGunSelected(1);
+									.setCurrentGunSelected(1);
 						else
 							ClientManagerMultiplayer.getInstance()
-							.setCurrentGunSelected(1);
+									.setCurrentGunSelected(1);
 						GamePane.this.trapPanel.selectUzi();
 						GamePane.this.clientManager
-						.pushToQueueForServer("switchGun 1");
+								.pushToQueueForServer("switchGun 1");
 						break;
 					case 6:
 					case 7:
 						if (!GamePane.this.client.isMultiplayerGame())
 							ClientManager.getInstance()
-							.setCurrentGunSelected(2);
+									.setCurrentGunSelected(2);
 						else
 							ClientManagerMultiplayer.getInstance()
-							.setCurrentGunSelected(2);
+									.setCurrentGunSelected(2);
 						GamePane.this.trapPanel.selectShootGun();
 						GamePane.this.clientManager
-						.pushToQueueForServer("switchGun 2");
+								.pushToQueueForServer("switchGun 2");
 						break;
 					case 8:
 					case 5:
 						if (!GamePane.this.client.isMultiplayerGame())
 							ClientManager.getInstance()
-							.setCurrentGunSelected(3);
+									.setCurrentGunSelected(3);
 						else
 							ClientManagerMultiplayer.getInstance()
-							.setCurrentGunSelected(3);
+									.setCurrentGunSelected(3);
 						GamePane.this.trapPanel.selectHeavy();
 						GamePane.this.clientManager
-						.pushToQueueForServer("switchGun 3");
+								.pushToQueueForServer("switchGun 3");
 						break;
 					default:
 						break;
@@ -1147,13 +1158,14 @@ public class GamePane extends JPanel {
 
 					int idButton = gamePadController.getButtonPressed();
 
-//					if (cont > 0 && idButton != 5) {
-//						if (!(playerOne.getCurrentGunSelected() instanceof UziGun))
-//							playerOne.shoot();
-//						cont = 0;
-//						shoot = false;
-//						shooter = true;
-//					}
+					// if (cont > 0 && idButton != 5) {
+					// if (!(playerOne.getCurrentGunSelected() instanceof
+					// UziGun))
+					// playerOne.shoot();
+					// cont = 0;
+					// shoot = false;
+					// shooter = true;
+					// }
 
 					switch (idButton) {
 					/* Triangolo */
@@ -1161,71 +1173,72 @@ public class GamePane extends JPanel {
 						GamePane.this.trapPanel.selectSpikeTrap();
 						GamePane.this.trapPanel.repaint();
 						break;
-						/* Cerchio */
+					/* Cerchio */
 					case 1:
 						GamePane.this.trapPanel.selectFireTrap();
 						GamePane.this.trapPanel.repaint();
 						break;
-						/* Croce */
+					/* Croce */
 					case 2:
 						GamePane.this.trapPanel.selectAcidTrap();
 						GamePane.this.trapPanel.repaint();
 						break;
-						/* Quadrato */
+					/* Quadrato */
 					case 3:
 						GamePane.this.trapPanel.selectElectricTrap();
 						GamePane.this.trapPanel.repaint();
 						break;
-						/* L2 */
+					/* L2 */
 					case 4:
-						//System.out.println("4");
+						// System.out.println("4");
 						break;
-						/* R2 */
+					/* R2 */
 					case 5:
-//						if (cont == 0)
-//							cont++;
-//						if (playerOne.getCurrentGunSelected() instanceof UziGun) {
-//							shootForUziGun();
-//						}
+						// if (cont == 0)
+						// cont++;
+						// if (playerOne.getCurrentGunSelected() instanceof
+						// UziGun) {
+						// shootForUziGun();
+						// }
 						if (!isPaused)
 							GamePane.this.clientManager
-							.pushToQueueForServer("sh");
+									.pushToQueueForServer("sh");
 						break;
-						/* L1 */
+					/* L1 */
 					case 6:
-						//System.out.println("6");
+						// System.out.println("6");
 						break;
-						/* R1 */
+					/* R1 */
 					case 7:
 						GamePane.this.trapPanel.selectPowerTrap();
 						GamePane.this.trapPanel.repaint();
 						break;
-						/* Select */
+					/* Select */
 					case 8:
 						controllerInfo.setVisible(true);
 						break;
-						/* Start */
+					/* Start */
 					case 9:
 
 						if (!GamePane.this.client.isMultiplayerGame()) {
 							isPaused = !isPaused;
 							if (isPaused)
 								ClientManager.getInstance()
-								.pushToQueueForServer("iPause");
+										.pushToQueueForServer("iPause");
 							else {
 								ClientManager.getInstance()
-								.pushToQueueForServer("iResume");
+										.pushToQueueForServer("iResume");
 								ClientManager.signallAll();
 							}
 						}
 						break;
-						/* L3 */
+					/* L3 */
 					case 10:
-						//System.out.println("10");
+						// System.out.println("10");
 						break;
-						/* R3 */
+					/* R3 */
 					case 11:
-						//System.out.println("11");
+						// System.out.println("11");
 						break;
 					default:
 						controllerInfo.setVisible(false);
@@ -1240,7 +1253,7 @@ public class GamePane extends JPanel {
 					}
 				}
 
-				//System.out.println("esco dall poll gamepad");
+				// System.out.println("esco dall poll gamepad");
 
 			};
 		}.start();

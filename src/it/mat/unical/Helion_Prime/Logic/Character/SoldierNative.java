@@ -16,8 +16,8 @@ public class SoldierNative extends AbstractNative {
 	private final int cooldownTime = 1000;
 	private final Resistance resistance;
 
-	public SoldierNative(int x, int y, World world, int nativeIndex) {
-		super(x, y, world, nativeIndex);
+	public SoldierNative(int x, int y, World world, int nativeIndex, int id) {
+		super(x, y, world, nativeIndex, id);
 		super.setLife(100);
 		super.attackPower = 10;
 		this.direction = 0;
@@ -42,7 +42,7 @@ public class SoldierNative extends AbstractNative {
 			resistance = new NoResistance();
 			break;
 		}
-		coolDownManager = new CoolDownManager(this, cooldownTime);
+		coolDownManager = new CoolDownManager(this, cooldownTime, id);
 		coolDownManager.start();
 	}
 

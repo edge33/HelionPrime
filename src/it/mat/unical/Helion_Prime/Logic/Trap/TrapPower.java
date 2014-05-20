@@ -12,11 +12,13 @@ import it.mat.unical.Helion_Prime.Logic.Character.SoldierNative;
 public class TrapPower extends AbstractTrap {
 
 	public WorldImpl world;
+	private int id;
 
-	public TrapPower(int positionXonMap, int positionYonMap, int life) {
+	public TrapPower(int positionXonMap, int positionYonMap, int life, int id) {
 
 		super(positionXonMap, positionYonMap, life);
-		world = (WorldImpl) GameManagerImpl.getInstance().getWorld();
+		this.id = id;
+		world = (WorldImpl) GameManagerImpl.getInstance(id).getWorld();
 
 	}
 
@@ -51,8 +53,8 @@ public class TrapPower extends AbstractTrap {
 			public void run() {
 				this.setName("TRAP_POWER");
 				while (TrapPower.this.getLife() > 0
-						&& !GameManagerImpl.getInstance().gameIsOver()
-						&& !GameManagerImpl.getInstance().isGameStopped()) {
+						&& !GameManagerImpl.getInstance(id).gameIsOver()
+						&& !GameManagerImpl.getInstance(id).isGameStopped()) {
 					while (GameManagerImpl.isPaused()) {
 						System.out.println("Sono in Pausa - TrapPower");
 						GameManagerImpl.waitForCondition();
@@ -66,26 +68,33 @@ public class TrapPower extends AbstractTrap {
 					}
 
 					for (int i = 0; i < 4
-							&& !GameManagerImpl.getInstance().isGameStopped()
-							&& !GameManagerImpl.getInstance().gameIsOver(); i++) {
+							&& !GameManagerImpl.getInstance(id).isGameStopped()
+							&& !GameManagerImpl.getInstance(id).gameIsOver(); i++) {
 
 						String messageForBullet = "srm "
 								+
 
-								String.valueOf(AbstractGun.add(new Bullet(
-										TrapPower.this.getX(), TrapPower.this
-												.getY(), i, 15,
-										TrapPower.this.world))) + " " + i + " "
+								String.valueOf(GameManagerImpl
+										.getInstance(id)
+										.getBullets()
+										.put(++AbstractGun.codeBullet,
+												new Bullet(TrapPower.this
+														.getX(), TrapPower.this
+														.getY(), i, 15,
+														TrapPower.this.world)))
+								+ " " + i + " "
 								+ String.valueOf(TrapPower.this.getX()) + " "
 								+ String.valueOf(TrapPower.this.getY());
 
 						System.out.println(messageForBullet);
 
-						if (!GameManagerImpl.getInstance().isMultiplayerGame())
-							GameManagerImpl.getInstance().getServer()
+						if (!GameManagerImpl.getInstance(id)
+								.isMultiplayerGame())
+							GameManagerImpl.getInstance(id).getServer()
 									.sendMessage(messageForBullet);
 						else
-							GameManagerImpl.getInstance().getServerMuliplayer()
+							GameManagerImpl.getInstance(id)
+									.getServerMuliplayer()
 									.outBroadcast(messageForBullet);
 
 					}

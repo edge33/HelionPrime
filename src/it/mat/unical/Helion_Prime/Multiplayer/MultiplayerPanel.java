@@ -131,8 +131,8 @@ public class MultiplayerPanel extends JPanel {
 						font, true);
 				ClientManager.isPlayerOne = true;
 				MultiplayerPanel.this.serverMultiplayer = new ServerMultiplayer(
-						7777);
-				GameManagerImpl.getInstance().setServerMultiplayer(
+						7777, 0);
+				GameManagerImpl.getInstance(0).setServerMultiplayer(
 						serverMultiplayer);
 				MultiplayerPanel.this.serverMultiplayer.start();
 				MainMenuFrame.getInstance().switchTo(

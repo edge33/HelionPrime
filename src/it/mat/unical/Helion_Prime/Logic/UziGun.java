@@ -15,8 +15,8 @@ public class UziGun extends AbstractGun implements RangedWeapon {
 	@Override
 	public Integer shoot(World world, Player player) {
 
-		return UziGun.add(new Bullet((WorldImpl) UziGun.this.world, player,
-				damage));
+		return super.add(new Bullet((WorldImpl) UziGun.this.world, player,
+				damage), player.getId());
 
 	}
 

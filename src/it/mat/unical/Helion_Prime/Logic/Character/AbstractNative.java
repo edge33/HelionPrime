@@ -8,8 +8,6 @@ import it.mat.unical.Helion_Prime.Logic.Ability.Resistance;
 import it.mat.unical.Helion_Prime.Logic.Trap.AbstractTrap;
 
 import java.awt.Point;
-import java.util.Collection;
-import java.util.Random;
 import java.util.concurrent.ConcurrentHashMap;
 
 public class AbstractNative extends AbstractCharacter implements Resistance {
@@ -25,26 +23,18 @@ public class AbstractNative extends AbstractCharacter implements Resistance {
 	protected Thread coolDownManager;
 	protected int currentPosition = 1;
 	protected boolean firstMove = false;
+	private int id;
 
-	public AbstractNative(int x, int y, World world, int key) {
+	public AbstractNative(int x, int y, World world, int key, int id) {
 		super(x, y, world);
+		this.id = id;
 		this.key = key;
+
 		this.setDirection(-1);
 		this.canAttack = true;
 		this.room = (MaintenanceRoom) world.getRoom();
 
-		if (GameManagerImpl.getInstance().isMultiplayerGame()) {
-			Random random = new Random();
-			int oneOrTwo = random.nextInt(2);
-			if (oneOrTwo == 0) {
-				this.player = GameManagerImpl.getInstance().getPlayerOne();
-			} else {
-				this.player = GameManagerImpl.getInstance().getPlayerTwo();
-			}
-
-		} else {
-			this.player = GameManagerImpl.getInstance().getPlayerOne();
-		}
+		this.player = GameManagerImpl.getInstance(id).getPlayerOne();
 
 		type = 999;
 
@@ -60,36 +50,34 @@ public class AbstractNative extends AbstractCharacter implements Resistance {
 
 	public void attack(int attackPower) {
 
-		
-
 		// TODO: attacking method working on RN - Maida
 		// System.out.println("Can-ATTACK" + canAttack);
 
-		if ( canAttack && ( ( player.getX() == getX() - 1 && player.getY() == getY() ) || 
-				 ( player.getX() == getX() + 1 && player.getY() == getY() ) ||
-				 ( player.getX() == getX() && player.getY() == getY() - 1 ) ||
-				 ( player.getX() == getX() && player.getY() == getY() + 1 ) )
-		    ) {
+		if (canAttack
+				&& ((player.getX() == getX() - 1 && player.getY() == getY())
+						|| (player.getX() == getX() + 1 && player.getY() == getY())
+						|| (player.getX() == getX() && player.getY() == getY() - 1) || (player
+						.getX() == getX() && player.getY() == getY() + 1))) {
 			player.setLife(player.getLife() - attackPower);
 			System.out.println("dopo attacco " + player.getLife());
 			setAttack(false);
-			if (GameManagerImpl.getInstance().isMultiplayerGame())
-				GameManagerImpl.getInstance().getServerMuliplayer()
+			if (GameManagerImpl.getInstance(id).isMultiplayerGame())
+				GameManagerImpl.getInstance(id).getServerMuliplayer()
 						.outBroadcast("life " + player.getLife());
 
 		}
 
-		else if ( canAttack && ( ( room.getX() == getX() - 1 && room.getY() == getY() ) || 
-				 ( room.getX() == getX() + 1 && room.getY() == getY() ) ||
-				 ( room.getX() == getX() && room.getY() == getY() - 1 ) ||
-				 ( room.getX() == getX() && room.getY() == getY() + 1 ) )
-				)  {
+		else if (canAttack
+				&& ((room.getX() == getX() - 1 && room.getY() == getY())
+						|| (room.getX() == getX() + 1 && room.getY() == getY())
+						|| (room.getX() == getX() && room.getY() == getY() - 1) || (room
+						.getX() == getX() && room.getY() == getY() + 1))) {
 			room.setLife(room.getLife() - attackPower);
 			System.out.println("room dopo attacco " + room.getLife());
 			world.setRoomLife(room.getLife());
 			setAttack(false);
-			if (GameManagerImpl.getInstance().isMultiplayerGame())
-				GameManagerImpl.getInstance().getServerMuliplayer()
+			if (GameManagerImpl.getInstance(id).isMultiplayerGame())
+				GameManagerImpl.getInstance(id).getServerMuliplayer()
 						.outBroadcast("lifeRoom " + room.getLife());
 		}
 
@@ -114,17 +102,15 @@ public class AbstractNative extends AbstractCharacter implements Resistance {
 		if (nativeAi.getAiType() == NativeAI.PLAYER_FINDER)
 			move = nativeAi.getDirection(this, player, world);
 		else if (nativeAi.getAiType() == NativeAI.ROOM_FINDER)
-			move = nativeAi
-					.getDirection(this, world.getRoom(), world);
+			move = nativeAi.getDirection(this, world.getRoom(), world);
 		else if (nativeAi.getAiType() == NativeAI.TRAP_FINDER) {
 			currentTrap = player.getTrap();
 			if (currentTrap.size() > 0) {
 
-
 				// System.out.println(((AbstractTrap) tmp.toArray()[0]).getY());
 
-				move = nativeAi.getDirection(this, currentTrap
-						.entrySet().iterator().next().getValue(), world);
+				move = nativeAi.getDirection(this, currentTrap.entrySet()
+						.iterator().next().getValue(), world);
 
 				// System.out.println(((AbstractTrap) tmp.toArray()[0]).getX()
 				// + " " + ((AbstractTrap) tmp.toArray()[0]).getY());

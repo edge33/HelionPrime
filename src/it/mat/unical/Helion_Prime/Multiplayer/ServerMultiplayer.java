@@ -40,9 +40,11 @@ public class ServerMultiplayer extends Thread {
 	private GameManagerImpl gameManager;
 	private LinkedBlockingQueue<String> placementTrap;
 	protected boolean isStageClear;
+	private int id_connection = 0;
 
-	public ServerMultiplayer(int port) {
+	public ServerMultiplayer(int port, int id) {
 		try {
+			this.id_connection = id;
 			serverMultiplayer = new ServerSocket(port);
 			System.out.println("port server " + port);
 		} catch (IOException e) {
@@ -118,24 +120,26 @@ public class ServerMultiplayer extends Thread {
 
 		level = new File("levels/" + levelName + ".txt");
 
-		gameManager = GameManagerImpl.getInstance();
+		gameManager = GameManagerImpl.getInstance(this.id_connection);
 		gameManager.setServerMultiplayer(this);
 		try {
-			gameManager.init(level, true);
+			gameManager.init(level, true, this.id_connection);
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 
-		playerOne = GameManagerImpl.getInstance().getPlayerOne();
-		playertwo = GameManagerImpl.getInstance().getPlayerTwo();
+		playerOne = GameManagerImpl.getInstance(id_connection).getPlayerOne();
+		playertwo = GameManagerImpl.getInstance(id_connection).getPlayerTwo();
 
-		sendBroadcast(((Integer) GameManagerImpl.getInstance().getPlayerOne()
-				.getMoney()).toString()); // mando l'intero corrispondente ai
-											// money;
-		sendBroadcast(((Integer) GameManagerImpl.getInstance().getPlayerOne()
-				.getLife()).toString()); // mando l'intero corrispondente alla
-											// vita;
+		sendBroadcast(((Integer) GameManagerImpl.getInstance(id_connection)
+				.getPlayerOne().getMoney()).toString()); // mando l'intero
+															// corrispondente ai
+															// money;
+		sendBroadcast(((Integer) GameManagerImpl.getInstance(id_connection)
+				.getPlayerOne().getLife()).toString()); // mando l'intero
+														// corrispondente alla
+														// vita;
 
 		wantRetryPlayerOne = false;
 		wantRetryPlayerTwo = false;
@@ -161,8 +165,10 @@ public class ServerMultiplayer extends Thread {
 			public void run() {
 
 				this.setName("SERVER MULTYPLAYER - UPDATER ");
-				while (!GameManagerImpl.getInstance().isGameStopped()
-						&& !GameManagerImpl.getInstance().gameIsOver()) {
+				while (!GameManagerImpl.getInstance(id_connection)
+						.isGameStopped()
+						&& !GameManagerImpl.getInstance(id_connection)
+								.gameIsOver()) {
 					gameManager.updateMultiplayer();
 
 					try {
@@ -363,24 +369,27 @@ public class ServerMultiplayer extends Thread {
 							if (wantRetryPlayerOne && wantRetryPlayerTwo) {
 								sendBroadcast("Ok");
 								sendBroadcast(((Integer) GameManagerImpl
-										.getInstance().getPlayerOne()
-										.getMoney()).toString()); // mando
-																	// l'intero
-																	// corrispondente
-																	// ai
-																	// money;
+										.getInstance(id_connection)
+										.getPlayerOne().getMoney()).toString()); // mando
+																					// l'intero
+																					// corrispondente
+																					// ai
+																					// money;
 								sendBroadcast(((Integer) GameManagerImpl
-										.getInstance().getPlayerOne().getLife())
-										.toString()); // mando l'intero
-														// corrispondente alla
-														// vita;
+										.getInstance(id_connection)
+										.getPlayerOne().getLife()).toString()); // mando
+																				// l'intero
+																				// corrispondente
+																				// alla
+																				// vita;
 
 								try {
-									gameManager.init(level, true);
-									playerOne = GameManagerImpl.getInstance()
-											.getPlayerOne();
-									playertwo = GameManagerImpl.getInstance()
-											.getPlayerTwo();
+									gameManager
+											.init(level, true, id_connection);
+									playerOne = GameManagerImpl.getInstance(
+											id_connection).getPlayerOne();
+									playertwo = GameManagerImpl.getInstance(
+											id_connection).getPlayerTwo();
 									gameManager
 											.setServerMultiplayer(ServerMultiplayer.this);
 									ServerMultiplayer.this.startUpdater();
@@ -475,8 +484,9 @@ public class ServerMultiplayer extends Thread {
 
 			public void run() {
 				this.setName("SERVER_MULTIPLAYER - PLACEMENT_TRAP");
-				while (!GameManagerImpl.getInstance().gameIsOver()
-						&& !GameManagerImpl.getInstance().isGameStopped()) {
+				while (!GameManagerImpl.getInstance(id_connection).gameIsOver()
+						&& !GameManagerImpl.getInstance(id_connection)
+								.isGameStopped()) {
 
 					try {
 						String placement = placementTrap.take();

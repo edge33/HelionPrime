@@ -8,15 +8,17 @@ public class SaboteurNative extends AbstractNative {
 	private int currentPosition = 1;
 	private final int type = 2;
 	private final int cooldownTime = 3000;
+	private int id;
 
-	public SaboteurNative(int x, int y, World world, int nativeIndex) {
-		super(x, y, world, nativeIndex);
+	public SaboteurNative(int x, int y, World world, int nativeIndex, int id) {
+		super(x, y, world, nativeIndex, id);
+		this.id = id;
 		super.setLife(100);
 		super.attackPower = 10;
 		this.direction = 0;
 		super.nativeAi = FindTrapAI.getInstance();
 
-		coolDownManager = new CoolDownManager(this, cooldownTime);
+		coolDownManager = new CoolDownManager(this, cooldownTime, id);
 		coolDownManager.start();
 
 	}
