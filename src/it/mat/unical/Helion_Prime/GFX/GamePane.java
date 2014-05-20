@@ -986,63 +986,64 @@ public class GamePane extends JPanel {
 		new Thread() {
 
 			public void run() {
-				while (!clientManager.isFinishGame()) {
+				while (!ClientManager.isFinishGame()) {
 					gamePadController.poll();
 					int povDirection = gamePadController.getHatDir();
 					double x = 0, y = 0;
 
+					Integer numberOftrap = GamePane.this.trapPanel
+							.getCurrentTrapSelected();
 					switch (povDirection) {
 					case 1:
-						x = (GamePane.this.playerX) - 1;
-						y = (GamePane.this.playerY);
-						int realX = (int) (x / (TILE_SIZE * scaleFactor));
-						int realY = (int) (y / (TILE_SIZE * scaleFactor));
-						Integer numberOftrap = GamePane.this.trapPanel
-								.getCurrentTrapSelected();
+
 						GamePane.this.clientManager
 								.pushToQueueForServer("place.trap "
-										+ numberOftrap + "/" + realX + "/"
-										+ realY);
+										+ numberOftrap
+										+ "/"
+										+ clientManager.getInstance()
+												.getLogicY()
+										+ "/"
+										+ (clientManager.getInstance()
+												.getLogicX() - 1));
 
 						// System.out.println("PIAZZO-----------------");
-						GamePane.this.informationPanel.setMoney(clientManager
-								.getMoney());
+
 						break;
 					case 3:
-						x = (GamePane.this.playerX);
-						// System.out.println(x);
-						y = (GamePane.this.playerY) - 1;
-						// System.out.println(y);
-						/*
-						 * manager.placeTrap(x, y, GamePane.this.trapPanel
-						 * .getCurrentTrapSelected());
-						 * GamePane.this.informationPanel
-						 * .setMoney(clientManager.getMoney());
-						 */
+						GamePane.this.clientManager
+								.pushToQueueForServer("place.trap "
+										+ numberOftrap
+										+ "/"
+										+ (clientManager.getInstance()
+												.getLogicY() - 1)
+										+ "/"
+										+ clientManager.getInstance()
+												.getLogicX());
+
 						break;
 					case 5:
-						x = (GamePane.this.playerX);
-						// System.out.println(x);
-						y = (GamePane.this.playerY) + 1;
-						// System.out.println(y);
-						/*
-						 * manager.placeTrap(x, y, GamePane.this.trapPanel
-						 * .getCurrentTrapSelected());
-						 * GamePane.this.informationPanel.setMoney(playerOne
-						 * .getMoney());
-						 */
+						GamePane.this.clientManager
+								.pushToQueueForServer("place.trap "
+										+ numberOftrap
+										+ "/"
+										+ (clientManager.getInstance()
+												.getLogicY() + 1)
+										+ "/"
+										+ clientManager.getInstance()
+												.getLogicX());
+
 						break;
 					case 7:
-						x = (GamePane.this.playerX) + 1;
-						// System.out.println(x);
-						y = (GamePane.this.playerY);
-						// System.out.println(y);
-						/*
-						 * manager.placeTrap(x, y, GamePane.this.trapPanel
-						 * .getCurrentTrapSelected());
-						 * GamePane.this.informationPanel.setMoney(playerOne
-						 * .getMoney());
-						 */
+						GamePane.this.clientManager
+								.pushToQueueForServer("place.trap "
+										+ numberOftrap
+										+ "/"
+										+ clientManager.getInstance()
+												.getLogicY()
+										+ "/"
+										+ (clientManager.getInstance()
+												.getLogicX() + 1));
+
 						break;
 					default:
 						break;

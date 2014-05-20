@@ -5,6 +5,7 @@ import it.mat.unical.Helion_Prime.Logic.Character.AbstractNative;
 import it.mat.unical.Helion_Prime.Logic.Character.Player;
 import it.mat.unical.Helion_Prime.Logic.Trap.AbstractTrap;
 import it.mat.unical.Helion_Prime.Logic.Trap.DecoyTrap;
+import it.mat.unical.Helion_Prime.Logic.Trap.TrapPower;
 import it.mat.unical.Helion_Prime.Multiplayer.ServerMultiplayer;
 import it.mat.unical.Helion_Prime.Online.Server;
 
@@ -131,9 +132,18 @@ public class GameManagerImpl implements GameManager {
 	}
 
 	// termina il gioco
+
 	@Override
 	public void endGame() {
 		this.bullets.clear();
+		for (Point iterable_element : playerOne.getTrap().keySet()) {
+
+			if (playerOne.getTrap().get(iterable_element) instanceof TrapPower) {
+				((TrapPower) playerOne.getTrap().get(iterable_element)).kill();
+
+			}
+		}
+		playerOne.getTrap().clear();
 		gameOver = true;
 	}
 

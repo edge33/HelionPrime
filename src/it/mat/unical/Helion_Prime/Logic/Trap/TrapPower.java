@@ -13,6 +13,7 @@ public class TrapPower extends AbstractTrap {
 
 	public WorldImpl world;
 	private int id;
+	private boolean isRunning;
 
 	public TrapPower(int positionXonMap, int positionYonMap, int life, int id) {
 
@@ -20,6 +21,7 @@ public class TrapPower extends AbstractTrap {
 		this.id = id;
 		world = (WorldImpl) GameManagerImpl.getInstance(id).getWorld();
 
+		isRunning = true;
 	}
 
 	@Override
@@ -52,9 +54,7 @@ public class TrapPower extends AbstractTrap {
 
 			public void run() {
 				this.setName("TRAP_POWER");
-				while (TrapPower.this.getLife() > 0
-						&& !GameManagerImpl.getInstance(id).gameIsOver()
-						&& !GameManagerImpl.getInstance(id).isGameStopped()) {
+				while (TrapPower.this.getLife() > 0 && isRunning) {
 					while (GameManagerImpl.isPaused()) {
 						System.out.println("Sono in Pausa - TrapPower");
 						GameManagerImpl.waitForCondition();
@@ -67,22 +67,21 @@ public class TrapPower extends AbstractTrap {
 						e.printStackTrace();
 					}
 
-					for (int i = 0; i < 4
-							&& !GameManagerImpl.getInstance(id).isGameStopped()
-							&& !GameManagerImpl.getInstance(id).gameIsOver(); i++) {
+					for (int i = 0; i < 4 && isRunning; i++) {
 
-						String messageForBullet = "srm "
-								+
+						AbstractGun.codeBullet++;
 
-								String.valueOf(GameManagerImpl
-										.getInstance(id)
-										.getBullets()
-										.put(++AbstractGun.codeBullet,
-												new Bullet(TrapPower.this
-														.getX(), TrapPower.this
-														.getY(), i, 15,
-														TrapPower.this.world)))
-								+ " " + i + " "
+						GameManagerImpl
+								.getInstance(id)
+								.getBullets()
+								.put(AbstractGun.codeBullet,
+										new Bullet(TrapPower.this.getX(),
+												TrapPower.this.getY(), i, 15,
+												TrapPower.this.world));
+
+						String messageForBullet = "srm " +
+
+						String.valueOf(AbstractGun.codeBullet) + " " + i + " "
 								+ String.valueOf(TrapPower.this.getX()) + " "
 								+ String.valueOf(TrapPower.this.getY());
 
@@ -101,5 +100,10 @@ public class TrapPower extends AbstractTrap {
 				}
 			}
 		}.start();
+	}
+
+	public void kill() {
+		isRunning = false;
+
 	}
 }
