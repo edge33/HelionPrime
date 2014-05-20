@@ -30,6 +30,9 @@ import javax.swing.JLabel;
 import javax.swing.JLayeredPane;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JPasswordField;
+import javax.swing.JTextField;
+import javax.swing.SwingConstants;
 
 public class StageClearPanel extends JLayeredPane {
 
@@ -40,12 +43,16 @@ public class StageClearPanel extends JLayeredPane {
 	private JButton submitScore;
 	private JButton newSaveGameButton;
 	private JButton hideButton;
+	private JButton overrideSaveButton;
 
+	private JTextField userField;
+	private JPasswordField passField;
 
 	private JPanel previewPaneL;
 	private JPanel overlay;
-	private JButton overrideSaveButton;
 
+	private JLabel user;
+	private JLabel pass;
 	private JLabel time;
 	private JLabel timeDesc;
 	private JLabel bulletTitle;
@@ -105,6 +112,13 @@ public class StageClearPanel extends JLayeredPane {
 			this.saveLevel = new JButton("Submit score");
 			this.submitScore = new JButton("Confirm submit");
 			this.hideButton = new JButton("Hide");
+			this.user = new JLabel("User:");
+			this.pass = new JLabel("Password:");
+			this.userField = new JTextField(15);
+			this.passField = new JPasswordField(15);
+
+			this.userField.setHorizontalAlignment(SwingConstants.CENTER);
+			this.passField.setHorizontalAlignment(SwingConstants.CENTER);
 		}
 		this.cursor = MainMenuFrame.getInstance().getMainMenuPanel().getCursor();
 		this.setCursor(cursor);
@@ -397,18 +411,18 @@ public class StageClearPanel extends JLayeredPane {
 			submitScore.setBackground(Color.black);
 			submitScore.setFont(MainMenuFrame.getInstance().getMainMenuPanel().getFont());
 			submitScore.setFont(submitScore.getFont().deriveFont(16.0f));
-			
+
 			this.submitScore.addActionListener(new ActionListener() {
-				
+
 				@Override
 				public void actionPerformed(ActionEvent arg0) {
 					// TODO MAIDA PLZ FILL ME
-					
+
 				}
 			});
-			
+
 		}
-		
+
 	}
 
 	public void createSavePanel() {
@@ -512,19 +526,37 @@ public class StageClearPanel extends JLayeredPane {
 		this.eastLayout.setConstraints(bulletsGun4, eC);
 		this.bulletsGun4.setText(String.valueOf(playerState.getGunBullets4()));
 		recap.add(bulletsGun4);
-		eC.gridwidth = 1;
 
-		this.eC.insets = new Insets(10, 0, 0, 0);
+		this.eC.insets = new Insets(50, 0, 0, 0);
 		this.eC.gridwidth = 1;
-		this.eC.weightx = 1.0;
+
+		if(!isStoryModeOn)
+		{
+			this.eastLayout.setConstraints(user, eC);
+			recap.add(user);
+			this.eC.gridwidth = GridBagConstraints.REMAINDER;
+			this.eastLayout.setConstraints(pass, eC);
+			recap.add(pass);
+			eC.gridwidth = 1;
+
+			this.eastLayout.setConstraints(userField, eC);
+			recap.add(userField);
+			this.eC.gridwidth = GridBagConstraints.REMAINDER;
+			this.eastLayout.setConstraints(passField, eC);
+			recap.add(passField);
+			eC.gridwidth = 1;
+		}
 
 		for (int i = 0; i < recap.getComponentCount(); i++) {
 			Component component = recap.getComponent(i);
-			component.setForeground(Color.green);
+			if(component instanceof JLabel)
+			{
+			component.setForeground(Color.green);		
 			((JLabel) component).setOpaque(false);
 			component.setFont(MainMenuFrame.getInstance().getMainMenuPanel()
 					.getFont());
 			component.setFont(component.getFont().deriveFont(16.0f));
+			}
 		}
 
 		previewPaneL.add(recap, BorderLayout.CENTER);
