@@ -25,8 +25,6 @@ public class ThreadPoolBullet extends Thread {
 				GameManagerImpl.waitForCondition();
 			}
 
-			System.out.println("dsdd");
-
 			if (bullets.size() > 0) {
 				for (Integer key : bullets.keySet()) {
 

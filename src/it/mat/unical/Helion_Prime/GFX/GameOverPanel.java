@@ -38,6 +38,7 @@ public class GameOverPanel extends JLayeredPane {
 	private JButton retryButton;
 	private JButton confirmButton;
 	private JButton hideButton;
+	private JButton submitScore;
 
 	private JLabel time;
 	private JLabel timeDesc;
@@ -62,6 +63,7 @@ public class GameOverPanel extends JLayeredPane {
 	private ServerMultiplayer serverMultiplayer;
 	private File lastlevelPlayed;
 	private ClientManager manager;
+	private boolean isStoryModeOn;
 
 	public GameOverPanel(ClientManager manager, File level) {
 		this.manager = manager;
@@ -78,15 +80,26 @@ public class GameOverPanel extends JLayeredPane {
 		this.overlay = new JPanel();
 		this.overlay.setOpaque(false);
 		this.previewPaneL = null;
-		this.cursor = MainMenuFrame.getInstance().getMainMenuPanel()
-				.getCursor();
+		this.cursor = MainMenuFrame.getInstance().getMainMenuPanel().getCursor();
 		this.setCursor(cursor);
 		this.mainMenuFrame = MainMenuFrame.getInstance();
 		this.backToMenuButton = new JButton("Back to Menu");
-		this.saveLevel = new JButton("Save Level");
 		this.retryButton = new JButton("Retry");
-		this.confirmButton = new JButton("Save");
-		this.hideButton = new JButton("Hide");
+		
+		this.isStoryModeOn = MainMenuFrame.getInstance().getMainMenuPanel().isStoryModeOn();
+		if(isStoryModeOn)
+		{
+			this.hideButton = new JButton("Hide");
+			this.saveLevel = new JButton("Save Level");
+			this.confirmButton = new JButton("Save");
+		}
+		else
+		{
+			this.saveLevel = new JButton("Submit score");
+			this.confirmButton = new JButton("Confirm submit");
+			this.hideButton = new JButton("Hide");
+		}
+		
 
 		this.time = new JLabel("0");
 		this.timeDesc = new JLabel("Tempo:");
@@ -123,6 +136,22 @@ public class GameOverPanel extends JLayeredPane {
 	}
 
 	public void addListener() {
+		
+		this.confirmButton.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				if(isStoryModeOn)
+				{
+					//TO-DO: MAIDA PLZ FILL ME WITH SAVE CODE
+				}
+				else
+				{
+					//TO-DO: MAIDA PLZ FILL ME WITH SUBMIT CODE
+				}
+				
+			}
+		});
 		this.saveLevel.addActionListener(new ActionListener() {
 
 			@Override

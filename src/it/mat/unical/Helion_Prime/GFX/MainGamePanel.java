@@ -30,7 +30,7 @@ public class MainGamePanel extends JPanel {
 		this.cursor = MainMenuFrame.getInstance().getMainMenuPanel().getCursor();
 		this.setCursor(cursor);
 		setLayout(new BorderLayout());
-		// gamePadController = new GamePadController();
+		gamePadController = new GamePadController();
 		eastPanel = new EastGamePanel();
 		westPanel = new WestGamePanel();
 		westPanel.setBackground(Color.black);
@@ -39,7 +39,7 @@ public class MainGamePanel extends JPanel {
 		informationPanel = new InformationPanel();
 		/*
 		 * 
-		 * implementare rete
+		 * implementare rete dsdd
 		 */
 
 		try {
@@ -71,7 +71,7 @@ public class MainGamePanel extends JPanel {
 				.getCursor();
 		this.setCursor(cursor);
 		setLayout(new BorderLayout());
-		// gamePadController = new GamePadController();
+		gamePadController = new GamePadController();
 		eastPanel = new EastGamePanel();
 		westPanel = new WestGamePanel();
 		westPanel.setBackground(Color.black);
