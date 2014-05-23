@@ -243,7 +243,7 @@ public class ServerMultiplayer extends Thread {
 
 	}
 
-	protected void outToClientTwo(String messageFromPlayerTwo) {
+	public void outToClientTwo(String messageFromPlayerTwo) {
 		try {
 			forPlayerTwo.put(messageFromPlayerTwo);
 		} catch (InterruptedException e) {
@@ -348,8 +348,8 @@ public class ServerMultiplayer extends Thread {
 
 							placementTrap.put(splitted[1] + "/2");
 
-						} else if (messageFromPlayerOne.substring(0, 1).equals(
-								"s")) {
+						} else if (messageFromPlayerOne.substring(0, 2).equals(
+								"sh")) {
 							if (playerOne.getCurrentGunSelected() instanceof UziGun) {
 								playerOne.shootForUziGun(1);
 							} else {
@@ -359,6 +359,15 @@ public class ServerMultiplayer extends Thread {
 								outToClientTwo("sh " + String.valueOf(key)
 										+ " 2 " + playerOne.getDirection());
 							}
+
+						} else if (messageFromPlayerOne.substring(0, 2).equals(
+								"sw")) {
+
+							playerOne.SwitchGun(Integer
+									.parseInt(messageFromPlayerOne.substring(
+											messageFromPlayerOne.length() - 1,
+											messageFromPlayerOne.length())));
+
 						} else if (messageFromPlayerOne.equals("retry")) {
 
 							wantRetryPlayerOne = true;
@@ -446,8 +455,8 @@ public class ServerMultiplayer extends Thread {
 
 							placementTrap.put(splitted[1] + "/2");
 
-						} else if (messageFromPlayerTwo.substring(0, 1).equals(
-								"s")) {
+						} else if (messageFromPlayerTwo.substring(0, 2).equals(
+								"sh")) {
 							if (playertwo.getCurrentGunSelected() instanceof UziGun) {
 								playertwo.shootForUziGun(2);
 							} else {
@@ -457,6 +466,14 @@ public class ServerMultiplayer extends Thread {
 								outToClientTwo("sh " + String.valueOf(key)
 										+ " 1 " + playerOne.getDirection());
 							}
+
+						} else if (messageFromPlayerTwo.substring(0, 2).equals(
+								"sw")) {
+
+							playertwo.SwitchGun(Integer
+									.parseInt(messageFromPlayerTwo.substring(
+											messageFromPlayerTwo.length() - 1,
+											messageFromPlayerTwo.length())));
 
 						} else if (messageFromPlayerTwo.equals("retry")) {
 

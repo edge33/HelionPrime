@@ -313,7 +313,7 @@ public class Player extends AbstractCharacter implements TrapPlacing {
 									GameManagerImpl
 											.getInstance(id)
 											.getServerMuliplayer()
-											.outToClientOne(
+											.outToClientTwo(
 													"sh " + String.valueOf(key)
 															+ " 2 "
 															+ getDirection());
@@ -329,7 +329,7 @@ public class Player extends AbstractCharacter implements TrapPlacing {
 									GameManagerImpl
 											.getInstance(id)
 											.getServerMuliplayer()
-											.outToClientOne(
+											.outToClientTwo(
 													"sh " + String.valueOf(key)
 															+ " 1 "
 															+ getDirection());
