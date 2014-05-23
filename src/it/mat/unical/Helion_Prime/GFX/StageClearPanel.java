@@ -6,6 +6,7 @@ import it.mat.unical.Helion_Prime.Multiplayer.ServerMultiplayer;
 import it.mat.unical.Helion_Prime.Online.Client;
 import it.mat.unical.Helion_Prime.Online.ClientManager;
 import it.mat.unical.Helion_Prime.Online.Server;
+import it.mat.unical.Helion_Prime.SavesManager.OverrideSavegameCommand;
 import it.mat.unical.Helion_Prime.SavesManager.PlayerState;
 import it.mat.unical.Helion_Prime.SavesManager.SaveManagerImpl;
 
@@ -31,6 +32,8 @@ import javax.swing.JLayeredPane;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
+import org.h2.util.OsgiDataSourceFactory;
+
 public class StageClearPanel extends JLayeredPane {
 
 	private JButton backToMenuButton;
@@ -40,7 +43,7 @@ public class StageClearPanel extends JLayeredPane {
 
 	private JPanel previewPaneL;
 	private JPanel overlay;
-	private JButton confirmButton;
+	private SaveGameInvokerButton confirmButton;
 	private JButton hideButton;
 
 	private JLabel time;
@@ -69,7 +72,7 @@ public class StageClearPanel extends JLayeredPane {
 
 	public StageClearPanel(ClientManager clientManager, File level) {
 
-		this.confirmButton = new JButton("Save");
+		this.confirmButton = new SaveGameInvokerButton("Save");
 		this.hideButton = new JButton("Hide");
 
 		this.overlay = new JPanel();
@@ -99,6 +102,11 @@ public class StageClearPanel extends JLayeredPane {
 		this.backToMenuButton = new JButton("Back to Menu");
 		this.saveLevel = new JButton("Save Level");
 		this.retryButton = new JButton("Retry");
+		
+		if ( !PlayerState.getInstance().isSet() ) {
+			this.saveLevel.setEnabled(false);
+		}
+		
 
 		if (MainMenuFrame.getInstance().getMainMenuPanel().isStoryModeOn()) {
 
@@ -160,6 +168,11 @@ public class StageClearPanel extends JLayeredPane {
 				}
 			});
 
+			this.confirmButton.setCommand(new OverrideSavegameCommand() );
+	
+			
+		} else {
+			this.confirmButton.setText("Upload Score");
 		}
 
 		createButton();
@@ -345,23 +358,6 @@ public class StageClearPanel extends JLayeredPane {
 			retryButton.setFocusPainted(false);
 		}
 
-		this.confirmButton.addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent arg0) {
-				PlayerState playerState = PlayerState.getInstance();
-				if (SaveManagerImpl.getInstance().overrideSave(playerState)) {
-					JOptionPane.showMessageDialog(
-							mainMenuFrame.getInstance(),
-							"Salvataggio effettuato, slot: "
-									+ playerState.getUsername() + " "
-									+ playerState.getTimeStamp());
-				} else {
-					JOptionPane.showMessageDialog(mainMenuFrame.getInstance(),
-							"Errore Salvataggio!");
-				}
-			}
-		});
 
 	}
 

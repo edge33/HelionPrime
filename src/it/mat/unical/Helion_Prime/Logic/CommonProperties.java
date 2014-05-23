@@ -47,7 +47,7 @@ public class CommonProperties {
 		
 		remoteDb = properties.getProperty("remotedb");
 		remoteUser = properties.getProperty("remoteuser");
-		dbPassword = properties.getProperty("remotepwd");
+		remotePwd = properties.getProperty("remotepwd");
 		
 		
 	}
