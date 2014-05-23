@@ -42,6 +42,7 @@ public class ServerMultiplayer extends Thread {
 	private LinkedBlockingQueue<String> placementTrap;
 	protected boolean isStageClear;
 	private int id_connection = 0;
+	private boolean isFinishMultiplayerGame;
 
 	public ServerMultiplayer(int port, int id) {
 		try {
@@ -52,6 +53,7 @@ public class ServerMultiplayer extends Thread {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		isFinishMultiplayerGame = false;
 		this.connectedClient = 0;
 		wantRetryPlayerOne = false;
 		barrier = new CyclicBarrier(2);
@@ -277,7 +279,7 @@ public class ServerMultiplayer extends Thread {
 		new Thread() {
 			public void run() {
 				this.setName("SERVER_MULTIPLAYER - MEX FROM PLAYER ONE");
-				while (true) {
+				while (!isFinishMultiplayerGame) {
 
 					try {
 						String css = inFromClientOne();
@@ -300,7 +302,7 @@ public class ServerMultiplayer extends Thread {
 		new Thread() {
 			public void run() {
 				this.setName("SERVER_MULTIPLAYER - MEX FROM PLAYER TWO");
-				while (true) {
+				while (!isFinishMultiplayerGame) {
 
 					try {
 						String css = inFromClientTwo();
@@ -326,7 +328,7 @@ public class ServerMultiplayer extends Thread {
 
 				this.setName("SERVER_MULTIPLAYER - UPDATER PLAYER 1 ");
 
-				while (true) {
+				while (!isFinishMultiplayerGame) {
 
 					String messageFromPlayerOne;
 
@@ -368,9 +370,11 @@ public class ServerMultiplayer extends Thread {
 											messageFromPlayerOne.length() - 1,
 											messageFromPlayerOne.length())));
 
-						} else if (messageFromPlayerOne.equals("retry")) {
+						} else if (messageFromPlayerOne.equals("retry")
+								|| messageFromPlayerOne.equals("notRetry")) {
 
-							wantRetryPlayerOne = true;
+							if (messageFromPlayerOne.equals("retry"))
+								wantRetryPlayerOne = true;
 
 							try {
 								barrier.await();
@@ -413,10 +417,25 @@ public class ServerMultiplayer extends Thread {
 								wantRetryPlayerOne = false;
 								wantRetryPlayerTwo = false;
 
+							} else {
+								if (!wantRetryPlayerOne) {
+									outToClientTwo("PlayerOneOut");
+								} else
+									outToClientOne("PlayerTwoOut");
+
+								closeConnecionPlayerTwo();
+								closeConnectionPlayerOne();
+								isFinishMultiplayerGame = true;
+								ServerMultiplayer.this.serverMultiplayer
+										.close();
+
 							}
 
 						}
 					} catch (InterruptedException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					} catch (IOException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
@@ -435,7 +454,7 @@ public class ServerMultiplayer extends Thread {
 
 				this.setName("SERVER_MULTIPLAYER - UPDATER PLAYER 2 ");
 
-				while (true) {
+				while (!isFinishMultiplayerGame) {
 
 					try {
 						String messageFromPlayerTwo = fromPlayerTwo.take();
@@ -485,6 +504,16 @@ public class ServerMultiplayer extends Thread {
 								// TODO Auto-generated catch block
 								e.printStackTrace();
 							}
+						} else if (messageFromPlayerTwo.equals("notRetry")) {
+							wantRetryPlayerTwo = false;
+							try {
+								barrier.await();
+							} catch (BrokenBarrierException e1) {
+								// TODO Auto-generated catch block
+								e1.printStackTrace();
+							}
+
+							closeConnecionPlayerTwo();
 						}
 
 					} catch (InterruptedException e) {
@@ -668,8 +697,9 @@ public class ServerMultiplayer extends Thread {
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+			return "finish";
 		}
-		return null;
+
 	}
 
 	public String inFromClientTwo() {
@@ -678,8 +708,10 @@ public class ServerMultiplayer extends Thread {
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+
+			return "finish";
 		}
-		return null;
+
 	}
 
 	public synchronized void sendToClientOne(String sentence) {
@@ -711,6 +743,27 @@ public class ServerMultiplayer extends Thread {
 		try {
 			broadcastMessage.put(sentence);
 		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
+	private void closeConnectionPlayerOne() {
+		try {
+			in.close();
+			out.close();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+	}
+
+	private void closeConnecionPlayerTwo() {
+		try {
+			inTwo.close();
+			outTwo.close();
+		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
