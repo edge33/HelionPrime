@@ -170,12 +170,16 @@ public class StageClearPanel extends JLayeredPane {
 			public void actionPerformed(ActionEvent arg0) {
 
 				if (!StageClearPanel.this.clientManager.isMultiplayerGame()) {
+
 					StageClearPanel.this.mainMenuFrame
 							.switchTo(StageClearPanel.this.mainMenuFrame
 									.getMainMenuPanel());
 
 				} else {
-					StageClearPanel.this.clientManager.sendMessage("finish");
+					// StageClearPanel.this.clientManager.sendMessage("finish");
+
+					StageClearPanel.this.clientManager.sendMessage("notRetry");
+					StageClearPanel.this.clientManager.closeConnection();
 					StageClearPanel.this.mainMenuFrame
 							.switchTo(StageClearPanel.this.mainMenuFrame
 									.getMainMenuPanel());
@@ -261,23 +265,34 @@ public class StageClearPanel extends JLayeredPane {
 
 					String responseFromServer = StageClearPanel.this.clientManager
 							.getClient().recieveMessage();
+					System.out.println("RESPONSE FROM SERVER "
+							+ responseFromServer);
 
-					System.out.println("MESSAGGIO DAL SERVER ARRIVATO");
+					if ((!responseFromServer.equals("PlayerOneOut"))
+							&& (!responseFromServer.equals("PlayerTwoOut"))) {
+						System.out.println("MESSAGGIO DAL SERVER ARRIVATO");
 
-					MainGamePanel mgGamePanel = new MainGamePanel(
-							lastLevelPlayed, StageClearPanel.this.clientManager
-									.getClient());
+						MainGamePanel mgGamePanel = new MainGamePanel(
+								lastLevelPlayed,
+								StageClearPanel.this.clientManager.getClient());
 
-					MainMenuFrame.getInstance().switchTo(mgGamePanel);
+						MainMenuFrame.getInstance().switchTo(mgGamePanel);
 
-					// } else if (responseFromServer.equals("nOk")) {
-					//
-					// StageClearPanel.this.mainMenuFrame
-					// .switchTo(StageClearPanel.this.mainMenuFrame
-					// .getMainMenuPanel());
-					//
-					// }
+						// } else if (responseFromServer.equals("nOk")) {
+						//
+						// StageClearPanel.this.mainMenuFrame
+						// .switchTo(StageClearPanel.this.mainMenuFrame
+						// .getMainMenuPanel());
+						//
+						// }
+					} else {
+						JOptionPane.showMessageDialog(StageClearPanel.this,
+								responseFromServer);
 
+						StageClearPanel.this.clientManager.closeConnection();
+						MainMenuFrame.getInstance().switchTo(
+								MainMenuFrame.getInstance().getMainMenuPanel());
+					}
 				}
 
 			}
