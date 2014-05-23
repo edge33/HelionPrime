@@ -116,6 +116,7 @@ Finiti:
 04) cursore su elementi editor ok ( il tasto selezionato è evidenziato, vedete se volete cambiare il cursore o lasciare così)
 09) rimuovere cablaggi databases ( ok il database si genera qualora non fosse presente)
 08) collegamento listener savegames
+10) server su terza macchina
 
 Rimanenti
 
@@ -124,7 +125,6 @@ Rimanenti
 05) score
 06) animazioni
 07) upload score
-10) server su terza macchina
 
 
 
