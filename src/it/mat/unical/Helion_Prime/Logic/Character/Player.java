@@ -254,12 +254,8 @@ public class Player extends AbstractCharacter implements TrapPlacing {
 
 	// dovrebbe sparare, aggiunge un bullet nella lista di bullets
 	public Integer shoot() {
-		if (!(currentGunSelected instanceof UziGun))
-			return currentGunSelected.shoot(this.world, this);
-		else
-			shootForUziGun();
 
-		return 0;
+		return currentGunSelected.shoot(this.world, this);
 
 	}
 
@@ -274,7 +270,7 @@ public class Player extends AbstractCharacter implements TrapPlacing {
 		return super.isAlive();
 	}
 
-	protected void shootForUziGun() {
+	public void shootForUziGun(final int player) {
 		if (getCurrentGunSelected() instanceof UziGun) {
 
 			if (!threadAlive) {
@@ -288,14 +284,59 @@ public class Player extends AbstractCharacter implements TrapPlacing {
 								&& !GameManagerImpl.getInstance(id)
 										.isGameStopped(); i++) {
 
-							GameManagerImpl
-									.getInstance(id)
-									.getServer()
-									.sendMessage(
-											"shoot "
-													+ String.valueOf(currentGunSelected
-															.shoot(world,
-																	Player.this)));
+							if (!GameManagerImpl.getInstance(id)
+									.isMultiplayerGame()) {
+								GameManagerImpl
+										.getInstance(id)
+										.getServer()
+										.sendMessage(
+												"sh "
+														+ String.valueOf(shoot()
+																+ " ")
+														+ getDirection()
+														+ " "
+														+ getArmy()
+																.indexOf(
+																		getCurrentGunSelected()));
+							} else {
+
+								int key = shoot();
+								if (player == 1) {
+									GameManagerImpl
+											.getInstance(id)
+											.getServerMuliplayer()
+											.outToClientOne(
+													"sh " + String.valueOf(key)
+															+ " 1 "
+															+ getDirection());
+
+									GameManagerImpl
+											.getInstance(id)
+											.getServerMuliplayer()
+											.outToClientOne(
+													"sh " + String.valueOf(key)
+															+ " 2 "
+															+ getDirection());
+								} else {
+									GameManagerImpl
+											.getInstance(id)
+											.getServerMuliplayer()
+											.outToClientOne(
+													"sh " + String.valueOf(key)
+															+ " 2 "
+															+ getDirection());
+
+									GameManagerImpl
+											.getInstance(id)
+											.getServerMuliplayer()
+											.outToClientOne(
+													"sh " + String.valueOf(key)
+															+ " 1 "
+															+ getDirection());
+
+								}
+
+							}
 
 							try {
 								sleep(100);
@@ -306,7 +347,7 @@ public class Player extends AbstractCharacter implements TrapPlacing {
 
 						}
 						try {
-							sleep(2000);
+							sleep(1000);
 						} catch (InterruptedException e) {
 							// TODO Auto-generated catch block
 							e.printStackTrace();

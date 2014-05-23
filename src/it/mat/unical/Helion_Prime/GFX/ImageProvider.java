@@ -1168,7 +1168,6 @@ public class ImageProvider extends Thread {
 			break;
 		case 1: {
 
-			System.out.println("Hunter");
 			switch (direction) {
 			case 0:
 				if (currentNative.getCurrentPosition() == 1) {

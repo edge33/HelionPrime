@@ -89,6 +89,7 @@ public class StageClearPanel extends JLayeredPane {
 		this.bulletsGun4 = new JLabel("0");
 
 		this.clientManager = clientManager;
+
 		this.profile = clientManager.getUserProfile();
 		this.cursor = MainMenuFrame.getInstance().getMainMenuPanel()
 				.getCursor();

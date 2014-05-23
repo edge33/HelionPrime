@@ -1,6 +1,7 @@
 package it.mat.unical.Helion_Prime.Multiplayer;
 
 import it.mat.unical.Helion_Prime.Logic.GameManagerImpl;
+import it.mat.unical.Helion_Prime.Logic.UziGun;
 import it.mat.unical.Helion_Prime.Logic.Character.Player;
 
 import java.io.BufferedReader;
@@ -232,7 +233,7 @@ public class ServerMultiplayer extends Thread {
 
 	}
 
-	protected void outToClientOne(String string) {
+	public void outToClientOne(String string) {
 		try {
 			forPlayerOne.put(string);
 		} catch (InterruptedException e) {
@@ -349,12 +350,15 @@ public class ServerMultiplayer extends Thread {
 
 						} else if (messageFromPlayerOne.substring(0, 1).equals(
 								"s")) {
-
-							int key = canShoot(gameManager.getPlayerOne());
-							outToClientOne("sh " + String.valueOf(key) + " 1 "
-									+ playerOne.getDirection());
-							outToClientTwo("sh " + String.valueOf(key) + " 2 "
-									+ playerOne.getDirection());
+							if (playerOne.getCurrentGunSelected() instanceof UziGun) {
+								playerOne.shootForUziGun(1);
+							} else {
+								int key = canShoot(gameManager.getPlayerOne());
+								outToClientOne("sh " + String.valueOf(key)
+										+ " 1 " + playerOne.getDirection());
+								outToClientTwo("sh " + String.valueOf(key)
+										+ " 2 " + playerOne.getDirection());
+							}
 						} else if (messageFromPlayerOne.equals("retry")) {
 
 							wantRetryPlayerOne = true;
@@ -444,11 +448,15 @@ public class ServerMultiplayer extends Thread {
 
 						} else if (messageFromPlayerTwo.substring(0, 1).equals(
 								"s")) {
-							int key = canShoot(gameManager.getPlayerTwo());
-							outToClientOne("sh " + String.valueOf(key) + " 2 "
-									+ playertwo.getDirection());
-							outToClientTwo("sh " + String.valueOf(key) + " 1 "
-									+ playertwo.getDirection());
+							if (playertwo.getCurrentGunSelected() instanceof UziGun) {
+								playertwo.shootForUziGun(2);
+							} else {
+								int key = canShoot(gameManager.getPlayerOne());
+								outToClientOne("sh " + String.valueOf(key)
+										+ " 2 " + playerOne.getDirection());
+								outToClientTwo("sh " + String.valueOf(key)
+										+ " 1 " + playerOne.getDirection());
+							}
 
 						} else if (messageFromPlayerTwo.equals("retry")) {
 

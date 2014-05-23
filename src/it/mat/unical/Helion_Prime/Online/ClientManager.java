@@ -308,6 +308,8 @@ public class ClientManager {
 				gamePane.informationPanel.setMoney(Integer
 						.parseInt(splitted[3]));
 
+				this.setMoney(Integer.parseInt(splitted[3]));
+
 			} else if (splittedMessage[0].equals("pr")) {
 
 				Point point = new Point(Integer.parseInt(splitted[1]),
@@ -593,5 +595,9 @@ public class ClientManager {
 		} finally {
 			lock.unlock();
 		}
+	}
+
+	public void setMoney(int money) {
+		this.money = money;
 	}
 }

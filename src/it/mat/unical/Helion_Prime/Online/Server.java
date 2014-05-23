@@ -1,6 +1,7 @@
 package it.mat.unical.Helion_Prime.Online;
 
 import it.mat.unical.Helion_Prime.Logic.GameManagerImpl;
+import it.mat.unical.Helion_Prime.Logic.UziGun;
 import it.mat.unical.Helion_Prime.Logic.Character.Player;
 
 import java.io.BufferedReader;
@@ -188,13 +189,17 @@ public class Server extends Thread {
 		} else if (message.substring(0, 1).equals("p")) {
 			placemenTrap.put(splitted[1]);
 		} else if (message.equals("sh")) {
-			incrBullet();
-			sendMessage("sh "
-					+ String.valueOf(playerOne.shoot() + " ")
-					+ playerOne.getDirection()
-					+ " "
-					+ playerOne.getArmy().indexOf(
-							playerOne.getCurrentGunSelected()));
+
+			if (!(playerOne.getCurrentGunSelected() instanceof UziGun)) {
+				incrBullet();
+				sendMessage("sh "
+						+ String.valueOf(playerOne.shoot() + " ")
+						+ playerOne.getDirection()
+						+ " "
+						+ playerOne.getArmy().indexOf(
+								playerOne.getCurrentGunSelected()));
+			} else
+				playerOne.shootForUziGun(0);
 
 		} else if (splitted[0].equals("switchGun")) {
 			swintchGunForPlayer(splitted[1]);
