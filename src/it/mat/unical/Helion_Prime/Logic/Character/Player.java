@@ -306,33 +306,53 @@ public class Player extends AbstractCharacter implements TrapPlacing {
 											.getInstance(id)
 											.getServerMuliplayer()
 											.outToClientOne(
-													"sh " + String.valueOf(key)
+													"sh "
+															+ String.valueOf(key)
 															+ " 1 "
-															+ getDirection());
+															+ getDirection()
+															+ " "
+															+ getArmy()
+																	.indexOf(
+																			getCurrentGunSelected()));
 
 									GameManagerImpl
 											.getInstance(id)
 											.getServerMuliplayer()
 											.outToClientTwo(
-													"sh " + String.valueOf(key)
+													"sh "
+															+ String.valueOf(key)
 															+ " 2 "
-															+ getDirection());
+															+ getDirection()
+															+ " "
+															+ getArmy()
+																	.indexOf(
+																			getCurrentGunSelected()));
 								} else {
 									GameManagerImpl
 											.getInstance(id)
 											.getServerMuliplayer()
 											.outToClientOne(
-													"sh " + String.valueOf(key)
+													"sh "
+															+ String.valueOf(key)
 															+ " 2 "
-															+ getDirection());
+															+ getDirection()
+															+ " "
+															+ getArmy()
+																	.indexOf(
+																			getCurrentGunSelected()));
 
 									GameManagerImpl
 											.getInstance(id)
 											.getServerMuliplayer()
 											.outToClientTwo(
-													"sh " + String.valueOf(key)
+													"sh "
+															+ String.valueOf(key)
 															+ " 1 "
-															+ getDirection());
+															+ getDirection()
+															+ " "
+															+ getArmy()
+																	.indexOf(
+																			getCurrentGunSelected()));
 
 								}
 

@@ -10,7 +10,7 @@ import java.awt.Toolkit;
 import javax.swing.JLabel;
 
 //semplice classe che carica le immaggini dal toolkit e le restituisce al paintComponent del "GamePane"
-// Last id 144
+// Last id 145
 
 public class ImageProvider extends Thread {
 
@@ -577,6 +577,8 @@ public class ImageProvider extends Thread {
 		tracker.addImage(player2LeftRunning3, 143);
 		tracker.addImage(player2LeftRunning4, 144);
 
+		tracker.addImage(player2Standing, 145);
+
 		tracker.addImage(hunterDownRunning1, 27);
 		tracker.addImage(hunterDownRunning2, 22);
 		tracker.addImage(hunterDownRunning3, 28);
@@ -770,23 +772,23 @@ public class ImageProvider extends Thread {
 	}
 
 	public Image getPlayer2Standing() {
-		return imageSwitchedStanding;
+		return imageSwitched2Standing;
 	}
 
 	public Image getPlayer2UpRunning() {
-		return imageSwitchedUpRunning;
+		return imageSwitched2UpRunning;
 	}
 
 	public Image getPlayer2DownRunning() {
-		return imageSwitchedDownRunning;
+		return imageSwitched2DownRunning;
 	}
 
 	public Image getPlayer2RightRunning() {
-		return imageSwitchedRightRunning;
+		return imageSwitched2RightRunning;
 	}
 
 	public Image getPlayer2LeftRunning() {
-		return imageSwitchedLeftRunning;
+		return imageSwitched2LeftRunning;
 	}
 
 	public Image getHunterDownRunning1() {

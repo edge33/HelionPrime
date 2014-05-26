@@ -17,7 +17,7 @@ public class MacchinaServer {
 
 	public void startServers() {
 		for (int i = 0; i < 3; i++) {
-			openMatch.get(i).setLevelName("crossroad");
+			openMatch.get(i).setLevelName();
 
 			System.out.println("Macchina " + i + " opertiva");
 			openMatch.get(i).start();

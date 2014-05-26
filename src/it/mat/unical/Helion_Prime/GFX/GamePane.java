@@ -51,7 +51,7 @@ public class GamePane extends JPanel {
 	private int playerTwoX;
 	private int playerTwoY;
 	private int imagePlayer;
-	private int imagePlayer2;
+	public int imagePlayer2;
 
 	private ThreadPoolMovementPlayerTwo movementPlayerTwo;
 	private boolean isConnectedPad = false;
@@ -273,21 +273,29 @@ public class GamePane extends JPanel {
 					case KeyEvent.VK_W:
 						GamePane.this.UP = false;
 						imagePlayer = 0;
+						GamePane.this.clientManager
+								.pushToQueueForServer("dSTAND");
 						// clientManager.getPlayerDirection() = -1;
 						break;
 					case KeyEvent.VK_S:
 						GamePane.this.DOWN = false;
 						imagePlayer = 0;
+						GamePane.this.clientManager
+								.pushToQueueForServer("dSTAND");
 						// clientManager.getPlayerDirection() = -2;
 						break;
 					case KeyEvent.VK_A:
 						GamePane.this.RIGHT = false;
 						imagePlayer = 0;
+						GamePane.this.clientManager
+								.pushToQueueForServer("dSTAND");
 						// clientManager.getPlayerDirection() = -3;
 						break;
 					case KeyEvent.VK_D:
 						GamePane.this.LEFT = false;
 						imagePlayer = 0;
+						GamePane.this.clientManager
+								.pushToQueueForServer("dSTAND");
 						// clientManager.getPlayerDirection() = -3;
 						break;
 					case KeyEvent.VK_P:
@@ -726,7 +734,7 @@ public class GamePane extends JPanel {
 
 		// // in base alla direzione del player stampa
 		// // l'immagine corrispondente
-		if (clientManager.isPlayerOne) {
+		if (!client.isMultiplayerGame()) {
 			switch (imagePlayer) {
 			case 0:
 				g.drawImage(imageProvider.getPlayerStanding(), playerY
@@ -757,47 +765,43 @@ public class GamePane extends JPanel {
 			default:
 				break;
 			}
-		} else {
-			switch (imagePlayer2) {
-			case 0:
-				g.drawImage(imageProvider.getPlayer2Standing(), playerY
-				/* + drawingHorizontalOffset */, playerX, TILE_SIZE, TILE_SIZE,
-						this);
-				break;
+		} else { // //se siamo nel multiplayer
 
-			case 1:
-				g.drawImage(imageProvider.getPlayer2UpRunning(), playerY
-				/* + drawingHorizontalOffset */, playerX, TILE_SIZE, TILE_SIZE,
-						this);
-				break;
-			case 2:
-				g.drawImage(imageProvider.getPlayer2DownRunning(), playerY
-				/* + drawingHorizontalOffset */, playerX, TILE_SIZE, TILE_SIZE,
-						this);
-				break;
-			case 3:
-				g.drawImage(imageProvider.getPlayer2RightRunning(), playerY
-				/* + drawingHorizontalOffset */, playerX, TILE_SIZE, TILE_SIZE,
-						this);
-				break;
-			case 4:
-				g.drawImage(imageProvider.getPlayer2LeftRunning(), playerY
-				/* + drawingHorizontalOffset */, playerX, TILE_SIZE, TILE_SIZE,
-						this);
-				break;
-			default:
-				break;
-			}
+			if (ClientManager.isPlayerOne) {
+				// io sono filippo
 
-		}
-		if (client.isMultiplayerGame()) {
+				switch (imagePlayer) {
+				case 0:
+					g.drawImage(imageProvider.getPlayerStanding(), playerY
+					/* + drawingHorizontalOffset */, playerX, TILE_SIZE,
+							TILE_SIZE, this);
+					break;
 
-			((ClientManagerMultiplayer) clientManager).getLogicXPlayerTwo();
+				case 1:
+					g.drawImage(imageProvider.getPlayerUpRunning(), playerY
+					/* + drawingHorizontalOffset */, playerX, TILE_SIZE,
+							TILE_SIZE, this);
+					break;
+				case 2:
+					g.drawImage(imageProvider.getPlayerDownRunning(), playerY
+					/* + drawingHorizontalOffset */, playerX, TILE_SIZE,
+							TILE_SIZE, this);
+					break;
+				case 3:
+					g.drawImage(imageProvider.getPlayerRightRunning(), playerY
+					/* + drawingHorizontalOffset */, playerX, TILE_SIZE,
+							TILE_SIZE, this);
+					break;
+				case 4:
+					g.drawImage(imageProvider.getPlayerLeftRunning(), playerY
+					/* + drawingHorizontalOffset */, playerX, TILE_SIZE,
+							TILE_SIZE, this);
+					break;
+				default:
+					break;
+				}
 
-			((ClientManagerMultiplayer) clientManager).getLogicYPlayerTwo();
-			// //System.out.println("--------------------------------------------------------Client ;"
-			// + clientManager.isPlayerOne);
-			if (clientManager.isPlayerOne) {
+				// e l'altro è david
 
 				switch (imagePlayer2) {
 				case 0:
@@ -831,10 +835,11 @@ public class GamePane extends JPanel {
 					break;
 				default:
 					break;
-
 				}
+
 			} else {
-				switch (imagePlayer) {
+
+				switch (imagePlayer2) {
 				case 0:
 					g.drawImage(imageProvider.getPlayerStanding(), playerTwoY
 					/* + drawingHorizontalOffset */, playerTwoX, TILE_SIZE,
@@ -868,8 +873,41 @@ public class GamePane extends JPanel {
 					break;
 				}
 
+				switch (imagePlayer) {
+				case 0:
+					g.drawImage(imageProvider.getPlayer2Standing(), playerY
+					/* + drawingHorizontalOffset */, playerX, TILE_SIZE,
+							TILE_SIZE, this);
+					break;
+
+				case 1:
+					g.drawImage(imageProvider.getPlayer2UpRunning(), playerY
+					/* + drawingHorizontalOffset */, playerX, TILE_SIZE,
+							TILE_SIZE, this);
+					break;
+				case 2:
+					g.drawImage(imageProvider.getPlayer2DownRunning(), playerY
+					/* + drawingHorizontalOffset */, playerX, TILE_SIZE,
+							TILE_SIZE, this);
+					break;
+				case 3:
+					g.drawImage(imageProvider.getPlayer2RightRunning(), playerY
+					/* + drawingHorizontalOffset */, playerX, TILE_SIZE,
+							TILE_SIZE, this);
+					break;
+				case 4:
+					g.drawImage(imageProvider.getPlayer2LeftRunning(), playerY
+					/* + drawingHorizontalOffset */, playerX, TILE_SIZE,
+							TILE_SIZE, this);
+					break;
+				default:
+					break;
+				}
+
 			}
+
 		}
+
 		informationPanel.repaint();
 		//
 		// ConcurrentHashMap<Integer, AbstractNative> natives = manager

@@ -12,6 +12,8 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.HashMap;
+import java.util.Random;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.BrokenBarrierException;
 import java.util.concurrent.CyclicBarrier;
@@ -20,6 +22,8 @@ import java.util.concurrent.LinkedBlockingQueue;
 public class ServerMultiplayer extends Thread {
 
 	private ServerSocket serverMultiplayer;
+	private HashMap<Integer, String> levelList;
+
 	private Socket client;
 	private BufferedReader in;
 	private DataOutputStream out;
@@ -53,6 +57,16 @@ public class ServerMultiplayer extends Thread {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+
+		levelList = new HashMap<Integer, String>();
+
+		levelList.put(0, "bastion");
+		levelList.put(1, "crossroad");
+		// levelList.put(2, "labyrinth");
+		levelList.put(2, "spirals");
+		levelList.put(3, "twistedlane");
+		levelList.put(4, "wasteland");
+
 		isFinishMultiplayerGame = false;
 		this.connectedClient = 0;
 		wantRetryPlayerOne = false;
@@ -86,10 +100,12 @@ public class ServerMultiplayer extends Thread {
 
 					System.out.println(in.readLine());
 					out.writeBytes("Welcome player1" + "\n");
-					if (levelName == null)
-						levelName = in.readLine();
-					else
-						out.writeBytes(levelName + "\n");
+					// if (levelName == null)
+					// levelName = in.readLine();
+
+					out.writeBytes("1 " + "\n");
+					out.flush();
+					out.writeBytes(levelName + "\n");
 
 					System.out.println("livello scelto dal player 1(SERVER) "
 							+ levelName);
@@ -101,7 +117,9 @@ public class ServerMultiplayer extends Thread {
 					outTwo = new DataOutputStream(client.getOutputStream());
 
 					System.out.println(inTwo.readLine());
+
 					outTwo.writeBytes("Welcome player1" + "\n");
+					outTwo.writeBytes("2 " + "\n");
 					outTwo.writeBytes(levelName + "\n");
 					connectedClient++;
 
@@ -158,8 +176,12 @@ public class ServerMultiplayer extends Thread {
 		this.startUpdater();
 	}
 
-	public void setLevelName(String levelName) {
-		this.levelName = levelName;
+	public void setLevelName() {
+		Random random = new Random();
+
+		int randomLevel = random.nextInt(4);
+
+		this.levelName = levelList.get(randomLevel);
 	}
 
 	private void startUpdater() {
@@ -341,6 +363,7 @@ public class ServerMultiplayer extends Thread {
 										"d")) {
 							canMovePlayer(messageFromPlayerOne,
 									gameManager.getPlayerOne());
+
 							outToClientTwo(messageFromPlayerOne);
 
 						} else if (messageFromPlayerOne.substring(0, 1).equals(
@@ -355,11 +378,29 @@ public class ServerMultiplayer extends Thread {
 							if (playerOne.getCurrentGunSelected() instanceof UziGun) {
 								playerOne.shootForUziGun(1);
 							} else {
+								incrBullet(playerOne);
+
 								int key = canShoot(gameManager.getPlayerOne());
-								outToClientOne("sh " + String.valueOf(key)
-										+ " 1 " + playerOne.getDirection());
-								outToClientTwo("sh " + String.valueOf(key)
-										+ " 2 " + playerOne.getDirection());
+								outToClientOne("sh "
+										+ String.valueOf(key)
+										+ " 1 "
+										+ playerOne.getDirection()
+										+ " "
+										+ playerOne
+												.getArmy()
+												.indexOf(
+														playerOne
+																.getCurrentGunSelected()));
+								outToClientTwo("sh "
+										+ String.valueOf(key)
+										+ " 2 "
+										+ playerOne.getDirection()
+										+ " "
+										+ playerOne
+												.getArmy()
+												.indexOf(
+														playerOne
+																.getCurrentGunSelected()));
 							}
 
 						} else if (messageFromPlayerOne.substring(0, 2).equals(
@@ -384,7 +425,13 @@ public class ServerMultiplayer extends Thread {
 							}
 
 							if (wantRetryPlayerOne && wantRetryPlayerTwo) {
-								sendBroadcast("Ok");
+								setLevelName();
+								sendBroadcast(levelName);
+
+								level = null;
+
+								level = new File("levels/" + levelName + ".txt");
+
 								sendBroadcast(((Integer) GameManagerImpl
 										.getInstance(id_connection)
 										.getPlayerOne().getMoney()).toString()); // mando
@@ -479,11 +526,30 @@ public class ServerMultiplayer extends Thread {
 							if (playertwo.getCurrentGunSelected() instanceof UziGun) {
 								playertwo.shootForUziGun(2);
 							} else {
-								int key = canShoot(gameManager.getPlayerOne());
-								outToClientOne("sh " + String.valueOf(key)
-										+ " 2 " + playerOne.getDirection());
-								outToClientTwo("sh " + String.valueOf(key)
-										+ " 1 " + playerOne.getDirection());
+
+								int key = canShoot(gameManager.getPlayerTwo());
+								incrBullet(playertwo);
+								outToClientOne("sh "
+										+ String.valueOf(key)
+										+ " 2 "
+										+ playertwo.getDirection()
+										+ " "
+										+ playertwo
+												.getArmy()
+												.indexOf(
+														playertwo
+																.getCurrentGunSelected()));
+
+								outToClientTwo("sh "
+										+ String.valueOf(key)
+										+ " 1 "
+										+ playertwo.getDirection()
+										+ " "
+										+ playertwo
+												.getArmy()
+												.indexOf(
+														playertwo
+																.getCurrentGunSelected()));
 							}
 
 						} else if (messageFromPlayerTwo.substring(0, 2).equals(
@@ -640,6 +706,19 @@ public class ServerMultiplayer extends Thread {
 	// }
 	//
 	// }
+	private void incrBullet(Player player) {
+
+		int bulletsCurrent = player.getBulletsArmy().get(
+				player.getCurrentGunSelected());
+
+		System.out.println("ARMY" + player.getCurrentGunSelected() + " "
+				+ bulletsCurrent);
+
+		bulletsCurrent++;
+		playerOne.getBulletsArmy().put(player.getCurrentGunSelected(),
+				bulletsCurrent);
+
+	}
 
 	private void canMovePlayer(String message, Player player) {
 

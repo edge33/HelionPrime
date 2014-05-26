@@ -3,6 +3,7 @@ package it.mat.unical.Helion_Prime.Multiplayer;
 import it.mat.unical.Helion_Prime.GFX.MainGamePanel;
 import it.mat.unical.Helion_Prime.GFX.MainMenuFrame;
 import it.mat.unical.Helion_Prime.Online.Client;
+import it.mat.unical.Helion_Prime.Online.ClientManager;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -245,7 +246,14 @@ public class WaitLobbyPanel extends JPanel {
 				client.sendMessage("Client 2 connesso");
 
 				System.out.println("client" + client.recieveMessage());
+				String numberPlayer = client.recieveMessage();
+				if (numberPlayer.substring(0, 1).equals("1")) {
+					ClientManager.isPlayerOne = true;
 
+				} else {
+					ClientManager.isPlayerOne = false;
+
+				}
 				String levelName = client.recieveMessage();
 				System.out.println("livello scelto dal server" + levelName);
 

@@ -22,11 +22,14 @@ public class ThreadPoolMovementPlayerTwo extends Thread {
 
 			try {
 				Integer move = movement.take();
+				gPane.imagePlayer2 = move + 1;
 
-				for (int i = 0; i < 10; i++) {
-					movePlayerTwo(move);
-					sleep(40);
-				}
+				if (move != -1)
+					for (int i = 0; i < 10; i++) {
+						movePlayerTwo(move);
+
+						sleep(40);
+					}
 
 			} catch (InterruptedException e) {
 				// TODO Auto-generated catch block

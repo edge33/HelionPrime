@@ -26,6 +26,7 @@ import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JLayeredPane;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 public class GameOverPanel extends JLayeredPane {
@@ -197,20 +198,49 @@ public class GameOverPanel extends JLayeredPane {
 					MainMenuFrame.getInstance().switchTo(mainGamePanel);
 				} else {
 
-					manager.sendMessage("retry");
+					GameOverPanel.this.manager.sendMessage("retry");
 
 					System.out.println("ATTENDO MESSAGGIO DAL SERVER");
 
-					manager.getClient().recieveMessage();
+					String responseFromServer = GameOverPanel.this.manager
+							.getClient().recieveMessage();
+					System.out.println("RESPONSE FROM SERVER "
+							+ responseFromServer);
 
-					System.out.println("MESSAGGIO DAL SERVER ARRIVATO");
+					if ((!responseFromServer.equals("PlayerOneOut"))
+							&& (!responseFromServer.equals("PlayerTwoOut"))) {
+						System.out.println("MESSAGGIO DAL SERVER ARRIVATO");
 
-					MainGamePanel mgGamePanel = new MainGamePanel(
-							lastlevelPlayed, manager.getClient());
+						lastlevelPlayed = null;
+						lastlevelPlayed = new File("levels/"
+								+ responseFromServer + ".txt");
 
-					MainMenuFrame.getInstance().switchTo(mgGamePanel);
+						System.out.println("CLIENTTTTTTTTTT "
+								+ responseFromServer);
 
+						MainGamePanel mgGamePanel = new MainGamePanel(
+								lastlevelPlayed, GameOverPanel.this.manager
+										.getClient());
+
+						MainMenuFrame.getInstance().switchTo(mgGamePanel);
+
+						// } else if (responseFromServer.equals("nOk")) {
+						//
+						// StageClearPanel.this.mainMenuFrame
+						// .switchTo(StageClearPanel.this.mainMenuFrame
+						// .getMainMenuPanel());
+						//
+						// }
+					} else {
+						JOptionPane.showMessageDialog(GameOverPanel.this,
+								responseFromServer);
+
+						GameOverPanel.this.manager.closeConnection();
+						MainMenuFrame.getInstance().switchTo(
+								MainMenuFrame.getInstance().getMainMenuPanel());
+					}
 				}
+
 			}
 
 		});

@@ -8,7 +8,6 @@ import it.mat.unical.Helion_Prime.Online.ClientManager;
 import it.mat.unical.Helion_Prime.Online.Server;
 import it.mat.unical.Helion_Prime.SavesManager.OverrideSavegameCommand;
 import it.mat.unical.Helion_Prime.SavesManager.PlayerState;
-import it.mat.unical.Helion_Prime.SavesManager.SaveManagerImpl;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -31,8 +30,6 @@ import javax.swing.JLabel;
 import javax.swing.JLayeredPane;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-
-import org.h2.util.OsgiDataSourceFactory;
 
 public class StageClearPanel extends JLayeredPane {
 
@@ -102,11 +99,10 @@ public class StageClearPanel extends JLayeredPane {
 		this.backToMenuButton = new JButton("Back to Menu");
 		this.saveLevel = new JButton("Save Level");
 		this.retryButton = new JButton("Retry");
-		
-		if ( !PlayerState.getInstance().isSet() ) {
+
+		if (!PlayerState.getInstance().isSet()) {
 			this.saveLevel.setEnabled(false);
 		}
-		
 
 		if (MainMenuFrame.getInstance().getMainMenuPanel().isStoryModeOn()) {
 
@@ -168,9 +164,8 @@ public class StageClearPanel extends JLayeredPane {
 				}
 			});
 
-			this.confirmButton.setCommand(new OverrideSavegameCommand() );
-	
-			
+			this.confirmButton.setCommand(new OverrideSavegameCommand());
+
 		} else {
 			this.confirmButton.setText("Upload Score");
 		}
@@ -285,6 +280,13 @@ public class StageClearPanel extends JLayeredPane {
 							&& (!responseFromServer.equals("PlayerTwoOut"))) {
 						System.out.println("MESSAGGIO DAL SERVER ARRIVATO");
 
+						lastLevelPlayed = null;
+						lastLevelPlayed = new File("levels/"
+								+ responseFromServer + ".txt");
+
+						System.out.println("CLIENTTTTTTTTTT "
+								+ responseFromServer);
+
 						MainGamePanel mgGamePanel = new MainGamePanel(
 								lastLevelPlayed,
 								StageClearPanel.this.clientManager.getClient());
@@ -372,7 +374,6 @@ public class StageClearPanel extends JLayeredPane {
 			retryButton.setBorderPainted(false);
 			retryButton.setFocusPainted(false);
 		}
-
 
 	}
 

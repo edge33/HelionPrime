@@ -92,6 +92,13 @@ public class ClientManagerMultiplayer extends ClientManager {
 		} else if (string.equals("dLEFT")) {
 			// playerOne.setDirection(3);
 			setPlayerTwoDirection(3);
+		} else if (string.equals("dSTAND")) {
+			try {
+				movementOffsetPlayer2.put(-1);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 	}
 
@@ -166,6 +173,9 @@ public class ClientManagerMultiplayer extends ClientManager {
 											.parseInt(movementSplitted[3]),
 											getLogicX(), getLogicY()));
 
+							gamePane.getEastPanel().incrBulletState(
+									Integer.parseInt(movementSplitted[4]));
+
 						} else if (movementSplitted[0].equals("sh")
 								&& movementSplitted[2].equals("2")) {
 							gamePane.bullets.put(
@@ -174,6 +184,9 @@ public class ClientManagerMultiplayer extends ClientManager {
 											.parseInt(movementSplitted[3]),
 											getLogicXPlayerTwo(),
 											getLogicYPlayerTwo()));
+
+							gamePane.getEastPanel().incrBulletState(
+									Integer.parseInt(movementSplitted[4]));
 
 						} else if (movementSplitted[0].equals("srm")) {
 							gamePane.bullets
