@@ -107,7 +107,7 @@ public class ClientManagerMultiplayer extends ClientManager {
 		new Thread() {
 			@Override
 			public void run() {
-				this.setName("CLIENT_MANAGER - MovementPlayer ");
+				this.setName("CLIENT_MANAGER Multiplayer- MovementPlayer ");
 				while (!finishGame && !gameOver) {
 					try {
 
@@ -129,17 +129,6 @@ public class ClientManagerMultiplayer extends ClientManager {
 		return logicXPlayerTwo;
 	}
 
-	@Override
-	public void sendAllFinish() {
-
-		try {
-			super.sendAllFinish();
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-	}
-
 	public void setLogicXPlayerTwo(int logicXPlayerTwo) {
 		this.logicXPlayerTwo = logicXPlayerTwo;
 	}
@@ -158,7 +147,7 @@ public class ClientManagerMultiplayer extends ClientManager {
 		new Thread() {
 
 			public void run() {
-				this.setName("CLIENT MANAGER - movementBullet ");
+				this.setName("CLIENT MANAGER Multiplayer- movementBullet ");
 				while (!finishGame && !gameOver) {
 					String movement;
 					try {
@@ -228,6 +217,18 @@ public class ClientManagerMultiplayer extends ClientManager {
 
 	public int getPlayerTwoDirection() {
 		return directionPlayerTwo;
+	}
+
+	@Override
+	public void sendAllFinish() {
+		try {
+			super.sendAllFinish();
+			movementOffsetPlayer2.put(-4);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
 	}
 
 	public void setPlayerTwoDirection(int directionPlayerTwo) {

@@ -143,6 +143,18 @@ public class GameManagerImpl implements GameManager {
 
 			}
 		}
+		if (isMultiplayerGame) {
+			for (Point iterable_element : playerTwo.getTrap().keySet()) {
+
+				if (playerTwo.getTrap().get(iterable_element) instanceof TrapPower) {
+					((TrapPower) playerTwo.getTrap().get(iterable_element))
+							.kill();
+
+				}
+			}
+			playerTwo.getTrap().clear();
+		}
+
 		playerOne.getTrap().clear();
 		gameOver = true;
 	}
@@ -279,16 +291,14 @@ public class GameManagerImpl implements GameManager {
 				this.endGame();
 				gameOver = true;
 				gameStopped = true;
-
 				this.server.sendMessage("over");
 
 			}
 
 		} else {
-			win = true;
 			this.endGame();
+			win = true;
 			gameStopped = true;
-
 			this.server.sendMessage("clear");
 
 		}
@@ -365,10 +375,9 @@ public class GameManagerImpl implements GameManager {
 			}
 
 		} else {
-			win = true;
 			this.endGame();
+			win = true;
 			gameStopped = true;
-
 			this.serverMultiplayer.outBroadcast("clear");
 		}
 

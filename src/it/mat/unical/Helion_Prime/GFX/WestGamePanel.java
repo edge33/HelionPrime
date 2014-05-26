@@ -1,6 +1,5 @@
 package it.mat.unical.Helion_Prime.GFX;
 
-import it.mat.unical.Helion_Prime.Logic.GameManagerImpl;
 import it.mat.unical.Helion_Prime.Online.ClientManager;
 
 import java.awt.Color;
@@ -13,7 +12,8 @@ import javax.swing.JPanel;
 public class WestGamePanel extends JPanel {
 	private JButton backButton;
 	private ClientManager clientManager;
-	private GameManagerImpl manager;
+
+	// private GameManagerImpl manager;
 
 	public WestGamePanel() {
 		// this.manager = GameManagerImpl.getInstance(id);
@@ -48,7 +48,6 @@ public class WestGamePanel extends JPanel {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 
-				WestGamePanel.this.manager.stopGame();
 				ClientManager.setFinishGame(true);
 				try {
 					clientManager.sendAllFinish();

@@ -25,7 +25,10 @@ public class AbstractNativeLite {
 		this.typeNative = typeNative;
 		this.direction = 1;
 		new Thread() {
+
 			public void run() {
+				this.setName("ABSTRACT NATIVE LIGHT"
+						+ AbstractNativeLite.this.key);
 				while (!ClientManager.isFinishGame()) {
 
 					if (currentPosition == 1)

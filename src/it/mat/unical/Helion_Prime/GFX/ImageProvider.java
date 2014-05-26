@@ -12,10 +12,10 @@ import javax.swing.JLabel;
 //semplice classe che carica le immaggini dal toolkit e le restituisce al paintComponent del "GamePane"
 // Last id 145
 
-public class ImageProvider extends Thread {
+public class ImageProvider {
 
 	private final Image bullet;
-
+	private static ImageProvider instance;
 	private final Image wall;
 	private final Image flippedWall;
 	private final Image spawn;
@@ -220,7 +220,7 @@ public class ImageProvider extends Thread {
 
 	private Image player2Standing;
 
-	public ImageProvider() {
+	private ImageProvider() {
 		final Toolkit toolKit = Toolkit.getDefaultToolkit();
 
 		this.bullet = toolKit.getImage("Resources/pallottoloBIll.png");
@@ -698,13 +698,23 @@ public class ImageProvider extends Thread {
 		tracker.addImage(i10, 10);
 		tracker.addImage(i11, 11);
 		imageSwitchedStanding = playerStanding;
-		this.start();
+		imageSwitched2Standing = player2Standing;
+		this.startImagePlayer();
 
 		try {
 			tracker.waitForAll();
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
+	}
+
+	public static ImageProvider getInstance() {
+
+		if (instance == null) {
+			instance = new ImageProvider();
+		}
+
+		return instance;
 	}
 
 	public Image getRoom() {
@@ -1305,91 +1315,99 @@ public class ImageProvider extends Thread {
 		return back;
 	}
 
-	@Override
-	public void run() {
-		while (!ClientManager.isFinishGame()) {
-			// thread che alterna le immagini per dare l'animazione al player
+	public void startImagePlayer() {
 
-			// while (!ClientManager.isPaused()) {
-			// System.out.println("Sono in pausa  - ImageProvider");
-			// GameManagerImpl.waitForCondition();
-			// }
+		new Thread() {
 
-			// //////////////////////////////////////////////
+			public void run() {
 
-			if (ImageProvider.currentRunningUpPlayer == 0) {
-				imageSwitchedUpRunning = playerUpRunning;
-				currentRunningUpPlayer = 1;
-			} else if (ImageProvider.currentRunningUpPlayer == 1) {
-				imageSwitchedUpRunning = playerUpRunning2;
-				currentRunningUpPlayer = 2;
-			} else if (ImageProvider.currentRunningUpPlayer == 2) {
-				imageSwitchedUpRunning = playerUpRunning3;
-				currentRunningUpPlayer = 3;
-			} else if (ImageProvider.currentRunningUpPlayer == 3) {
-				imageSwitchedUpRunning = playerUpRunning4;
-				currentRunningUpPlayer = 0;
-			}// Up Running If-Block
+				while (!ClientManager.isFinishGame()) {
+					// thread che alterna le immagini per dare l'animazione al
+					// player
 
-			// //////////////////////////////////////////////
+					// while (!ClientManager.isPaused()) {
+					// System.out.println("Sono in pausa  - ImageProvider");
+					// GameManagerImpl.waitForCondition();
+					// }
 
-			if (ImageProvider.currentRunningDownPlayer == 0) {
-				imageSwitchedDownRunning = playerDownRunning;
-				currentRunningDownPlayer = 1;
-			} else if (ImageProvider.currentRunningDownPlayer == 1) {
-				imageSwitchedDownRunning = playerDownRunning2;
-				currentRunningDownPlayer = 2;
-			} else if (ImageProvider.currentRunningDownPlayer == 2) {
-				imageSwitchedDownRunning = playerDownRunning3;
-				currentRunningDownPlayer = 3;
-			} else if (ImageProvider.currentRunningDownPlayer == 3) {
-				imageSwitchedDownRunning = playerDownRunning4;
-				currentRunningDownPlayer = 0;
-			}// Down Running If-Block
+					// //////////////////////////////////////////////
 
-			// ////////////////////////////////////////////////
+					if (ImageProvider.currentRunningUpPlayer == 0) {
+						imageSwitchedUpRunning = playerUpRunning;
+						currentRunningUpPlayer = 1;
+					} else if (ImageProvider.currentRunningUpPlayer == 1) {
+						imageSwitchedUpRunning = playerUpRunning2;
+						currentRunningUpPlayer = 2;
+					} else if (ImageProvider.currentRunningUpPlayer == 2) {
+						imageSwitchedUpRunning = playerUpRunning3;
+						currentRunningUpPlayer = 3;
+					} else if (ImageProvider.currentRunningUpPlayer == 3) {
+						imageSwitchedUpRunning = playerUpRunning4;
+						currentRunningUpPlayer = 0;
+					}// Up Running If-Block
 
-			if (ImageProvider.currentRunningRightPlayer == 0) {
-				imageSwitchedRightRunning = playerRightRunning;
-				currentRunningRightPlayer = 1;
-			} else if (ImageProvider.currentRunningRightPlayer == 1) {
-				imageSwitchedRightRunning = playerRightRunning2;
-				currentRunningRightPlayer = 2;
-			} else if (ImageProvider.currentRunningRightPlayer == 2) {
-				imageSwitchedRightRunning = playerRightRunning3;
-				currentRunningRightPlayer = 3;
-			} else if (ImageProvider.currentRunningRightPlayer == 3) {
-				imageSwitchedRightRunning = playerRightRunning4;
-				currentRunningRightPlayer = 0;
-			}// Right Running If-Block
+					// //////////////////////////////////////////////
 
-			// //////////////////////////////////////////////////
+					if (ImageProvider.currentRunningDownPlayer == 0) {
+						imageSwitchedDownRunning = playerDownRunning;
+						currentRunningDownPlayer = 1;
+					} else if (ImageProvider.currentRunningDownPlayer == 1) {
+						imageSwitchedDownRunning = playerDownRunning2;
+						currentRunningDownPlayer = 2;
+					} else if (ImageProvider.currentRunningDownPlayer == 2) {
+						imageSwitchedDownRunning = playerDownRunning3;
+						currentRunningDownPlayer = 3;
+					} else if (ImageProvider.currentRunningDownPlayer == 3) {
+						imageSwitchedDownRunning = playerDownRunning4;
+						currentRunningDownPlayer = 0;
+					}// Down Running If-Block
 
-			if (ImageProvider.currentRunningLeftPlayer == 0) {
-				imageSwitchedLeftRunning = playerLeftRunning;
-				currentRunningLeftPlayer = 1;
-			} else if (ImageProvider.currentRunningLeftPlayer == 1) {
-				imageSwitchedLeftRunning = playerLeftRunning2;
-				currentRunningLeftPlayer = 2;
-			} else if (ImageProvider.currentRunningLeftPlayer == 2) {
-				imageSwitchedLeftRunning = playerLeftRunning3;
-				currentRunningLeftPlayer = 3;
-			} else if (ImageProvider.currentRunningLeftPlayer == 3) {
-				imageSwitchedLeftRunning = playerLeftRunning4;
-				currentRunningLeftPlayer = 0;
-			}// Left Running If-Block
+					// ////////////////////////////////////////////////
 
-			/*--------------------------------------------------------------------------------------*/
+					if (ImageProvider.currentRunningRightPlayer == 0) {
+						imageSwitchedRightRunning = playerRightRunning;
+						currentRunningRightPlayer = 1;
+					} else if (ImageProvider.currentRunningRightPlayer == 1) {
+						imageSwitchedRightRunning = playerRightRunning2;
+						currentRunningRightPlayer = 2;
+					} else if (ImageProvider.currentRunningRightPlayer == 2) {
+						imageSwitchedRightRunning = playerRightRunning3;
+						currentRunningRightPlayer = 3;
+					} else if (ImageProvider.currentRunningRightPlayer == 3) {
+						imageSwitchedRightRunning = playerRightRunning4;
+						currentRunningRightPlayer = 0;
+					}// Right Running If-Block
 
-			try {
-				// valore originario 350
-				sleep(350);
-			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+					// //////////////////////////////////////////////////
 
-		}
+					if (ImageProvider.currentRunningLeftPlayer == 0) {
+						imageSwitchedLeftRunning = playerLeftRunning;
+						currentRunningLeftPlayer = 1;
+					} else if (ImageProvider.currentRunningLeftPlayer == 1) {
+						imageSwitchedLeftRunning = playerLeftRunning2;
+						currentRunningLeftPlayer = 2;
+					} else if (ImageProvider.currentRunningLeftPlayer == 2) {
+						imageSwitchedLeftRunning = playerLeftRunning3;
+						currentRunningLeftPlayer = 3;
+					} else if (ImageProvider.currentRunningLeftPlayer == 3) {
+						imageSwitchedLeftRunning = playerLeftRunning4;
+						currentRunningLeftPlayer = 0;
+					}// Left Running If-Block
+
+					/*--------------------------------------------------------------------------------------*/
+
+					try {
+						// valore originario 350
+						sleep(350);
+					} catch (InterruptedException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+
+				}
+
+			};
+		}.start();
 
 	}
 

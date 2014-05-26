@@ -86,6 +86,8 @@ public class GamePane extends JPanel {
 
 	private GamePadController gamePadController;
 
+	protected int cont;
+
 	public GamePane(File level, Client client, TrapPanel trapPanel,
 			WestGamePanel westPanel, InformationPanel informationPanel,
 			GamePadController gamePadController, UserProfile profile,
@@ -125,7 +127,7 @@ public class GamePane extends JPanel {
 		// this.threadPoolClient.start();
 		this.world = new WorldImpl(level);
 
-		this.imageProvider = new ImageProvider();
+		this.imageProvider = ImageProvider.getInstance();
 
 		if (!client.isMultiplayerGame()) {
 			this.clientManager = ClientManager.getInstance();
@@ -1197,14 +1199,12 @@ public class GamePane extends JPanel {
 
 					int idButton = gamePadController.getButtonPressed();
 
-					// if (cont > 0 && idButton != 5) {
-					// if (!(playerOne.getCurrentGunSelected() instanceof
-					// UziGun))
-					// playerOne.shoot();
-					// cont = 0;
-					// shoot = false;
-					// shooter = true;
-					// }
+					if (cont > 0 && idButton != 5) {
+						cont = 0;
+						if (!isPaused)
+							GamePane.this.clientManager
+									.pushToQueueForServer("sh");
+					}
 
 					switch (idButton) {
 					/* Triangolo */
@@ -1233,15 +1233,9 @@ public class GamePane extends JPanel {
 						break;
 					/* R2 */
 					case 5:
-						// if (cont == 0)
-						// cont++;
-						// if (playerOne.getCurrentGunSelected() instanceof
-						// UziGun) {
-						// shootForUziGun();
-						// }
-						if (!isPaused)
-							GamePane.this.clientManager
-									.pushToQueueForServer("sh");
+						if (cont == 0)
+							cont++;
+
 						break;
 					/* L1 */
 					case 6:
