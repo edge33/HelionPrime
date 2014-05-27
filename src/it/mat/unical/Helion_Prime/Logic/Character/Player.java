@@ -143,6 +143,11 @@ public class Player extends AbstractCharacter implements TrapPlacing {
 
 			placedTrap.put(pointOnMap, newTrap);
 
+			if (GameManagerImpl.getInstance(id).isMultiplayerGame()) {
+				GameManagerImpl.getInstance(id).getTotalPlacedTrap()
+						.put(pointOnMap, newTrap);
+			}
+
 			this.world.getWorld()[positionXonMap][positionYonMap] = placedTrap
 					.get(pointOnMap);
 			// setto

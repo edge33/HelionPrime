@@ -8,6 +8,7 @@ import it.mat.unical.Helion_Prime.Logic.Ability.Resistance;
 import it.mat.unical.Helion_Prime.Logic.Trap.AbstractTrap;
 
 import java.awt.Point;
+import java.util.Random;
 import java.util.concurrent.ConcurrentHashMap;
 
 public class AbstractNative extends AbstractCharacter implements Resistance {
@@ -19,6 +20,7 @@ public class AbstractNative extends AbstractCharacter implements Resistance {
 	protected NativeAI nativeAi;
 	protected int attackPower;
 	protected Player player;
+	private AbstractTrap trapToFind;
 	private boolean canAttack;
 	protected Thread coolDownManager;
 	protected int currentPosition = 1;
@@ -29,12 +31,23 @@ public class AbstractNative extends AbstractCharacter implements Resistance {
 		super(x, y, world);
 		this.id = id;
 		this.key = key;
-
+		trapToFind = null;
 		this.setDirection(-1);
 		this.canAttack = true;
 		this.room = (MaintenanceRoom) world.getRoom();
 
-		this.player = GameManagerImpl.getInstance(id).getPlayerOne();
+		if (!GameManagerImpl.getInstance(id).isMultiplayerGame())
+			this.player = GameManagerImpl.getInstance(id).getPlayerOne();
+		else {
+			Random random = new Random();
+			int playerOneOrTwo = random.nextInt(2);
+
+			if (playerOneOrTwo == 0) {
+				this.player = GameManagerImpl.getInstance(id).getPlayerOne();
+			} else
+				this.player = GameManagerImpl.getInstance(id).getPlayerTwo();
+
+		}
 
 		type = 999;
 
@@ -104,13 +117,31 @@ public class AbstractNative extends AbstractCharacter implements Resistance {
 		else if (nativeAi.getAiType() == NativeAI.ROOM_FINDER)
 			move = nativeAi.getDirection(this, world.getRoom(), world);
 		else if (nativeAi.getAiType() == NativeAI.TRAP_FINDER) {
-			currentTrap = player.getTrap();
+
+			if (GameManagerImpl.getInstance(id).isMultiplayerGame())
+				currentTrap = GameManagerImpl.getInstance(id)
+						.getTotalPlacedTrap();
+			else
+				currentTrap = player.getTrap();
 			if (currentTrap.size() > 0) {
 
-				// System.out.println(((AbstractTrap) tmp.toArray()[0]).getY());
+				if (trapToFind == null)
+					for (Point pointTrap : currentTrap.keySet()) {
 
-				move = nativeAi.getDirection(this, currentTrap.entrySet()
-						.iterator().next().getValue(), world);
+						if (!currentTrap.get(pointTrap).isCaptured()) {
+							trapToFind = currentTrap.get(pointTrap);
+							currentTrap.get(pointTrap).setCaptured(true);
+							move = nativeAi.getDirection(this,
+									currentTrap.get(pointTrap), world);
+							break;
+						}
+
+						if (trapToFind == null)
+							move = nativeAi.getDirection(this, player, world);
+
+					}
+				else
+					move = nativeAi.getDirection(this, trapToFind, world);
 
 				// System.out.println(((AbstractTrap) tmp.toArray()[0]).getX()
 				// + " " + ((AbstractTrap) tmp.toArray()[0]).getY());
@@ -157,6 +188,14 @@ public class AbstractNative extends AbstractCharacter implements Resistance {
 
 	public int getAttackPower() {
 		return attackPower;
+	}
+
+	public AbstractTrap getTrapToFind() {
+		return trapToFind;
+	}
+
+	public void setTrapToFind(AbstractTrap trapToFind) {
+		this.trapToFind = trapToFind;
 	}
 
 }

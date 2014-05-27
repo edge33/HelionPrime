@@ -32,7 +32,7 @@ public class GameManagerImpl implements GameManager {
 	private static Condition condition;
 	private static GameManagerImpl instance;
 	private int currentLife;
-
+	private ConcurrentHashMap<Point, AbstractTrap> totalPlacedTrap;
 	private boolean gameStopped;
 
 	private boolean win;
@@ -77,7 +77,8 @@ public class GameManagerImpl implements GameManager {
 					.getX(), world.getPlayerSpawner().getY(), world, id); // ora
 																			// il
 																			// player
-																			// sara
+			if (isMultiplayerGame)
+				instances[id].totalPlacedTrap = new ConcurrentHashMap<Point, AbstractTrap>();// sara
 			// intanziato nel game
 			instances[id].currentLife = instances[id].playerOne.getLife();
 			instances[id].currentRoomLife = instances[id].world.getRoomLife();
@@ -272,6 +273,8 @@ public class GameManagerImpl implements GameManager {
 						world.getWorld()[currentNative.getX()][currentNative
 								.getY()] = null;
 
+						currentNative.setTrapToFind(null);
+
 						server.sendMessage("pr " + currentNative.getX() + "/"
 								+ currentNative.getY());
 
@@ -281,6 +284,11 @@ public class GameManagerImpl implements GameManager {
 
 				if (currentNative.getLife() <= 0) {
 					natives.remove(currentNative.getKey());
+					AbstractTrap currentTrap = (AbstractTrap) world
+							.getElementAt(currentNative.getX(),
+									currentNative.getY());
+					if (currentTrap != null)
+						currentTrap.setCaptured(false);
 					this.server.sendMessage("nr " + currentNative.getKey());
 				}
 
@@ -321,15 +329,9 @@ public class GameManagerImpl implements GameManager {
 					AbstractTrap currentTrap = (AbstractTrap) world
 							.getElementAt(currentNative.getX(),
 									currentNative.getY());
-					if (currentTrap instanceof DecoyTrap) {
-						currentTrap.effect(currentNative);
-						if (((DecoyTrap) currentTrap).getDecoyLife() == 1) {
-							explosion = true;
-							System.out.println("GMI - explosion= true");
-						}
-					} else {
-						currentTrap.effect(currentNative);
-					}
+
+					currentTrap.effect(currentNative);
+
 					if (currentTrap.getLife() <= 0) {
 
 						Point point = new Point(currentNative.getX(),
@@ -346,8 +348,15 @@ public class GameManagerImpl implements GameManager {
 								.remove(point,
 										world.getWorld()[currentNative.getX()][currentNative
 												.getY()]);
+
+						totalPlacedTrap
+								.remove(point, world.getWorld()[currentNative
+										.getX()][currentNative.getY()]);
+
 						world.getWorld()[currentNative.getX()][currentNative
 								.getY()] = null;
+
+						currentNative.setTrapToFind(null);
 
 						serverMultiplayer.outBroadcast("pr "
 								+ currentNative.getX() + "/"
@@ -359,6 +368,12 @@ public class GameManagerImpl implements GameManager {
 
 				if (currentNative.getLife() <= 0) {
 					natives.remove(currentNative.getKey());
+					AbstractTrap currentTrap = (AbstractTrap) world
+							.getElementAt(currentNative.getX(),
+									currentNative.getY());
+					if (currentTrap != null)
+						currentTrap.setCaptured(false);
+
 					this.serverMultiplayer.outBroadcast("nr "
 							+ currentNative.getKey());
 				}
@@ -438,5 +453,14 @@ public class GameManagerImpl implements GameManager {
 
 	public ServerMultiplayer getServerMuliplayer() {
 		return this.serverMultiplayer;
+	}
+
+	public ConcurrentHashMap<Point, AbstractTrap> getTotalPlacedTrap() {
+		return totalPlacedTrap;
+	}
+
+	public void setTotalPlacedTrap(
+			ConcurrentHashMap<Point, AbstractTrap> totalPlacedTrap) {
+		this.totalPlacedTrap = totalPlacedTrap;
 	}
 }

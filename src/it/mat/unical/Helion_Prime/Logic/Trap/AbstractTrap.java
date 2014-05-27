@@ -12,6 +12,7 @@ public abstract class AbstractTrap implements Trap {
 	private int life;
 
 	boolean active;
+	boolean isCaptured;
 
 	public AbstractTrap() {
 
@@ -22,6 +23,7 @@ public abstract class AbstractTrap implements Trap {
 		this.y = y;
 		this.life = life;
 		this.active = true;
+		isCaptured = false;
 	}
 
 	void setActive(boolean b) {
@@ -81,5 +83,13 @@ public abstract class AbstractTrap implements Trap {
 	public void effect(AbstractNative tmp) {
 		// TODO Auto-generated method stub
 
+	}
+
+	public boolean isCaptured() {
+		return isCaptured;
+	}
+
+	public void setCaptured(boolean isCaptured) {
+		this.isCaptured = isCaptured;
 	}
 }
