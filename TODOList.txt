@@ -117,14 +117,14 @@ Finiti:
 09) rimuovere cablaggi databases ( ok il database si genera qualora non fosse presente)
 08) collegamento listener savegames
 10) server su terza macchina
+02) David
+03) uzi
 
 Rimanenti
 
-02) David
-03) uzi
 05) score
-06) animazioni
 07) upload score
+06) animazioni
 
 
 

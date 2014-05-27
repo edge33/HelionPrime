@@ -6,6 +6,7 @@ import it.mat.unical.Helion_Prime.Multiplayer.ServerMultiplayer;
 import it.mat.unical.Helion_Prime.Online.Client;
 import it.mat.unical.Helion_Prime.Online.ClientManager;
 import it.mat.unical.Helion_Prime.Online.Server;
+import it.mat.unical.Helion_Prime.SavesManager.NewSavegameCommand;
 import it.mat.unical.Helion_Prime.SavesManager.OverrideSavegameCommand;
 import it.mat.unical.Helion_Prime.SavesManager.PlayerState;
 
@@ -167,7 +168,8 @@ public class StageClearPanel extends JLayeredPane {
 				}
 			});
 
-			this.confirmButton.setCommand(new OverrideSavegameCommand());
+//			this.confirmButton.setCommand(new OverrideSavegameCommand());
+			this.confirmButton.setCommand(new NewSavegameCommand());
 
 		} else {
 			this.confirmButton.setText("Upload Score");
