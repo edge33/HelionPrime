@@ -40,6 +40,7 @@ public class ClientManager {
 	protected static boolean finishGame = false;
 	private int playerDirection;
 	private ThreadPoolBulletClient threadPool;
+	public LinkedBlockingQueue<String> informations;
 	private static ClientManager instance;
 	private static Lock lock;
 	private static Condition condition;
@@ -55,6 +56,9 @@ public class ClientManager {
 		gameOver = false;
 		lock = new ReentrantLock();
 		this.condition = lock.newCondition();
+
+		informations = new LinkedBlockingQueue<String>();
+		//
 		this.placementTrap = new LinkedBlockingQueue<String>();
 		this.movementPlayer = new LinkedBlockingQueue<String>();
 		this.createBullets = new LinkedBlockingQueue<String>();
@@ -111,6 +115,7 @@ public class ClientManager {
 		lock = new ReentrantLock();
 		this.condition = lock.newCondition();
 		finishGame = false;
+		informations = new LinkedBlockingQueue<String>();
 		this.placementTrap = new LinkedBlockingQueue<String>();
 		this.movementPlayer = new LinkedBlockingQueue<String>();
 		this.createBullets = new LinkedBlockingQueue<String>();
@@ -213,7 +218,8 @@ public class ClientManager {
 			@Override
 			public void run() {
 				this.setName("RECIEVE MESSAGE_CLIENT");
-				while (!gameOver && !finishGame) {
+				boolean isFinishRecieve = false;
+				while (!isFinishRecieve) {
 					responseFromServer = client.recieveMessage();
 
 					if (responseFromServer != null)
@@ -222,24 +228,35 @@ public class ClientManager {
 								finishGame = true;
 
 							}
-							executeServerResponse(responseFromServer);
-
+							if (!isLevelGame(responseFromServer)) {
+								executeServerResponse(responseFromServer);
+							} else {
+								informations.put(responseFromServer);
+								isFinishRecieve = true;
+							}
 						} catch (InterruptedException e1) {
 							// TODO Auto-generated catch block
 							e1.printStackTrace();
 						}
 
-					try {
-						sleep(5);
-					} catch (InterruptedException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
-
 				}
 			}
 		}.start();
 
+	}
+
+	private boolean isLevelGame(String fromServerSentence) {
+		if (fromServerSentence.equals("crossroad")
+				|| fromServerSentence.equals("labyrinth")
+				|| fromServerSentence.equals("spirals")
+				|| fromServerSentence.equals("bastion")
+				|| fromServerSentence.equals("twistedlane")
+				|| fromServerSentence.equals("wasteland")
+				|| fromServerSentence.equals("PlayerOneOut")
+				|| fromServerSentence.equals("PlayerTwoOut")) {
+			return true;
+		}
+		return false;
 	}
 
 	private void executeServerResponse(String responseFromServer)

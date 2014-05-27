@@ -22,6 +22,7 @@ import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.util.concurrent.LinkedBlockingQueue;
 
 import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
@@ -66,12 +67,14 @@ public class StageClearPanel extends JLayeredPane {
 
 	private GridBagLayout eastLayout;
 	private GridBagConstraints eC;
+	protected boolean isBufferEmpty = false;
+	protected LinkedBlockingQueue<String> fromServer;
 
 	public StageClearPanel(ClientManager clientManager, File level) {
 
 		this.confirmButton = new SaveGameInvokerButton("Save");
 		this.hideButton = new JButton("Hide");
-
+		fromServer = new LinkedBlockingQueue<String>();
 		this.overlay = new JPanel();
 		this.overlay.setOpaque(false);
 		this.setLayout(new BorderLayout());
@@ -271,8 +274,15 @@ public class StageClearPanel extends JLayeredPane {
 
 					System.out.println("ATTENDO MESSAGGIO DAL SERVER");
 
-					String responseFromServer = StageClearPanel.this.clientManager
-							.getClient().recieveMessage();
+					String responseFromServer = null;
+					try {
+						responseFromServer = StageClearPanel.this.clientManager.informations
+								.take();
+					} catch (InterruptedException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+
 					System.out.println("RESPONSE FROM SERVER "
 							+ responseFromServer);
 
@@ -374,6 +384,27 @@ public class StageClearPanel extends JLayeredPane {
 			retryButton.setBorderPainted(false);
 			retryButton.setFocusPainted(false);
 		}
+
+	}
+
+	public void svuotaBuffer() {
+		new Thread() {
+
+			@Override
+			public void run() {
+				while (!isBufferEmpty) {
+					try {
+						fromServer.put(clientManager.getClient()
+								.recieveMessage());
+
+					} catch (InterruptedException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				}
+
+			}
+		}.start();
 
 	}
 

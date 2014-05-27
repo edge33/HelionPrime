@@ -202,10 +202,15 @@ public class GameOverPanel extends JLayeredPane {
 
 					System.out.println("ATTENDO MESSAGGIO DAL SERVER");
 
-					String responseFromServer = GameOverPanel.this.manager
-							.getClient().recieveMessage();
-					System.out.println("RESPONSE FROM SERVER "
-							+ responseFromServer);
+					String responseFromServer = null;
+
+					try {
+						responseFromServer = GameOverPanel.this.manager.informations
+								.take();
+					} catch (InterruptedException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
 
 					if ((!responseFromServer.equals("PlayerOneOut"))
 							&& (!responseFromServer.equals("PlayerTwoOut"))) {

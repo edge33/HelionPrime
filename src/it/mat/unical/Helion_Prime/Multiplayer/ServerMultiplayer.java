@@ -466,9 +466,9 @@ public class ServerMultiplayer extends Thread {
 
 							} else {
 								if (!wantRetryPlayerOne) {
-									outToClientTwo("PlayerOneOut");
+									outBroadcast("PlayerOneOut");
 								} else
-									outToClientOne("PlayerTwoOut");
+									outBroadcast("PlayerTwoOut");
 
 								closeConnecionPlayerTwo();
 								closeConnectionPlayerOne();
@@ -807,6 +807,7 @@ public class ServerMultiplayer extends Thread {
 		try {
 			outTwo.writeBytes(sentence + "\n");
 			outTwo.flush();
+
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
