@@ -6,6 +6,8 @@ import it.mat.unical.Helion_Prime.Multiplayer.ServerMultiplayer;
 import it.mat.unical.Helion_Prime.Online.Client;
 import it.mat.unical.Helion_Prime.Online.ClientManager;
 import it.mat.unical.Helion_Prime.Online.Server;
+import it.mat.unical.Helion_Prime.SavesManager.OverrideSavegameCommand;
+import it.mat.unical.Helion_Prime.SavesManager.PlayerState;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -37,7 +39,7 @@ public class GameOverPanel extends JLayeredPane {
 	private JButton backToMenuButton;
 	private JButton saveLevel;
 	private JButton retryButton;
-	private JButton confirmButton;
+	private SaveGameInvokerButton confirmButton;
 	private JButton hideButton;
 
 	private JLabel time;
@@ -86,7 +88,6 @@ public class GameOverPanel extends JLayeredPane {
 		this.backToMenuButton = new JButton("Back to Menu");
 		this.saveLevel = new JButton("Save Level");
 		this.retryButton = new JButton("Retry");
-		this.confirmButton = new JButton("Save");
 		this.hideButton = new JButton("Hide");
 
 		this.time = new JLabel("0");
@@ -104,11 +105,7 @@ public class GameOverPanel extends JLayeredPane {
 		this.createButton();
 		this.addListener();
 
-		confirmButton.setForeground(Color.green);
-		confirmButton.setBackground(Color.black);
-		confirmButton.setFont(MainMenuFrame.getInstance().getMainMenuPanel()
-				.getFont());
-		confirmButton.setFont(saveLevel.getFont().deriveFont(16.0f));
+		
 
 		hideButton.setForeground(Color.green);
 		hideButton.setBackground(Color.black);
@@ -120,6 +117,34 @@ public class GameOverPanel extends JLayeredPane {
 		this.overlay.add(backToMenuButton);
 		this.overlay.add(saveLevel);
 		this.overlay.add(retryButton);
+		
+		
+		if ( MainMenuFrame.getInstance().getMainMenuPanel().isStoryModeOn() ) {
+			
+			
+			this.confirmButton = new SaveGameInvokerButton("Save Game");
+			//TODO: va cambiato quando ci sarà il nuovo tasto
+			this.saveLevel.setText("Save Game");
+			this.confirmButton.setCommand(new OverrideSavegameCommand());
+			if ( !PlayerState.getInstance().isSet() ) {
+				saveLevel.setEnabled(false);
+			}
+			
+			
+			
+		} else {
+			this.saveLevel.setText("Upload Score");
+			this.confirmButton = new SaveGameInvokerButton("Upload Score");
+		
+		}
+		
+		
+		confirmButton.setForeground(Color.green);
+		confirmButton.setBackground(Color.black);
+		confirmButton.setFont(MainMenuFrame.getInstance().getMainMenuPanel()
+				.getFont());
+		confirmButton.setFont(saveLevel.getFont().deriveFont(16.0f));
+		
 
 	}
 

@@ -104,9 +104,7 @@ public class StageClearPanel extends JLayeredPane {
 		this.saveLevel = new JButton("Save Level");
 		this.retryButton = new JButton("Retry");
 
-		if (!PlayerState.getInstance().isSet()) {
-			this.saveLevel.setEnabled(false);
-		}
+		
 
 		if (MainMenuFrame.getInstance().getMainMenuPanel().isStoryModeOn()) {
 
@@ -170,8 +168,12 @@ public class StageClearPanel extends JLayeredPane {
 
 //			this.confirmButton.setCommand(new OverrideSavegameCommand());
 			this.confirmButton.setCommand(new NewSavegameCommand());
+			if (!PlayerState.getInstance().isSet()) {
+				this.saveLevel.setEnabled(false);
+			}
 
 		} else {
+			this.saveLevel.setText("Upload Score");
 			this.confirmButton.setText("Upload Score");
 		}
 
