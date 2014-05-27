@@ -1,6 +1,8 @@
 package it.mat.unical.Helion_Prime.SavesManager;
 
 
+import it.mat.unical.Helion_Prime.Logic.CommonProperties;
+
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -11,28 +13,36 @@ import java.sql.Statement;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 
-public class SaveManagerImpl implements SaveManager {
+public class SaveManagerImpl extends AbstractDbManager implements SaveManager {
 
-	
-	private H2DbManager database = H2DbManager.getInstance();
-	private Connection connection;
 	
 	private static SaveManagerImpl instance;
 	
 	public static SaveManagerImpl getInstance() {
-		if ( instance == null )
+		if ( instance == null ) 
 			instance = new SaveManagerImpl();
 		return instance;
 	}
 	
 	private SaveManagerImpl() {
+		loadDBproperties();
 	}
 	
 	@Override
-	public boolean saveNewGame(PlayerState playerState) {
+	protected void loadDBproperties() {
 		
-		database.H2engage();
-		connection = database.getConnection();
+		driver = CommonProperties.getInstance().getDriver();
+		user = CommonProperties.getInstance().getDbUser();
+		pwd = CommonProperties.getInstance().getDbPassword();
+		dburl = CommonProperties.getInstance().getDatabase();
+		
+		super.loadDBproperties();
+	}
+	
+	@Override
+	public boolean saveNewGame(PlayerSaveState playerState) {
+		
+		Connection connection = getConnection();
 		
 		String statement = "INSERT INTO Record(Username,Time,Gun1_Bullets,Gun2_Bullets,Gun3_Bullets,Gun4_Bullets,LastLevel,Score) values(?,?,?,?,?,?,?,?)";
 		
@@ -63,42 +73,46 @@ public class SaveManagerImpl implements SaveManager {
 			testException(e);
 			return false;
 		} finally {
-			database.H2disengange();
+			closeConnection(connection);
+			closeStatement(preparedStatement);
 		}
 		
 		return false;
 	}
 
 	@Override
-	public void loadGame(String username,Timestamp timestamp,PlayerState playerState) {
+	public void loadGame(String username,Timestamp timestamp,PlayerSaveState playerState) {
 		
-		database.H2engage();
-		connection = database.getConnection();
+		Connection connection = getConnection();
 		
 		String statement = "SELECT * FROM RECORD WHERE Username = ? AND TIME = ? LIMIT 1";
 		
+		PreparedStatement preparedStatement = null;
+		ResultSet rs = null;
 		try {
-			PreparedStatement preparedStatement = null;
+			 
 			preparedStatement = connection.prepareStatement(statement);
 		 
-		 preparedStatement.setString(1, username);
-		 preparedStatement.setTimestamp(2, timestamp);
+			 preparedStatement.setString(1, username);
+			 preparedStatement.setTimestamp(2, timestamp);
 		 
-		 ResultSet rs = preparedStatement.executeQuery();
-		 
-		 rs.first();
-		 
-		 playerState.setGunBullets1(rs.getInt("GUN1_BULLETS"));
-		 playerState.setGunBullets2(rs.getInt("GUN2_BULLETS"));
-		 playerState.setGunBullets3(rs.getInt("GUN3_BULLETS"));
-		 playerState.setGunBullets4(rs.getInt("GUN4_BULLETS"));
-		 playerState.setLastLevelCleared(rs.getInt("LastLevel"));
-		 playerState.setScore(rs.getInt("Score"));
+			 rs = preparedStatement.executeQuery();
+			 
+			 rs.first();
+			 
+			 playerState.setGunBullets1(rs.getInt("GUN1_BULLETS"));
+			 playerState.setGunBullets2(rs.getInt("GUN2_BULLETS"));
+			 playerState.setGunBullets3(rs.getInt("GUN3_BULLETS"));
+			 playerState.setGunBullets4(rs.getInt("GUN4_BULLETS"));
+			 playerState.setLastLevelCleared(rs.getInt("LastLevel"));
+			 playerState.setScore(rs.getInt("Score"));
 			 
 		} catch (SQLException e) {
 			testException(e);
 		} finally {
-			database.H2disengange();
+			closeConnection(connection);
+			closeStatement(preparedStatement);
+			closeResultSet(rs);
 		}
 	}
 
@@ -111,18 +125,18 @@ public class SaveManagerImpl implements SaveManager {
 	@Override
 	public ArrayList<Timestamp> fetchSaves(String username) {
 		
-		database.H2engage();
-		connection = database.getConnection();
+		Connection connection = getConnection();
 		
 		String statement = "SELECT TIME FROM Record WHERE Username = ?";
 		
 		PreparedStatement preparedStatement = null;
+		ResultSet rs = null;
 		try {
 			 preparedStatement = connection.prepareStatement(statement);
 	
 			 preparedStatement.setString(1, username);
 			 
-			 ResultSet rs = preparedStatement.executeQuery();
+			 rs = preparedStatement.executeQuery();
 			 
 	
 			 ArrayList<Timestamp> profiles = new ArrayList<>();
@@ -139,18 +153,19 @@ public class SaveManagerImpl implements SaveManager {
 		} catch (SQLException e) {
 			testException(e);
 		} finally {
-			database.H2disengange();
+			closeConnection(connection);
+			closeStatement(preparedStatement);
+			closeResultSet(rs);
 		}
 		return null;
 		
 	}
 
 	@Override
-	public boolean overrideSave(PlayerState playerState) {
+	public boolean overrideSave(PlayerSaveState playerState) {
 
-		
-		database.H2engage();
-		connection = database.getConnection();
+	
+		Connection connection = getConnection();
 		
 		String statement = "UPDATE  Record SET Username = ? ,Time = ? ,Gun1_Bullets = ? ,Gun2_Bullets = ? , Gun3_Bullets = ? , Gun4_Bullets = ? , LastLevel = ? , Score = ? WHERE Username = ? AND Time = ? ";
 		
@@ -184,7 +199,8 @@ public class SaveManagerImpl implements SaveManager {
 			testException(e);
 			return false;
 		} finally {
-			database.H2disengange();
+			closeConnection(connection);
+			closeStatement(preparedStatement);
 		}
 		
 		
@@ -199,7 +215,7 @@ public class SaveManagerImpl implements SaveManager {
 
 	private void createDB() {
 			
-		database.H2engage();
+		Connection connection = getConnection();
 			
 		String dbString ="CREATE USER IF NOT EXISTS INSERTER SALT \'bfaf9df3363b9ad0\' HASH \'ad847a2a11932a09d6b1d08bd8b4ba45308267e546802aa158ec5bb80bd0ba63\'; \n"+
 				"CREATE USER IF NOT EXISTS SA SALT \'3b3627323eaa0e2b\' HASH \'f0d682116e343bc817c5a864d27dfeecf67bec41cca47f780c8d1786ff236aee\' ADMIN; \n"+
@@ -217,15 +233,16 @@ public class SaveManagerImpl implements SaveManager {
 				"-- 1 +/- SELECT COUNT(*) FROM PUBLIC.RECORD; \n"+
 				"GRANT SELECT, INSERT, UPDATE ON PUBLIC.RECORD TO INSERTER; ";
 			
+		Statement createStatement = null;
 		try {
-			Statement createStatement = instance.connection.createStatement();
+			createStatement = connection.createStatement();
 			createStatement.execute(dbString);
 			
-			
-			System.out.println("db created");
+
 		} catch (SQLException e) {
 		} finally {
-			database.H2disengange();
+			closeConnection(connection);
+			closeStatement(createStatement);
 		}
 		
 	}

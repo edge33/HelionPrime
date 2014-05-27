@@ -7,7 +7,8 @@ import it.mat.unical.Helion_Prime.Online.Client;
 import it.mat.unical.Helion_Prime.Online.ClientManager;
 import it.mat.unical.Helion_Prime.Online.Server;
 import it.mat.unical.Helion_Prime.SavesManager.OverrideSavegameCommand;
-import it.mat.unical.Helion_Prime.SavesManager.PlayerState;
+import it.mat.unical.Helion_Prime.SavesManager.PlayerSaveState;
+import it.mat.unical.Helion_Prime.ScoreCharts.RemoteDatabaseManager;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -39,7 +40,7 @@ public class GameOverPanel extends JLayeredPane {
 	private JButton backToMenuButton;
 	private JButton saveLevel;
 	private JButton retryButton;
-	private SaveGameInvokerButton confirmButton;
+	private JButton confirmButton;
 	private JButton hideButton;
 
 	private JLabel time;
@@ -122,11 +123,10 @@ public class GameOverPanel extends JLayeredPane {
 		if ( MainMenuFrame.getInstance().getMainMenuPanel().isStoryModeOn() ) {
 			
 			
-			this.confirmButton = new SaveGameInvokerButton("Save Game");
+			this.confirmButton = new SaveGameInvokerButton("Save Game",new OverrideSavegameCommand());
 			//TODO: va cambiato quando ci sarà il nuovo tasto
 			this.saveLevel.setText("Save Game");
-			this.confirmButton.setCommand(new OverrideSavegameCommand());
-			if ( !PlayerState.getInstance().isSet() ) {
+			if ( !PlayerSaveState.getInstance().isSet() ) {
 				saveLevel.setEnabled(false);
 			}
 			
@@ -134,7 +134,18 @@ public class GameOverPanel extends JLayeredPane {
 			
 		} else {
 			this.saveLevel.setText("Upload Score");
-			this.confirmButton = new SaveGameInvokerButton("Upload Score");
+			this.confirmButton = new JButton("Upload Score");
+			this.confirmButton.addActionListener(new ActionListener() {
+				
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					
+					RemoteDatabaseManager database = RemoteDatabaseManager.getInstance();
+					database.doLogin("edge33", "1234");
+//					database.uploadScore("edge33", GameOverPanel.this.clientManager.getMoney(), lastLevelPlayed.getName());
+					
+				}
+			});
 		
 		}
 		

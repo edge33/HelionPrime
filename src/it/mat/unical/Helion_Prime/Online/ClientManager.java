@@ -8,7 +8,7 @@ import it.mat.unical.Helion_Prime.GFX.StageClearPanel;
 import it.mat.unical.Helion_Prime.GFX.ThreadPoolBulletClient;
 import it.mat.unical.Helion_Prime.Logic.AbstractNativeLite;
 import it.mat.unical.Helion_Prime.Logic.UserProfile;
-import it.mat.unical.Helion_Prime.SavesManager.PlayerState;
+import it.mat.unical.Helion_Prime.SavesManager.PlayerSaveState;
 
 import java.awt.Point;
 import java.util.concurrent.BlockingQueue;
@@ -450,7 +450,7 @@ public class ClientManager {
 											.parseInt(movementSplitted[2]),
 											logicXPlayerOne, logicYPlayerOne));
 
-							PlayerState.getInstance().incrBulletState(
+							PlayerSaveState.getInstance().incrBulletState(
 									Integer.parseInt(movementSplitted[3]));
 
 							gamePane.getEastPanel().incrBulletState(

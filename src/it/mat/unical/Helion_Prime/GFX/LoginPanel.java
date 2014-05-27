@@ -1,7 +1,7 @@
 package it.mat.unical.Helion_Prime.GFX;
 import it.mat.unical.Helion_Prime.Logic.UserProfile;
 import it.mat.unical.Helion_Prime.Multiplayer.MultiplayerPanel;
-import it.mat.unical.Helion_Prime.SavesManager.PlayerState;
+import it.mat.unical.Helion_Prime.SavesManager.PlayerSaveState;
 import it.mat.unical.Helion_Prime.SavesManager.SaveManager;
 import it.mat.unical.Helion_Prime.SavesManager.SaveManagerImpl;
 
@@ -353,7 +353,7 @@ public class LoginPanel extends JPanel
 					savedGames.setVisible(true);
 					
 					String username = userField.getText();
-					PlayerState playerState = PlayerState.getInstance();
+					PlayerSaveState playerState = PlayerSaveState.getInstance();
 					playerState.init(username);
 					
 					savedGames.removeAllItems();
@@ -425,7 +425,7 @@ public class LoginPanel extends JPanel
 			public void itemStateChanged(ItemEvent e) {
 				
 				if ( savedGames.getItemCount() > 0 ) {
-					PlayerState playerstate =  PlayerState.getInstance().loadProfile(userField.getText(), (Timestamp) savedGames.getSelectedItem());
+					PlayerSaveState playerstate =  PlayerSaveState.getInstance().loadProfile(userField.getText(), (Timestamp) savedGames.getSelectedItem());
 					score.setText(String.valueOf( playerstate.getScore() ));
 					bulletsGun1.setText(String.valueOf( playerstate.getGunBullets1() ));
 					bulletsGun2.setText(String.valueOf( playerstate.getGunBullets2() ));

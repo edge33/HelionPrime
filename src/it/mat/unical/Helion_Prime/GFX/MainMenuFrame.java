@@ -1,13 +1,10 @@
 package it.mat.unical.Helion_Prime.GFX;
 
 import it.mat.unical.Helion_Prime.Logic.CommonProperties;
-import it.mat.unical.Helion_Prime.SavesManager.H2DbManager;
 
 import java.awt.BorderLayout;
-import java.awt.geom.RoundRectangle2D;
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.sql.Timestamp;
 
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
@@ -15,8 +12,6 @@ import javax.swing.JLayeredPane;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
-import javax.swing.UIManager;
-import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
 //frame principale contiene Il pannello di scelta di inizio gioco O editor

@@ -7,8 +7,8 @@ import it.mat.unical.Helion_Prime.Online.Client;
 import it.mat.unical.Helion_Prime.Online.ClientManager;
 import it.mat.unical.Helion_Prime.Online.Server;
 import it.mat.unical.Helion_Prime.SavesManager.NewSavegameCommand;
-import it.mat.unical.Helion_Prime.SavesManager.OverrideSavegameCommand;
-import it.mat.unical.Helion_Prime.SavesManager.PlayerState;
+import it.mat.unical.Helion_Prime.SavesManager.PlayerSaveState;
+import it.mat.unical.Helion_Prime.ScoreCharts.RemoteDatabaseManager;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -42,7 +42,7 @@ public class StageClearPanel extends JLayeredPane {
 
 	private JPanel previewPaneL;
 	private JPanel overlay;
-	private SaveGameInvokerButton confirmButton;
+	private JButton confirmButton;
 	private JButton hideButton;
 
 	private JLabel time;
@@ -73,7 +73,6 @@ public class StageClearPanel extends JLayeredPane {
 
 	public StageClearPanel(ClientManager clientManager, File level) {
 
-		this.confirmButton = new SaveGameInvokerButton("Save");
 		this.hideButton = new JButton("Hide");
 		fromServer = new LinkedBlockingQueue<String>();
 		this.overlay = new JPanel();
@@ -167,14 +166,34 @@ public class StageClearPanel extends JLayeredPane {
 			});
 
 //			this.confirmButton.setCommand(new OverrideSavegameCommand());
-			this.confirmButton.setCommand(new NewSavegameCommand());
-			if (!PlayerState.getInstance().isSet()) {
+			this.confirmButton = new SaveGameInvokerButton("Save Game", new NewSavegameCommand());
+			if (!PlayerSaveState.getInstance().isSet()) {
 				this.saveLevel.setEnabled(false);
 			}
-
 		} else {
 			this.saveLevel.setText("Upload Score");
-			this.confirmButton.setText("Upload Score");
+			this.confirmButton = new JButton("Upload Score");
+			
+			this.confirmButton.addActionListener(new ActionListener() {
+				
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					
+					RemoteDatabaseManager database = RemoteDatabaseManager.getInstance();
+					database.doLogin("edge33", "1234");
+					
+					if ( database.uploadScore("edge33", StageClearPanel.this.clientManager.getMoney(), lastLevelPlayed.getName().substring(0, lastLevelPlayed.getName().length() - 4) ) ) {
+						JOptionPane.showMessageDialog(
+								MainMenuFrame.getInstance(),
+								"Caricamento Effettuato!");
+					} else {
+						JOptionPane.showMessageDialog(MainMenuFrame.getInstance(),
+								"Errore Caricamento, controlla la connessione ad internet!");
+					}
+					
+				}
+			});
+			
 		}
 
 		createButton();
@@ -208,7 +227,7 @@ public class StageClearPanel extends JLayeredPane {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 
-				PlayerState playerState = PlayerState.getInstance();
+				PlayerSaveState playerState = PlayerSaveState.getInstance();
 
 				createSavePanel();
 				backToMenuButton.setEnabled(false);
@@ -472,7 +491,7 @@ public class StageClearPanel extends JLayeredPane {
 		this.eC.insets = new Insets(10, 0, 0, 0);
 		this.eC.gridwidth = 1;
 
-		PlayerState playerState = PlayerState.getInstance();
+		PlayerSaveState playerState = PlayerSaveState.getInstance();
 
 		this.eastLayout.setConstraints(bulletsGun1Desc, eC);
 		recap.add(bulletsGun1Desc);
