@@ -1,6 +1,7 @@
 package it.mat.unical.Helion_Prime.Multiplayer;
 
 import it.mat.unical.Helion_Prime.Logic.GameManagerImpl;
+import it.mat.unical.Helion_Prime.Logic.SimpleGun;
 import it.mat.unical.Helion_Prime.Logic.UziGun;
 import it.mat.unical.Helion_Prime.Logic.Character.Player;
 
@@ -215,7 +216,7 @@ public class ServerMultiplayer extends Thread {
 			public void run() {
 
 				this.setName("SERVER MULTYPLAYER - SEND_MESSAGE:P1");
-				while (true) {
+				while (!isFinishMultiplayerGame) {
 
 					try {
 						String messageForPlayerOne = forPlayerOne.take();
@@ -239,7 +240,7 @@ public class ServerMultiplayer extends Thread {
 
 			public void run() {
 				this.setName("SERVER MULTYPLAYER - SEND_MESSAGE:P2");
-				while (true) {
+				while (!isFinishMultiplayerGame) {
 
 					try {
 						String messageForPlayerOne = forPlayerTwo.take();
@@ -280,7 +281,7 @@ public class ServerMultiplayer extends Thread {
 		new Thread() {
 			public void run() {
 				this.setName("SERVER MULTYPLAYER - SEND_MESSAGE: BR");
-				while (true) {
+				while (!isFinishMultiplayerGame) {
 
 					try {
 						String messageBroadcast = broadcastMessage.take();
@@ -371,10 +372,17 @@ public class ServerMultiplayer extends Thread {
 
 							String[] splitted = messageFromPlayerOne.split(" ");
 
-							placementTrap.put(splitted[1] + "/2");
+							placementTrap.put(splitted[1] + "/1");
 
-						} else if (messageFromPlayerOne.substring(0, 2).equals(
-								"sh")) {
+						} else if ((messageFromPlayerOne.substring(0, 2)
+								.equals("sh")
+								&& GameManagerImpl.getInstance(id_connection)
+										.getMoney() > 0 && !(playerOne
+									.getCurrentGunSelected() instanceof SimpleGun))
+								|| (messageFromPlayerOne.substring(0, 2)
+										.equals("sh") && playerOne
+										.getCurrentGunSelected() instanceof SimpleGun)) {
+
 							if (playerOne.getCurrentGunSelected() instanceof UziGun) {
 								playerOne.shootForUziGun(1);
 							} else {
@@ -411,7 +419,12 @@ public class ServerMultiplayer extends Thread {
 											messageFromPlayerOne.length() - 1,
 											messageFromPlayerOne.length())));
 
-						} else if (messageFromPlayerOne.equals("retry")
+						} else if (messageFromPlayerOne.equals("finish")) {
+
+							break;
+						}
+
+						else if (messageFromPlayerOne.equals("retry")
 								|| messageFromPlayerOne.equals("notRetry")) {
 
 							if (messageFromPlayerOne.equals("retry"))
@@ -521,9 +534,18 @@ public class ServerMultiplayer extends Thread {
 
 							placementTrap.put(splitted[1] + "/2");
 
-						} else if (messageFromPlayerTwo.substring(0, 2).equals(
-								"sh")) {
-							if (playertwo.getCurrentGunSelected() instanceof UziGun) {
+						} else if ((messageFromPlayerTwo.substring(0, 2)
+								.equals("sh")
+								&& GameManagerImpl.getInstance(id_connection)
+										.getMoney() > 0 && !(playertwo
+									.getCurrentGunSelected() instanceof SimpleGun))
+								|| (messageFromPlayerTwo.substring(0, 2)
+										.equals("sh") && playertwo
+										.getCurrentGunSelected() instanceof SimpleGun)) {
+
+							if (playertwo.getCurrentGunSelected() instanceof UziGun
+									&& GameManagerImpl.getInstance(
+											id_connection).getMoney() > 0) {
 								playertwo.shootForUziGun(2);
 							} else {
 
@@ -580,6 +602,8 @@ public class ServerMultiplayer extends Thread {
 							}
 
 							closeConnecionPlayerTwo();
+						} else if (messageFromPlayerTwo.equals("finish")) {
+							break;
 						}
 
 					} catch (InterruptedException e) {
@@ -618,9 +642,9 @@ public class ServerMultiplayer extends Thread {
 										gameManager.getPlayerOne())) {
 							placement = placement.substring(0,
 									placement.length() - 2);
-							ServerMultiplayer.this.outBroadcast(("p "
-									+ placement + "/" + gameManager
-									.getPlayerOne().getMoney()));
+							ServerMultiplayer.this
+									.outBroadcast(("p " + placement + "/" + gameManager
+											.getMoney()));
 
 						} else if (placement.substring(placement.length() - 1,
 								placement.length()).equals("2")
@@ -629,9 +653,9 @@ public class ServerMultiplayer extends Thread {
 							placement = placement.substring(0,
 									placement.length() - 2);
 
-							ServerMultiplayer.this.outBroadcast(("p "
-									+ placement + "/" + gameManager
-									.getPlayerTwo().getMoney()));
+							ServerMultiplayer.this
+									.outBroadcast(("p " + placement + "/" + gameManager
+											.getMoney()));
 
 						}
 
@@ -775,7 +799,7 @@ public class ServerMultiplayer extends Thread {
 			return in.readLine();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			// e.printStackTrace();
 			return "finish";
 		}
 
@@ -786,31 +810,42 @@ public class ServerMultiplayer extends Thread {
 			return inTwo.readLine();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			// e.printStackTrace();
 
 			return "finish";
 		}
 
 	}
 
-	public synchronized void sendToClientOne(String sentence) {
+	public synchronized void sendToClientOne(String sentence) { // risolvo
+																// eccezzioni
 		try {
 			out.writeBytes(sentence + "\n");
 			out.flush();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			System.out.println("GIOCATORE 1 OUT");
+			sendToClientTwo("PlayerOneOut");
+
+			GameManagerImpl.getInstance(id_connection).endGame();
+			isFinishMultiplayerGame = true;
 		}
 	}
 
-	public synchronized void sendToClientTwo(String sentence) {
+	public synchronized void sendToClientTwo(String sentence) { // risolvo
+																// eccezzioni
 		try {
 			outTwo.writeBytes(sentence + "\n");
 			outTwo.flush();
 
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+
+			// e.printStackTrace();
+
+			System.out.println("GIOCATORE 2 OUT");
+			sendToClientOne("PlayerTwoOut");
+
+			GameManagerImpl.getInstance(id_connection).endGame();
+			isFinishMultiplayerGame = true;
 		}
 	}
 

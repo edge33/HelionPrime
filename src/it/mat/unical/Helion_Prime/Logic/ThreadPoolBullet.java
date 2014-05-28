@@ -31,7 +31,7 @@ public class ThreadPoolBullet extends Thread {
 							|| bullets.get(key).getStopBullet()) {
 						if (!gameManager.isMultiplayerGame()) {
 							gameManager.getServer().sendMessage("sr " + key);
-							System.out.println("dsdd");
+							// System.out.println("dsdd");
 						} else
 							gameManager.getServerMuliplayer().outBroadcast(
 									"sr " + key);

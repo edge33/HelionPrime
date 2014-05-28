@@ -93,7 +93,7 @@ public class Player extends AbstractCharacter implements TrapPlacing {
 		super(x, y, world);
 
 		this.id = id;
-		this.money = 10000;
+		this.money = 1000;
 		factoryTrap = new AbstractFactoryTrap(id);
 		// per ora assumiamo che abbiamo 10 tipi di
 		// trappole parte la revisionare
@@ -135,9 +135,14 @@ public class Player extends AbstractCharacter implements TrapPlacing {
 					positionYonMap, this.world);
 		}
 
-		if (newTrap.getCost() <= money) { // prendo il costo della trappola che
-											// sto per piazzare e lo contronto
-											// con i soldi che ho
+		if (newTrap.getCost() <= GameManagerImpl.getInstance(id).getMoney()) { // prendo
+																				// il
+																				// costo
+																				// della
+																				// trappola
+																				// che
+			// sto per piazzare e lo contronto
+			// con i soldi che ho
 
 			Point pointOnMap = new Point(positionXonMap, positionYonMap);
 
@@ -157,7 +162,7 @@ public class Player extends AbstractCharacter implements TrapPlacing {
 			// nella
 			// struttura delle trappole piazzate dal
 			// player
-			this.money -= newTrap.getCost();
+			GameManagerImpl.getInstance(this.id).dimMoney(newTrap.getCost());
 			if (newTrap instanceof TrapPower)
 				((TrapPower) newTrap).start();
 			System.out.println("questa trappola costa " + newTrap.getCost());

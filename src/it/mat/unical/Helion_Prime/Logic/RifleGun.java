@@ -12,6 +12,7 @@ public class RifleGun extends AbstractGun implements RangedWeapon {
 
 	@Override
 	public Integer shoot(World world, Player player) {
+		GameManagerImpl.getInstance(player.getId()).dimMoney(30);
 		return super.add(
 				new Bullet((WorldImpl) this.world, player, this.damage),
 				player.getId());

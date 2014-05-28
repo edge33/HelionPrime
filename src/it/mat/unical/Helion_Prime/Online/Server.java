@@ -1,6 +1,7 @@
 package it.mat.unical.Helion_Prime.Online;
 
 import it.mat.unical.Helion_Prime.Logic.GameManagerImpl;
+import it.mat.unical.Helion_Prime.Logic.SimpleGun;
 import it.mat.unical.Helion_Prime.Logic.UziGun;
 import it.mat.unical.Helion_Prime.Logic.Character.Player;
 
@@ -188,7 +189,10 @@ public class Server extends Thread {
 
 		} else if (message.substring(0, 1).equals("p")) {
 			placemenTrap.put(splitted[1]);
-		} else if (message.equals("sh")) {
+		} else if ((message.equals("sh")
+				&& GameManagerImpl.getInstance(0).getMoney() > 0 && !(playerOne
+					.getCurrentGunSelected() instanceof SimpleGun))
+				|| (message.equals("sh") && playerOne.getCurrentGunSelected() instanceof SimpleGun)) {
 
 			if (!(playerOne.getCurrentGunSelected() instanceof UziGun)) {
 				incrBullet();

@@ -2,7 +2,10 @@ package it.mat.unical.Helion_Prime.Logic;
 
 import it.mat.unical.Helion_Prime.GFX.EnemyMover;
 import it.mat.unical.Helion_Prime.Logic.Character.AbstractNative;
+import it.mat.unical.Helion_Prime.Logic.Character.BountyHunterNative;
 import it.mat.unical.Helion_Prime.Logic.Character.Player;
+import it.mat.unical.Helion_Prime.Logic.Character.SaboteurNative;
+import it.mat.unical.Helion_Prime.Logic.Character.SoldierNative;
 import it.mat.unical.Helion_Prime.Logic.Trap.AbstractTrap;
 import it.mat.unical.Helion_Prime.Logic.Trap.DecoyTrap;
 import it.mat.unical.Helion_Prime.Logic.Trap.TrapPower;
@@ -42,6 +45,8 @@ public class GameManagerImpl implements GameManager {
 	private boolean isMultiplayerGame;
 	private ServerMultiplayer serverMultiplayer;
 	private int currentRoomLife;
+	private int money;
+	private int oldMoney;
 	private static GameManagerImpl[] instances = new GameManagerImpl[10];
 
 	public static GameManagerImpl getInstance(int id) {
@@ -87,6 +92,8 @@ public class GameManagerImpl implements GameManager {
 						.getX(), world.getPlayerSpawner().getY(), world, id);
 			}
 
+			instances[id].money = playerOne.getMoney();
+			instances[id].oldMoney = money;
 			instances[id].wave = new WaveImpl(this.world, level, true, id);
 			instances[id].world.setWave(wave); // manager
 
@@ -283,6 +290,15 @@ public class GameManagerImpl implements GameManager {
 				}
 
 				if (currentNative.getLife() <= 0) {
+
+					if (currentNative instanceof SaboteurNative) {
+						incrMoney(350);
+					} else if (currentNative instanceof BountyHunterNative) {
+						incrMoney(250);
+					} else if (currentNative instanceof SoldierNative) {
+						incrMoney(100);
+					}
+
 					natives.remove(currentNative.getKey());
 					AbstractTrap currentTrap = (AbstractTrap) world
 							.getElementAt(currentNative.getX(),
@@ -309,6 +325,11 @@ public class GameManagerImpl implements GameManager {
 			gameStopped = true;
 			this.server.sendMessage("clear");
 
+		}
+
+		if (this.money != oldMoney) {
+			this.server.sendMessage("lMoney " + money);
+			oldMoney = money;
 		}
 
 	}
@@ -367,6 +388,15 @@ public class GameManagerImpl implements GameManager {
 				}
 
 				if (currentNative.getLife() <= 0) {
+
+					if (currentNative instanceof SaboteurNative) {
+						incrMoney(350);
+					} else if (currentNative instanceof BountyHunterNative) {
+						incrMoney(250);
+					} else if (currentNative instanceof SoldierNative) {
+						incrMoney(100);
+					}
+
 					natives.remove(currentNative.getKey());
 					AbstractTrap currentTrap = (AbstractTrap) world
 							.getElementAt(currentNative.getX(),
@@ -394,6 +424,11 @@ public class GameManagerImpl implements GameManager {
 			win = true;
 			gameStopped = true;
 			this.serverMultiplayer.outBroadcast("clear");
+		}
+
+		if (this.money != oldMoney) {
+			this.serverMultiplayer.outBroadcast("lMoney " + money);
+			oldMoney = money;
 		}
 
 	}
@@ -462,5 +497,23 @@ public class GameManagerImpl implements GameManager {
 	public void setTotalPlacedTrap(
 			ConcurrentHashMap<Point, AbstractTrap> totalPlacedTrap) {
 		this.totalPlacedTrap = totalPlacedTrap;
+	}
+
+	public int getMoney() {
+		// TODO Auto-generated method stub
+		return money;
+	}
+
+	public void incrMoney(int a) {
+		money += a;
+
+	}
+
+	public void dimMoney(int a) {
+		if (money > 0 && money - a >= 0)
+			money -= a;
+		else
+			money = 0;
+
 	}
 }
