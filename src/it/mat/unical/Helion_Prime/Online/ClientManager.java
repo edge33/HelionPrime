@@ -8,7 +8,7 @@ import it.mat.unical.Helion_Prime.GFX.StageClearPanel;
 import it.mat.unical.Helion_Prime.GFX.ThreadPoolBulletClient;
 import it.mat.unical.Helion_Prime.Logic.AbstractNativeLite;
 import it.mat.unical.Helion_Prime.Logic.UserProfile;
-import it.mat.unical.Helion_Prime.SavesManager.PlayerState;
+import it.mat.unical.Helion_Prime.SavesManager.PlayerSaveState;
 
 import java.awt.Point;
 import java.util.concurrent.BlockingQueue;
@@ -16,6 +16,8 @@ import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
+
+import javax.swing.JOptionPane;
 
 public class ClientManager {
 	private Client client;
@@ -261,6 +263,7 @@ public class ClientManager {
 
 	private void executeServerResponse(String responseFromServer)
 			throws InterruptedException {
+		System.err.println(responseFromServer);
 
 		if (responseFromServer.substring(0, 1).equals("m")
 				|| responseFromServer.substring(0, 1).equals("d")) {
@@ -288,12 +291,31 @@ public class ClientManager {
 			MainMenuFrame.getInstance().switchTo(gameOverPanel);
 		} else if (responseFromServer.substring(0, 1).equals("l")) {
 			String[] splitted = responseFromServer.split(" ");
-			if (splitted[0].equals("life"))
+			if (splitted[0].equals("life")) {
 				gamePane.informationPanel
 						.setLife(Integer.parseInt(splitted[1]));
-			else
+			} else if (splitted[0].equals("lMoney")) {
+				gamePane.informationPanel.setMoney(Integer
+						.parseInt(splitted[1]));
+
+				this.money = Integer.parseInt(splitted[1]);
+				gamePane.informationPanel.setMoney(Integer
+						.parseInt(splitted[1]));
+
+			} else if (splitted[0].equals("lifeRoom")) {
 				gamePane.informationPanel.setRoomLife(Integer
 						.parseInt(splitted[1]));
+
+			}
+		} else if (responseFromServer.equals("PlayerOneOut")
+				|| responseFromServer.equals("PlayerTwoOut")) {
+
+			System.out.println("ARRIVATA UNA COSA BRUTTA");
+			JOptionPane.showMessageDialog(null, responseFromServer);
+
+			MainMenuFrame.getInstance().switchTo(
+					MainMenuFrame.getInstance().getMainMenuPanel());
+
 		}
 
 		else {
@@ -322,10 +344,10 @@ public class ClientManager {
 								.parseInt(splitted[2])), Integer
 								.parseInt(splitted[0]));
 
-				gamePane.informationPanel.setMoney(Integer
-						.parseInt(splitted[3]));
-
-				this.setMoney(Integer.parseInt(splitted[3]));
+				// gamePane.informationPanel.setMoney(Integer
+				// .parseInt(splitted[3]));
+				//
+				// this.setMoney(Integer.parseInt(splitted[3]));
 
 			} else if (splittedMessage[0].equals("pr")) {
 
@@ -450,7 +472,7 @@ public class ClientManager {
 											.parseInt(movementSplitted[2]),
 											logicXPlayerOne, logicYPlayerOne));
 
-							PlayerState.getInstance().incrBulletState(
+							PlayerSaveState.getInstance().incrBulletState(
 									Integer.parseInt(movementSplitted[3]));
 
 							gamePane.getEastPanel().incrBulletState(
