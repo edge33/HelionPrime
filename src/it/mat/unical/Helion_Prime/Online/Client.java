@@ -34,29 +34,20 @@ public class Client {
 
 	}
 
-	public void sendMessage(String message) {
-		try {
-			out.writeBytes(message + '\n');
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+	public void sendMessage(String message) throws IOException {
+
+		out.writeBytes(message + '\n');
+
 	}
 
 	public static int getDefaultNumberPort() {
 		return 7777;
 	}
 
-	public String recieveMessage() {
-		String message = null;
-		try {
-			message = in.readLine();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+	public String recieveMessage() throws IOException {
 
-		return message;
+		return in.readLine();
+
 	}
 
 	public void closeConnection() {

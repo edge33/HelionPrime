@@ -66,6 +66,7 @@ public class GameOverPanel extends JLayeredPane {
 	private ServerMultiplayer serverMultiplayer;
 	private File lastlevelPlayed;
 	private ClientManager manager;
+	protected Client client;
 
 	public GameOverPanel(ClientManager manager, File level) {
 		this.manager = manager;
@@ -106,8 +107,6 @@ public class GameOverPanel extends JLayeredPane {
 		this.createButton();
 		this.addListener();
 
-		
-
 		hideButton.setForeground(Color.green);
 		hideButton.setBackground(Color.black);
 		hideButton.setFont(MainMenuFrame.getInstance().getMainMenuPanel()
@@ -118,44 +117,42 @@ public class GameOverPanel extends JLayeredPane {
 		this.overlay.add(backToMenuButton);
 		this.overlay.add(saveLevel);
 		this.overlay.add(retryButton);
-		
-		
-		if ( MainMenuFrame.getInstance().getMainMenuPanel().isStoryModeOn() ) {
-			
-			
-			this.confirmButton = new SaveGameInvokerButton("Save Game",new OverrideSavegameCommand());
-			//TODO: va cambiato quando ci sarà il nuovo tasto
+
+		if (MainMenuFrame.getInstance().getMainMenuPanel().isStoryModeOn()) {
+
+			this.confirmButton = new SaveGameInvokerButton("Save Game",
+					new OverrideSavegameCommand());
+			// TODO: va cambiato quando ci sarà il nuovo tasto
 			this.saveLevel.setText("Save Game");
-			if ( !PlayerSaveState.getInstance().isSet() ) {
+			if (!PlayerSaveState.getInstance().isSet()) {
 				saveLevel.setEnabled(false);
 			}
-			
-			
-			
+
 		} else {
 			this.saveLevel.setText("Upload Score");
 			this.confirmButton = new JButton("Upload Score");
 			this.confirmButton.addActionListener(new ActionListener() {
-				
+
 				@Override
 				public void actionPerformed(ActionEvent e) {
-					
-					RemoteDatabaseManager database = RemoteDatabaseManager.getInstance();
+
+					RemoteDatabaseManager database = RemoteDatabaseManager
+							.getInstance();
 					database.doLogin("edge33", "1234");
-//					database.uploadScore("edge33", GameOverPanel.this.clientManager.getMoney(), lastLevelPlayed.getName());
-					
+					// database.uploadScore("edge33",
+					// GameOverPanel.this.clientManager.getMoney(),
+					// lastLevelPlayed.getName());
+
 				}
 			});
-		
+
 		}
-		
-		
+
 		confirmButton.setForeground(Color.green);
 		confirmButton.setBackground(Color.black);
 		confirmButton.setFont(MainMenuFrame.getInstance().getMainMenuPanel()
 				.getFont());
 		confirmButton.setFont(saveLevel.getFont().deriveFont(16.0f));
-		
 
 	}
 
@@ -212,11 +209,11 @@ public class GameOverPanel extends JLayeredPane {
 					server.start();
 
 					GameManagerImpl.getInstance(0).setServer(server);
-					Client client = new Client("localhost", Client
+					client = new Client("localhost", Client
 							.getDefaultNumberPort(), false);
-					client.sendMessage(name);
+					sendMessage(name);
 
-					if (client.recieveMessage().equals("ready")) {
+					if (recieveMessage().equals("ready")) {
 
 						System.out.println("SIAMO READY INIZIA IL GIOCO");
 						if (MainMenuFrame.getInstance().getMainMenuPanel()
@@ -285,6 +282,39 @@ public class GameOverPanel extends JLayeredPane {
 			}
 
 		});
+	}
+
+	private String recieveMessage() {
+		try {
+			return client.recieveMessage();
+		} catch (IOException e) {
+
+			e.printStackTrace();
+			JOptionPane.showMessageDialog(this,
+					"Impossibile contattare il server");
+
+			MainMenuFrame.getInstance().switchTo(
+					MainMenuFrame.getInstance().getMainMenuPanel());
+
+			client.closeConnection();
+		}
+		return null;
+	}
+
+	private void sendMessage(String c) {
+		try {
+			client.sendMessage(c);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			JOptionPane.showMessageDialog(this,
+					"Impossibile contattare il server");
+
+			MainMenuFrame.getInstance().switchTo(
+					MainMenuFrame.getInstance().getMainMenuPanel());
+
+			client.closeConnection();
+		}
 	}
 
 	public void createButton() {

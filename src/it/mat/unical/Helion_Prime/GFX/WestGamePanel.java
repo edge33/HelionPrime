@@ -49,12 +49,7 @@ public class WestGamePanel extends JPanel {
 			public void actionPerformed(ActionEvent e) {
 
 				ClientManager.setFinishGame(true);
-				try {
-					clientManager.sendAllFinish();
-				} catch (InterruptedException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}
+				clientManager.sendAllFinish();
 				MainMenuFrame.getInstance().switchTo(
 						MainMenuFrame.getInstance().getMainMenuPanel());
 			}

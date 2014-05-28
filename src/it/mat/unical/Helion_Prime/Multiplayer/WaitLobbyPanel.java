@@ -15,10 +15,12 @@ import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
+import java.io.IOException;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
@@ -47,6 +49,7 @@ public class WaitLobbyPanel extends JPanel {
 
 	private Cursor cursor;
 	private Font font;
+	protected Client client;
 
 	public WaitLobbyPanel() {
 
@@ -229,8 +232,43 @@ public class WaitLobbyPanel extends JPanel {
 		this.southPanel.add(backButton);
 	}
 
+	private String recieveMessage() {
+		try {
+			return client.recieveMessage();
+		} catch (IOException e) {
+
+			e.printStackTrace();
+			JOptionPane.showMessageDialog(this,
+					"Impossibile contattare il server");
+
+			MainMenuFrame.getInstance().switchTo(
+					MainMenuFrame.getInstance().getMainMenuPanel());
+
+			client.closeConnection();
+		}
+		return null;
+	}
+
+	private void sendMessage(String c) {
+		try {
+			client.sendMessage(c);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			JOptionPane.showMessageDialog(this,
+					"Impossibile contattare il server");
+
+			MainMenuFrame.getInstance().switchTo(
+					MainMenuFrame.getInstance().getMainMenuPanel());
+
+			client.closeConnection();
+		}
+	}
+
 	public void addListener() {
+
 		connectButton.addActionListener(new ActionListener() {
+
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
@@ -241,12 +279,12 @@ public class WaitLobbyPanel extends JPanel {
 
 				System.out.println("porta scelta dal client " + port);
 
-				Client client = new Client(ipAddress, port, true);
+				client = new Client(ipAddress, port, true);
 
-				client.sendMessage("Client 2 connesso");
+				sendMessage("Client 2 connesso");
 
-				System.out.println("client" + client.recieveMessage());
-				String numberPlayer = client.recieveMessage();
+				System.out.println("client" + recieveMessage());
+				String numberPlayer = recieveMessage();
 				if (numberPlayer.substring(0, 1).equals("1")) {
 					ClientManager.isPlayerOne = true;
 
@@ -254,12 +292,12 @@ public class WaitLobbyPanel extends JPanel {
 					ClientManager.isPlayerOne = false;
 
 				}
-				String levelName = client.recieveMessage();
+				String levelName = recieveMessage();
 				System.out.println("livello scelto dal server" + levelName);
 
 				File choosenLevel = new File("levels/" + levelName + ".txt");
 
-				client.recieveMessage();
+				recieveMessage();
 
 				MainGamePanel mainGamePanel = null;
 				mainGamePanel = new MainGamePanel(choosenLevel, client);

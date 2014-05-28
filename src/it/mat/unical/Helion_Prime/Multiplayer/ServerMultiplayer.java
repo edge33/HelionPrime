@@ -221,7 +221,8 @@ public class ServerMultiplayer extends Thread {
 					try {
 						String messageForPlayerOne = forPlayerOne.take();
 
-						sendToClientOne(messageForPlayerOne);
+						if (!messageForPlayerOne.equals("finish"))
+							sendToClientOne(messageForPlayerOne);
 
 					} catch (InterruptedException e) {
 						// TODO Auto-generated catch block
@@ -244,7 +245,8 @@ public class ServerMultiplayer extends Thread {
 
 					try {
 						String messageForPlayerOne = forPlayerTwo.take();
-						sendToClientTwo(messageForPlayerOne);
+						if (!messageForPlayerOne.equals("finish"))
+							sendToClientTwo(messageForPlayerOne);
 
 					} catch (InterruptedException e) {
 						// TODO Auto-generated catch block
@@ -285,7 +287,9 @@ public class ServerMultiplayer extends Thread {
 
 					try {
 						String messageBroadcast = broadcastMessage.take();
-						sendBroadcast(messageBroadcast);
+
+						if (!messageBroadcast.equals("finish"))
+							sendBroadcast(messageBroadcast);
 
 					} catch (InterruptedException e) {
 						// TODO Auto-generated catch block
@@ -817,6 +821,22 @@ public class ServerMultiplayer extends Thread {
 
 	}
 
+	private void sendAllFinish() {
+
+		try {
+			broadcastMessage.put("finish");
+			forPlayerOne.put("finish");
+			forPlayerTwo.put("finish");
+			placementTrap.put("finish");
+			fromPlayerOne.put("finish");
+			fromPlayerTwo.put("finish");
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+	}
+
 	public synchronized void sendToClientOne(String sentence) { // risolvo
 																// eccezzioni
 		try {
@@ -825,10 +845,20 @@ public class ServerMultiplayer extends Thread {
 		} catch (IOException e) {
 			e.printStackTrace();
 			System.out.println("GIOCATORE 1 OUT");
-			sendToClientTwo("PlayerOneOut");
+			try {
+				outTwo.writeBytes("il giocatore uno ha lasciato la partita" + '\n');
+				GameManagerImpl.getInstance(id_connection).endGame();
+				isFinishMultiplayerGame = true;
+				sendAllFinish();
+				closeConnection();
+			} catch (IOException e1) {
+				e1.printStackTrace();
+				GameManagerImpl.getInstance(id_connection).endGame();
+				isFinishMultiplayerGame = true;
+				sendAllFinish();
+				closeConnection();
+			}
 
-			GameManagerImpl.getInstance(id_connection).endGame();
-			isFinishMultiplayerGame = true;
 		}
 	}
 
@@ -840,13 +870,25 @@ public class ServerMultiplayer extends Thread {
 
 		} catch (IOException e) {
 
-			 e.printStackTrace();
+			e.printStackTrace();
 
 			System.out.println("GIOCATORE 2 OUT");
-			sendToClientOne("PlayerTwoOut");
+			try {
+				System.out.println("mando il messagio di out");
+				out.writeBytes("il giocatore uno ha lasciato la partita" + '\n');
+				System.out.println("messagio di out mandato");
+				GameManagerImpl.getInstance(id_connection).endGame();
+				isFinishMultiplayerGame = true;
+				sendAllFinish();
+				closeConnection();
+			} catch (IOException e1) {
+				e1.printStackTrace();
+				GameManagerImpl.getInstance(id_connection).endGame();
+				isFinishMultiplayerGame = true;
+				sendAllFinish();
+				closeConnection();
+			}
 
-			GameManagerImpl.getInstance(id_connection).endGame();
-			isFinishMultiplayerGame = true;
 		}
 	}
 

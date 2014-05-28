@@ -19,6 +19,7 @@ import java.io.IOException;
 import javax.imageio.ImageIO;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 public class LevelSwitchPanelMultiplayer extends JPanel {
@@ -34,6 +35,7 @@ public class LevelSwitchPanelMultiplayer extends JPanel {
 
 	private GameOverPanel gameOverPanel;
 	private Cursor cursor;
+	protected Client client;
 
 	public LevelSwitchPanelMultiplayer(Font font, boolean asNewMultuplayer) {
 
@@ -90,21 +92,21 @@ public class LevelSwitchPanelMultiplayer extends JPanel {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 
-				Client client = new Client("localhost", Client
-						.getDefaultNumberPort(), true);
+				client = new Client("localhost", Client.getDefaultNumberPort(),
+						true);
 
 				if (LevelSwitchPanelMultiplayer.this.asNewMultiplayer) {
 					// client.sendMessage("Client 1 connesso (SERVER)");
 					ClientManagerMultiplayer.isPlayerOne = true;
-					System.out.println(client.recieveMessage());
+					System.out.println(recieveMessage());
 					String currentLevel = (String) LevelSwitchPanelMultiplayer.this.comboBox
 							.getSelectedItem();
 					String name = "levels/" + currentLevel + ".txt";
-					client.sendMessage(currentLevel);
+					sendMessage(currentLevel);
 
 					System.out.println("ATTENDO GIOCATORE 2");
 
-					System.out.println(client.recieveMessage());
+					System.out.println(recieveMessage());
 					File choosenLevel = new File(name);
 					MainGamePanel mainGamePanel = null;
 					mainGamePanel = new MainGamePanel(choosenLevel, client);
@@ -112,8 +114,8 @@ public class LevelSwitchPanelMultiplayer extends JPanel {
 					MainMenuFrame.getInstance().switchTo(mainGamePanel);
 
 				} else {
-					client.sendMessage("Client 2 connesso");
-					String levelName = client.recieveMessage();
+					sendMessage("Client 2 connesso");
+					String levelName = recieveMessage();
 					System.out.println("livello scelto dal server" + levelName);
 
 					File choosenLevel = new File("levels/" + levelName);
@@ -162,6 +164,39 @@ public class LevelSwitchPanelMultiplayer extends JPanel {
 		startGameButton.setFont(startGameButton.getFont().deriveFont(25.0f));
 		startGameButton.setBorderPainted(false);
 		startGameButton.setFocusPainted(false);
+	}
+
+	private String recieveMessage() {
+		try {
+			return client.recieveMessage();
+		} catch (IOException e) {
+
+			e.printStackTrace();
+			JOptionPane.showMessageDialog(this,
+					"Impossibile contattare il server");
+
+			MainMenuFrame.getInstance().switchTo(
+					MainMenuFrame.getInstance().getMainMenuPanel());
+
+			client.closeConnection();
+		}
+		return null;
+	}
+
+	private void sendMessage(String c) {
+		try {
+			client.sendMessage(c);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			JOptionPane.showMessageDialog(this,
+					"Impossibile contattare il server");
+
+			MainMenuFrame.getInstance().switchTo(
+					MainMenuFrame.getInstance().getMainMenuPanel());
+
+			client.closeConnection();
+		}
 	}
 
 	public void createPreview(String previewName) {

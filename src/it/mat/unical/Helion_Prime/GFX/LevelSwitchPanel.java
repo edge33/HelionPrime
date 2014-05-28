@@ -18,6 +18,7 @@ import java.io.IOException;
 import javax.imageio.ImageIO;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 public class LevelSwitchPanel extends JPanel {
@@ -32,6 +33,7 @@ public class LevelSwitchPanel extends JPanel {
 	private Server server;
 
 	private GameOverPanel gameOverPanel;
+	protected Client client;
 
 	public LevelSwitchPanel() {
 		this.cursor = MainMenuFrame.getInstance().getMainMenuPanel()
@@ -103,11 +105,11 @@ public class LevelSwitchPanel extends JPanel {
 				}
 				server.start();
 				GameManagerImpl.getInstance(0).setServer(server);
-				Client client = new Client("localhost", Client
-						.getDefaultNumberPort(), false);
-				client.sendMessage(choosenLevel + ".txt");
+				client = new Client("localhost", Client.getDefaultNumberPort(),
+						false);
+				sendMessage(choosenLevel + ".txt");
 
-				if (client.recieveMessage().equals("ready")) {
+				if (recieveMessage().equals("ready")) {
 
 					System.out.println("SIAMO READY INIZIA IL GIOCO");
 					mainGamePanel = new MainGamePanel(level, client);
@@ -180,5 +182,38 @@ public class LevelSwitchPanel extends JPanel {
 			prima = true;
 		}
 		g.drawImage(levelPreview, 30, 50, 500, 500, this);
+	}
+
+	private String recieveMessage() {
+		try {
+			return client.recieveMessage();
+		} catch (IOException e) {
+
+			e.printStackTrace();
+			JOptionPane.showMessageDialog(this,
+					"Impossibile contattare il server");
+
+			MainMenuFrame.getInstance().switchTo(
+					MainMenuFrame.getInstance().getMainMenuPanel());
+
+			client.closeConnection();
+		}
+		return null;
+	}
+
+	private void sendMessage(String c) {
+		try {
+			client.sendMessage(c);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			JOptionPane.showMessageDialog(this,
+					"Impossibile contattare il server");
+
+			MainMenuFrame.getInstance().switchTo(
+					MainMenuFrame.getInstance().getMainMenuPanel());
+
+			client.closeConnection();
+		}
 	}
 }

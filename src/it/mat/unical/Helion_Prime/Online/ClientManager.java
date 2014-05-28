@@ -11,6 +11,7 @@ import it.mat.unical.Helion_Prime.Logic.UserProfile;
 import it.mat.unical.Helion_Prime.SavesManager.PlayerSaveState;
 
 import java.awt.Point;
+import java.io.IOException;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.locks.Condition;
@@ -43,6 +44,7 @@ public class ClientManager {
 	private int playerDirection;
 	private ThreadPoolBulletClient threadPool;
 	public LinkedBlockingQueue<String> informations;
+	protected boolean isFinishRecieve;
 	private static ClientManager instance;
 	private static Lock lock;
 	private static Condition condition;
@@ -67,6 +69,7 @@ public class ClientManager {
 		this.movementWawe = new LinkedBlockingQueue<String>();
 		this.outToServer = new LinkedBlockingQueue<String>();
 		this.gamePane = gamePane;
+		this.isFinishRecieve = false;
 		// this.movementOffset = gamePane.getMovementOffset();
 		this.threadPool = new ThreadPoolBulletClient(gamePane);
 
@@ -149,7 +152,7 @@ public class ClientManager {
 						sentence = outToServer.take();
 
 						if (!sentence.equals("finish"))
-							client.sendMessage(sentence);
+							sendMessage(sentence);
 					} catch (InterruptedException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
@@ -166,11 +169,11 @@ public class ClientManager {
 		System.err.println("ENTRO IN INIT");
 		finishGame = false;
 		gameOver = false;
-		this.money = Integer.parseInt(client.recieveMessage()); // ricevo i
+		this.money = Integer.parseInt(recieveMessage()); // ricevo i
 		// l'intero
 		// corrrispondente
 		// ai soldi
-		this.life = Integer.parseInt(client.recieveMessage());
+		this.life = Integer.parseInt(recieveMessage());
 		gamePane.informationPanel.setMoney(money);
 		gamePane.informationPanel.setLife(life);
 		logicXPlayerOne = gamePane.getWorld().getPlayerSpawner().getX();
@@ -191,11 +194,11 @@ public class ClientManager {
 
 	public void retrySelection() {
 
-		this.money = Integer.parseInt(client.recieveMessage()); // ricevo i
+		this.money = Integer.parseInt(recieveMessage()); // ricevo i
 		// l'intero
 		// corrrispondente
 		// ai soldi
-		this.life = Integer.parseInt(client.recieveMessage());
+		this.life = Integer.parseInt(recieveMessage());
 
 		gamePane.informationPanel.setMoney(money);
 		gamePane.informationPanel.setLife(life);
@@ -213,6 +216,27 @@ public class ClientManager {
 		client.closeConnection();
 	}
 
+	public String recieveMessage() {
+
+		try {
+			return client.recieveMessage();
+		} catch (IOException e) {
+			JOptionPane.showMessageDialog(gamePane,
+					"Impossibile Contattare Il server");
+
+			sendAllFinish();
+
+			finishGame = true;
+
+			client.closeConnection();
+			isFinishRecieve = true;
+			MainMenuFrame.getInstance().switchTo(
+					MainMenuFrame.getInstance().getMainMenuPanel());
+
+		}
+		return null;
+	}
+
 	public void startClient() {
 
 		new Thread() {
@@ -221,10 +245,10 @@ public class ClientManager {
 			@Override
 			public void run() {
 				this.setName("RECIEVE MESSAGE_CLIENT");
-				boolean isFinishRecieve = false;
+				isFinishRecieve = false;
 				while (!isFinishRecieve) {
-					responseFromServer = client.recieveMessage();
-
+					responseFromServer = recieveMessage();
+					System.err.println(responseFromServer);
 					if (responseFromServer != null)
 						try {
 							if (responseFromServer.equals("clear")) {
@@ -232,6 +256,13 @@ public class ClientManager {
 
 							}
 							if (!isLevelGame(responseFromServer)) {
+
+								if (responseFromServer
+										.equals("il giocatore uno ha lasciato la partita")
+										|| responseFromServer
+												.equals("il giocatore due ha lasciato la partita")) {
+									isFinishRecieve = true;
+								}
 								executeServerResponse(responseFromServer);
 							} else {
 								informations.put(responseFromServer);
@@ -243,6 +274,7 @@ public class ClientManager {
 						}
 
 				}
+
 			}
 		}.start();
 
@@ -264,7 +296,6 @@ public class ClientManager {
 
 	private void executeServerResponse(String responseFromServer)
 			throws InterruptedException {
-		System.err.println(responseFromServer);
 
 		if (responseFromServer.substring(0, 1).equals("m")
 				|| responseFromServer.substring(0, 1).equals("d")) {
@@ -308,12 +339,15 @@ public class ClientManager {
 						.parseInt(splitted[1]));
 
 			}
-		} else if (responseFromServer.equals("PlayerOneOut")
-				|| responseFromServer.equals("PlayerTwoOut")) {
+		} else if (responseFromServer
+				.equals("il giocatore uno ha lasciato la partita")
+				|| responseFromServer
+						.equals("il giocatore due ha lasciato la partita")) {
 
-			System.out.println("ARRIVATA UNA COSA BRUTTA");
 			JOptionPane.showMessageDialog(null, responseFromServer);
-
+			finishGame = true;
+			sendAllFinish();
+			closeConnection();
 			MainMenuFrame.getInstance().switchTo(
 					MainMenuFrame.getInstance().getMainMenuPanel());
 
@@ -324,13 +358,19 @@ public class ClientManager {
 		}
 	}
 
-	public void sendAllFinish() throws InterruptedException {
-		outToServer.put("finish");
-		movementWawe.put("finish");
-		createBullets.put("finish");
-		placementTrap.put("finish");
-		movementWawe.put("finish");
-		movementPlayer.put("finish");
+	public void sendAllFinish() {
+		try {
+			outToServer.put("finish");
+			movementWawe.put("finish");
+			createBullets.put("finish");
+			placementTrap.put("finish");
+			movementWawe.put("finish");
+			movementPlayer.put("finish");
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
 	}
 
 	private void placeTrapOnGraphicMap(String message) {
@@ -358,10 +398,6 @@ public class ClientManager {
 			}
 		}
 
-	}
-
-	public void sendCloseMessage() {
-		client.sendMessage("close");
 	}
 
 	public Client getClient() {
@@ -571,7 +607,23 @@ public class ClientManager {
 	}
 
 	public void sendMessage(String c) {
-		client.sendMessage(c);
+
+		try {
+			client.sendMessage(c);
+		} catch (IOException e) {
+
+			e.printStackTrace();
+			JOptionPane.showMessageDialog(gamePane,
+					"Impossibile Contattare Il server");
+
+			sendAllFinish();
+			finishGame = true;
+			isFinishRecieve = true;
+			client.closeConnection();
+
+			MainMenuFrame.getInstance().switchTo(
+					MainMenuFrame.getInstance().getMainMenuPanel());
+		}
 
 	}
 

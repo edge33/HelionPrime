@@ -70,6 +70,7 @@ public class StageClearPanel extends JLayeredPane {
 	private GridBagConstraints eC;
 	protected boolean isBufferEmpty = false;
 	protected LinkedBlockingQueue<String> fromServer;
+	protected Client client;
 
 	public StageClearPanel(ClientManager clientManager, File level) {
 
@@ -102,8 +103,6 @@ public class StageClearPanel extends JLayeredPane {
 		this.backToMenuButton = new JButton("Back to Menu");
 		this.saveLevel = new JButton("Save Level");
 		this.retryButton = new JButton("Retry");
-
-		
 
 		if (MainMenuFrame.getInstance().getMainMenuPanel().isStoryModeOn()) {
 
@@ -149,11 +148,11 @@ public class StageClearPanel extends JLayeredPane {
 					server.setLevel(choosenLevel);
 					server.start();
 					GameManagerImpl.getInstance(0).setServer(server);
-					Client client = new Client("localhost", Client
+					client = new Client("localhost", Client
 							.getDefaultNumberPort(), false);
-					client.sendMessage(choosenLevel);
+					sendMessage(choosenLevel);
 
-					if (client.recieveMessage().equals("ready")) {
+					if (recieveMessage().equals("ready")) {
 
 						System.out.println("SIAMO READY INIZIA IL GIOCO");
 						mainGamePanel = new MainGamePanel(level, client,
@@ -165,35 +164,42 @@ public class StageClearPanel extends JLayeredPane {
 				}
 			});
 
-//			this.confirmButton.setCommand(new OverrideSavegameCommand());
-			this.confirmButton = new SaveGameInvokerButton("Save Game", new NewSavegameCommand());
+			// this.confirmButton.setCommand(new OverrideSavegameCommand());
+			this.confirmButton = new SaveGameInvokerButton("Save Game",
+					new NewSavegameCommand());
 			if (!PlayerSaveState.getInstance().isSet()) {
 				this.saveLevel.setEnabled(false);
 			}
 		} else {
 			this.saveLevel.setText("Upload Score");
 			this.confirmButton = new JButton("Upload Score");
-			
+
 			this.confirmButton.addActionListener(new ActionListener() {
-				
+
 				@Override
 				public void actionPerformed(ActionEvent e) {
-					
-					RemoteDatabaseManager database = RemoteDatabaseManager.getInstance();
+
+					RemoteDatabaseManager database = RemoteDatabaseManager
+							.getInstance();
 					database.doLogin("edge33", "1234");
-					
-					if ( database.uploadScore("edge33", StageClearPanel.this.clientManager.getMoney(), lastLevelPlayed.getName().substring(0, lastLevelPlayed.getName().length() - 4) ) ) {
+
+					if (database.uploadScore(
+							"edge33",
+							StageClearPanel.this.clientManager.getMoney(),
+							lastLevelPlayed.getName().substring(0,
+									lastLevelPlayed.getName().length() - 4))) {
 						JOptionPane.showMessageDialog(
 								MainMenuFrame.getInstance(),
 								"Caricamento Effettuato!");
 					} else {
-						JOptionPane.showMessageDialog(MainMenuFrame.getInstance(),
+						JOptionPane.showMessageDialog(
+								MainMenuFrame.getInstance(),
 								"Errore Caricamento, controlla la connessione ad internet!");
 					}
-					
+
 				}
 			});
-			
+
 		}
 
 		createButton();
@@ -267,11 +273,11 @@ public class StageClearPanel extends JLayeredPane {
 					server.setLevel(lastLevelPlayed.getName());
 					server.start();
 					GameManagerImpl.getInstance(0).setServer(server);
-					Client client = new Client("localhost", Client
+					client = new Client("localhost", Client
 							.getDefaultNumberPort(), false);
-					client.sendMessage(name);
+					sendMessage(name);
 
-					if (client.recieveMessage().equals("ready")) {
+					if (recieveMessage().equals("ready")) {
 
 						System.out.println("SIAMO READY INIZIA IL GIOCO");
 						if (MainMenuFrame.getInstance().getMainMenuPanel()
@@ -368,6 +374,39 @@ public class StageClearPanel extends JLayeredPane {
 		this.add(overlay, BorderLayout.NORTH);
 	}
 
+	private String recieveMessage() {
+		try {
+			return client.recieveMessage();
+		} catch (IOException e) {
+
+			e.printStackTrace();
+			JOptionPane.showMessageDialog(this,
+					"Impossibile contattare il server");
+
+			MainMenuFrame.getInstance().switchTo(
+					MainMenuFrame.getInstance().getMainMenuPanel());
+
+			client.closeConnection();
+		}
+		return null;
+	}
+
+	private void sendMessage(String c) {
+		try {
+			client.sendMessage(c);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			JOptionPane.showMessageDialog(this,
+					"Impossibile contattare il server");
+
+			MainMenuFrame.getInstance().switchTo(
+					MainMenuFrame.getInstance().getMainMenuPanel());
+
+			client.closeConnection();
+		}
+	}
+
 	public void createButton() {
 
 		saveLevel.setBackground(Color.black);
@@ -410,26 +449,25 @@ public class StageClearPanel extends JLayeredPane {
 
 	}
 
-	public void svuotaBuffer() {
-		new Thread() {
-
-			@Override
-			public void run() {
-				while (!isBufferEmpty) {
-					try {
-						fromServer.put(clientManager.getClient()
-								.recieveMessage());
-
-					} catch (InterruptedException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
-				}
-
-			}
-		}.start();
-
-	}
+	// public void svuotaBuffer() {
+	// new Thread() {
+	//
+	// @Override
+	// public void run() {
+	// while (!isBufferEmpty) {
+	// try {
+	// fromServer.put(clientManager.recieveMessage());
+	//
+	// } catch (InterruptedException e) {
+	// // TODO Auto-generated catch block
+	// e.printStackTrace();
+	// }
+	// }
+	//
+	// }
+	// }.start();
+	//
+	// }
 
 	public void createSavePanel() {
 
