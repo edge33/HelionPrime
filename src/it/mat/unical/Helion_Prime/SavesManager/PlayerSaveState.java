@@ -2,7 +2,7 @@ package it.mat.unical.Helion_Prime.SavesManager;
 
 import java.sql.Timestamp;
 
-public class PlayerState {
+public class PlayerSaveState {
 
 	private String username;
 	private Timestamp timestamp;
@@ -17,15 +17,15 @@ public class PlayerState {
 
 	private boolean profileSet;
 	
-	private static PlayerState instance;
+	private static PlayerSaveState instance;
 
-	public static PlayerState getInstance() {
+	public static PlayerSaveState getInstance() {
 		if (instance == null)
-			instance = new PlayerState();
+			instance = new PlayerSaveState();
 		return instance;
 	}
 
-	private PlayerState() {
+	private PlayerSaveState() {
 
 	}
 
@@ -44,7 +44,7 @@ public class PlayerState {
 		this.score = 0;
 	}
 
-	public PlayerState loadProfile(String username, Timestamp timestamp) {
+	public PlayerSaveState loadProfile(String username, Timestamp timestamp) {
 		this.username = username;
 		this.timestamp = timestamp;
 		profileSet = true;

@@ -7,7 +7,7 @@ import javax.swing.JOptionPane;
 public class NewSavegameCommand implements SavesCommand {
 
 	@Override
-	public boolean execute(PlayerState playerState) {
+	public boolean execute(PlayerSaveState playerState) {
 		return SaveManagerImpl.getInstance().saveNewGame(playerState);
 	}
 

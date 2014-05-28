@@ -12,10 +12,12 @@ public class CommonProperties {
 	private String database;
 	private String dbUser;
 	private String dbPassword;
+	private String driver;
 	
 	private String remoteDb;
 	private String remoteUser;
 	private String remotePwd;
+	private String remoteDriver;
 	
 	public static CommonProperties instance;
 	
@@ -44,11 +46,12 @@ public class CommonProperties {
 		database = properties.getProperty("database");
 		dbUser = properties.getProperty("dbuser");
 		dbPassword = properties.getProperty("dbpassword");
+		driver = properties.getProperty("driver");
 		
 		remoteDb = properties.getProperty("remotedb");
 		remoteUser = properties.getProperty("remoteuser");
 		remotePwd = properties.getProperty("remotepwd");
-		
+		remoteDriver = properties.getProperty("remotedriver");
 		
 	}
 	
@@ -74,6 +77,14 @@ public class CommonProperties {
 	
 	public String getRemotePwd() {
 		return remotePwd;
+	}
+
+	public String getremoteDriver() {
+		return remoteDriver;
+	}
+
+	public String getDriver() {
+		return driver;
 	}
 	
 
