@@ -148,7 +148,8 @@ public class ClientManager {
 					try {
 						sentence = outToServer.take();
 
-						client.sendMessage(sentence);
+						if (!sentence.equals("finish"))
+							client.sendMessage(sentence);
 					} catch (InterruptedException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();

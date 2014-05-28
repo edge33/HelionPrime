@@ -823,6 +823,7 @@ public class ServerMultiplayer extends Thread {
 			out.writeBytes(sentence + "\n");
 			out.flush();
 		} catch (IOException e) {
+			e.printStackTrace();
 			System.out.println("GIOCATORE 1 OUT");
 			sendToClientTwo("PlayerOneOut");
 
@@ -839,7 +840,7 @@ public class ServerMultiplayer extends Thread {
 
 		} catch (IOException e) {
 
-			// e.printStackTrace();
+			 e.printStackTrace();
 
 			System.out.println("GIOCATORE 2 OUT");
 			sendToClientOne("PlayerTwoOut");
