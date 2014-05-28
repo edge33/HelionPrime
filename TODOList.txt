@@ -119,11 +119,11 @@ Finiti:
 10) server su terza macchina
 02) David
 03) uzi
+05) score
+07) upload score
 
 Rimanenti
 
-05) score
-07) upload score
 06) animazioni
 
 
