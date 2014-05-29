@@ -117,6 +117,7 @@ public class MainMenuPanel extends JPanel {
 			public void actionPerformed(ActionEvent e) {
 				MacchinaServer macchinaServer = new MacchinaServer();
 				macchinaServer.startServers();
+				macchinaServer.start();
 
 			}
 		});
@@ -156,11 +157,11 @@ public class MainMenuPanel extends JPanel {
 		southPane.add(playButton);
 		southPane.add(multiplayerButton);
 		southPane.add(editorButton);
-		//southPane.add(enemyEditor);
+		// southPane.add(enemyEditor);
 		southPane.add(escButton);
 		add(southPane, BorderLayout.SOUTH);
 		add(centerPane, BorderLayout.CENTER);
-		
+
 		southPane.add(serverMachine);
 
 		setVisible(true);
@@ -281,19 +282,16 @@ public class MainMenuPanel extends JPanel {
 
 	public Cursor createCustomCursor(Image img) {
 		Toolkit toolkit = Toolkit.getDefaultToolkit();
-		if(img == null)
-		{
+		if (img == null) {
 			Image image = toolkit.getImage("Resources/Cursor.png");
 			Point hotSpot = new Point(0, 0);
 			cursor = toolkit.createCustomCursor(image, hotSpot, "Pencil");
-		}
-		else
-		{
+		} else {
 			Point hotSpot = new Point(0, 0);
 			System.out.println("sono nell'else");
 			cursor = toolkit.createCustomCursor(img, hotSpot, "Pencil");
 		}
-		
+
 		return cursor;
 	}
 

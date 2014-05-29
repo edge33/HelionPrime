@@ -1,7 +1,6 @@
 package it.mat.unical.Helion_Prime.Multiplayer;
 
 import it.mat.unical.Helion_Prime.GFX.MainMenuFrame;
-import it.mat.unical.Helion_Prime.Logic.GameManagerImpl;
 import it.mat.unical.Helion_Prime.Online.ClientManager;
 
 import java.awt.BorderLayout;
@@ -129,12 +128,7 @@ public class MultiplayerPanel extends JPanel {
 			public void actionPerformed(ActionEvent e) {
 				LevelSwitchPanelMultiplayer levelSwitchPanelMultiplayer = new LevelSwitchPanelMultiplayer(
 						font, true);
-				ClientManager.isPlayerOne = true;
-				MultiplayerPanel.this.serverMultiplayer = new ServerMultiplayer(
-						7777, 0);
-				GameManagerImpl.getInstance(0).setServerMultiplayer(
-						serverMultiplayer);
-				MultiplayerPanel.this.serverMultiplayer.start();
+
 				MainMenuFrame.getInstance().switchTo(
 						levelSwitchPanelMultiplayer);
 			}

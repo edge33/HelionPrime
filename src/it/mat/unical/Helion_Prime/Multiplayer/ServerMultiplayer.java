@@ -48,6 +48,7 @@ public class ServerMultiplayer extends Thread {
 	protected boolean isStageClear;
 	private int id_connection = 0;
 	private boolean isFinishMultiplayerGame;
+	private int port;
 
 	public ServerMultiplayer(int port, int id) {
 		try {
@@ -58,7 +59,7 @@ public class ServerMultiplayer extends Thread {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-
+		this.port = port;
 		levelList = new HashMap<Integer, String>();
 
 		levelList.put(0, "bastion");
@@ -177,12 +178,16 @@ public class ServerMultiplayer extends Thread {
 		this.startUpdater();
 	}
 
-	public void setLevelName() {
+	public void setRandomLevelName() {
 		Random random = new Random();
 
 		int randomLevel = random.nextInt(4);
 
 		this.levelName = levelList.get(randomLevel);
+	}
+
+	public void setLevelName(String level) {
+		this.levelName = level;
 	}
 
 	private void startUpdater() {
@@ -442,7 +447,7 @@ public class ServerMultiplayer extends Thread {
 							}
 
 							if (wantRetryPlayerOne && wantRetryPlayerTwo) {
-								setLevelName();
+								setRandomLevelName();
 								sendBroadcast(levelName);
 
 								level = null;
@@ -925,6 +930,30 @@ public class ServerMultiplayer extends Thread {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+	}
+
+	public boolean isFinishMultiplayerGame() {
+		return isFinishMultiplayerGame;
+	}
+
+	public void setFinishMultiplayerGame(boolean isFinishMultiplayerGame) {
+		this.isFinishMultiplayerGame = isFinishMultiplayerGame;
+	}
+
+	public int getPort() {
+		return port;
+	}
+
+	public void setPort(int port) {
+		this.port = port;
+	}
+
+	public int getId_connection() {
+		return id_connection;
+	}
+
+	public void setId_connection(int id_connection) {
+		this.id_connection = id_connection;
 	}
 
 }

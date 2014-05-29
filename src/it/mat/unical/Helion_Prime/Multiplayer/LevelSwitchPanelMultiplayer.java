@@ -4,6 +4,7 @@ import it.mat.unical.Helion_Prime.GFX.GameOverPanel;
 import it.mat.unical.Helion_Prime.GFX.MainGamePanel;
 import it.mat.unical.Helion_Prime.GFX.MainMenuFrame;
 import it.mat.unical.Helion_Prime.Online.Client;
+import it.mat.unical.Helion_Prime.Online.ClientManager;
 
 import java.awt.Color;
 import java.awt.Cursor;
@@ -92,40 +93,39 @@ public class LevelSwitchPanelMultiplayer extends JPanel {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 
+				ServerMultiplayer multiplayer = new ServerMultiplayer(7777, 0);
+
+				multiplayer
+						.setLevelName((String) LevelSwitchPanelMultiplayer.this.comboBox
+								.getSelectedItem());
+
+				multiplayer.start();
+
 				client = new Client("localhost", Client.getDefaultNumberPort(),
 						true);
 
-				if (LevelSwitchPanelMultiplayer.this.asNewMultiplayer) {
-					// client.sendMessage("Client 1 connesso (SERVER)");
-					ClientManagerMultiplayer.isPlayerOne = true;
-					System.out.println(recieveMessage());
-					String currentLevel = (String) LevelSwitchPanelMultiplayer.this.comboBox
-							.getSelectedItem();
-					String name = "levels/" + currentLevel + ".txt";
-					sendMessage(currentLevel);
+				sendMessage("Client 2 connesso");
 
-					System.out.println("ATTENDO GIOCATORE 2");
-
-					System.out.println(recieveMessage());
-					File choosenLevel = new File(name);
-					MainGamePanel mainGamePanel = null;
-					mainGamePanel = new MainGamePanel(choosenLevel, client);
-
-					MainMenuFrame.getInstance().switchTo(mainGamePanel);
+				System.out.println("client" + recieveMessage());
+				String numberPlayer = recieveMessage();
+				if (numberPlayer.substring(0, 1).equals("1")) {
+					ClientManager.isPlayerOne = true;
 
 				} else {
-					sendMessage("Client 2 connesso");
-					String levelName = recieveMessage();
-					System.out.println("livello scelto dal server" + levelName);
-
-					File choosenLevel = new File("levels/" + levelName);
-
-					MainGamePanel mainGamePanel = null;
-					mainGamePanel = new MainGamePanel(choosenLevel, client);
-
-					MainMenuFrame.getInstance().switchTo(mainGamePanel);
+					ClientManager.isPlayerOne = false;
 
 				}
+				String levelName = recieveMessage();
+				System.out.println("livello scelto dal server" + levelName);
+
+				File choosenLevel = new File("levels/" + levelName + ".txt");
+
+				recieveMessage();
+
+				MainGamePanel mainGamePanel = null;
+				mainGamePanel = new MainGamePanel(choosenLevel, client);
+
+				MainMenuFrame.getInstance().switchTo(mainGamePanel);
 
 			}
 		});
