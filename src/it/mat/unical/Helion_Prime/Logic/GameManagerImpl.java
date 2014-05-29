@@ -165,6 +165,12 @@ public class GameManagerImpl implements GameManager {
 
 		playerOne.getTrap().clear();
 		gameOver = true;
+
+		// if (!this.isMultiplayerGame) {
+		// this.server.isGameOver = true;
+		//
+		// }
+
 	}
 
 	// restituisce l'ondata corrente
@@ -312,18 +318,20 @@ public class GameManagerImpl implements GameManager {
 
 			if (!playerOne.isAlive()
 					|| ((MaintenanceRoom) world.getRoom()).getLife() <= 0) {
+				this.server.sendMessage("over");
 				this.endGame();
+				this.server.isGameOver = true;
 				gameOver = true;
 				gameStopped = true;
-				this.server.sendMessage("over");
 
 			}
 
 		} else {
+			this.server.sendMessage("clear");
 			this.endGame();
+			this.server.isStageClear = true;
 			win = true;
 			gameStopped = true;
-			this.server.sendMessage("clear");
 
 		}
 
@@ -445,7 +453,6 @@ public class GameManagerImpl implements GameManager {
 		if (isMultiplayerGame) {
 			this.playerTwo.getTrap().clear();
 		}
-
 		gameStopped = true;
 	}
 

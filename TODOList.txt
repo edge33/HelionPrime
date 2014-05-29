@@ -121,6 +121,7 @@ Finiti:
 03) uzi
 05) score
 07) upload score
+08) eccezzioni di perdita di connessione
 
 Rimanenti
 

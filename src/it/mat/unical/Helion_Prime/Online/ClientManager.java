@@ -309,6 +309,15 @@ public class ClientManager {
 		} else if (responseFromServer.substring(0, 1).equals("c")) {
 			this.finishGame = true;
 			sendAllFinish();
+			if (!client.isMultiplayerGame) {
+				isFinishRecieve = true;
+				try {
+					client.sendMessage("finish");
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
 			UserProfile.incrLevel();
 			StageClearPanel clearPanel = new StageClearPanel(this,
 					gamePane.getCurrentFileLevel());
@@ -317,6 +326,15 @@ public class ClientManager {
 		} else if (responseFromServer.substring(0, 1).equals("o")) {
 			this.finishGame = true;
 			sendAllFinish();
+			if (!client.isMultiplayerGame) {
+				isFinishRecieve = true;
+				try {
+					client.sendMessage("finish");
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
 			GameOverPanel gameOverPanel = new GameOverPanel(this,
 					gamePane.getCurrentFileLevel());
 
@@ -458,9 +476,10 @@ public class ClientManager {
 
 					} catch (InterruptedException e) {
 						// TODO Auto-generated catch block
-						// e.printStackTrace();
+						e.printStackTrace();
+						continue;
 					} catch (NullPointerException e2) {
-						// e2.printStackTrace();
+						e2.printStackTrace();
 						continue;
 					}
 				}
@@ -656,6 +675,7 @@ public class ClientManager {
 	public void reset() {
 		finishGame = false;
 		gameOver = false;
+		closeConnection();
 
 	}
 

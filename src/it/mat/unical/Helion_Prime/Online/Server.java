@@ -58,7 +58,7 @@ public class Server extends Thread {
 
 	@Override
 	public void run() {
-
+		String message = null;
 		this.isGameOver = false;
 		this.isStageClear = false;
 
@@ -90,31 +90,25 @@ public class Server extends Thread {
 
 		while (!isGameOver && !isStageClear) {
 
-			String message = this.recieveMessage();
+			message = this.recieveMessage();
 
-			if (message.equals("finish")) {
+			if (!message.equals("finish"))
 				try {
-					this.isGameOver = true;
-					this.isStageClear = true;
+					updateOnline(message);
+				} catch (InterruptedException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+
+			else {
+				this.isGameOver = true;
+				this.isStageClear = true;
+				try {
 					this.finish();
 				} catch (InterruptedException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
-
-			}
-			try {
-				updateOnline(message);
-			} catch (InterruptedException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-			}
-
-			try {
-				sleep(20);
-			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
 			}
 
 		}
@@ -223,6 +217,7 @@ public class Server extends Thread {
 		try {
 			in.close();
 			out.close();
+			server.close();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -263,7 +258,17 @@ public class Server extends Thread {
 					}
 
 				}
+
+				while (messageToClient.size() != 0)
+					try {
+						Server.this.sendMessageOnline(messageToClient.take());
+					} catch (InterruptedException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+
 				System.out.println("sendClear");
+				Server.this.closeConnection();
 
 			}
 

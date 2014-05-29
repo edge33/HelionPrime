@@ -263,7 +263,11 @@ public class StageClearPanel extends JLayeredPane {
 				if (!StageClearPanel.this.clientManager.isMultiplayerGame()) {
 					MainGamePanel mainGamePanel = null;
 
-					StageClearPanel.this.clientManager.reset();
+					// StageClearPanel.this.clientManager.reset();
+
+					System.err
+							.println("SONO STAGE CLEAR SINGLE PLAYER DOPO RESET");
+
 					try {
 						server = new Server(7777);
 					} catch (IOException e2) {
