@@ -31,6 +31,9 @@ import javax.swing.JLabel;
 import javax.swing.JLayeredPane;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JPasswordField;
+import javax.swing.JTextField;
+import javax.swing.SwingConstants;
 
 public class GameOverPanel extends JLayeredPane {
 
@@ -42,7 +45,13 @@ public class GameOverPanel extends JLayeredPane {
 	private JButton retryButton;
 	private JButton confirmButton;
 	private JButton hideButton;
+	private JButton submitScore;
 
+	private JTextField userField;
+	private JPasswordField passField;
+
+	private JLabel user;
+	private JLabel pass;
 	private JLabel time;
 	private JLabel timeDesc;
 	private JLabel bulletTitle;
@@ -66,6 +75,7 @@ public class GameOverPanel extends JLayeredPane {
 	private ServerMultiplayer serverMultiplayer;
 	private File lastlevelPlayed;
 	private ClientManager manager;
+	private boolean isStoryModeOn;
 	protected Client client;
 
 	public GameOverPanel(ClientManager manager, File level) {
@@ -92,6 +102,25 @@ public class GameOverPanel extends JLayeredPane {
 		this.retryButton = new JButton("Retry");
 		this.hideButton = new JButton("Hide");
 
+		this.isStoryModeOn = MainMenuFrame.getInstance().getMainMenuPanel()
+				.isStoryModeOn();
+		if (isStoryModeOn) {
+			this.hideButton = new JButton("Hide");
+			this.saveLevel = new JButton("Save Level");
+			this.confirmButton = new JButton("Save");
+		} else {
+			this.saveLevel = new JButton("Submit score");
+			this.confirmButton = new JButton("Confirm submit");
+			this.hideButton = new JButton("Hide");
+			this.user = new JLabel("User:");
+			this.pass = new JLabel("Password:");
+			this.userField = new JTextField(15);
+			this.passField = new JPasswordField(15);
+
+			this.userField.setHorizontalAlignment(SwingConstants.CENTER);
+			this.passField.setHorizontalAlignment(SwingConstants.CENTER);
+		}
+
 		this.time = new JLabel("0");
 		this.timeDesc = new JLabel("Tempo:");
 		this.bulletTitle = new JLabel("Proiettili Rimanenti:");
@@ -106,6 +135,12 @@ public class GameOverPanel extends JLayeredPane {
 
 		this.createButton();
 		this.addListener();
+
+		confirmButton.setForeground(Color.green);
+		confirmButton.setBackground(Color.black);
+		confirmButton.setFont(MainMenuFrame.getInstance().getMainMenuPanel()
+				.getFont());
+		confirmButton.setFont(saveLevel.getFont().deriveFont(16.0f));
 
 		hideButton.setForeground(Color.green);
 		hideButton.setBackground(Color.black);
@@ -133,16 +168,21 @@ public class GameOverPanel extends JLayeredPane {
 			this.confirmButton = new JButton("Upload Score");
 			this.confirmButton.addActionListener(new ActionListener() {
 
+				// database.uploadScore("edge33",
+				// GameOverPanel.this.clientManager.getMoney(),
+				// lastLevelPlayed.getName());
+
 				@Override
-				public void actionPerformed(ActionEvent e) {
+				public void actionPerformed(ActionEvent arg0) {
+					if (isStoryModeOn) {
+						// TO-DO: MAIDA PLZ FILL ME WITH SAVE CODE
+						RemoteDatabaseManager database = RemoteDatabaseManager
+								.getInstance();
+						database.doLogin("edge33", "1234");
 
-					RemoteDatabaseManager database = RemoteDatabaseManager
-							.getInstance();
-					database.doLogin("edge33", "1234");
-					// database.uploadScore("edge33",
-					// GameOverPanel.this.clientManager.getMoney(),
-					// lastLevelPlayed.getName());
-
+					} else {
+						// TO-DO: MAIDA PLZ FILL ME WITH SUBMIT CODE
+					}
 				}
 			});
 
@@ -284,39 +324,6 @@ public class GameOverPanel extends JLayeredPane {
 		});
 	}
 
-	private String recieveMessage() {
-		try {
-			return client.recieveMessage();
-		} catch (IOException e) {
-
-			e.printStackTrace();
-			JOptionPane.showMessageDialog(this,
-					"Impossibile contattare il server");
-
-			MainMenuFrame.getInstance().switchTo(
-					MainMenuFrame.getInstance().getMainMenuPanel());
-
-			client.closeConnection();
-		}
-		return null;
-	}
-
-	private void sendMessage(String c) {
-		try {
-			client.sendMessage(c);
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-			JOptionPane.showMessageDialog(this,
-					"Impossibile contattare il server");
-
-			MainMenuFrame.getInstance().switchTo(
-					MainMenuFrame.getInstance().getMainMenuPanel());
-
-			client.closeConnection();
-		}
-	}
-
 	public void createButton() {
 		retryButton.setBackground(Color.black);
 		retryButton.setForeground(Color.green);
@@ -419,6 +426,10 @@ public class GameOverPanel extends JLayeredPane {
 		recap.add(bulletsGun3);
 		eC.gridwidth = 1;
 
+		this.eC.insets = new Insets(10, 0, 0, 0);
+		this.eC.gridwidth = 1;
+		this.eC.weightx = 1.0;
+
 		this.eastLayout.setConstraints(bulletsGun4Desc, eC);
 		recap.add(bulletsGun4Desc);
 		this.eC.gridwidth = GridBagConstraints.REMAINDER;
@@ -426,17 +437,34 @@ public class GameOverPanel extends JLayeredPane {
 		recap.add(bulletsGun4);
 		eC.gridwidth = 1;
 
-		this.eC.insets = new Insets(10, 0, 0, 0);
+		this.eC.insets = new Insets(50, 0, 0, 0);
 		this.eC.gridwidth = 1;
-		this.eC.weightx = 1.0;
+
+		if (!isStoryModeOn) {
+			this.eastLayout.setConstraints(user, eC);
+			recap.add(user);
+			this.eC.gridwidth = GridBagConstraints.REMAINDER;
+			this.eastLayout.setConstraints(pass, eC);
+			recap.add(pass);
+			eC.gridwidth = 1;
+
+			this.eastLayout.setConstraints(userField, eC);
+			recap.add(userField);
+			this.eC.gridwidth = GridBagConstraints.REMAINDER;
+			this.eastLayout.setConstraints(passField, eC);
+			recap.add(passField);
+			eC.gridwidth = 1;
+		}
 
 		for (int i = 0; i < recap.getComponentCount(); i++) {
 			Component component = recap.getComponent(i);
-			component.setForeground(Color.green);
-			((JLabel) component).setOpaque(false);
-			component.setFont(MainMenuFrame.getInstance().getMainMenuPanel()
-					.getFont());
-			component.setFont(component.getFont().deriveFont(16.0f));
+			if (component instanceof JLabel) {
+				component.setForeground(Color.green);
+				((JLabel) component).setOpaque(false);
+				component.setFont(MainMenuFrame.getInstance()
+						.getMainMenuPanel().getFont());
+				component.setFont(component.getFont().deriveFont(16.0f));
+			}
 		}
 
 		previewPaneL.add(recap, BorderLayout.CENTER);
@@ -451,4 +479,38 @@ public class GameOverPanel extends JLayeredPane {
 		g.drawImage(gameOverImage, 0, 0, this.getWidth(), this.getHeight(),
 				this);
 	}
+
+	private String recieveMessage() {
+		try {
+			return client.recieveMessage();
+		} catch (IOException e) {
+
+			e.printStackTrace();
+			JOptionPane.showMessageDialog(this,
+					"Impossibile contattare il server");
+
+			MainMenuFrame.getInstance().switchTo(
+					MainMenuFrame.getInstance().getMainMenuPanel());
+
+			client.closeConnection();
+		}
+		return null;
+	}
+
+	private void sendMessage(String c) {
+		try {
+			client.sendMessage(c);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			JOptionPane.showMessageDialog(this,
+					"Impossibile contattare il server");
+
+			MainMenuFrame.getInstance().switchTo(
+					MainMenuFrame.getInstance().getMainMenuPanel());
+
+			client.closeConnection();
+		}
+	}
+
 }
