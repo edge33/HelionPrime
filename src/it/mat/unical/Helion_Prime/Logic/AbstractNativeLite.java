@@ -9,16 +9,18 @@ public class AbstractNativeLite {
 	private int key;
 	private int typeNative;
 	private int currentPosition = 2;
-
+	private boolean isDeath;
 	private int direction;
 	private int graphicX;
 	private int graphicY;
 	private int enemyResistance;
 
 	private int numberOfMovement = 10;
+	private boolean isVeryDeath;
 
 	public AbstractNativeLite(int x, int y, int typeNative, int key) {
-
+		isDeath = false;
+		isVeryDeath = false;
 		this.x = x;
 		this.y = y;
 		this.key = key;
@@ -29,7 +31,7 @@ public class AbstractNativeLite {
 			public void run() {
 				this.setName("ABSTRACT NATIVE LIGHT"
 						+ AbstractNativeLite.this.key);
-				while (!ClientManager.isFinishGame()) {
+				while (!ClientManager.isFinishGame() && !isDeath) {
 
 					if (currentPosition == 1)
 						currentPosition = 2;
@@ -46,7 +48,18 @@ public class AbstractNativeLite {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
+
 				}
+
+				try {
+					sleep(350);
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+
+				isVeryDeath = true;
+
 			}
 		}.start();
 
@@ -137,6 +150,22 @@ public class AbstractNativeLite {
 
 	public void setNumberOfMovement(int numberOfMovement) {
 		this.numberOfMovement = numberOfMovement;
+	}
+
+	public boolean isDeath() {
+		return isDeath;
+	}
+
+	public void setDeath(boolean isDeath) {
+		this.isDeath = isDeath;
+	}
+
+	public boolean isVeryDeath() {
+		return isVeryDeath;
+	}
+
+	public void setVeryDeath(boolean isVeryDeath) {
+		this.isVeryDeath = isVeryDeath;
 	}
 
 }

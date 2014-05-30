@@ -182,6 +182,7 @@ public class GamePane extends JPanel {
 
 		Repainter repainter = new Repainter(this);
 		repainter.start();
+		informationPanel.startTime();
 		this.setFocusable(true);
 
 		this.add(controllerInfo);
@@ -921,10 +922,10 @@ public class GamePane extends JPanel {
 		//
 		for (AbstractNativeLite currentNative : natives.values()) {
 
-			g.setColor(Color.red);
-			g.fillRect(/* drawingHorizontalOffset */+currentNative.getY()
-					* TILE_SIZE, currentNative.getX() * TILE_SIZE, TILE_SIZE,
-					TILE_SIZE);
+			// g.setColor(Color.red);
+			// g.fillRect(/* drawingHorizontalOffset */+currentNative.getY()
+			// * TILE_SIZE, currentNative.getX() * TILE_SIZE, TILE_SIZE,
+			// TILE_SIZE);
 
 			// g.drawImage(imageProvider.getCorrectNative(currentNative),
 			// /* drawingHorizontalOffset */+currentNative.getGraphicY() + 10,
@@ -936,9 +937,21 @@ public class GamePane extends JPanel {
 			// currentNative.getX() * TILE_SIZE, TILE_SIZE, TILE_SIZE,
 			// this);
 
-			g.drawImage(imageProvider.getCorrectNative(currentNative),
-			/* drawingHorizontalOffset */currentNative.getGraphicY(),
-					currentNative.getGraphicX(), TILE_SIZE, TILE_SIZE, this);
+			if (currentNative.isVeryDeath()) {
+
+				natives.remove(currentNative.getKey());
+
+			} else if (currentNative.isDeath()) {
+				g.drawImage(imageProvider.getExplosion(),
+				/* drawingHorizontalOffset */currentNative.getGraphicY(),
+						currentNative.getGraphicX(), TILE_SIZE, TILE_SIZE, this);
+
+			} else {
+				g.drawImage(imageProvider.getCorrectNative(currentNative),
+				/* drawingHorizontalOffset */currentNative.getGraphicY(),
+						currentNative.getGraphicX(), TILE_SIZE, TILE_SIZE, this);
+
+			}
 
 			// if (currentNative instanceof SoldierNative) {
 			// g.setColor(Color.BLACK);

@@ -37,7 +37,7 @@ public class MainMenuFrame extends JFrame {
 	}
 
 	public void start() {
-		setSize(900, 700);
+		setSize(930, 700);
 		setLocationRelativeTo(null);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		setVisible(true);
@@ -81,38 +81,44 @@ public class MainMenuFrame extends JFrame {
 		System.setProperty(property, "true");
 		MainMenuFrame frame = MainMenuFrame.getInstance();
 		frame.start();
-		
-//		try {
-//            // Set System L&F
-//        UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-//		} 
-//		catch (UnsupportedLookAndFeelException e) {
-//			// handle exception
-//		}
-//		catch (ClassNotFoundException e) {
-//			// handle exception
-//		}
-//		catch (InstantiationException e) {
-//	       // handle exception
-//	    }
-//	    catch (IllegalAccessException e) {
-//	       // handle exception
-//	    }
-		
-		
+
+		// try {
+		// // Set System L&F
+		// UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+		// }
+		// catch (UnsupportedLookAndFeelException e) {
+		// // handle exception
+		// }
+		// catch (ClassNotFoundException e) {
+		// // handle exception
+		// }
+		// catch (InstantiationException e) {
+		// // handle exception
+		// }
+		// catch (IllegalAccessException e) {
+		// // handle exception
+		// }
+
 		try {
-			CommonProperties.getInstance().loadProperties(new File("database.properties"));
+			CommonProperties.getInstance().loadProperties(
+					new File("database.properties"));
 		} catch (FileNotFoundException e) {
-			int choice = JOptionPane.showConfirmDialog(instance,"Nessun file di configurazione trovato, vuoi cercarne uno?","Errore",JOptionPane.YES_NO_OPTION);
-			
-			if ( choice == JOptionPane.YES_OPTION ) {
+			int choice = JOptionPane
+					.showConfirmDialog(
+							instance,
+							"Nessun file di configurazione trovato, vuoi cercarne uno?",
+							"Errore", JOptionPane.YES_NO_OPTION);
+
+			if (choice == JOptionPane.YES_OPTION) {
 				JFileChooser chooser = new JFileChooser();
-				FileNameExtensionFilter filter = new FileNameExtensionFilter("properties files","properties");
+				FileNameExtensionFilter filter = new FileNameExtensionFilter(
+						"properties files", "properties");
 				chooser.setFileFilter(filter);
 				int returnVal = chooser.showOpenDialog(instance);
-				if(returnVal == JFileChooser.APPROVE_OPTION) {
+				if (returnVal == JFileChooser.APPROVE_OPTION) {
 					try {
-						CommonProperties.getInstance().loadProperties(chooser.getSelectedFile());
+						CommonProperties.getInstance().loadProperties(
+								chooser.getSelectedFile());
 					} catch (FileNotFoundException e1) {
 					}
 				}
@@ -120,7 +126,7 @@ public class MainMenuFrame extends JFrame {
 				System.exit(0);
 			}
 		}
-		
+
 	}
 
 	public MainMenuPanel getMainMenuPanel() {

@@ -8,7 +8,6 @@ import it.mat.unical.Helion_Prime.Online.ClientManager;
 import it.mat.unical.Helion_Prime.Online.Server;
 import it.mat.unical.Helion_Prime.SavesManager.NewSavegameCommand;
 import it.mat.unical.Helion_Prime.SavesManager.OverrideSavegameCommand;
-import it.mat.unical.Helion_Prime.SavesManager.PlayerSaveState;
 import it.mat.unical.Helion_Prime.ScoreCharts.RemoteDatabaseManager;
 
 import java.awt.BorderLayout;
@@ -45,11 +44,11 @@ public class GameOverPanel extends JLayeredPane {
 	private JButton saveLevel;
 	private JButton retryButton;
 	private JButton hideButton;
-	
+
 	private JButton newSaveGameButton;
 	private JButton overrideSaveButton;
 	private JButton submitScore;
-	
+
 	private JTextField userField;
 	private JPasswordField passField;
 
@@ -105,13 +104,15 @@ public class GameOverPanel extends JLayeredPane {
 		this.retryButton = new JButton("Retry");
 		this.hideButton = new JButton("Hide");
 
-		this.overrideSaveButton = new SaveGameInvokerButton("Overwrite Savegame",new OverrideSavegameCommand() );
-		this.newSaveGameButton = new SaveGameInvokerButton("Save New Game", new NewSavegameCommand());
+		this.overrideSaveButton = new SaveGameInvokerButton(
+				"Overwrite Savegame", new OverrideSavegameCommand());
+		this.newSaveGameButton = new SaveGameInvokerButton("Save New Game",
+				new NewSavegameCommand());
 		this.hideButton = new JButton("Hide");
-		
+
 		this.isStoryModeOn = MainMenuFrame.getInstance().getMainMenuPanel()
 				.isStoryModeOn();
-		if ( isStoryModeOn ) {
+		if (isStoryModeOn) {
 			this.saveLevel = new JButton("Save Level");
 		} else {
 			this.saveLevel = new JButton("Submit score");
@@ -121,10 +122,11 @@ public class GameOverPanel extends JLayeredPane {
 			this.pass = new JLabel("Password:");
 			this.userField = new JTextField(15);
 			this.passField = new JPasswordField(15);
-			
+
 			submitScore.setForeground(Color.green);
 			submitScore.setBackground(Color.black);
-			submitScore.setFont(MainMenuFrame.getInstance().getMainMenuPanel().getFont());
+			submitScore.setFont(MainMenuFrame.getInstance().getMainMenuPanel()
+					.getFont());
 			submitScore.setFont(saveLevel.getFont().deriveFont(16.0f));
 
 			this.userField.setHorizontalAlignment(SwingConstants.CENTER);
@@ -146,7 +148,6 @@ public class GameOverPanel extends JLayeredPane {
 		this.createButton();
 		this.addListener();
 
-
 		hideButton.setForeground(Color.green);
 		hideButton.setBackground(Color.black);
 		hideButton.setFont(MainMenuFrame.getInstance().getMainMenuPanel()
@@ -157,8 +158,6 @@ public class GameOverPanel extends JLayeredPane {
 		this.overlay.add(backToMenuButton);
 		this.overlay.add(saveLevel);
 		this.overlay.add(retryButton);
-
-		
 
 	}
 
@@ -309,7 +308,7 @@ public class GameOverPanel extends JLayeredPane {
 		backToMenuButton.setFont(retryButton.getFont().deriveFont(25.0f));
 		backToMenuButton.setBorderPainted(false);
 		backToMenuButton.setFocusPainted(false);
-		
+
 		if (MainMenuFrame.getInstance().getMainMenuPanel().isStoryModeOn()) {
 			retryButton.setBackground(Color.black);
 			retryButton.setForeground(Color.green);
@@ -340,39 +339,42 @@ public class GameOverPanel extends JLayeredPane {
 
 				@Override
 				public void actionPerformed(ActionEvent arg0) {
-					RemoteDatabaseManager database = RemoteDatabaseManager.getInstance();
+					RemoteDatabaseManager database = RemoteDatabaseManager
+							.getInstance();
 					String username = GameOverPanel.this.userField.getText();
-					String password = String.valueOf(GameOverPanel.this.passField.getPassword());
-					
-					System.out.println(username + " " + password );
-					
-					if ( database.doLogin(username, password ) ) {
-							if (database.uploadScore(
-									username,
-									GameOverPanel.this.manager.getMoney(),
-									lastlevelPlayed.getName().substring(0,
-									lastlevelPlayed.getName().length() - 4))) {
-								JOptionPane.showMessageDialog(
-										MainMenuFrame.getInstance(),
-										"Caricamento Effettuato!");
-							} else {
-								JOptionPane.showMessageDialog(
-										MainMenuFrame.getInstance(),
-										"Errore Caricamento, controlla la connessione ad internet!");
-							}
+					String password = String
+							.valueOf(GameOverPanel.this.passField.getPassword());
+
+					System.out.println(username + " " + password);
+
+					if (database.doLogin(username, password)) {
+						if (database
+								.uploadScore(
+										username,
+										GameOverPanel.this.manager.getMoney(),
+										lastlevelPlayed.getName().substring(
+												0,
+												lastlevelPlayed.getName()
+														.length() - 4))) {
+							JOptionPane.showMessageDialog(
+									MainMenuFrame.getInstance(),
+									"Caricamento Effettuato!");
+						} else {
+							JOptionPane.showMessageDialog(
+									MainMenuFrame.getInstance(),
+									"Errore Caricamento, controlla la connessione ad internet!");
+						}
 					} else {
 						JOptionPane.showMessageDialog(
 								MainMenuFrame.getInstance(),
 								"Username o password errata!");
 					}
 
-
 				}
 			});
 
 		}
-		
-		
+
 	}
 
 	public void createSavePanel() {
@@ -381,6 +383,8 @@ public class GameOverPanel extends JLayeredPane {
 		this.eC = new GridBagConstraints();
 		this.eC.fill = GridBagConstraints.CENTER;
 		this.eC.weightx = 1.0;
+
+		this.time.setText(InformationPanel.getTime());
 
 		int frameWidth = MainMenuFrame.getInstance().getWidth();
 		int frameHeight = MainMenuFrame.getInstance().getHeight();
@@ -410,7 +414,7 @@ public class GameOverPanel extends JLayeredPane {
 		recap.setLayout(eastLayout);
 		filler.setOpaque(false);
 		previewPaneL.setLayout(new BorderLayout());
-		if ( isStoryModeOn ) {
+		if (isStoryModeOn) {
 			filler.add(overrideSaveButton);
 			filler.add(newSaveGameButton);
 			filler.add(hideButton);

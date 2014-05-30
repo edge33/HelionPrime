@@ -10,7 +10,7 @@ import java.awt.Toolkit;
 import javax.swing.JLabel;
 
 //semplice classe che carica le immaggini dal toolkit e le restituisce al paintComponent del "GamePane"
-// Last id 145
+// Last id 146
 
 public class ImageProvider {
 
@@ -197,6 +197,8 @@ public class ImageProvider {
 	private Image nativeIceRightRunning2;
 	private Image nativeIceRightRunning3;
 
+	private final Image explosion;
+
 	private final Image i8;
 	private final Image i9;
 	private final Image i10;
@@ -222,6 +224,8 @@ public class ImageProvider {
 
 	private ImageProvider() {
 		final Toolkit toolKit = Toolkit.getDefaultToolkit();
+
+		this.explosion = toolKit.getImage("Resources/explosion.gif");
 
 		this.bullet = toolKit.getImage("Resources/pallottoloBIll.png");
 
@@ -521,6 +525,7 @@ public class ImageProvider {
 
 		final MediaTracker tracker = new MediaTracker(new JLabel());
 
+		tracker.addImage(explosion, 146);
 		tracker.addImage(bullet, 63);
 
 		tracker.addImage(wall, 0);
@@ -1079,6 +1084,10 @@ public class ImageProvider {
 
 	public Image getEnemyS() {
 		return enemyS;
+	}
+
+	public Image getExplosion() {
+		return this.explosion;
 	}
 
 	public Image getFlippedWall() {

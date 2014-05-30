@@ -468,9 +468,13 @@ public class ClientManager {
 
 								gamePane.getMovementGraphicWave().remove(
 										abstractNative);
+								//
+								// gamePane.natives.remove(Integer
+								// .parseInt(splitted[1]));
 
-								gamePane.natives.remove(Integer
-										.parseInt(splitted[1]));
+								gamePane.natives.get(
+										Integer.parseInt(splitted[1]))
+										.setDeath(true);
 							}
 						}
 

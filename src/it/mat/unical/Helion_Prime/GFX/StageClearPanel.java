@@ -9,7 +9,6 @@ import it.mat.unical.Helion_Prime.Online.Server;
 import it.mat.unical.Helion_Prime.SavesManager.NewSavegameCommand;
 import it.mat.unical.Helion_Prime.SavesManager.OverrideSavegameCommand;
 import it.mat.unical.Helion_Prime.SavesManager.PlayerSaveState;
-import it.mat.unical.Helion_Prime.SavesManager.SaveManagerImpl;
 import it.mat.unical.Helion_Prime.ScoreCharts.RemoteDatabaseManager;
 
 import java.awt.BorderLayout;
@@ -37,9 +36,6 @@ import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
-
-import org.h2.util.OsgiDataSourceFactory;
-
 
 public class StageClearPanel extends JLayeredPane {
 
@@ -109,13 +105,16 @@ public class StageClearPanel extends JLayeredPane {
 		this.bulletsGun3 = new JLabel("0");
 		this.bulletsGun4 = new JLabel("0");
 
-		this.overrideSaveButton = new SaveGameInvokerButton("Overwrite Savegame",new OverrideSavegameCommand() );
-		this.newSaveGameButton = new SaveGameInvokerButton("Save New Game", new NewSavegameCommand());
+		this.overrideSaveButton = new SaveGameInvokerButton(
+				"Overwrite Savegame", new OverrideSavegameCommand());
+		this.newSaveGameButton = new SaveGameInvokerButton("Save New Game",
+				new NewSavegameCommand());
 		this.hideButton = new JButton("Hide");
-		
+
 		this.clientManager = clientManager;
 		this.profile = clientManager.getUserProfile();
-		this.isStoryModeOn = MainMenuFrame.getInstance().getMainMenuPanel().isStoryModeOn();
+		this.isStoryModeOn = MainMenuFrame.getInstance().getMainMenuPanel()
+				.isStoryModeOn();
 		if (isStoryModeOn) {
 			this.saveLevel = new JButton("Save Level");
 		} else {
@@ -470,32 +469,38 @@ public class StageClearPanel extends JLayeredPane {
 
 				@Override
 				public void actionPerformed(ActionEvent arg0) {
-					RemoteDatabaseManager database = RemoteDatabaseManager.getInstance();
+					RemoteDatabaseManager database = RemoteDatabaseManager
+							.getInstance();
 					String username = StageClearPanel.this.userField.getText();
-					String password = String.valueOf(StageClearPanel.this.passField.getPassword());
-					
-					System.out.println(username + " " + password );
-					
-					if ( database.doLogin(username, password ) ) {
-							if (database.uploadScore(
-									username,
-									StageClearPanel.this.clientManager.getMoney(),
-									lastLevelPlayed.getName().substring(0,
-									lastLevelPlayed.getName().length() - 4))) {
-								JOptionPane.showMessageDialog(
-										MainMenuFrame.getInstance(),
-										"Caricamento Effettuato!");
-							} else {
-								JOptionPane.showMessageDialog(
-										MainMenuFrame.getInstance(),
-										"Errore Caricamento, controlla la connessione ad internet!");
-							}
+					String password = String
+							.valueOf(StageClearPanel.this.passField
+									.getPassword());
+
+					System.out.println(username + " " + password);
+
+					if (database.doLogin(username, password)) {
+						if (database
+								.uploadScore(
+										username,
+										StageClearPanel.this.clientManager
+												.getMoney(),
+										lastLevelPlayed.getName().substring(
+												0,
+												lastLevelPlayed.getName()
+														.length() - 4))) {
+							JOptionPane.showMessageDialog(
+									MainMenuFrame.getInstance(),
+									"Caricamento Effettuato!");
+						} else {
+							JOptionPane.showMessageDialog(
+									MainMenuFrame.getInstance(),
+									"Errore Caricamento, controlla la connessione ad internet!");
+						}
 					} else {
 						JOptionPane.showMessageDialog(
 								MainMenuFrame.getInstance(),
 								"Username o password errata!");
 					}
-
 
 				}
 			});
@@ -530,7 +535,7 @@ public class StageClearPanel extends JLayeredPane {
 		this.eC = new GridBagConstraints();
 		this.eC.fill = GridBagConstraints.CENTER;
 		this.eC.weightx = 1.0;
-
+		this.time.setText(InformationPanel.getTime());
 		int frameWidth = MainMenuFrame.getInstance().getWidth();
 		int frameHeight = MainMenuFrame.getInstance().getHeight();
 		int prevPanelX;
