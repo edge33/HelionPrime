@@ -7,6 +7,7 @@ import it.mat.unical.Helion_Prime.Online.Client;
 import it.mat.unical.Helion_Prime.Online.ClientManager;
 import it.mat.unical.Helion_Prime.Online.Server;
 import it.mat.unical.Helion_Prime.SavesManager.NewSavegameCommand;
+import it.mat.unical.Helion_Prime.SavesManager.OverrideSavegameCommand;
 import it.mat.unical.Helion_Prime.SavesManager.PlayerSaveState;
 import it.mat.unical.Helion_Prime.SavesManager.SaveManagerImpl;
 import it.mat.unical.Helion_Prime.ScoreCharts.RemoteDatabaseManager;
@@ -37,6 +38,9 @@ import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
+import org.h2.util.OsgiDataSourceFactory;
+
+
 public class StageClearPanel extends JLayeredPane {
 
 	private JButton backToMenuButton;
@@ -47,7 +51,6 @@ public class StageClearPanel extends JLayeredPane {
 	private JButton newSaveGameButton;
 	private JButton hideButton;
 	private JButton overrideSaveButton;
-	private JButton confirmButton;
 
 	private JTextField userField;
 	private JPasswordField passField;
@@ -106,19 +109,18 @@ public class StageClearPanel extends JLayeredPane {
 		this.bulletsGun3 = new JLabel("0");
 		this.bulletsGun4 = new JLabel("0");
 
+		this.overrideSaveButton = new SaveGameInvokerButton("Overwrite Savegame",new OverrideSavegameCommand() );
+		this.newSaveGameButton = new SaveGameInvokerButton("Save New Game", new NewSavegameCommand());
+		this.hideButton = new JButton("Hide");
+		
 		this.clientManager = clientManager;
 		this.profile = clientManager.getUserProfile();
-		this.isStoryModeOn = MainMenuFrame.getInstance().getMainMenuPanel()
-				.isStoryModeOn();
+		this.isStoryModeOn = MainMenuFrame.getInstance().getMainMenuPanel().isStoryModeOn();
 		if (isStoryModeOn) {
-			this.overrideSaveButton = new JButton("Overwrite savegame");
-			this.newSaveGameButton = new JButton("Save Game");
-			this.hideButton = new JButton("Hide");
 			this.saveLevel = new JButton("Save Level");
 		} else {
 			this.saveLevel = new JButton("Submit score");
 			this.submitScore = new JButton("Confirm submit");
-			this.hideButton = new JButton("Hide");
 			this.user = new JLabel("User:");
 			this.pass = new JLabel("Password:");
 			this.userField = new JTextField(15);
@@ -196,42 +198,11 @@ public class StageClearPanel extends JLayeredPane {
 				}
 			});
 
-			// this.confirmButton.setCommand(new OverrideSavegameCommand());
-			this.confirmButton = new SaveGameInvokerButton("Save Game",
-					new NewSavegameCommand());
 			if (!PlayerSaveState.getInstance().isSet()) {
 				this.saveLevel.setEnabled(false);
 			}
 		} else {
 			this.saveLevel.setText("Upload Score");
-			this.confirmButton = new JButton("Upload Score");
-
-			this.confirmButton.addActionListener(new ActionListener() {
-
-				@Override
-				public void actionPerformed(ActionEvent e) {
-
-					RemoteDatabaseManager database = RemoteDatabaseManager
-							.getInstance();
-					database.doLogin("edge33", "1234");
-
-					if (database.uploadScore(
-							"edge33",
-							StageClearPanel.this.clientManager.getMoney(),
-							lastLevelPlayed.getName().substring(0,
-									lastLevelPlayed.getName().length() - 4))) {
-						JOptionPane.showMessageDialog(
-								MainMenuFrame.getInstance(),
-								"Caricamento Effettuato!");
-					} else {
-						JOptionPane.showMessageDialog(
-								MainMenuFrame.getInstance(),
-								"Errore Caricamento, controlla la connessione ad internet!");
-					}
-
-				}
-			});
-
 		}
 
 		createButton();
@@ -487,43 +458,6 @@ public class StageClearPanel extends JLayeredPane {
 					.getMainMenuPanel().getFont());
 			newSaveGameButton.setFont(saveLevel.getFont().deriveFont(16.0f));
 
-			this.overrideSaveButton.addActionListener(new ActionListener() {
-
-				@Override
-				public void actionPerformed(ActionEvent arg0) {
-					PlayerSaveState playerState = PlayerSaveState.getInstance();
-					if (SaveManagerImpl.getInstance().overrideSave(playerState)) {
-						JOptionPane.showMessageDialog(
-								mainMenuFrame.getInstance(),
-								"Salvataggio effettuato, slot: "
-										+ playerState.getUsername() + " "
-										+ playerState.getTimeStamp());
-					} else {
-						JOptionPane.showMessageDialog(
-								mainMenuFrame.getInstance(),
-								"Errore Salvataggio; Slot inesistente, crea un nuovo slot");
-					}
-				}
-			});
-
-			this.newSaveGameButton.addActionListener(new ActionListener() {
-
-				@Override
-				public void actionPerformed(ActionEvent arg0) {
-					PlayerSaveState playerState = PlayerSaveState.getInstance();
-					if (SaveManagerImpl.getInstance().saveNewGame(playerState)) {
-						JOptionPane.showMessageDialog(
-								mainMenuFrame.getInstance(),
-								"Salvataggio effettuato, slot: "
-										+ playerState.getUsername() + " "
-										+ playerState.getTimeStamp());
-					} else {
-						JOptionPane.showMessageDialog(
-								mainMenuFrame.getInstance(),
-								"Errore Salvataggio");
-					}
-				}
-			});
 		} else {
 
 			submitScore.setForeground(Color.green);
@@ -536,7 +470,32 @@ public class StageClearPanel extends JLayeredPane {
 
 				@Override
 				public void actionPerformed(ActionEvent arg0) {
-					// TODO MAIDA PLZ FILL ME
+					RemoteDatabaseManager database = RemoteDatabaseManager.getInstance();
+					String username = StageClearPanel.this.userField.getText();
+					String password = String.valueOf(StageClearPanel.this.passField.getPassword());
+					
+					System.out.println(username + " " + password );
+					
+					if ( database.doLogin(username, password ) ) {
+							if (database.uploadScore(
+									username,
+									StageClearPanel.this.clientManager.getMoney(),
+									lastLevelPlayed.getName().substring(0,
+									lastLevelPlayed.getName().length() - 4))) {
+								JOptionPane.showMessageDialog(
+										MainMenuFrame.getInstance(),
+										"Caricamento Effettuato!");
+							} else {
+								JOptionPane.showMessageDialog(
+										MainMenuFrame.getInstance(),
+										"Errore Caricamento, controlla la connessione ad internet!");
+							}
+					} else {
+						JOptionPane.showMessageDialog(
+								MainMenuFrame.getInstance(),
+								"Username o password errata!");
+					}
+
 
 				}
 			});
