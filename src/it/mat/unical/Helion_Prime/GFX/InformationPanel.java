@@ -24,6 +24,7 @@ public class InformationPanel extends JPanel {
 	private JTextField time;
 	private Font font;
 	private Image overlay;
+	private boolean isPaused;
 
 	static int second;
 	static int minute;
@@ -115,29 +116,33 @@ public class InformationPanel extends JPanel {
 			public void run() {
 
 				while (!ClientManager.isFinishGame()) {
-					InformationPanel.this.repaint();
-					if (second == 60) {
-						second = 0;
-						minute++;
+					if(!isPaused)
+					{
 
-					}
+						InformationPanel.this.repaint();
+						if (second == 60) {
+							second = 0;
+							minute++;
 
-					if (minute == 60) {
-						second = 0;
-						minute = 0;
-						hour++;
+						}
 
-					}
+						if (minute == 60) {
+							second = 0;
+							minute = 0;
+							hour++;
 
-					second++;
+						}
 
-					time.setText(hour + ":" + minute + ":" + second + " ");
+						second++;
 
-					try {
-						sleep(1000);
-					} catch (InterruptedException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
+						time.setText(hour + ":" + minute + ":" + second + " ");
+
+						try {
+							sleep(1000);
+						} catch (InterruptedException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
 					}
 				}
 
@@ -150,5 +155,10 @@ public class InformationPanel extends JPanel {
 	public static String getTime() {
 		// TODO Auto-generated method stub
 		return hour + ":" + minute + ":" + second;
+	}
+
+	public void setPause() {
+		isPaused = !isPaused;
+
 	}
 }

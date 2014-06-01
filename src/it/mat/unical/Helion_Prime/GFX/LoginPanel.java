@@ -122,7 +122,7 @@ public class LoginPanel extends JPanel
 		this.back = new JButton("Main Menu");
 		this.create = new JButton("Create Profile");
 		this.load = new JButton("Load Profile");
-		this.skip = new JButton("Skip this Shit!");
+		this.skip = new JButton("Confirm");
 
 		final String strURL = "http://www.facebook.com";  
 		this.leaderBoard  = new JLabel("<html><a href=\"http://192.168.1.19:8080/HelionPrime/\"style=\"color: #00FF00; text-decoration: none\"> Leaderboard </a></html>");
@@ -131,6 +131,7 @@ public class LoginPanel extends JPanel
 		this.userLabel = new JLabel("Username:");
 		this.saveLabel = new JLabel("Saved Game:");
 		this.scoreDescr = new JLabel("Score");
+		this.skip.setEnabled(false);
 
 		this.bulletTitle = new JLabel("Bullet:");
 		this.bulletsGun1Desc = new JLabel(" Gun 1:");
@@ -338,6 +339,7 @@ public class LoginPanel extends JPanel
 				}
 				else
 				{
+					skip.setEnabled(true);
 					userLabel.setText("Username:");
 					bulletTitle.setVisible(true);
 					bulletsGun1Desc.setVisible(true);
@@ -397,8 +399,9 @@ public class LoginPanel extends JPanel
 				
 				if ( userField.getText().length() > 0 ) {
 
+					skip.setEnabled(true);
 					savedGames.removeAllItems();
-
+					
 					String username = userField.getText();
 
 					ArrayList<Timestamp> profiles = null;
