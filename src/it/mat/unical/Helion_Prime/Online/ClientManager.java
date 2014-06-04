@@ -4,6 +4,7 @@ import it.mat.unical.Helion_Prime.GFX.BulletsClient;
 import it.mat.unical.Helion_Prime.GFX.GameOverPanel;
 import it.mat.unical.Helion_Prime.GFX.GamePane;
 import it.mat.unical.Helion_Prime.GFX.MainMenuFrame;
+import it.mat.unical.Helion_Prime.GFX.MainMenuPanel;
 import it.mat.unical.Helion_Prime.GFX.StageClearPanel;
 import it.mat.unical.Helion_Prime.GFX.ThreadPoolBulletClient;
 import it.mat.unical.Helion_Prime.Logic.AbstractNativeLite;
@@ -328,8 +329,10 @@ public class ClientManager {
 			StageClearPanel clearPanel = new StageClearPanel(this,
 					gamePane.getCurrentFileLevel());
 			
-			PlayerSaveState.getInstance().setScore(money);
-			PlayerSaveState.getInstance().setLastLevelCleared(profile.getLastlevelComplete());
+			if ( MainMenuFrame.getInstance().getMainMenuPanel().isStoryModeOn() ) {
+				PlayerSaveState.getInstance().setScore(money);
+				PlayerSaveState.getInstance().setLastLevelCleared(profile.getLastlevelComplete());
+			}
 			
 			MainMenuFrame.getInstance().switchTo(clearPanel);
 		} else if (responseFromServer.substring(0, 1).equals("o")) {
@@ -346,6 +349,13 @@ public class ClientManager {
 			}
 			GameOverPanel gameOverPanel = new GameOverPanel(this,
 					gamePane.getCurrentFileLevel());
+			
+			if ( MainMenuFrame.getInstance().getMainMenuPanel().isStoryModeOn() ) {
+				PlayerSaveState.getInstance().setScore(money);
+				PlayerSaveState.getInstance().setLastLevelCleared(profile.getLastlevelComplete());
+			}
+			
+			
 
 			MainMenuFrame.getInstance().switchTo(gameOverPanel);
 		} else if (responseFromServer.substring(0, 1).equals("l")) {
