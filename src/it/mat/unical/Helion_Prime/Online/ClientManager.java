@@ -170,6 +170,12 @@ public class ClientManager {
 		finishGame = false;
 		gameOver = false;
 		this.money = Integer.parseInt(recieveMessage()); // ricevo i
+		
+		
+		if ( PlayerSaveState.getInstance().isSet() ) {
+			this.money = PlayerSaveState.getInstance().getScore();
+		}
+		
 		// l'intero
 		// corrrispondente
 		// ai soldi
@@ -321,10 +327,13 @@ public class ClientManager {
 			UserProfile.incrLevel();
 			StageClearPanel clearPanel = new StageClearPanel(this,
 					gamePane.getCurrentFileLevel());
-
+			
+			PlayerSaveState.getInstance().setScore(money);
+			PlayerSaveState.getInstance().setLastLevelCleared(profile.getLastlevelComplete());
+			
 			MainMenuFrame.getInstance().switchTo(clearPanel);
 		} else if (responseFromServer.substring(0, 1).equals("o")) {
-			this.finishGame = true;
+			finishGame = true;
 			sendAllFinish();
 			if (!client.isMultiplayerGame) {
 				isFinishRecieve = true;
