@@ -28,9 +28,18 @@ public class MacchinaServer extends Thread {
 			for (int i = 0; i < 10; i++) {
 
 				if (openMatch.get(i).isFinishMultiplayerGame()) {
+
 					int lastPort = openMatch.get(i).getPort();
 					int lastId = openMatch.get(i).getId_connection();
+
+					try {
+						sleep(200);
+					} catch (InterruptedException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
 					openMatch.remove(i);
+
 					ServerMultiplayer multiplayer = new ServerMultiplayer(
 							lastPort, lastId);
 					openMatch.add(multiplayer);
