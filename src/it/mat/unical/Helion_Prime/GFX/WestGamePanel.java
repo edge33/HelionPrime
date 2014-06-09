@@ -7,6 +7,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 public class WestGamePanel extends JPanel {
@@ -48,10 +49,23 @@ public class WestGamePanel extends JPanel {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 
-				ClientManager.setFinishGame(true);
-				clientManager.sendAllFinish();
-				MainMenuFrame.getInstance().switchTo(
-						MainMenuFrame.getInstance().getMainMenuPanel());
+				int reply = JOptionPane.showConfirmDialog(
+						clientManager.getGamePane(),
+						"Vuoi davvero chiudere la partita ? I dati non salvati andranno persi",
+						"Attenzione !", JOptionPane.YES_NO_OPTION);
+				if (reply == JOptionPane.YES_OPTION) {
+
+					ClientManager.setFinishGame(true);
+					clientManager.isFinishRecieve = true;
+					clientManager.sendAllFinish();
+					clientManager.closeConnection();
+
+					MainMenuFrame.getInstance().switchTo(
+							MainMenuFrame.getInstance().getMainMenuPanel());
+				} else {
+
+				}
+
 			}
 		});
 	}
