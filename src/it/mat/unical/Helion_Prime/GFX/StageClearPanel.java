@@ -202,6 +202,9 @@ public class StageClearPanel extends JLayeredPane {
 			}
 		} else {
 			this.saveLevel.setText("Upload Score");
+			if ( clientManager.isMultiplayerGame() ) {
+				this.saveLevel.setEnabled(false);
+			}
 		}
 
 		createButton();

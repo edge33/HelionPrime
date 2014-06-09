@@ -1,6 +1,5 @@
 package it.mat.unical.Helion_Prime.Logic.Trap;
 
-import it.mat.unical.Helion_Prime.Logic.World;
 
 public class AbstractFactoryTrap {
 
@@ -31,8 +30,5 @@ public class AbstractFactoryTrap {
 		return null;
 	}
 
-	public AbstractTrap returnTrapForTypeWorld(int x, int y, World world) {
-		return new DecoyTrap(x, y, 300, world);
-	}
 
 }

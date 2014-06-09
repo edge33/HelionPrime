@@ -3,7 +3,6 @@ package it.mat.unical.Helion_Prime.Logic.Character;
 import it.mat.unical.Helion_Prime.Logic.GameManagerImpl;
 import it.mat.unical.Helion_Prime.Logic.MaintenanceRoom;
 import it.mat.unical.Helion_Prime.Logic.World;
-import it.mat.unical.Helion_Prime.Logic.Ability.AbilityInterface;
 import it.mat.unical.Helion_Prime.Logic.Ability.Resistance;
 import it.mat.unical.Helion_Prime.Logic.Trap.AbstractTrap;
 
@@ -96,11 +95,6 @@ public class AbstractNative extends AbstractCharacter implements Resistance {
 
 	}
 
-	private AbilityInterface ability = null;
-
-	public AbilityInterface getAbility() {
-		return ability;
-	}
 
 	@Override
 	public int getResistance() {

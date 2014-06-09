@@ -1,16 +1,13 @@
 package it.mat.unical.Helion_Prime.Logic.Character;
 
+import it.mat.unical.Helion_Prime.Logic.StaticObject;
+import it.mat.unical.Helion_Prime.Logic.Wall;
+import it.mat.unical.Helion_Prime.Logic.World;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Random;
-
-import it.mat.unical.Helion_Prime.Logic.MaintenanceRoom;
-import it.mat.unical.Helion_Prime.Logic.StaticObject;
-import it.mat.unical.Helion_Prime.Logic.Wall;
-import it.mat.unical.Helion_Prime.Logic.World;
-import it.mat.unical.Helion_Prime.Logic.Trap.AbstractTrap;
 
 public class FindRoomAI implements NativeAI {
 

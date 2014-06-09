@@ -2,19 +2,8 @@ package it.mat.unical.Helion_Prime.LevelEditor;
 
 import it.mat.unical.Helion_Prime.Logic.StaticObject;
 
-import java.awt.BorderLayout;
-import java.awt.LayoutManager;
-import java.awt.Point;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.util.Scanner;
-
-import javax.swing.JButton;
-import javax.swing.JComboBox;
-import javax.swing.JDialog;
-import javax.swing.JOptionPane;
 
 public class LevelStruct {
 

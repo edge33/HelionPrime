@@ -3,9 +3,7 @@ package it.mat.unical.Helion_Prime.ScoreCharts;
 import it.mat.unical.Helion_Prime.Logic.CommonProperties;
 import it.mat.unical.Helion_Prime.SavesManager.AbstractDbManager;
 
-import java.awt.image.PackedColorModel;
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;

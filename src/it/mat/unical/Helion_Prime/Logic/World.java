@@ -1,6 +1,5 @@
 package it.mat.unical.Helion_Prime.Logic;
 
-import it.mat.unical.Helion_Prime.Logic.Trap.DecoyTrap;
 
 public interface World {
 
@@ -41,10 +40,5 @@ public interface World {
 
 	public abstract void setFakeY(int fakeY);
 
-	public abstract void setDecoy(DecoyTrap decoyTrap);
-
-	public abstract void setDecoyLife();
-
-	public abstract DecoyTrap getDecoy();
 
 }

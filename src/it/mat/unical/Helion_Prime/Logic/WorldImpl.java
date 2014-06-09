@@ -1,7 +1,5 @@
 package it.mat.unical.Helion_Prime.Logic;
 
-import it.mat.unical.Helion_Prime.Logic.Trap.DecoyTrap;
-
 import java.io.File;
 import java.io.IOException;
 import java.util.Scanner;
@@ -20,7 +18,6 @@ public class WorldImpl implements World {
 	private boolean fake = false;
 	private int fakeX;
 	private int fakeY;
-	public DecoyTrap decoy;
 
 	public WorldImpl(File level) throws FileNotCorrectlyFormattedException {
 
@@ -206,18 +203,5 @@ public class WorldImpl implements World {
 		this.fakeY = fakeY;
 	}
 
-	@Override
-	public void setDecoy(DecoyTrap decoyTrap) {
-		decoy = decoyTrap;
-	}
-
-	public void setDecoyLife() {
-		decoy.setLife(1);
-	}
-
-	@Override
-	public DecoyTrap getDecoy() {
-		return decoy;
-	}
 
 }

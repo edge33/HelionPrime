@@ -4,7 +4,6 @@ import it.mat.unical.Helion_Prime.GamePad.GamePadController;
 import it.mat.unical.Helion_Prime.Logic.FileNotCorrectlyFormattedException;
 import it.mat.unical.Helion_Prime.Logic.UserProfile;
 import it.mat.unical.Helion_Prime.Online.Client;
-import it.mat.unical.Helion_Prime.SavesManager.PlayerSaveState;
 
 import java.awt.BorderLayout;
 import java.awt.Color;

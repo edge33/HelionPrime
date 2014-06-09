@@ -3,15 +3,11 @@ package it.mat.unical.Helion_Prime.LevelEditor;
 import it.mat.unical.Helion_Prime.GFX.MainMenuFrame;
 import it.mat.unical.Helion_Prime.Logic.StaticObject;
 
-import java.awt.Color;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 
 import javax.swing.JButton;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 public class MapElementsPanel extends JPanel implements SimpleObserver {

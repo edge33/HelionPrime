@@ -1,12 +1,8 @@
 package it.mat.unical.Helion_Prime.EnemyEditor;
-import it.mat.unical.Helion_Prime.GFX.MainMenuFrame;
-
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
-import java.awt.Graphics;
-import java.awt.Rectangle;
 import java.io.File;
 
 import javax.swing.Box;

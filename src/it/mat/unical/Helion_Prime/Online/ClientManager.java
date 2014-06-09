@@ -4,7 +4,6 @@ import it.mat.unical.Helion_Prime.GFX.BulletsClient;
 import it.mat.unical.Helion_Prime.GFX.GameOverPanel;
 import it.mat.unical.Helion_Prime.GFX.GamePane;
 import it.mat.unical.Helion_Prime.GFX.MainMenuFrame;
-import it.mat.unical.Helion_Prime.GFX.MainMenuPanel;
 import it.mat.unical.Helion_Prime.GFX.StageClearPanel;
 import it.mat.unical.Helion_Prime.GFX.ThreadPoolBulletClient;
 import it.mat.unical.Helion_Prime.Logic.AbstractNativeLite;
@@ -45,7 +44,7 @@ public class ClientManager {
 	private int playerDirection;
 	private ThreadPoolBulletClient threadPool;
 	public LinkedBlockingQueue<String> informations;
-	protected boolean isFinishRecieve;
+	public boolean isFinishRecieve;
 	private static ClientManager instance;
 	private static Lock lock;
 	private static Condition condition;

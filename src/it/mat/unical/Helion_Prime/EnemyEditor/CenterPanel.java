@@ -1,10 +1,5 @@
 package it.mat.unical.Helion_Prime.EnemyEditor;
-import it.mat.unical.Helion_Prime.GFX.MainMenuFrame;
-
-import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.Graphics;
-import java.awt.GridLayout;
 import java.awt.event.MouseAdapter;
 
 import javax.swing.BorderFactory;

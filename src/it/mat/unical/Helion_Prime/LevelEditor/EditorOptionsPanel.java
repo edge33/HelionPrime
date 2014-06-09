@@ -4,8 +4,6 @@ package it.mat.unical.Helion_Prime.LevelEditor;
 import it.mat.unical.Helion_Prime.GFX.MainMenuFrame;
 import it.mat.unical.Helion_Prime.GFX.MainMenuPanel;
 
-import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -16,10 +14,8 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.Scanner;
 
 import javax.imageio.ImageIO;
-import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
