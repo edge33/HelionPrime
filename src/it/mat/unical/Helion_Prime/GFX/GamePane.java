@@ -305,6 +305,7 @@ public class GamePane extends JPanel {
 
 						if (!GamePane.this.client.isMultiplayerGame()) {
 							isPaused = !isPaused;
+							GamePane.this.informationPanel.setPause();
 							if (isPaused)
 								ClientManager.getInstance()
 										.pushToQueueForServer("iPause");
