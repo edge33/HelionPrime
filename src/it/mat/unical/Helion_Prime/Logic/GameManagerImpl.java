@@ -263,6 +263,10 @@ public class GameManagerImpl implements GameManager {
 					AbstractTrap currentTrap = (AbstractTrap) world
 							.getElementAt(currentNative.getX(),
 									currentNative.getY());
+					
+					
+					currentTrap.effect(currentNative);
+					
 					if (currentTrap.getLife() <= 0) {
 
 						Point point = new Point(currentNative.getX(),

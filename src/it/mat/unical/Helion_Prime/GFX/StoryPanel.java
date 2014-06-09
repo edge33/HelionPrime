@@ -1,5 +1,7 @@
 package it.mat.unical.Helion_Prime.GFX;
 
+import it.mat.unical.Helion_Prime.SavesManager.PlayerSaveState;
+
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
@@ -11,6 +13,7 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.FilenameFilter;
 import java.io.IOException;
 
 import javax.imageio.ImageIO;
@@ -48,7 +51,14 @@ public class StoryPanel extends JLayeredPane
 		this.panelListenerOn = false;
 		setSize(300,300);
 		path = new File("levels");
-		levels = path.listFiles();
+		levels = path.listFiles(new FilenameFilter() {
+			
+			@Override
+			public boolean accept(File arg0, String name) {
+				String extension = name.substring(name.lastIndexOf("."),name.length());
+				return extension.equals(".txt");
+			}
+		});
 		levelNumber = levels.length;
 		System.out.println(levelNumber);
 		layout = new GridBagLayout();
@@ -59,7 +69,8 @@ public class StoryPanel extends JLayeredPane
 		setBackground(Color.BLACK);
 		initListener();
 		fillPanel();
-
+		
+		
 	}
 
 
@@ -113,7 +124,6 @@ public class StoryPanel extends JLayeredPane
 						String name = ((JLabel)arg0.getSource()).getText();
 						name += ".txt";
 						contenitor.showPanel(name);
-
 					}
 				}
 			}
@@ -127,6 +137,15 @@ public class StoryPanel extends JLayeredPane
 
 	public void fillPanel()
 	{
+		
+		PlayerSaveState playerState = PlayerSaveState.getInstance();
+		
+		int lastLevel = 0;
+		if ( playerState.isSet() ) {
+			lastLevel = playerState.getLastLevelCleared();
+			System.out.println("ll " + lastLevel);
+		}
+		
 		int k=1;
 		for(int i=0; i<levelNumber; i++)
 		{
@@ -137,7 +156,7 @@ public class StoryPanel extends JLayeredPane
 				level = new JLabel(name);
 				level.setBorder(BorderFactory.createLineBorder(Color.GREEN,1));
 				level.addMouseListener(listener);
-				if(i!=1)
+				if(i > lastLevel - 1 )
 				{
 					level.setIcon(new ImageIcon (lockIcon));
 				}
