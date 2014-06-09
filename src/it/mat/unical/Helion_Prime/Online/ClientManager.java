@@ -4,6 +4,7 @@ import it.mat.unical.Helion_Prime.GFX.BulletsClient;
 import it.mat.unical.Helion_Prime.GFX.GameOverPanel;
 import it.mat.unical.Helion_Prime.GFX.GamePane;
 import it.mat.unical.Helion_Prime.GFX.MainMenuFrame;
+import it.mat.unical.Helion_Prime.GFX.MainMenuPanel;
 import it.mat.unical.Helion_Prime.GFX.StageClearPanel;
 import it.mat.unical.Helion_Prime.GFX.ThreadPoolBulletClient;
 import it.mat.unical.Helion_Prime.Logic.AbstractNativeLite;
@@ -44,7 +45,7 @@ public class ClientManager {
 	private int playerDirection;
 	private ThreadPoolBulletClient threadPool;
 	public LinkedBlockingQueue<String> informations;
-	protected boolean isFinishRecieve;
+	public boolean isFinishRecieve;
 	private static ClientManager instance;
 	private static Lock lock;
 	private static Condition condition;
@@ -170,6 +171,12 @@ public class ClientManager {
 		finishGame = false;
 		gameOver = false;
 		this.money = Integer.parseInt(recieveMessage()); // ricevo i
+		
+		
+		if ( PlayerSaveState.getInstance().isSet() ) {
+			this.money = PlayerSaveState.getInstance().getScore();
+		}
+		
 		// l'intero
 		// corrrispondente
 		// ai soldi
@@ -321,10 +328,15 @@ public class ClientManager {
 			UserProfile.incrLevel();
 			StageClearPanel clearPanel = new StageClearPanel(this,
 					gamePane.getCurrentFileLevel());
-
+			
+			if ( MainMenuFrame.getInstance().getMainMenuPanel().isStoryModeOn() ) {
+				PlayerSaveState.getInstance().setScore(money);
+				PlayerSaveState.getInstance().setLastLevelCleared(profile.getLastlevelComplete());
+			}
+			
 			MainMenuFrame.getInstance().switchTo(clearPanel);
 		} else if (responseFromServer.substring(0, 1).equals("o")) {
-			this.finishGame = true;
+			finishGame = true;
 			sendAllFinish();
 			if (!client.isMultiplayerGame) {
 				isFinishRecieve = true;
@@ -337,6 +349,13 @@ public class ClientManager {
 			}
 			GameOverPanel gameOverPanel = new GameOverPanel(this,
 					gamePane.getCurrentFileLevel());
+			
+			if ( MainMenuFrame.getInstance().getMainMenuPanel().isStoryModeOn() ) {
+				PlayerSaveState.getInstance().setScore(money);
+				PlayerSaveState.getInstance().setLastLevelCleared(profile.getLastlevelComplete());
+			}
+			
+			
 
 			MainMenuFrame.getInstance().switchTo(gameOverPanel);
 		} else if (responseFromServer.substring(0, 1).equals("l")) {

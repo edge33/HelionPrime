@@ -415,7 +415,10 @@ public class Server extends Thread {
 			out.writeBytes(message + '\n');
 			out.flush();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
+			isGameOver = true;
+			sendAllFinish();
+			GameManagerImpl.getInstance(0).endGame();
+			closeConnection();
 			e.printStackTrace();
 		}
 	}
@@ -425,7 +428,10 @@ public class Server extends Thread {
 		try {
 			message = in.readLine();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
+			isGameOver = true;
+			sendAllFinish();
+			GameManagerImpl.getInstance(0).endGame();
+			closeConnection();
 			e.printStackTrace();
 		}
 
@@ -447,6 +453,18 @@ public class Server extends Thread {
 
 	public void setLevel(String level) {
 		this.level = level;
+	}
+
+	public void sendAllFinish() {
+		try {
+			movementPlayer.put("finish");
+			placemenTrap.put("finish");
+			messageToClient.put("finish");
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
 	}
 
 }

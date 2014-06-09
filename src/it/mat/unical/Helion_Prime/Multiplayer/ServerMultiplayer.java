@@ -716,6 +716,7 @@ public class ServerMultiplayer extends Thread {
 			out.close();
 			inTwo.close();
 			outTwo.close();
+			serverMultiplayer.close();
 
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
