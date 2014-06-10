@@ -132,6 +132,7 @@ public class GamePane extends JPanel {
 		if (!client.isMultiplayerGame()) {
 			this.clientManager = ClientManager.getInstance();
 			clientManager.createClientManager(client, this, profile);
+
 		} else {
 
 			this.clientManager = ClientManagerMultiplayer.getInstance();
@@ -142,7 +143,9 @@ public class GamePane extends JPanel {
 							.getMovementOffsetPlayer2(), this);
 			movementPlayerTwo.start();
 			imageProvider.initSecondPlayer();
+
 		}
+		imageProvider.startImagePlayer();
 
 		clientManager.init();
 

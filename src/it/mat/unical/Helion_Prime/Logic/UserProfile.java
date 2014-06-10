@@ -11,18 +11,18 @@ public class UserProfile {
 
 	public UserProfile(String name) {
 		this.name = name;
-		lastlevelComplete = 1;
+		lastlevelComplete = 0;
 		levels = new HashMap<Integer, String>();
 		loadDefaultLevels();
 	}
 
 	private void loadDefaultLevels() {
-		levels.put(1, "bastion");
-		levels.put(2, "crossroad");
-		levels.put(3, "labyrinth");
-		levels.put(4, "spirals");
-		levels.put(5, "twistedlane");
-		levels.put(6, "vasteland");
+		levels.put(0, "bastion");
+		levels.put(1, "crossroad");
+		levels.put(2, "labyrinth");
+		levels.put(3, "spirals");
+		levels.put(4, "twistedlane");
+		levels.put(5, "vasteland");
 	}
 
 	public String getName() {
@@ -73,4 +73,21 @@ public class UserProfile {
 		lastlevelComplete++;
 	}
 
+	public int getNumLevel(String string) {
+		if (string.equals("bastion")) {
+			return 0;
+		} else if (string.equals("crossroad")) {
+			return 1;
+		} else if (string.equals("labyrinth")) {
+			return 2;
+		} else if (string.equals("spirals")) {
+			return 3;
+		} else if (string.equals("twistedline")) {
+			return 4;
+		} else if (string.equals("vasteland")) {
+			return 5;
+		}
+		return -1;
+
+	}
 }

@@ -7,7 +7,6 @@ import it.mat.unical.Helion_Prime.Logic.Character.Player;
 import it.mat.unical.Helion_Prime.Logic.Character.SaboteurNative;
 import it.mat.unical.Helion_Prime.Logic.Character.SoldierNative;
 import it.mat.unical.Helion_Prime.Logic.Trap.AbstractTrap;
-import it.mat.unical.Helion_Prime.Logic.Trap.DecoyTrap;
 import it.mat.unical.Helion_Prime.Logic.Trap.TrapPower;
 import it.mat.unical.Helion_Prime.Multiplayer.ServerMultiplayer;
 import it.mat.unical.Helion_Prime.Online.Server;
@@ -264,15 +263,10 @@ public class GameManagerImpl implements GameManager {
 					AbstractTrap currentTrap = (AbstractTrap) world
 							.getElementAt(currentNative.getX(),
 									currentNative.getY());
-					if (currentTrap instanceof DecoyTrap) {
-						currentTrap.effect(currentNative);
-						if (((DecoyTrap) currentTrap).getDecoyLife() == 1) {
-							explosion = true;
-							System.out.println("GMI - explosion= true");
-						}
-					} else {
-						currentTrap.effect(currentNative);
-					}
+					
+					
+					currentTrap.effect(currentNative);
+					
 					if (currentTrap.getLife() <= 0) {
 
 						Point point = new Point(currentNative.getX(),

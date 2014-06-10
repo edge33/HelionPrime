@@ -298,7 +298,7 @@ public class ImageProvider {
 				.getImage("Resources/Char Resources/David/FilippoBack2.png");
 
 		this.player2RightRunning = toolKit
-				.getImage("Resources/Char Resources/David/FilippoRight2.png");
+				.getImage("Resources/Char Resources/David/FilippoRight1.png");
 		this.player2RightRunning2 = toolKit
 				.getImage("Resources/Char Resources/David/FilippoRight2.png");
 		this.player2RightRunning3 = toolKit

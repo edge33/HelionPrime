@@ -4,6 +4,7 @@ import it.mat.unical.Helion_Prime.Logic.GameManagerImpl;
 import it.mat.unical.Helion_Prime.Logic.UserProfile;
 import it.mat.unical.Helion_Prime.Online.Client;
 import it.mat.unical.Helion_Prime.Online.Server;
+import it.mat.unical.Helion_Prime.SavesManager.PlayerSaveState;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -34,7 +35,8 @@ public class ContenitorPanel extends JLayeredPane {
 	private Cursor cursor;
 	private PreviewPanel previewPaneL;
 	private UserProfile profile;
-
+	private String lastLevelCleared;
+	private String levelSelected;
 	protected Client client;
 
 	public ContenitorPanel() {
@@ -43,7 +45,7 @@ public class ContenitorPanel extends JLayeredPane {
 		this.profile = new UserProfile("PROVA PROFILO");
 		this.back = new JButton("Main Menu");
 		this.startGameButton = new JButton("Start Level");
-
+		levelSelected = null;
 		this.lowerPanel = new JPanel();
 		this.lowerPanel.setSize(400, 50);
 		this.lowerPanel.add(startGameButton);
@@ -77,6 +79,19 @@ public class ContenitorPanel extends JLayeredPane {
 		this.cursor = MainMenuFrame.getInstance().getMainMenuPanel()
 				.getCursor();
 		this.setCursor(cursor);
+
+		profile.setLastlevelComplete(PlayerSaveState.getInstance()
+				.getLastLevelCleared());
+
+		this.lastLevelCleared = profile.getLevels().get(
+				profile.getLastlevelComplete())
+				+ ".txt";
+
+		// if (lastLevelCleared.equals("null.txt"))
+		// lastLevelCleared = "bastion.txt";
+
+		System.err.println(lastLevelCleared + " "
+				+ PlayerSaveState.getInstance().getLastLevelCleared());
 	}
 
 	public void addListener() {
@@ -95,11 +110,18 @@ public class ContenitorPanel extends JLayeredPane {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 
-				String choosenLevel = profile.getLevels().get(
+				// String choosenLevel= profile.getLevels().get(
+				// profile.getLastlevelComplete())
+				// + ".txt";
+				// profile.setLastlevelComplete(lastlevelComplete);
+
+				levelSelected = profile.getLevels().get(
 						profile.getLastlevelComplete())
 						+ ".txt";
 
-				String name = "levels/" + choosenLevel;
+				// profile.setLastlevelComplete(profile.getNumLevel(levelSelected));
+
+				String name = "levels/" + levelSelected;
 				System.out.println("LevelSwitchPanel.LevelSwitchPanel    "
 						+ name);
 				File level = new File(name);
@@ -129,7 +151,7 @@ public class ContenitorPanel extends JLayeredPane {
 				GameManagerImpl.getInstance(0).setServer(server);
 				client = new Client("localhost", Client.getDefaultNumberPort(),
 						false);
-				sendMessage(choosenLevel);
+				sendMessage(levelSelected);
 
 				if (recieveMessage().equals("ready")) {
 
@@ -203,10 +225,16 @@ public class ContenitorPanel extends JLayeredPane {
 	}
 
 	public void setLevelName(String name) {
+
 		name = name.replace(".txt", "");
 		upperPanel.setLevelName(name);
 		upperPanel.repaint();
 		System.out.println(name);
+	}
+
+	public void setLogicLevelName(String string) {
+
+		levelSelected = string;
 	}
 
 	public void showPanel(String name) {
@@ -252,5 +280,13 @@ public class ContenitorPanel extends JLayeredPane {
 		startGameButton.setEnabled(true);
 		back.setEnabled(true);
 
+	}
+
+	public UserProfile getProfile() {
+		return profile;
+	}
+
+	public void setProfile(UserProfile profile) {
+		this.profile = profile;
 	}
 }

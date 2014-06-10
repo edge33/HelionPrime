@@ -106,7 +106,7 @@ public class Server extends Thread {
 				try {
 					this.finish();
 				} catch (InterruptedException e) {
-					// TODO Auto-generated catch block
+
 					e.printStackTrace();
 				}
 			}

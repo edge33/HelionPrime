@@ -3,7 +3,6 @@ package it.mat.unical.Helion_Prime.Logic.Character;
 import it.mat.unical.Helion_Prime.Logic.GameManagerImpl;
 import it.mat.unical.Helion_Prime.Logic.MaintenanceRoom;
 import it.mat.unical.Helion_Prime.Logic.World;
-import it.mat.unical.Helion_Prime.Logic.Ability.AbilityInterface;
 import it.mat.unical.Helion_Prime.Logic.Ability.Resistance;
 import it.mat.unical.Helion_Prime.Logic.Trap.AbstractTrap;
 
@@ -96,11 +95,6 @@ public class AbstractNative extends AbstractCharacter implements Resistance {
 
 	}
 
-	private AbilityInterface ability = null;
-
-	public AbilityInterface getAbility() {
-		return ability;
-	}
 
 	@Override
 	public int getResistance() {
@@ -125,7 +119,7 @@ public class AbstractNative extends AbstractCharacter implements Resistance {
 				currentTrap = player.getTrap();
 			if (currentTrap.size() > 0) {
 
-				if (trapToFind == null)
+				if (trapToFind == null) {
 					for (Point pointTrap : currentTrap.keySet()) {
 
 						if (!currentTrap.get(pointTrap).isCaptured()) {
@@ -136,11 +130,10 @@ public class AbstractNative extends AbstractCharacter implements Resistance {
 							break;
 						}
 
-						if (trapToFind == null)
-							move = nativeAi.getDirection(this, player, world);
-
 					}
-				else
+					if (trapToFind == null)
+						move = nativeAi.getDirection(this, player, world);
+				} else
 					move = nativeAi.getDirection(this, trapToFind, world);
 
 				// System.out.println(((AbstractTrap) tmp.toArray()[0]).getX()
