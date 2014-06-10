@@ -56,7 +56,7 @@ public class TrapPower extends AbstractTrap {
 				this.setName("TRAP_POWER");
 				while (TrapPower.this.getLife() > 0 && isRunning) {
 					while (GameManagerImpl.isPaused()) {
-						System.out.println("Sono in Pausa - TrapPower");
+						//System.out.println("Sono in Pausa - TrapPower");
 						GameManagerImpl.waitForCondition();
 					}
 
@@ -85,7 +85,7 @@ public class TrapPower extends AbstractTrap {
 								+ String.valueOf(TrapPower.this.getX()) + " "
 								+ String.valueOf(TrapPower.this.getY());
 
-						System.out.println(messageForBullet);
+						//System.out.println(messageForBullet);
 
 						if (!GameManagerImpl.getInstance(id)
 								.isMultiplayerGame())

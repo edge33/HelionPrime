@@ -206,7 +206,7 @@ public class SaveManagerImpl extends AbstractDbManager implements SaveManager {
 
 	private void testException(SQLException e) {
 		if ( e.getSQLState() == "42S02" ) {
-			System.out.println("creating from scratch");
+			//System.out.println("creating from scratch");
 			createDB();
 		}
 	}

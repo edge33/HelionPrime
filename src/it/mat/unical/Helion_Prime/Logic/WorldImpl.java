@@ -29,8 +29,7 @@ public class WorldImpl implements World {
 			String firstLine = reader.nextLine();
 			firstLineScanner = new Scanner(firstLine);
 			roomLife = firstLineScanner.nextInt();
-			System.out.println("sono World impl che stampa: la room ha "
-					+ roomLife + " punti vita");
+			//System.out.println("sono World impl che stampa: la room ha "+ roomLife + " punti vita");
 			firstLineScanner.close();
 			String secondLine = reader.nextLine();
 			secondLineScanner = new Scanner(secondLine);

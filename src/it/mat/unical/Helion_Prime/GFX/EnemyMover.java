@@ -219,12 +219,12 @@ public class EnemyMover extends Thread {
 			e1.printStackTrace();
 		}
 
-		System.err.println("MUOVO I NEMICI");
+//		System.err.println("MUOVO I NEMICI");
 		firstMove();
 		while (!manager.gameIsOver() && !manager.isGameStopped()) {
 
 			while (GameManagerImpl.isPaused()) {
-				System.out.println("Sono in pausa - EnemyMover");
+				//System.out.println("Sono in pausa - EnemyMover");
 				GameManagerImpl.waitForCondition();
 			}
 
@@ -241,7 +241,7 @@ public class EnemyMover extends Thread {
 			}
 
 		}
-		System.out.println("esco dall' enemyMover");
+		//System.out.println("esco dall' enemyMover");
 
 	}
 }

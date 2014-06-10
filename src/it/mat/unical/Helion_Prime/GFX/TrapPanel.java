@@ -73,7 +73,7 @@ public class TrapPanel extends JPanel {
 					new File("Resources/SpikeTrapIcon.png")).getScaledInstance(
 					40, 40, Image.SCALE_SMOOTH);
 		} catch (IOException e) {
-			System.out.println("SpikeTrapIcon Mancante");
+			//System.out.println("SpikeTrapIcon Mancante");
 		}
 
 		spikeTrapIcon = new JLabel(new ImageIcon(currentLabelImage));
@@ -83,7 +83,7 @@ public class TrapPanel extends JPanel {
 					new File("Resources/FireTrapIcon.png")).getScaledInstance(
 					40, 40, Image.SCALE_SMOOTH);
 		} catch (IOException e) {
-			System.out.println("FireTrapIcon Mancante");
+			//System.out.println("FireTrapIcon Mancante");
 		}
 
 		fireTrapIcon = new JLabel(new ImageIcon(currentLabelImage));
@@ -93,7 +93,7 @@ public class TrapPanel extends JPanel {
 					new File("Resources/AcidTrapIcon.png")).getScaledInstance(
 					40, 40, Image.SCALE_SMOOTH);
 		} catch (IOException e) {
-			System.out.println("FireTrapIcon Mancante");
+			//System.out.println("FireTrapIcon Mancante");
 		}
 
 		acidTrapIcon = new JLabel(new ImageIcon(currentLabelImage));
@@ -103,7 +103,7 @@ public class TrapPanel extends JPanel {
 					new File("Resources/PowerTrapIcon.png")).getScaledInstance(
 					40, 40, Image.SCALE_SMOOTH);
 		} catch (IOException e) {
-			System.out.println("PowerTrapIcon Mancante");
+			//System.out.println("PowerTrapIcon Mancante");
 		}
 
 		powerTrapIcon = new JLabel(new ImageIcon(currentLabelImage));
@@ -113,7 +113,7 @@ public class TrapPanel extends JPanel {
 					new File("Resources/ElectricTrapIcon.png"))
 					.getScaledInstance(40, 40, Image.SCALE_SMOOTH);
 		} catch (IOException e) {
-			System.out.println("ElectricTrapIcon Mancante");
+			//System.out.println("ElectricTrapIcon Mancante");
 		}
 
 		electricTrapIcon = new JLabel(new ImageIcon(currentLabelImage));
@@ -123,7 +123,7 @@ public class TrapPanel extends JPanel {
 					new File("Resources/DecoyTrapIcon.png")).getScaledInstance(
 					40, 40, Image.SCALE_SMOOTH);
 		} catch (IOException e) {
-			System.out.println("DecoyTrapIcon  Mancante");
+			//System.out.println("DecoyTrapIcon  Mancante");
 		}
 
 		decoyTrapIcon = new JLabel(new ImageIcon(currentLabelImage));
@@ -133,7 +133,7 @@ public class TrapPanel extends JPanel {
 					new File("Resources/DisabledDecoyTrapIcon.png"))
 					.getScaledInstance(40, 40, Image.SCALE_SMOOTH);
 		} catch (IOException e) {
-			System.out.println("DisabledDecoyTrapIcon  Mancante");
+			//System.out.println("DisabledDecoyTrapIcon  Mancante");
 		}
 
 		try {
@@ -141,7 +141,7 @@ public class TrapPanel extends JPanel {
 					new File("Resources/DecoyTrapIcon.png")).getScaledInstance(
 					40, 40, Image.SCALE_SMOOTH);
 		} catch (IOException e) {
-			System.out.println("DecoyTrapIcon  Mancante");
+			//System.out.println("DecoyTrapIcon  Mancante");
 		}
 
 		// ///////////////////////////////////////////////////////////////////////////////////
@@ -151,7 +151,7 @@ public class TrapPanel extends JPanel {
 					new File("Resources/Overlay/Gap.png")).getScaledInstance(
 					10, 40, Image.SCALE_SMOOTH);
 		} catch (IOException e) {
-			System.out.println("Gap Mancante");
+			//System.out.println("Gap Mancante");
 		}
 
 		gapLabel = new JLabel(new ImageIcon(currentLabelImage));
@@ -161,7 +161,7 @@ public class TrapPanel extends JPanel {
 					.read(new File("Resources/guns/gun.png"))
 					.getScaledInstance(60, 40, Image.SCALE_SMOOTH);
 		} catch (IOException e) {
-			System.out.println("Gun Mancante");
+			//System.out.println("Gun Mancante");
 		}
 
 		simpleGunLabel = new JLabel(new ImageIcon(currentLabelImage));
@@ -171,7 +171,7 @@ public class TrapPanel extends JPanel {
 					new File("Resources/guns/uziGun.png")).getScaledInstance(
 					60, 40, Image.SCALE_SMOOTH);
 		} catch (IOException e) {
-			System.out.println("uziGun Mancante");
+			//System.out.println("uziGun Mancante");
 		}
 
 		uziGunLabel = new JLabel(new ImageIcon(currentLabelImage));
@@ -181,7 +181,7 @@ public class TrapPanel extends JPanel {
 					new File("Resources/guns/shootGun.png")).getScaledInstance(
 					60, 40, Image.SCALE_SMOOTH);
 		} catch (IOException e) {
-			System.out.println("shootGun Mancante");
+			//System.out.println("shootGun Mancante");
 		}
 
 		shootGunLabel = new JLabel(new ImageIcon(currentLabelImage));
@@ -191,7 +191,7 @@ public class TrapPanel extends JPanel {
 					new File("Resources/guns/HeavyWeapon.png"))
 					.getScaledInstance(60, 40, Image.SCALE_SMOOTH);
 		} catch (IOException e) {
-			System.out.println("heavyWeapon Mancante");
+			//System.out.println("heavyWeapon Mancante");
 		}
 
 		heavyWeaponLabel = new JLabel(new ImageIcon(currentLabelImage));

@@ -18,7 +18,7 @@ public class FireTrap extends AbstractTrap {
 			if(currentNative.getResistance()==2)
 			{
 				currentNative.setLife(50);
-				System.out.println("danno ridotto!");
+				//System.out.println("danno ridotto!");
 			}
 			else
 			currentNative.setLife(0);

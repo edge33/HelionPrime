@@ -17,7 +17,7 @@ public class Repainter extends Thread {
 		while (!ClientManager.isFinishGame()) {
 
 			while (GameManagerImpl.isPaused()) {
-				System.out.println("sono in pausa - Repainter");
+				//System.out.println("sono in pausa - Repainter");
 				GameManagerImpl.waitForCondition();
 			}
 			panel.repaint();
@@ -28,6 +28,6 @@ public class Repainter extends Thread {
 				e.printStackTrace();
 			}
 		}
-		System.out.println("esco dal Repainter");
+		//System.out.println("esco dal Repainter");
 	}
 }

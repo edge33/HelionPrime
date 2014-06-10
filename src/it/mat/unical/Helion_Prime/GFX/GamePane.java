@@ -100,12 +100,12 @@ public class GamePane extends JPanel {
 		try {
 			currentLabelImage = ImageIO.read(new File("Resources/MiniPad.png"));
 		} catch (IOException e) {
-			// System.out.println("SpikeTrapIcon Mancante");
+			// //System.out.println("SpikeTrapIcon Mancante");
 		}
 		try {
 			currentLabelImage = ImageIO.read(new File("Resources/MiniPad.png"));
 		} catch (IOException e) {
-			// System.out.println("PadPrewiew Mancante");
+			// //System.out.println("PadPrewiew Mancante");
 		}
 		this.currentFileLevel = level;
 		this.setLayout(null);
@@ -192,7 +192,7 @@ public class GamePane extends JPanel {
 
 		if (gamePadController.isPadConnected()) {
 			startPolling();
-			// System.out.println("c'è");
+			// //System.out.println("c'è");
 		} else {
 			this.addMouseListener(new MouseAdapter() {
 
@@ -202,12 +202,12 @@ public class GamePane extends JPanel {
 						double x, y;
 						x = arg0.getX();
 						y = arg0.getY();
-						// System.out.println("x:" + x);
-						// System.out.println("y:" + y);
+						// //System.out.println("x:" + x);
+						// //System.out.println("y:" + y);
 						int realX = (int) (x / (TILE_SIZE * scaleFactor));
 						int realY = (int) (y / (TILE_SIZE * scaleFactor));
 
-						// System.out.println(realX + " " + realY);
+						// //System.out.println(realX + " " + realY);
 						Integer numberOftrap = GamePane.this.trapPanel
 								.getCurrentTrapSelected();
 						GamePane.this.clientManager
@@ -1063,7 +1063,7 @@ public class GamePane extends JPanel {
 										+ (clientManager.getInstance()
 												.getLogicX() - 1));
 
-						// System.out.println("PIAZZO-----------------");
+						// //System.out.println("PIAZZO-----------------");
 
 						break;
 					case 3:
@@ -1246,7 +1246,7 @@ public class GamePane extends JPanel {
 						break;
 					/* L2 */
 					case 4:
-						// System.out.println("4");
+						// //System.out.println("4");
 						break;
 					/* R2 */
 					case 5:
@@ -1256,7 +1256,7 @@ public class GamePane extends JPanel {
 						break;
 					/* L1 */
 					case 6:
-						// System.out.println("6");
+						// //System.out.println("6");
 						break;
 					/* R1 */
 					case 7:
@@ -1284,11 +1284,11 @@ public class GamePane extends JPanel {
 						break;
 					/* L3 */
 					case 10:
-						// System.out.println("10");
+						// //System.out.println("10");
 						break;
 					/* R3 */
 					case 11:
-						// System.out.println("11");
+						// //System.out.println("11");
 						break;
 					default:
 						controllerInfo.setVisible(false);
@@ -1303,7 +1303,7 @@ public class GamePane extends JPanel {
 					}
 				}
 
-				// System.out.println("esco dall poll gamepad");
+				// //System.out.println("esco dall poll gamepad");
 
 			};
 		}.start();
