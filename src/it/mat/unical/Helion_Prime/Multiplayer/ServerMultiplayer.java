@@ -94,6 +94,9 @@ public class ServerMultiplayer extends Thread {
 				//System.out.println("default level " + levelName);
 				client = serverMultiplayer.accept();
 				//System.out.println("sono su dopo accept");
+				client.setTcpNoDelay(true);
+//				System.out.println(client.getTcpNoDelay());
+				//System.out.println("sono su dopo accept");
 				if (connectedClient < 1) {
 					connectedClient++;
 					// //System.out.println("CREO IL CLIENT 1");
