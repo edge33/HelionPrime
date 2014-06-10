@@ -277,13 +277,13 @@ public class WaitLobbyPanel extends JPanel {
 				String ipAddress = f1.getText() + "." + f2.getText() + "."
 						+ f3.getText() + "." + f4.getText();
 
-				//System.out.println("porta scelta dal client " + port);
+				// System.out.println("porta scelta dal client " + port);
 
 				client = new Client(ipAddress, port, true);
 
-				sendMessage("Client 2 connesso");
+				// sendMessage("Client 2 connesso");
 
-				//System.out.println("client" + recieveMessage());
+				// System.out.println("client" + recieveMessage());
 				String numberPlayer = recieveMessage();
 				if (numberPlayer.substring(0, 1).equals("1")) {
 					ClientManager.isPlayerOne = true;
@@ -293,7 +293,7 @@ public class WaitLobbyPanel extends JPanel {
 
 				}
 				String levelName = recieveMessage();
-				//System.out.println("livello scelto dal server" + levelName);
+				// System.out.println("livello scelto dal server" + levelName);
 
 				File choosenLevel = new File("levels/" + levelName + ".txt");
 

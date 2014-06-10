@@ -54,7 +54,7 @@ public class ServerMultiplayer extends Thread {
 		try {
 			this.id_connection = id;
 			serverMultiplayer = new ServerSocket(port);
-			//System.out.println("port server " + port);
+			// System.out.println("port server " + port);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -68,7 +68,7 @@ public class ServerMultiplayer extends Thread {
 		// levelList.put(2, "labyrinth");
 		levelList.put(2, "spirals");
 		levelList.put(3, "twistedlane");
-		levelList.put(4, "wasteland");
+		levelList.put(4, "vasteland");
 
 		isFinishMultiplayerGame = false;
 		this.connectedClient = 0;
@@ -90,13 +90,13 @@ public class ServerMultiplayer extends Thread {
 
 		while (connectedClient < 2) {
 			try {
-				//System.out.println("starto il server sono su accept");
-				//System.out.println("default level " + levelName);
+				// System.out.println("starto il server sono su accept");
+				// System.out.println("default level " + levelName);
 				client = serverMultiplayer.accept();
-				//System.out.println("sono su dopo accept");
+				// System.out.println("sono su dopo accept");
 				client.setTcpNoDelay(true);
-//				System.out.println(client.getTcpNoDelay());
-				//System.out.println("sono su dopo accept");
+				// System.out.println(client.getTcpNoDelay());
+				// System.out.println("sono su dopo accept");
 				if (connectedClient < 1) {
 					connectedClient++;
 					// //System.out.println("CREO IL CLIENT 1");
@@ -104,8 +104,9 @@ public class ServerMultiplayer extends Thread {
 							client.getInputStream()));
 					out = new DataOutputStream(client.getOutputStream());
 
-					//System.out.println(in.readLine());
-					out.writeBytes("Welcome player1" + "\n");
+					// System.out.println(in.readLine());
+
+					// out.writeBytes("Welcome player1" + "\n");
 					// if (levelName == null)
 					// levelName = in.readLine();
 
@@ -113,8 +114,8 @@ public class ServerMultiplayer extends Thread {
 					out.flush();
 					out.writeBytes(levelName + "\n");
 
-					//System.out.println("livello scelto dal player 1(SERVER) "
-//							+ levelName);
+					// System.out.println("livello scelto dal player 1(SERVER) "
+					// + levelName);
 
 				} else {
 
@@ -122,9 +123,9 @@ public class ServerMultiplayer extends Thread {
 							client.getInputStream()));
 					outTwo = new DataOutputStream(client.getOutputStream());
 
-					//System.out.println(inTwo.readLine());
+					// System.out.println(inTwo.readLine());
 
-					outTwo.writeBytes("Welcome player1" + "\n");
+					// outTwo.writeBytes("Welcome player1" + "\n");
 					outTwo.writeBytes("2 " + "\n");
 					outTwo.writeBytes(levelName + "\n");
 					connectedClient++;
@@ -370,8 +371,8 @@ public class ServerMultiplayer extends Thread {
 
 					try {
 						messageFromPlayerOne = fromPlayerOne.take();
-						//System.out.println(messageFromPlayerOne
-//								+ " From Player One");
+						// System.out.println(messageFromPlayerOne
+						// + " From Player One");
 						if (messageFromPlayerOne.substring(0, 1).equals("m")
 								|| messageFromPlayerOne.substring(0, 1).equals(
 										"d")) {
@@ -531,8 +532,8 @@ public class ServerMultiplayer extends Thread {
 
 					try {
 						String messageFromPlayerTwo = fromPlayerTwo.take();
-						//System.out.println(messageFromPlayerTwo
-//								+ " From Player two");
+						// System.out.println(messageFromPlayerTwo
+						// + " From Player two");
 						if (messageFromPlayerTwo.substring(0, 1).equals("m")
 								|| messageFromPlayerTwo.substring(0, 1).equals(
 										"d")) {
@@ -693,9 +694,9 @@ public class ServerMultiplayer extends Thread {
 
 		boolean response = false;
 		int realX = 0, realY = 0, trapSelected = 0;
-		//System.out.println("String : " + string);
+		// System.out.println("String : " + string);
 		String[] splitted = string.split("/");
-		//System.out.println("size of splitted" + splitted.length);
+		// System.out.println("size of splitted" + splitted.length);
 
 		trapSelected = Integer.parseInt(splitted[0]);
 		realX = Integer.parseInt(splitted[1]);
@@ -749,8 +750,8 @@ public class ServerMultiplayer extends Thread {
 		int bulletsCurrent = player.getBulletsArmy().get(
 				player.getCurrentGunSelected());
 
-		//System.out.println("ARMY" + player.getCurrentGunSelected() + " "
-//				+ bulletsCurrent);
+		// System.out.println("ARMY" + player.getCurrentGunSelected() + " "
+		// + bulletsCurrent);
 
 		bulletsCurrent++;
 		playerOne.getBulletsArmy().put(player.getCurrentGunSelected(),
@@ -853,8 +854,8 @@ public class ServerMultiplayer extends Thread {
 			out.writeBytes(sentence + "\n");
 			out.flush();
 		} catch (IOException e) {
-			e.printStackTrace();
-			//System.out.println("GIOCATORE 1 OUT");
+			// e.printStackTrace();
+			// System.out.println("GIOCATORE 1 OUT");
 			try {
 				outTwo.writeBytes("il giocatore uno ha lasciato la partita" + '\n');
 				GameManagerImpl.getInstance(id_connection).endGame();
@@ -880,13 +881,13 @@ public class ServerMultiplayer extends Thread {
 
 		} catch (IOException e) {
 
-			e.printStackTrace();
+			// e.printStackTrace();
 
-			//System.out.println("GIOCATORE 2 OUT");
+			// System.out.println("GIOCATORE 2 OUT");
 			try {
-				//System.out.println("mando il messagio di out");
+				// System.out.println("mando il messagio di out");
 				out.writeBytes("il giocatore uno ha lasciato la partita" + '\n');
-				//System.out.println("messagio di out mandato");
+				// System.out.println("messagio di out mandato");
 				GameManagerImpl.getInstance(id_connection).endGame();
 				isFinishMultiplayerGame = true;
 				sendAllFinish();

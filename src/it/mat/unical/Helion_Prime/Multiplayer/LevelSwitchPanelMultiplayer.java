@@ -104,9 +104,9 @@ public class LevelSwitchPanelMultiplayer extends JPanel {
 				client = new Client("localhost", Client.getDefaultNumberPort(),
 						true);
 
-				sendMessage("Client 2 connesso");
+				// sendMessage("Client 2 connesso");
 
-				//System.out.println("client" + recieveMessage());
+				// System.out.println("client" + recieveMessage());
 				String numberPlayer = recieveMessage();
 				if (numberPlayer.substring(0, 1).equals("1")) {
 					ClientManager.isPlayerOne = true;
@@ -116,7 +116,7 @@ public class LevelSwitchPanelMultiplayer extends JPanel {
 
 				}
 				String levelName = recieveMessage();
-				//System.out.println("livello scelto dal server" + levelName);
+				// System.out.println("livello scelto dal server" + levelName);
 
 				File choosenLevel = new File("levels/" + levelName + ".txt");
 
@@ -183,22 +183,6 @@ public class LevelSwitchPanelMultiplayer extends JPanel {
 		return null;
 	}
 
-	private void sendMessage(String c) {
-		try {
-			client.sendMessage(c);
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-			JOptionPane.showMessageDialog(this,
-					"Impossibile contattare il server");
-
-			MainMenuFrame.getInstance().switchTo(
-					MainMenuFrame.getInstance().getMainMenuPanel());
-
-			client.closeConnection();
-		}
-	}
-
 	public void createPreview(String previewName) {
 		previewName = ("levels/" + previewName);
 		BufferedImage IOlevelPreview = null;
@@ -209,7 +193,7 @@ public class LevelSwitchPanelMultiplayer extends JPanel {
 				IOlevelPreview = ImageIO
 						.read(new File("Resources/missing.jpg"));
 			} catch (IOException e1) {
-				//System.out.println("manca l'universo; smetti di giocare");
+				// System.out.println("manca l'universo; smetti di giocare");
 			}
 		}
 		levelPreview = IOlevelPreview;
