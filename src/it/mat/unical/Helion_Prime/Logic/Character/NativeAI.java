@@ -1,9 +1,6 @@
 package it.mat.unical.Helion_Prime.Logic.Character;
 
-import it.mat.unical.Helion_Prime.Logic.MaintenanceRoom;
-import it.mat.unical.Helion_Prime.Logic.StaticObject;
 import it.mat.unical.Helion_Prime.Logic.World;
-import it.mat.unical.Helion_Prime.Logic.Trap.AbstractTrap;
 
 public interface NativeAI {
 

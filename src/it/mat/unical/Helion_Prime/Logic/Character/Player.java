@@ -129,11 +129,8 @@ public class Player extends AbstractCharacter implements TrapPlacing {
 		AbstractTrap newTrap = null;
 		if (numberOfTrapInArray != 6) {
 			newTrap = factoryTrap.returnTrapForType(positionXonMap,
-					positionYonMap, numberOfTrapInArray);
-		} else {
-			newTrap = factoryTrap.returnTrapForTypeWorld(positionXonMap,
-					positionYonMap, this.world);
-		}
+					positionYonMap, numberOfTrapInArray); 
+			}
 
 		if (newTrap.getCost() <= GameManagerImpl.getInstance(id).getMoney()) { // prendo
 																				// il

@@ -2,7 +2,6 @@ package it.mat.unical.Helion_Prime.Logic.Character;
 
 import it.mat.unical.Helion_Prime.Logic.Wall;
 import it.mat.unical.Helion_Prime.Logic.World;
-import it.mat.unical.Helion_Prime.Logic.Trap.AbstractTrap;
 
 import java.util.ArrayList;
 import java.util.HashMap;

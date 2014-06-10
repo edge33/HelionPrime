@@ -122,6 +122,10 @@ public class GameOverPanel extends JLayeredPane {
 			this.pass = new JLabel("Password:");
 			this.userField = new JTextField(15);
 			this.passField = new JPasswordField(15);
+			
+			if ( manager.isMultiplayerGame() ) {
+				this.saveLevel.setEnabled(false);
+			}
 
 			submitScore.setForeground(Color.green);
 			submitScore.setBackground(Color.black);

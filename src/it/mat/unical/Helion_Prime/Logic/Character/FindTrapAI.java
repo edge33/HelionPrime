@@ -3,14 +3,11 @@ package it.mat.unical.Helion_Prime.Logic.Character;
 import it.mat.unical.Helion_Prime.Logic.StaticObject;
 import it.mat.unical.Helion_Prime.Logic.Wall;
 import it.mat.unical.Helion_Prime.Logic.World;
-import it.mat.unical.Helion_Prime.Logic.Trap.AbstractTrap;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import javax.print.attribute.standard.MediaSize.NA;
 
 public class FindTrapAI extends BasicAI {
 

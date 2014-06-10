@@ -1,9 +1,7 @@
 package it.mat.unical.Helion_Prime.GFX;
 import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.Graphics;
 
-import javax.swing.BorderFactory;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
