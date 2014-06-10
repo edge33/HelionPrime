@@ -166,7 +166,7 @@ public class ClientManager {
 
 	public void init() {
 
-//		System.err.println("ENTRO IN INIT");
+		// System.err.println("ENTRO IN INIT");
 		finishGame = false;
 		gameOver = false;
 		this.money = Integer.parseInt(recieveMessage()); // ricevo i
@@ -185,7 +185,7 @@ public class ClientManager {
 		logicYPlayerOne = gamePane.getWorld().getPlayerSpawner().getY();
 		this.playerDirection = 2;
 
-//		System.err.println("Arrivate " + money + " " + life);
+		// System.err.println("Arrivate " + money + " " + life);
 		this.threadPool.start();
 		this.startClient();
 
@@ -194,7 +194,7 @@ public class ClientManager {
 		this.startPlacementTrap();
 		this.startMessageToServer();
 
-//		System.err.println("ESCO DA INIT");
+		// System.err.println("ESCO DA INIT");
 	}
 
 	public void retrySelection() {
@@ -253,7 +253,7 @@ public class ClientManager {
 				isFinishRecieve = false;
 				while (!isFinishRecieve) {
 					responseFromServer = recieveMessage();
-//					System.err.println(responseFromServer);
+					// System.err.println(responseFromServer);
 					if (responseFromServer != null)
 						try {
 							if (responseFromServer.equals("clear")) {
@@ -327,7 +327,6 @@ public class ClientManager {
 			StageClearPanel clearPanel = new StageClearPanel(this,
 					gamePane.getCurrentFileLevel());
 
-			
 			if (profile != null && profile.getLastlevelComplete() + 1 > 5) {
 				// switchTo
 
@@ -514,10 +513,10 @@ public class ClientManager {
 
 					} catch (InterruptedException e) {
 						// TODO Auto-generated catch block
-						e.printStackTrace();
+						// e.printStackTrace();
 						continue;
 					} catch (NullPointerException e2) {
-						e2.printStackTrace();
+						// e2.printStackTrace();
 						continue;
 					}
 				}
@@ -538,7 +537,7 @@ public class ClientManager {
 
 					} catch (InterruptedException e) {
 						// TODO Auto-generated catch block
-						e.printStackTrace();
+						// e.printStackTrace();
 					}
 
 				}
@@ -620,7 +619,7 @@ public class ClientManager {
 
 					} catch (InterruptedException e) {
 						// TODO Auto-generated catch block
-						e.printStackTrace();
+						// e.printStackTrace();
 					} catch (NumberFormatException e2) {
 						continue;
 					}
@@ -732,7 +731,7 @@ public class ClientManager {
 			condition.await();
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			// e.printStackTrace();
 		} finally {
 			lock.unlock();
 		}
