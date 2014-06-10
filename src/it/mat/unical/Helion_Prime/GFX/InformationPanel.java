@@ -38,7 +38,7 @@ public class InformationPanel extends JPanel {
 			overlay = ImageIO.read(new File(
 					"Resources/Overlay/UpperOverlay.png"));
 		} catch (IOException e) {
-			System.out.println("UpperOverlay mancante");
+			//System.out.println("UpperOverlay mancante");
 		}
 
 		second = 0;

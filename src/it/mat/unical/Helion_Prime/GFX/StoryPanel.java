@@ -64,7 +64,7 @@ public class StoryPanel extends JLayeredPane {
 			}
 		});
 		levelNumber = levels.length;
-		System.out.println(levelNumber);
+		//System.out.println(levelNumber);
 		layout = new GridBagLayout();
 		c = new GridBagConstraints();
 		setLayout(layout);
@@ -128,15 +128,15 @@ public class StoryPanel extends JLayeredPane {
 											.getLastLevelCleared());
 						}
 
-						System.out.println(levelSelected
-								+ " "
-								+ contenitor.getProfile()
-										.getLastlevelComplete());
+//						//System.out.println(levelSelected
+//								+ " "
+//								+ contenitor.getProfile()
+//										.getLastlevelComplete());
 
 						levelSelected += ".txt";
 						contenitor.setLevelName(levelSelected);
 
-						System.out.println(levelSelected);
+						//System.out.println(levelSelected);
 					} else if (SwingUtilities.isRightMouseButton(arg0) == true) {
 						String name = ((JLabel) arg0.getSource()).getText();
 						name += ".txt";
@@ -158,7 +158,7 @@ public class StoryPanel extends JLayeredPane {
 		int lastLevel = 0;
 		if (playerState.isSet()) {
 			lastLevel = playerState.getLastLevelCleared();
-			System.out.println("ll " + lastLevel);
+			//System.out.println("ll " + lastLevel);
 		}
 		int k = 1;
 		for (int i = 0; i < levelNumber; i++) {

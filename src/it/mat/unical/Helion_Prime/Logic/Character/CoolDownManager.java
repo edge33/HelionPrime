@@ -17,7 +17,7 @@ public class CoolDownManager extends Thread {
 	}
 
 	public void run() {
-		System.out.println("COOLDOWN");
+		//System.out.println("COOLDOWN");
 		this.setName("COOLDOWN MANAGER");
 
 		while (theNative.isAlive()
@@ -25,7 +25,7 @@ public class CoolDownManager extends Thread {
 				&& !GameManagerImpl.getInstance(id).gameIsOver()) {
 
 			while (GameManagerImpl.isPaused()) {
-				System.out.println("Sono in pausa  - CoolDownManager");
+				//System.out.println("Sono in pausa  - CoolDownManager");
 				GameManagerImpl.waitForCondition();
 			}
 
@@ -35,9 +35,9 @@ public class CoolDownManager extends Thread {
 			}
 
 			try {
-				// System.out.println("dormo " + this.getId());
+				// //System.out.println("dormo " + this.getId());
 				sleep(timeToSleep);
-				// System.out.println("esco" + this.getId() );
+				// //System.out.println("esco" + this.getId() );
 			} catch (InterruptedException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -45,7 +45,7 @@ public class CoolDownManager extends Thread {
 
 		}
 
-		// System.out.println("muoio " + this.getId());
+		// //System.out.println("muoio " + this.getId());
 	};
 
 }

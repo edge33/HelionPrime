@@ -46,7 +46,7 @@ public class ScrollPanel extends JPanel
 		}
 		catch(Exception e)
 		{
-			System.out.println("manca qualche immagine");
+			//System.out.println("manca qualche immagine");
 		}
 		UsxL = new ScrollLabel(new ImageIcon(Usx),1);
 		DsxL = new ScrollLabel(new ImageIcon(Dsx),2);

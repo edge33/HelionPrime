@@ -162,7 +162,7 @@ public class Player extends AbstractCharacter implements TrapPlacing {
 			GameManagerImpl.getInstance(this.id).dimMoney(newTrap.getCost());
 			if (newTrap instanceof TrapPower)
 				((TrapPower) newTrap).start();
-			System.out.println("questa trappola costa " + newTrap.getCost());
+			//System.out.println("questa trappola costa " + newTrap.getCost());
 			this.hasPlacedTrap = true;
 			return true;
 		} else {
@@ -210,7 +210,7 @@ public class Player extends AbstractCharacter implements TrapPlacing {
 
 	public void SwitchGun(int TypeArmy) {
 		currentGunSelected = army.get(TypeArmy);
-		System.out.println("Hai selezionato l'arma " + TypeArmy);
+		//System.out.println("Hai selezionato l'arma " + TypeArmy);
 
 	}
 
@@ -379,7 +379,7 @@ public class Player extends AbstractCharacter implements TrapPlacing {
 							// TODO Auto-generated catch block
 							e.printStackTrace();
 						}
-						System.out.println("esco da thread shoot");
+						//System.out.println("esco da thread shoot");
 						threadAlive = false;
 
 					}

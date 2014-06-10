@@ -68,7 +68,7 @@ public abstract class AbstractCharacter implements Character, HasScore {
 			this.lifePoints = lifePoints;
 		}
 		if (this.lifePoints <= 0) {
-			System.out.println("falso filippo morto");
+			//System.out.println("falso filippo morto");
 			this.alive = false;
 		}
 	}

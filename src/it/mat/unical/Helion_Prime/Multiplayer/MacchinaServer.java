@@ -16,14 +16,14 @@ public class MacchinaServer extends Thread {
 			openMatch.add(new ServerMultiplayer(numberPort, i));
 			numberPort++;
 			openMatch.get(i).setRandomLevelName();
-			System.out.println("Macchina " + i + " opertiva");
+			//System.out.println("Macchina " + i + " opertiva");
 			openMatch.get(i).start();
 		}
 	}
 
 	@Override
 	public void run() {
-		System.err.println("AGGIORNO");
+//		System.err.println("AGGIORNO");
 		while (true) {
 			for (int i = 0; i < 10; i++) {
 
