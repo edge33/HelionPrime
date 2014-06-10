@@ -19,6 +19,8 @@ public class CommonProperties {
 	private String remotePwd;
 	private String remoteDriver;
 	
+	private boolean propertiesLoaded;
+	
 	public static CommonProperties instance;
 	
 	public static CommonProperties getInstance() {
@@ -40,6 +42,7 @@ public class CommonProperties {
 		try {
 			properties.load(input);
 		} catch (IOException e) {
+			propertiesLoaded = false;
 		}
  
 		// get the property value and print it out
@@ -52,6 +55,8 @@ public class CommonProperties {
 		remoteUser = properties.getProperty("remoteuser");
 		remotePwd = properties.getProperty("remotepwd");
 		remoteDriver = properties.getProperty("remotedriver");
+		
+		propertiesLoaded = true;
 		
 	}
 	
@@ -85,6 +90,10 @@ public class CommonProperties {
 
 	public String getDriver() {
 		return driver;
+	}
+	
+	public boolean isPropertiesLoaded() {
+		return propertiesLoaded;
 	}
 	
 

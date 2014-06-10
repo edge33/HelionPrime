@@ -1,5 +1,7 @@
 package it.mat.unical.Helion_Prime.GFX;
 
+import it.mat.unical.Helion_Prime.Logic.CommonProperties;
+
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Cursor;
@@ -46,6 +48,10 @@ public class ModeSelectPanel extends JPanel {
 		this.freeMode = new JButton("Free Mode");
 		this.back = new JButton("Main Menu");
 
+		if ( !CommonProperties.getInstance().isPropertiesLoaded() ) {
+			this.storyMode.setEnabled(false);
+		}
+		
 		this.storyDescr = new JLabel("Gioca tutti i livelli della campagna single player. Riuscirai a sopravvivere all'orda?");
 		this.freeDescr = new JLabel("Gioca il livello che più ti piace. Scala la classifica e centra il punteggio migliore!");
 		this.storyDescr.setHorizontalAlignment(SwingConstants.CENTER);

@@ -123,7 +123,11 @@ public class MainMenuFrame extends JFrame {
 					}
 				}
 			} else {
-				System.exit(0);
+				JOptionPane
+				.showConfirmDialog(
+						instance,
+						"Nessun file di configurazione trovato,Non sarà possibile salvare la partita e/o inviare score alla classifica",
+						"Errore", JOptionPane.DEFAULT_OPTION);
 			}
 		}
 

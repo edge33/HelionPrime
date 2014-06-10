@@ -1,5 +1,6 @@
 package it.mat.unical.Helion_Prime.GFX;
 
+import it.mat.unical.Helion_Prime.Logic.CommonProperties;
 import it.mat.unical.Helion_Prime.Logic.GameManagerImpl;
 import it.mat.unical.Helion_Prime.Logic.UserProfile;
 import it.mat.unical.Helion_Prime.Multiplayer.ServerMultiplayer;
@@ -198,12 +199,12 @@ public class StageClearPanel extends JLayeredPane {
 				}
 			});
 
-			if (!PlayerSaveState.getInstance().isSet()) {
+			if (!PlayerSaveState.getInstance().isSet() || !CommonProperties.getInstance().isPropertiesLoaded()) {
 				this.saveLevel.setEnabled(false);
 			}
 		} else {
 			this.saveLevel.setText("Upload Score");
-			if (clientManager.isMultiplayerGame()) {
+			if (clientManager.isMultiplayerGame() || !CommonProperties.getInstance().isPropertiesLoaded() ) {
 				this.saveLevel.setEnabled(false);
 			}
 		}

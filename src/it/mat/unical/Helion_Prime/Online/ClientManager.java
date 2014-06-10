@@ -327,7 +327,8 @@ public class ClientManager {
 			StageClearPanel clearPanel = new StageClearPanel(this,
 					gamePane.getCurrentFileLevel());
 
-			if (profile.getLastlevelComplete() + 1 > 5) {
+			
+			if (profile != null && profile.getLastlevelComplete() + 1 > 5) {
 				// switchTo
 
 				JOptionPane.showMessageDialog(this.gamePane,

@@ -1,4 +1,5 @@
 package it.mat.unical.Helion_Prime.GFX;
+import it.mat.unical.Helion_Prime.Logic.CommonProperties;
 import it.mat.unical.Helion_Prime.SavesManager.PlayerSaveState;
 import it.mat.unical.Helion_Prime.SavesManager.SaveManagerImpl;
 
@@ -114,6 +115,7 @@ public class LoginPanel extends JPanel
 		this.userLabel = new JLabel("Username:");
 		this.saveLabel = new JLabel("Saved Game:");
 		this.scoreDescr = new JLabel("Score");
+		
 		this.skip.setEnabled(false);
 
 		this.bulletTitle = new JLabel("Bullet:");

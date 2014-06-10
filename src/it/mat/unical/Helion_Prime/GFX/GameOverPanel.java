@@ -1,5 +1,6 @@
 package it.mat.unical.Helion_Prime.GFX;
 
+import it.mat.unical.Helion_Prime.Logic.CommonProperties;
 import it.mat.unical.Helion_Prime.Logic.GameManagerImpl;
 import it.mat.unical.Helion_Prime.Logic.UserProfile;
 import it.mat.unical.Helion_Prime.Multiplayer.ServerMultiplayer;
@@ -123,7 +124,7 @@ public class GameOverPanel extends JLayeredPane {
 			this.userField = new JTextField(15);
 			this.passField = new JPasswordField(15);
 			
-			if ( manager.isMultiplayerGame() ) {
+			if ( manager.isMultiplayerGame() || !CommonProperties.getInstance().isPropertiesLoaded() ) {
 				this.saveLevel.setEnabled(false);
 			}
 
