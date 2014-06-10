@@ -70,6 +70,7 @@ public class StageClearPanel extends JLayeredPane {
 
 	private MainMenuFrame mainMenuFrame;
 	private BufferedImage stageClearImage;
+	private BufferedImage finishCampain;
 	private Cursor cursor;
 	private ClientManager clientManager;
 	private UserProfile profile;
@@ -202,7 +203,7 @@ public class StageClearPanel extends JLayeredPane {
 			}
 		} else {
 			this.saveLevel.setText("Upload Score");
-			if ( clientManager.isMultiplayerGame() ) {
+			if (clientManager.isMultiplayerGame()) {
 				this.saveLevel.setEnabled(false);
 			}
 		}
@@ -367,6 +368,7 @@ public class StageClearPanel extends JLayeredPane {
 					.read(new File("Resources/stageClear.png")); // sfondo
 			// menu
 			// iniziale
+			finishCampain = ImageIO.read(new File("Resources/finish.jpg"));
 
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
@@ -377,7 +379,8 @@ public class StageClearPanel extends JLayeredPane {
 		this.overlay.add(saveLevel);
 		this.overlay.add(retryButton);
 
-		if (MainMenuFrame.getInstance().getMainMenuPanel().isStoryModeOn()) {
+		if (MainMenuFrame.getInstance().getMainMenuPanel().isStoryModeOn()
+				&& PlayerSaveState.getInstance().getLastLevelCleared() != 5) {
 			this.overlay.add(nextLevel);
 		}
 		this.add(overlay, BorderLayout.NORTH);
@@ -672,7 +675,12 @@ public class StageClearPanel extends JLayeredPane {
 	@Override
 	protected void paintComponent(Graphics g) {
 
-		g.drawImage(stageClearImage, 0, 0, this.getWidth(), this.getHeight(),
-				this);
+		if (isStoryModeOn
+				&& PlayerSaveState.getInstance().getLastLevelCleared() == 5) {
+			g.drawImage(finishCampain, 0, 0, this.getWidth(), this.getHeight(),
+					this);
+		} else
+			g.drawImage(stageClearImage, 0, 0, this.getWidth(),
+					this.getHeight(), this);
 	}
 }

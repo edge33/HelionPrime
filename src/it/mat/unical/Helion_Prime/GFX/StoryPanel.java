@@ -22,6 +22,7 @@ import javax.swing.Box;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JLayeredPane;
+import javax.swing.JOptionPane;
 import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
 
@@ -113,9 +114,19 @@ public class StoryPanel extends JLayeredPane {
 					if (SwingUtilities.isLeftMouseButton(arg0) == true) {
 						levelSelected = ((JLabel) arg0.getSource()).getText();
 
-						contenitor.getProfile().setLastlevelComplete(
-								contenitor.getProfile().getNumLevel(
-										levelSelected));
+						if (contenitor.getProfile().getNumLevel(levelSelected) <= PlayerSaveState
+								.getInstance().getLastLevelCleared())
+							contenitor.getProfile().setLastlevelComplete(
+									contenitor.getProfile().getNumLevel(
+											levelSelected));
+						else {
+
+							JOptionPane.showMessageDialog(StoryPanel.this,
+									"Non puoi Giocare un livello bloccato");
+							contenitor.getProfile().setLastlevelComplete(
+									PlayerSaveState.getInstance()
+											.getLastLevelCleared());
+						}
 
 						System.out.println(levelSelected
 								+ " "
@@ -157,7 +168,7 @@ public class StoryPanel extends JLayeredPane {
 				level = new JLabel(name);
 				level.setBorder(BorderFactory.createLineBorder(Color.GREEN, 1));
 				level.addMouseListener(listener);
-				if (i > lastLevel - 1) {
+				if (i > lastLevel) {
 					level.setIcon(new ImageIcon(lockIcon));
 				}
 				level.setHorizontalAlignment(SwingConstants.CENTER);

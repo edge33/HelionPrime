@@ -323,18 +323,32 @@ public class ClientManager {
 					e.printStackTrace();
 				}
 			}
-			UserProfile.incrLevel();
+
 			StageClearPanel clearPanel = new StageClearPanel(this,
 					gamePane.getCurrentFileLevel());
 
-			if (MainMenuFrame.getInstance().getMainMenuPanel().isStoryModeOn()) {
-				PlayerSaveState.getInstance().setScore(money);
-				if (profile.getLastlevelComplete() > PlayerSaveState
-						.getInstance().getLastLevelCleared())
-					PlayerSaveState.getInstance().setLastLevelCleared(
-							profile.getLastlevelComplete());
-			}
+			if (profile.getLastlevelComplete() + 1 > 5) {
+				// switchTo
 
+				JOptionPane.showMessageDialog(this.gamePane,
+						"HAI FINITO TUTTI I LIVELLI COMPLIMENTI ARA MINCHIA");
+
+				PlayerSaveState.getInstance().setLastLevelCleared(
+						profile.getLastlevelComplete());
+
+			} else {
+				UserProfile.incrLevel();
+
+				if (MainMenuFrame.getInstance().getMainMenuPanel()
+						.isStoryModeOn()) {
+					PlayerSaveState.getInstance().setScore(money);
+					if (profile.getLastlevelComplete() > PlayerSaveState
+							.getInstance().getLastLevelCleared())
+						PlayerSaveState.getInstance().setLastLevelCleared(
+								profile.getLastlevelComplete());
+				}
+
+			}
 			MainMenuFrame.getInstance().switchTo(clearPanel);
 		} else if (responseFromServer.substring(0, 1).equals("o")) {
 			finishGame = true;

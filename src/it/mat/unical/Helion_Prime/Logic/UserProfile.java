@@ -82,7 +82,7 @@ public class UserProfile {
 			return 2;
 		} else if (string.equals("spirals")) {
 			return 3;
-		} else if (string.equals("twistedline")) {
+		} else if (string.equals("twistedlane")) {
 			return 4;
 		} else if (string.equals("vasteland")) {
 			return 5;
