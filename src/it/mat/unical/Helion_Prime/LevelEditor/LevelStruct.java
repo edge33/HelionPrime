@@ -65,7 +65,7 @@ public class LevelStruct {
 		if (firstLineScanner.hasNextInt())
 		{
 			this.roomLife = firstLineScanner.nextInt();
-			System.out.println(roomLife);
+			//System.out.println(roomLife);
 		}
 		else {
 			reader.close();

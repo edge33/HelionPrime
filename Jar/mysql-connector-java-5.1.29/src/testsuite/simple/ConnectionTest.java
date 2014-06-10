@@ -148,16 +148,16 @@ public class ConnectionTest extends BaseTestCase {
 							.println("Please kill the MySQL server now and press return...");
 					System.in.read();
 
-					System.out.println("Waiting for TCP/IP timeout...");
+					//System.out.println("Waiting for TCP/IP timeout...");
 					Thread.sleep(10);
 
-					System.out.println("Attempting auto reconnect");
+					//System.out.println("Attempting auto reconnect");
 
 					try {
 						clusterConn.setAutoCommit(true);
 						clusterConn.setAutoCommit(false);
 					} catch (SQLException sqlEx) {
-						System.out.println(sqlEx);
+						//System.out.println(sqlEx);
 					}
 
 					//
@@ -230,9 +230,9 @@ public class ConnectionTest extends BaseTestCase {
 		} catch (SQLException sqlEx) {
 			System.out
 					.println("Caught SQLException due to deadlock/lock timeout");
-			System.out.println("SQLState: " + sqlEx.getSQLState());
-			System.out.println("Vendor error: " + sqlEx.getErrorCode());
-			System.out.println("Message: " + sqlEx.getMessage());
+			//System.out.println("SQLState: " + sqlEx.getSQLState());
+			//System.out.println("Vendor error: " + sqlEx.getErrorCode());
+			//System.out.println("Message: " + sqlEx.getMessage());
 
 			//
 			// Check whether the driver thinks it really is deadlock...
@@ -521,10 +521,10 @@ public class ConnectionTest extends BaseTestCase {
 				System.out.print("\t\t");
 			}
 
-			System.out.println();
+			//System.out.println();
 
 			while (this.rs.next()) {
-				System.out.println(this.rs.getString(1) + "\t\t"
+				//System.out.println(this.rs.getString(1) + "\t\t"
 						+ this.rs.getString(2) + "\t\t" + this.rs.getString(3));
 
 				if (this.rs.getString(1).equals("CYR SMALL A")) {
@@ -532,7 +532,7 @@ public class ConnectionTest extends BaseTestCase {
 				}
 			}
 
-			System.out.println();
+			//System.out.println();
 
 			this.stmt.executeUpdate("SET NAMES utf8");
 			this.rs = this.stmt.executeQuery("SELECT _koi8r 0xC1;");
@@ -546,19 +546,19 @@ public class ConnectionTest extends BaseTestCase {
 				System.out.print("\t\t");
 			}
 
-			System.out.println();
+			//System.out.println();
 
 			while (this.rs.next()) {
-				System.out.println(this.rs.getString(1).equals("\u0430")
+				//System.out.println(this.rs.getString(1).equals("\u0430")
 						+ "\t\t");
-				System.out.println(new String(this.rs.getBytes(1), "KOI8_R"));
+				//System.out.println(new String(this.rs.getBytes(1), "KOI8_R"));
 
 			}
 
 			char[] c = new char[] { 0xd0b0 };
 
-			System.out.println(new String(c));
-			System.out.println("\u0430");
+			//System.out.println(new String(c));
+			//System.out.println("\u0430");
 		}
 	}
 
@@ -611,7 +611,7 @@ public class ConnectionTest extends BaseTestCase {
 			DatabaseMetaData dbmd = this.conn.getMetaData();
 
 			if (dbmd.supportsSavepoints()) {
-				System.out.println("Testing SAVEPOINTs");
+				//System.out.println("Testing SAVEPOINTs");
 
 				try {
 					this.conn.setAutoCommit(true);
@@ -682,7 +682,7 @@ public class ConnectionTest extends BaseTestCase {
 					this.conn.setAutoCommit(true);
 				}
 			} else {
-				System.out.println("MySQL version does not support SAVEPOINTs");
+				//System.out.println("MySQL version does not support SAVEPOINTs");
 			}
 		}
 	}
@@ -993,7 +993,7 @@ public class ConnectionTest extends BaseTestCase {
 				String originalConnectionId = getSingleIndexedValueWithQuery(
 						failoverConnection, 1, "SELECT connection_id()")
 						.toString();
-				System.out.println("Original Connection Id = "
+				//System.out.println("Original Connection Id = "
 						+ originalConnectionId);
 
 				assertTrue("Connection should not be in READ_ONLY state",
@@ -1021,7 +1021,7 @@ public class ConnectionTest extends BaseTestCase {
 				String newConnectionId = getSingleIndexedValueWithQuery(
 						failoverConnection, 1, "SELECT connection_id()")
 						.toString();
-				System.out.println("new Connection Id = " + newConnectionId);
+				//System.out.println("new Connection Id = " + newConnectionId);
 
 				assertTrue(
 						"We should have a new connection to the server in this case",
@@ -1357,7 +1357,7 @@ public class ConnectionTest extends BaseTestCase {
 				counter.wait();
 
 				if (counter.workerCount == 0) {
-					System.out.println("Done!");
+					//System.out.println("Done!");
 					break;
 				}
 			}

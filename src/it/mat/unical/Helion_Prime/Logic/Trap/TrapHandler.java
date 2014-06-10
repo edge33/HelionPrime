@@ -20,7 +20,7 @@ public class TrapHandler extends Thread {
 	
 		while ( !manager.gameIsOver() ) {
 			
-			System.out.println("dimension " + traps.size());
+			//System.out.println("dimension " + traps.size());
 			
 			for ( Iterator<AbstractTrap> it = traps.iterator() ; it.hasNext() && traps.size() > 0 ; ) {
 				

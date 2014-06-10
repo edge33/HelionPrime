@@ -20,7 +20,7 @@ public class ThreadPoolBullet extends Thread {
 	public void run() {
 		while (!gameManager.gameIsOver() && !gameManager.isGameStopped()) {
 			while (GameManagerImpl.isPaused()) {
-				System.out.println("Sono in pausa -  ThreadPoolBullets");
+				//System.out.println("Sono in pausa -  ThreadPoolBullets");
 				GameManagerImpl.waitForCondition();
 			}
 
@@ -31,7 +31,7 @@ public class ThreadPoolBullet extends Thread {
 							|| bullets.get(key).getStopBullet()) {
 						if (!gameManager.isMultiplayerGame()) {
 							gameManager.getServer().sendMessage("sr " + key);
-							// System.out.println("dsdd");
+							// //System.out.println("dsdd");
 						} else
 							gameManager.getServerMuliplayer().outBroadcast(
 									"sr " + key);
@@ -54,6 +54,6 @@ public class ThreadPoolBullet extends Thread {
 			}
 
 		}
-		System.out.println("esco dal threadPoolBullet");
+		//System.out.println("esco dal threadPoolBullet");
 	}
 }

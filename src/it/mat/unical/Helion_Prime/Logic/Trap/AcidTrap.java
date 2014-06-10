@@ -19,7 +19,7 @@ public class AcidTrap extends AbstractTrap {
 			if(currentNative.getResistance()==1)
 			{
 				currentNative.setLife(50);
-				System.out.println("danno ridotto!");
+				//System.out.println("danno ridotto!");
 			}
 			else
 			currentNative.setLife(0);

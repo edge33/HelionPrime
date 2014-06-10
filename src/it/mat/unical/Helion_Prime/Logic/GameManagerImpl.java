@@ -50,7 +50,6 @@ public class GameManagerImpl implements GameManager {
 
 	public static GameManagerImpl getInstance(int id) {
 		if (instances[id] == null) {
-			System.out.println("instanzio");
 			instances[id] = new GameManagerImpl();
 		}
 		return instances[id];
@@ -68,7 +67,6 @@ public class GameManagerImpl implements GameManager {
 	public void init(File level, boolean isMultiplayerGame, int id)
 			throws FileNotFoundException {
 
-		System.out.println("SONO IN INIIIIIIIIIT");
 
 		try {
 			instances[id].bullets = new ConcurrentHashMap<Integer, Bullet>();
@@ -417,7 +415,7 @@ public class GameManagerImpl implements GameManager {
 				this.endGame();
 				gameOver = true;
 				gameStopped = true;
-				System.err.println("GAME OVER");
+//				System.err.println("GAME OVER");
 				this.serverMultiplayer.outBroadcast("over");
 			}
 

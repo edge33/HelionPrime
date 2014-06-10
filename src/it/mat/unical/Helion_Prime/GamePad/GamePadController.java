@@ -65,16 +65,16 @@ public class GamePadController {
 				.getDefaultEnvironment();
 		Controller[] cs = ce.getControllers();
 		if (cs.length == 0) {
-			System.out.println("Nessun dispositivo di controllo trovato");
+			//System.out.println("Nessun dispositivo di controllo trovato");
 		} else {
-			System.out.println("Num. dispositivi di controllo: " + cs.length);
+			//System.out.println("Num. dispositivi di controllo: " + cs.length);
 
 			// get the game pad controller
 			controller = findGamePad(cs);
 			if (controller != null) {
 				controllerPluged = true;
-				System.out.println("Gamepad scelto: " + controller.getName()
-						+ ", " + controller.getType());
+				//System.out.println("Gamepad scelto: " + controller.getName()
+//						+ ", " + controller.getType());
 
 				// collect indices for the required game pad components
 				findCompIndices(controller);
@@ -110,10 +110,10 @@ public class GamePadController {
 	{
 		comps = controller.getComponents();
 		if (comps.length == 0) {
-			System.out.println("No Components found");
+			//System.out.println("No Components found");
 			System.exit(0);
 		} else
-			System.out.println("Num. Components: " + comps.length);
+			//System.out.println("Num. Components: " + comps.length);
 
 		// get the indices for the axes of the analog sticks: (x,y) and (z,rz)
 		xAxisIdx = findCompIndex(comps, Component.Identifier.Axis.X, "x-axis");
@@ -140,12 +140,12 @@ public class GamePadController {
 		for (int i = 0; i < comps.length; i++) {
 			c = comps[i];
 			if ((c.getIdentifier() == id) && !c.isRelative()) {
-				System.out.println("Found " + c.getName() + "; index: " + i);
+				//System.out.println("Found " + c.getName() + "; index: " + i);
 				return i;
 			}
 		}
 
-		System.out.println("No " + nm + " component found");
+		//System.out.println("No " + nm + " component found");
 		return -1;
 	} // end of findCompIndex()
 
@@ -163,13 +163,15 @@ public class GamePadController {
 		for (int i = 0; i < comps.length; i++) {
 			c = comps[i];
 			if (isButton(c)) { // deal with a button
-				if (numButtons == NUM_BUTTONS) // already enough buttons
-					System.out.println("Found an extra button; index: " + i
-							+ ". Ignoring it");
+				if (numButtons == NUM_BUTTONS) {
+					// already enough buttons
+					//System.out.println("Found an extra button; index: " + i + ". Ignoring it");
+				} 		
+					
 				else {
 					buttonsIdx[numButtons] = i; // store button index
-					System.out
-							.println("Found " + c.getName() + "; index: " + i);
+//					System.out
+//							.println("Found " + c.getName() + "; index: " + i);
 					numButtons++;
 				}
 			}
@@ -177,8 +179,8 @@ public class GamePadController {
 
 		// fill empty spots in buttonsIdx[] with -1's
 		if (numButtons < NUM_BUTTONS) {
-			System.out.println("Too few buttons (" + numButtons
-					+ "); expecting " + NUM_BUTTONS);
+			//System.out.println("Too few buttons (" + numButtons
+//					+ "); expecting " + NUM_BUTTONS);
 			while (numButtons < NUM_BUTTONS) {
 				buttonsIdx[numButtons] = -1;
 				numButtons++;
@@ -195,7 +197,7 @@ public class GamePadController {
 	{
 		if (!c.isAnalog() && !c.isRelative()) { // digital and absolute
 			String className = c.getIdentifier().getClass().getName();
-			// System.out.println(c.getName() + " identifier: " + className);
+			// //System.out.println(c.getName() + " identifier: " + className);
 			if (className.endsWith("Button"))
 				return true;
 		}
@@ -211,10 +213,10 @@ public class GamePadController {
 		// get the game pad's rumblers
 		rumblers = controller.getRumblers();
 		if (rumblers.length == 0) {
-			System.out.println("No Rumblers found");
+			//System.out.println("No Rumblers found");
 			rumblerIdx = -1;
 		} else {
-			System.out.println("Rumblers found: " + rumblers.length);
+			//System.out.println("Rumblers found: " + rumblers.length);
 			rumblerIdx = rumblers.length - 1; // use last rumbler
 		}
 	} // end of findRumblers()
@@ -231,7 +233,7 @@ public class GamePadController {
 	// return the (x,y) analog stick compass direction
 	{
 		if ((xAxisIdx == -1) || (yAxisIdx == -1)) {
-			System.out.println("(x,y) axis data unavailable");
+			//System.out.println("(x,y) axis data unavailable");
 			return NONE;
 		} else
 			return getCompassDir(xAxisIdx, yAxisIdx);
@@ -241,7 +243,7 @@ public class GamePadController {
 	// return the (z,rz) analog stick compass direction
 	{
 		if ((zAxisIdx == -1) || (rzAxisIdx == -1)) {
-			System.out.println("(z,rz) axis data unavailable");
+			//System.out.println("(z,rz) axis data unavailable");
 			return NONE;
 		} else
 			return getCompassDir(zAxisIdx, rzAxisIdx);
@@ -252,11 +254,11 @@ public class GamePadController {
 	{
 		float xCoord = comps[xA].getPollData();
 		float yCoord = comps[yA].getPollData();
-		// System.out.println("(x,y): (" + xCoord + "," + yCoord + ")");
+		// //System.out.println("(x,y): (" + xCoord + "," + yCoord + ")");
 
 		int xc = Math.round(xCoord);
 		int yc = Math.round(yCoord);
-		// System.out.println("Rounded (x,y): (" + xc + "," + yc + ")");
+		// //System.out.println("Rounded (x,y): (" + xc + "," + yc + ")");
 
 		if ((yc == -1) && (xc == -1)) // (y,x)
 			return NW;
@@ -277,7 +279,7 @@ public class GamePadController {
 		else if ((yc == 1) && (xc == 1))
 			return SE;
 		else {
-			System.out.println("Unknown (x,y): (" + xc + "," + yc + ")");
+			//System.out.println("Unknown (x,y): (" + xc + "," + yc + ")");
 			return NONE;
 		}
 	} // end of getCompassDir()
@@ -286,7 +288,7 @@ public class GamePadController {
 	// Return the POV hat's direction as a compass direction
 	{
 		if (povIdx == -1) {
-			System.out.println("POV hat data unavailable");
+			//System.out.println("POV hat data unavailable");
 			return NONE;
 		} else {
 			float povDir = comps[povIdx].getPollData();
@@ -309,7 +311,7 @@ public class GamePadController {
 			else if (povDir == POV.UP_RIGHT) // 0.375f
 				return NE;
 			else { // assume center
-				System.out.println("POV hat value out of range: " + povDir);
+				//System.out.println("POV hat value out of range: " + povDir);
 				return NONE;
 			}
 		}
@@ -348,8 +350,8 @@ public class GamePadController {
 	 */
 	{
 		if ((pos < 1) || (pos > NUM_BUTTONS)) {
-			System.out.println("Button position out of range (1-" + NUM_BUTTONS
-					+ "): " + pos);
+			//System.out.println("Button position out of range (1-" + NUM_BUTTONS
+//					+ "): " + pos);
 			return false;
 		}
 

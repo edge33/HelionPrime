@@ -55,8 +55,10 @@ public class PreviewPanel extends JPanel
 		catch (IOException e)
 		{
 			try {IOlevelPreview = ImageIO.read(new File("Resources/missing.jpg"));}
-			catch (IOException e1) {System.out.println("manca l'universo; smetti di giocare");}
-		}
+			catch (IOException e1) {
+				//				//System.out.println("manca l'universo; smetti di giocare");
+				}
+			}
 		levelPreview = IOlevelPreview;
 		Graphics2D g = levelPreview.createGraphics();
 	}

@@ -63,7 +63,7 @@ public class AbstractNative extends AbstractCharacter implements Resistance {
 	public void attack(int attackPower) {
 
 		// TODO: attacking method working on RN - Maida
-		// System.out.println("Can-ATTACK" + canAttack);
+		// //System.out.println("Can-ATTACK" + canAttack);
 
 		if (canAttack
 				&& ((player.getX() == getX() - 1 && player.getY() == getY())
@@ -71,7 +71,7 @@ public class AbstractNative extends AbstractCharacter implements Resistance {
 						|| (player.getX() == getX() && player.getY() == getY() - 1) || (player
 						.getX() == getX() && player.getY() == getY() + 1))) {
 			player.setLife(player.getLife() - attackPower);
-			System.out.println("dopo attacco " + player.getLife());
+			//System.out.println("dopo attacco " + player.getLife());
 			setAttack(false);
 			if (GameManagerImpl.getInstance(id).isMultiplayerGame())
 				GameManagerImpl.getInstance(id).getServerMuliplayer()
@@ -85,7 +85,7 @@ public class AbstractNative extends AbstractCharacter implements Resistance {
 						|| (room.getX() == getX() && room.getY() == getY() - 1) || (room
 						.getX() == getX() && room.getY() == getY() + 1))) {
 			room.setLife(room.getLife() - attackPower);
-			System.out.println("room dopo attacco " + room.getLife());
+			//System.out.println("room dopo attacco " + room.getLife());
 			world.setRoomLife(room.getLife());
 			setAttack(false);
 			if (GameManagerImpl.getInstance(id).isMultiplayerGame())
@@ -136,7 +136,7 @@ public class AbstractNative extends AbstractCharacter implements Resistance {
 				} else
 					move = nativeAi.getDirection(this, trapToFind, world);
 
-				// System.out.println(((AbstractTrap) tmp.toArray()[0]).getX()
+				// //System.out.println(((AbstractTrap) tmp.toArray()[0]).getX()
 				// + " " + ((AbstractTrap) tmp.toArray()[0]).getY());
 
 			} else {

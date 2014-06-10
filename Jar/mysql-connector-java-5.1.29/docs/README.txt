@@ -2551,9 +2551,9 @@ try {
    ...
 } catch (SQLException ex) {
     // handle any errors
-    System.out.println("SQLException: " + ex.getMessage());
-    System.out.println("SQLState: " + ex.getSQLState());
-    System.out.println("VendorError: " + ex.getErrorCode());
+    //System.out.println("SQLException: " + ex.getMessage());
+    //System.out.println("SQLState: " + ex.getSQLState());
+    //System.out.println("VendorError: " + ex.getErrorCode());
 }
 
    Once a Connection is established, it can be used to create
@@ -2632,9 +2632,9 @@ try {
 }
 catch (SQLException ex){
     // handle any errors
-    System.out.println("SQLException: " + ex.getMessage());
-    System.out.println("SQLState: " + ex.getSQLState());
-    System.out.println("VendorError: " + ex.getErrorCode());
+    //System.out.println("SQLException: " + ex.getMessage());
+    //System.out.println("SQLState: " + ex.getSQLState());
+    //System.out.println("VendorError: " + ex.getErrorCode());
 }
 finally {
     // it is a good idea to release
@@ -2925,7 +2925,7 @@ cStmt.registerOutParameter("inOutParam", Types.INTEGER);
 
     rs = null;
 
-    System.out.println("Key returned from getGeneratedKeys():"
+    //System.out.println("Key returned from getGeneratedKeys():"
 
         + autoIncKeyFromApi);
 } finally {
@@ -2998,7 +2998,7 @@ cStmt.registerOutParameter("inOutParam", Types.INTEGER);
 
     rs.close();
 
-    System.out.println("Key returned from " +
+    //System.out.println("Key returned from " +
                        "'SELECT LAST_INSERT_ID()': " +
                        autoIncKeyFromFunc);
 
@@ -3080,7 +3080,7 @@ cStmt.registerOutParameter("inOutParam", Types.INTEGER);
 
     rs = null;
 
-    System.out.println("Key returned for inserted row: "
+    //System.out.println("Key returned for inserted row: "
 
         + autoIncKeyFromRS);
 
@@ -4820,10 +4820,10 @@ e");
       ps = conn.prepareStatement(sql);
     }
     catch (SQLException se) {
-      System.out.println("SQLException: "+se.getMessage());
+      //System.out.println("SQLException: "+se.getMessage());
     }
     catch (NamingException ne) {
-      System.out.println("NamingException: "+ne.getMessage());
+      //System.out.println("NamingException: "+ne.getMessage());
     }
   }
 
@@ -4839,10 +4839,10 @@ e");
         ctx.close();
     }
     catch (SQLException se) {
-      System.out.println("SQLException: "+se.getMessage());
+      //System.out.println("SQLException: "+se.getMessage());
     }
     catch (NamingException ne) {
-      System.out.println("NamingException: "+ne.getMessage());
+      //System.out.println("NamingException: "+ne.getMessage());
     }
   }
 

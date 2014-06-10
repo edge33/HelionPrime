@@ -107,13 +107,13 @@ public class WavePanel extends JPanel{
 	public void createLabel()
 	{
 		try {currentPreview = ImageIO.read(new File("Resources/Robo/RoboBack2.png")).getScaledInstance(40, 40, Image.SCALE_SMOOTH);}
-		catch (IOException e) {System.out.println("Errore - Sprites Mancante nel Wave editor ");}
+		catch (IOException e) {}
 		bountyPreview = new JLabel(new ImageIcon(currentPreview));
 		try {currentPreview = ImageIO.read(new File("Resources/Random/RandomBack3.png")).getScaledInstance(40, 40, Image.SCALE_SMOOTH);}
-		catch (IOException e) {System.out.println("Errore - Sprites Mancante nel Wave editor ");}
+		catch (IOException e) {}
 		soldierPreview = new JLabel(new ImageIcon(currentPreview));
 		try {currentPreview = ImageIO.read(new File("Resources/Native/NativeBack2.png")).getScaledInstance(40, 40, Image.SCALE_SMOOTH);}
-		catch (IOException e) {System.out.println("Errore - Sprites Mancante nel Wave editor ");}
+		catch (IOException e) {}
 		saboteurPreview = new JLabel(new ImageIcon(currentPreview));	
 
 		UIManager.put("ToolTip.font",font);
@@ -159,7 +159,7 @@ public class WavePanel extends JPanel{
 	
 	public String getSoldierNumber()
 	{
-		System.out.println(soldierNumber.getText());
+		//System.out.println(soldierNumber.getText());
 		return soldierNumber.getText();
 	}
 

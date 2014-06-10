@@ -166,7 +166,7 @@ public class ClientManager {
 
 	public void init() {
 
-		System.err.println("ENTRO IN INIT");
+//		System.err.println("ENTRO IN INIT");
 		finishGame = false;
 		gameOver = false;
 		this.money = Integer.parseInt(recieveMessage()); // ricevo i
@@ -185,7 +185,7 @@ public class ClientManager {
 		logicYPlayerOne = gamePane.getWorld().getPlayerSpawner().getY();
 		this.playerDirection = 2;
 
-		System.err.println("Arrivate " + money + " " + life);
+//		System.err.println("Arrivate " + money + " " + life);
 		this.threadPool.start();
 		this.startClient();
 
@@ -194,7 +194,7 @@ public class ClientManager {
 		this.startPlacementTrap();
 		this.startMessageToServer();
 
-		System.err.println("ESCO DA INIT");
+//		System.err.println("ESCO DA INIT");
 	}
 
 	public void retrySelection() {
@@ -253,7 +253,7 @@ public class ClientManager {
 				isFinishRecieve = false;
 				while (!isFinishRecieve) {
 					responseFromServer = recieveMessage();
-					System.err.println(responseFromServer);
+//					System.err.println(responseFromServer);
 					if (responseFromServer != null)
 						try {
 							if (responseFromServer.equals("clear")) {

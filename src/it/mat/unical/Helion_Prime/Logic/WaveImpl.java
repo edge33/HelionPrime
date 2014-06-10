@@ -63,17 +63,17 @@ public class WaveImpl implements Wave {
 			switch (typeOfNative) {
 			case 0:
 				soldierNumber = scanner.nextInt();
-				// System.out.println("Ho istanziato " + soldierNumber +
+				// //System.out.println("Ho istanziato " + soldierNumber +
 				// " soldati ");
 				break;
 			case 1:
 				bountyNumber = scanner.nextInt();
-				// System.out.println("Ho istanziato " + bountyNumber +
+				// //System.out.println("Ho istanziato " + bountyNumber +
 				// " cacciatori ");
 				break;
 			case 2:
 				saboteurNumber = scanner.nextInt();
-				// System.out.println("Ho istanziato " + saboteurNumber +
+				// //System.out.println("Ho istanziato " + saboteurNumber +
 				// " saboteur ");
 				break;
 			}
@@ -137,17 +137,17 @@ public class WaveImpl implements Wave {
 			switch (typeOfNative) {
 			case 0:
 				soldierNumber = scanner.nextInt();
-				// System.out.println("Ho istanziato " + soldierNumber +
+				// //System.out.println("Ho istanziato " + soldierNumber +
 				// " soldati ");
 				break;
 			case 1:
 				bountyNumber = scanner.nextInt();
-				// System.out.println("Ho istanziato " + bountyNumber +
+				// //System.out.println("Ho istanziato " + bountyNumber +
 				// " cacciatori ");
 				break;
 			case 2:
 				saboteurNumber = scanner.nextInt();
-				// System.out.println("Ho istanziato " + saboteurNumber +
+				// //System.out.println("Ho istanziato " + saboteurNumber +
 				// " saboteur ");
 				break;
 			}
@@ -160,7 +160,7 @@ public class WaveImpl implements Wave {
 						nativeSpawner.getX(), nativeSpawner.getY(), 0,
 						nativeIndex);
 				ogo.setResistance(new Random().nextInt(5));
-				System.out.println("Ogo res:" + ogo.getResistance());
+				//System.out.println("Ogo res:" + ogo.getResistance());
 				this.nativesLite.put(nativeIndex++, ogo);
 			}// soldier for
 

@@ -1335,7 +1335,7 @@ public class ImageProvider {
 					// player
 
 					// while (!ClientManager.isPaused()) {
-					// System.out.println("Sono in pausa  - ImageProvider");
+					// //System.out.println("Sono in pausa  - ImageProvider");
 					// GameManagerImpl.waitForCondition();
 					// }
 
@@ -1429,7 +1429,7 @@ public class ImageProvider {
 					// player2
 
 					// while (GameManagerImpl.isPaused()) {
-					// System.out.println("Sono in pausa  - ImageProvider");
+					// //System.out.println("Sono in pausa  - ImageProvider");
 					// GameManagerImpl.waitForCondition();
 					// }
 
