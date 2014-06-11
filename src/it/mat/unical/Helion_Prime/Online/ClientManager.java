@@ -4,6 +4,7 @@ import it.mat.unical.Helion_Prime.GFX.BulletsClient;
 import it.mat.unical.Helion_Prime.GFX.GameOverPanel;
 import it.mat.unical.Helion_Prime.GFX.GamePane;
 import it.mat.unical.Helion_Prime.GFX.MainMenuFrame;
+import it.mat.unical.Helion_Prime.GFX.SoundTraker;
 import it.mat.unical.Helion_Prime.GFX.StageClearPanel;
 import it.mat.unical.Helion_Prime.GFX.ThreadPoolBulletClient;
 import it.mat.unical.Helion_Prime.Logic.AbstractNativeLite;
@@ -171,10 +172,6 @@ public class ClientManager {
 		gameOver = false;
 		this.money = Integer.parseInt(recieveMessage()); // ricevo i
 
-		if (PlayerSaveState.getInstance().isSet()) {
-			this.money = PlayerSaveState.getInstance().getScore();
-		}
-
 		// l'intero
 		// corrrispondente
 		// ai soldi
@@ -337,7 +334,6 @@ public class ClientManager {
 						profile.getLastlevelComplete());
 
 			} else {
-				UserProfile.incrLevel();
 
 				if (MainMenuFrame.getInstance().getMainMenuPanel()
 						.isStoryModeOn()) {
@@ -349,6 +345,8 @@ public class ClientManager {
 				}
 
 			}
+			SoundTraker.getInstance().stopClip(4);
+
 			MainMenuFrame.getInstance().switchTo(clearPanel);
 		} else if (responseFromServer.substring(0, 1).equals("o")) {
 			finishGame = true;
@@ -370,7 +368,7 @@ public class ClientManager {
 				PlayerSaveState.getInstance().setLastLevelCleared(
 						profile.getLastlevelComplete());
 			}
-
+			SoundTraker.getInstance().stopClip(4);
 			MainMenuFrame.getInstance().switchTo(gameOverPanel);
 		} else if (responseFromServer.substring(0, 1).equals("l")) {
 			String[] splitted = responseFromServer.split(" ");
@@ -559,11 +557,13 @@ public class ClientManager {
 						String[] movementSplitted = movement.split(" ");
 
 						if (movementSplitted[0].equals("sh")) {
+
 							gamePane.bullets.put(
 									Integer.parseInt(movementSplitted[1]),
 									new BulletsClient(Integer
 											.parseInt(movementSplitted[2]),
-											logicXPlayerOne, logicYPlayerOne));
+											logicXPlayerOne, logicYPlayerOne,
+											gamePane.getCurrentGun()));
 
 							PlayerSaveState.getInstance().incrBulletState(
 									Integer.parseInt(movementSplitted[3]));
@@ -571,6 +571,10 @@ public class ClientManager {
 							gamePane.getEastPanel().incrBulletState(
 									Integer.parseInt(movementSplitted[3]));
 
+							// if (currentGunSelected == 2)
+							// SoundTraker.getInstance().startClip(2);
+							// else
+							// SoundTraker.getInstance().startClip(3);
 						} else if (movementSplitted[0].equals("srm")) {
 							gamePane.bullets
 									.put(Integer.parseInt(movementSplitted[1]),
@@ -578,7 +582,8 @@ public class ClientManager {
 											new BulletsClient(
 													Integer.parseInt(movementSplitted[2]),
 													Integer.parseInt(movementSplitted[3]),
-													Integer.parseInt(movementSplitted[4])));
+													Integer.parseInt(movementSplitted[4]),
+													5));
 						}
 
 						else if (movementSplitted[0].equals("sr")) {
