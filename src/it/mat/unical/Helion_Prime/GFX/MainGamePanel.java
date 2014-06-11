@@ -25,9 +25,11 @@ public class MainGamePanel extends JPanel {
 	private UserProfile profile;
 
 	public MainGamePanel(File level, Client client) {
+
 		int outerPanelWith = MainMenuFrame.getInstance().getWidth() / 4;
 		int innerPanelWith = MainMenuFrame.getInstance().getWidth() / 2;
-		this.cursor = MainMenuFrame.getInstance().getMainMenuPanel().getCursor();
+		this.cursor = MainMenuFrame.getInstance().getMainMenuPanel()
+				.getCursor();
 		this.setCursor(cursor);
 		setLayout(new BorderLayout());
 		gamePadController = new GamePadController();
@@ -81,7 +83,7 @@ public class MainGamePanel extends JPanel {
 		eastPanel.setSize(150, 620);
 		trapPanel = new TrapPanel(client.isMultiplayerGame());
 		informationPanel = new InformationPanel();
-		
+
 		this.profile = profile;
 		/*
 		 * 

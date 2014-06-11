@@ -7,13 +7,15 @@ public class BulletsClient {
 	private int graphicY;
 	private int x;
 	private int y;
+	private int weaponType;
 	private int bulletOffset = 15;
 	private boolean stopBullet = false;
 
-	public BulletsClient(int direction, int logicX, int logicY) {
+	public BulletsClient(int direction, int logicX, int logicY, int weaponType) {
 		this.direction = direction;
 		this.x = logicX;
 		this.y = logicY;
+		this.weaponType = weaponType;
 		this.graphicX = x * 50;
 		this.graphicY = y * 50;
 	}
@@ -93,5 +95,9 @@ public class BulletsClient {
 	public void setStopBullet() {
 		// TODO Auto-generated method stub
 		this.stopBullet = true;
+	}
+
+	public int getWeaponType() {
+		return weaponType;
 	}
 }

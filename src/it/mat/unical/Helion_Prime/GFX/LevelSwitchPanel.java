@@ -87,14 +87,16 @@ public class LevelSwitchPanel extends JPanel {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 
+				SoundTraker.getInstance().stopClip(1);
+
 				String choosenLevel = (String) LevelSwitchPanel.this.comboBox
 						.getSelectedItem();
 				String name = "levels/" + choosenLevel + ".txt";
-//				//System.out.println("LevelSwitchPanel.LevelSwitchPanel    "
-//						+ name);
+				// //System.out.println("LevelSwitchPanel.LevelSwitchPanel    "
+				// + name);
 				File level = new File(name);
-//				System.out
-//						.println("------------------------------------------------");
+				// System.out
+				// .println("------------------------------------------------");
 				MainGamePanel mainGamePanel = null;
 
 				try {
@@ -111,7 +113,7 @@ public class LevelSwitchPanel extends JPanel {
 
 				if (recieveMessage().equals("ready")) {
 
-					//System.out.println("SIAMO READY INIZIA IL GIOCO");
+					// System.out.println("SIAMO READY INIZIA IL GIOCO");
 					mainGamePanel = new MainGamePanel(level, client);
 
 				}
@@ -166,7 +168,7 @@ public class LevelSwitchPanel extends JPanel {
 				IOlevelPreview = ImageIO
 						.read(new File("Resources/missing.jpg"));
 			} catch (IOException e1) {
-				//System.out.println("manca l'universo; smetti di giocare");
+				// System.out.println("manca l'universo; smetti di giocare");
 			}
 		}
 		levelPreview = IOlevelPreview;
