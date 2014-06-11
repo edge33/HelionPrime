@@ -94,7 +94,7 @@ public class LevelSwitchPanelMultiplayer extends JPanel {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				SoundTraker.getInstance().startClip(0);
-				ServerMultiplayer multiplayer = new ServerMultiplayer(7777, 0);
+				ServerMultiplayer multiplayer = new ServerMultiplayer(10001, 0);
 
 				multiplayer
 						.setLevelName((String) LevelSwitchPanelMultiplayer.this.comboBox
