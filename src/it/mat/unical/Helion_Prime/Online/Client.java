@@ -41,7 +41,7 @@ public class Client {
 	}
 
 	public static int getDefaultNumberPort() {
-		return 7777;
+		return 10001;
 	}
 
 	public String recieveMessage() throws IOException {

@@ -1,6 +1,5 @@
 package it.mat.unical.Helion_Prime.Logic.Character;
 
-import it.mat.unical.Helion_Prime.Logic.HasScore;
 import it.mat.unical.Helion_Prime.Logic.Wall;
 import it.mat.unical.Helion_Prime.Logic.World;
 
@@ -22,7 +21,7 @@ public abstract class AbstractCharacter implements Character {
 		this.x = x;
 		this.y = y;
 		this.world = world;
-		this.lifePoints = 100000;
+		this.lifePoints = 1000;
 		this.alive = true;
 	}
 
@@ -61,7 +60,7 @@ public abstract class AbstractCharacter implements Character {
 			this.lifePoints = lifePoints;
 		}
 		if (this.lifePoints <= 0) {
-			//System.out.println("falso filippo morto");
+			// System.out.println("falso filippo morto");
 			this.alive = false;
 		}
 	}
