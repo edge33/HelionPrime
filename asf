@@ -1,6 +1,0 @@
-
-		newSaveButton.setForeground(Color.green);
-		newSaveButton.setBackground(Color.black);
-		newSaveButton.setFont(MainMenuFrame.getInstance().getMainMenuPanel()
-				.getFont());
-		newSaveButton.setFont(saveLevel.getFont().deriveFont(16.0f));
