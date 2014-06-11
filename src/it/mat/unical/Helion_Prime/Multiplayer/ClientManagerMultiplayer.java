@@ -55,7 +55,7 @@ public class ClientManagerMultiplayer extends ClientManager {
 				movementOffsetPlayer2.put(0);
 			} catch (InterruptedException e) {
 				// TODO Auto-generated catch block
-				e.printStackTrace();
+				// e.printStackTrace();
 			}
 		} else if (string.equals("mDOWN")) {
 			logicXPlayerTwo += 1;
@@ -63,7 +63,7 @@ public class ClientManagerMultiplayer extends ClientManager {
 				movementOffsetPlayer2.put(1);
 			} catch (InterruptedException e) {
 				// TODO Auto-generated catch block
-				e.printStackTrace();
+				// e.printStackTrace();
 			}
 		} else if (string.equals("mRIGHT")) {
 			logicYPlayerTwo -= 1;
@@ -71,7 +71,7 @@ public class ClientManagerMultiplayer extends ClientManager {
 				movementOffsetPlayer2.put(2);
 			} catch (InterruptedException e) {
 				// TODO Auto-generated catch block
-				e.printStackTrace();
+				// e.printStackTrace();
 			}
 		} else if (string.equals("mLEFT")) {
 			logicYPlayerTwo += 1;
@@ -79,7 +79,7 @@ public class ClientManagerMultiplayer extends ClientManager {
 				movementOffsetPlayer2.put(3);
 			} catch (InterruptedException e) {
 				// TODO Auto-generated catch block
-				e.printStackTrace();
+				// e.printStackTrace();
 			}
 		} else if (string.equals("dUP")) { // per settare le direzione del
 
@@ -98,7 +98,7 @@ public class ClientManagerMultiplayer extends ClientManager {
 				movementOffsetPlayer2.put(-1);
 			} catch (InterruptedException e) {
 				// TODO Auto-generated catch block
-				e.printStackTrace();
+				// e.printStackTrace();
 			}
 		}
 	}
@@ -117,7 +117,7 @@ public class ClientManagerMultiplayer extends ClientManager {
 						sleep(20);
 					} catch (InterruptedException e) {
 						// TODO Auto-generated catch block
-						e.printStackTrace();
+						// e.printStackTrace();
 					}
 
 				}
@@ -206,7 +206,7 @@ public class ClientManagerMultiplayer extends ClientManager {
 						sleep(10);
 					} catch (InterruptedException e) {
 						// TODO Auto-generated catch block
-						e.printStackTrace();
+						// e.printStackTrace();
 					} catch (NullPointerException e2) {
 						continue;
 					}
@@ -234,7 +234,7 @@ public class ClientManagerMultiplayer extends ClientManager {
 			movementOffsetPlayer2.put(-4);
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			// e.printStackTrace();
 		}
 
 	}

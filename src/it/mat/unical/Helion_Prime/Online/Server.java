@@ -69,17 +69,18 @@ public class Server extends Thread {
 			out = new DataOutputStream(client.getOutputStream());
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			// e.printStackTrace();
 		}
 
 		gameManager = GameManagerImpl.getInstance(0);
-		//System.out.println("ATTENDO NOME LIVELLO");
+		// System.out.println("ATTENDO NOME LIVELLO");
 
 		// setLevel(null);
 		startSendMessageToClient();
 		if (getLevel() == null)
 			setLevel(recieveMessage());
-		//System.out.println("NOME DEL LIVELLO ARRIVATA INSTANZIO " + getLevel());
+		// System.out.println("NOME DEL LIVELLO ARRIVATA INSTANZIO " +
+		// getLevel());
 		f = new File("levels/" + getLevel());
 
 		initServer(f);
@@ -97,7 +98,7 @@ public class Server extends Thread {
 					updateOnline(message);
 				} catch (InterruptedException e1) {
 					// TODO Auto-generated catch block
-					e1.printStackTrace();
+					// e1.printStackTrace();
 				}
 
 			else {
@@ -107,7 +108,7 @@ public class Server extends Thread {
 					this.finish();
 				} catch (InterruptedException e) {
 
-					e.printStackTrace();
+					// e.printStackTrace();
 				}
 			}
 
@@ -123,7 +124,7 @@ public class Server extends Thread {
 			this.server.close();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			// e.printStackTrace();
 		}
 	}
 
@@ -134,14 +135,14 @@ public class Server extends Thread {
 			gameManager.init(f, false, 0);
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			// e.printStackTrace();
 		}
 		playerOne = gameManager.getPlayerOne();
 
 		playerOne.setGraphicX(playerOne.getX() * TILE_SIZE);
 		playerOne.setGraphicY(playerOne.getY() * TILE_SIZE);
 		sendMessage("ready");
-		//System.out.println("Game manager instanziato");
+		// System.out.println("Game manager instanziato");
 
 		sendMessage(((Integer) GameManagerImpl.getInstance(0).getPlayerOne()
 				.getMoney()).toString()); // mando l'intero corrispondente ai
@@ -165,7 +166,7 @@ public class Server extends Thread {
 						sleep(100);
 					} catch (InterruptedException e) {
 						// TODO Auto-generated catch block
-						e.printStackTrace();
+						// e.printStackTrace();
 					}
 				}
 			}
@@ -220,7 +221,7 @@ public class Server extends Thread {
 			server.close();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			// e.printStackTrace();
 		}
 
 	}
@@ -234,8 +235,8 @@ public class Server extends Thread {
 		int bulletsCurrent = playerOne.getBulletsArmy().get(
 				playerOne.getCurrentGunSelected());
 
-		//System.out.println("ARMY" + playerOne.getCurrentGunSelected() + " "
-//				+ bulletsCurrent);
+		// System.out.println("ARMY" + playerOne.getCurrentGunSelected() + " "
+		// + bulletsCurrent);
 
 		bulletsCurrent++;
 		playerOne.getBulletsArmy().put(playerOne.getCurrentGunSelected(),
@@ -254,7 +255,7 @@ public class Server extends Thread {
 						sleep(10);
 					} catch (InterruptedException e) {
 						// TODO Auto-generated catch block
-						e.printStackTrace();
+						// e.printStackTrace();
 					}
 
 				}
@@ -264,10 +265,10 @@ public class Server extends Thread {
 						Server.this.sendMessageOnline(messageToClient.take());
 					} catch (InterruptedException e) {
 						// TODO Auto-generated catch block
-						e.printStackTrace();
+						// e.printStackTrace();
 					}
 
-				//System.out.println("sendClear");
+				// System.out.println("sendClear");
 				Server.this.closeConnection();
 
 			}
@@ -279,9 +280,9 @@ public class Server extends Thread {
 
 		boolean response = false;
 		int realX = 0, realY = 0, trapSelected = 0;
-		//System.out.println("String : " + string);
+		// System.out.println("String : " + string);
 		String[] splitted = string.split("/");
-		//System.out.println("size of splitted" + splitted.length);
+		// System.out.println("size of splitted" + splitted.length);
 
 		trapSelected = Integer.parseInt(splitted[0]);
 		realX = Integer.parseInt(splitted[1]);
@@ -325,7 +326,7 @@ public class Server extends Thread {
 								sleep(100);
 					} catch (InterruptedException e) {
 						// TODO Auto-generated catch block
-						e.printStackTrace();
+						// e.printStackTrace();
 					}
 
 				}
@@ -352,7 +353,7 @@ public class Server extends Thread {
 						sleep(20);
 					} catch (InterruptedException e) {
 						// TODO Auto-generated catch block
-						e.printStackTrace();
+						// e.printStackTrace();
 					}
 				}
 
@@ -406,7 +407,7 @@ public class Server extends Thread {
 			this.messageToClient.put(message);
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			// e.printStackTrace();
 		}
 	}
 
@@ -419,7 +420,7 @@ public class Server extends Thread {
 			sendAllFinish();
 			GameManagerImpl.getInstance(0).endGame();
 			closeConnection();
-//			e.printStackTrace();
+			// e.printStackTrace();
 		}
 	}
 
@@ -432,7 +433,7 @@ public class Server extends Thread {
 			sendAllFinish();
 			GameManagerImpl.getInstance(0).endGame();
 			closeConnection();
-			e.printStackTrace();
+			// e.printStackTrace();
 		}
 
 		return message;
@@ -443,7 +444,7 @@ public class Server extends Thread {
 			out.flush();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			// e.printStackTrace();
 		}
 	}
 
@@ -462,7 +463,7 @@ public class Server extends Thread {
 			messageToClient.put("finish");
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			// e.printStackTrace();
 		}
 
 	}

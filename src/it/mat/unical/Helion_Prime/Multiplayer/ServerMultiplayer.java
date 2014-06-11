@@ -136,7 +136,7 @@ public class ServerMultiplayer extends Thread {
 				}
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
-				e.printStackTrace();
+				// e.printStackTrace();
 			}
 		}
 
@@ -154,7 +154,7 @@ public class ServerMultiplayer extends Thread {
 			gameManager.init(level, true, this.id_connection);
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			// e.printStackTrace();
 		}
 
 		playerOne = GameManagerImpl.getInstance(id_connection).getPlayerOne();
@@ -211,7 +211,7 @@ public class ServerMultiplayer extends Thread {
 						sleep(100);
 					} catch (InterruptedException e) {
 						// TODO Auto-generated catch block
-						e.printStackTrace();
+						// e.printStackTrace();
 					}
 
 				}
@@ -236,7 +236,7 @@ public class ServerMultiplayer extends Thread {
 
 					} catch (InterruptedException e) {
 						// TODO Auto-generated catch block
-						e.printStackTrace();
+						// e.printStackTrace();
 					}
 
 				}
@@ -275,7 +275,7 @@ public class ServerMultiplayer extends Thread {
 			forPlayerOne.put(string);
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			// e.printStackTrace();
 		}
 
 	}
@@ -285,7 +285,7 @@ public class ServerMultiplayer extends Thread {
 			forPlayerTwo.put(messageFromPlayerTwo);
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			// e.printStackTrace();
 		}
 	}
 
@@ -303,7 +303,7 @@ public class ServerMultiplayer extends Thread {
 
 					} catch (InterruptedException e) {
 						// TODO Auto-generated catch block
-						e.printStackTrace();
+						// e.printStackTrace();
 					}
 
 				}
@@ -325,7 +325,7 @@ public class ServerMultiplayer extends Thread {
 
 					} catch (InterruptedException e) {
 						// TODO Auto-generated catch block
-						e.printStackTrace();
+						// e.printStackTrace();
 					}
 				}
 
@@ -348,7 +348,7 @@ public class ServerMultiplayer extends Thread {
 
 					} catch (InterruptedException e) {
 						// TODO Auto-generated catch block
-						e.printStackTrace();
+						// e.printStackTrace();
 					}
 				}
 
@@ -448,7 +448,7 @@ public class ServerMultiplayer extends Thread {
 								barrier.await();
 							} catch (BrokenBarrierException e1) {
 								// TODO Auto-generated catch block
-								e1.printStackTrace();
+								// e1.printStackTrace();
 							}
 
 							if (wantRetryPlayerOne && wantRetryPlayerTwo) {
@@ -486,7 +486,7 @@ public class ServerMultiplayer extends Thread {
 									ServerMultiplayer.this.startUpdater();
 								} catch (FileNotFoundException e) {
 									// TODO Auto-generated catch block
-									e.printStackTrace();
+									// e.printStackTrace();
 								}
 								wantRetryPlayerOne = false;
 								wantRetryPlayerTwo = false;
@@ -508,10 +508,10 @@ public class ServerMultiplayer extends Thread {
 						}
 					} catch (InterruptedException e) {
 						// TODO Auto-generated catch block
-						e.printStackTrace();
+						// e.printStackTrace();
 					} catch (IOException e) {
 						// TODO Auto-generated catch block
-						e.printStackTrace();
+						// e.printStackTrace();
 					}
 
 				}
@@ -604,7 +604,7 @@ public class ServerMultiplayer extends Thread {
 								barrier.await();
 							} catch (BrokenBarrierException e) {
 								// TODO Auto-generated catch block
-								e.printStackTrace();
+								// e.printStackTrace();
 							}
 						} else if (messageFromPlayerTwo.equals("notRetry")) {
 							wantRetryPlayerTwo = false;
@@ -612,7 +612,7 @@ public class ServerMultiplayer extends Thread {
 								barrier.await();
 							} catch (BrokenBarrierException e1) {
 								// TODO Auto-generated catch block
-								e1.printStackTrace();
+								// e1.printStackTrace();
 							}
 
 							closeConnecionPlayerTwo();
@@ -622,7 +622,7 @@ public class ServerMultiplayer extends Thread {
 
 					} catch (InterruptedException e) {
 						// TODO Auto-generated catch block
-						e.printStackTrace();
+						// e.printStackTrace();
 					}
 
 				}
@@ -679,7 +679,7 @@ public class ServerMultiplayer extends Thread {
 							sleep(100);
 					} catch (InterruptedException e) {
 						// TODO Auto-generated catch block
-						e.printStackTrace();
+						// e.printStackTrace();
 					}
 
 				}
@@ -725,7 +725,7 @@ public class ServerMultiplayer extends Thread {
 
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			// e.printStackTrace();
 		}
 
 	}
@@ -843,7 +843,7 @@ public class ServerMultiplayer extends Thread {
 			fromPlayerTwo.put("finish");
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			// e.printStackTrace();
 		}
 
 	}
@@ -863,7 +863,7 @@ public class ServerMultiplayer extends Thread {
 				sendAllFinish();
 				closeConnection();
 			} catch (IOException e1) {
-				e1.printStackTrace();
+				// e1.printStackTrace();
 				GameManagerImpl.getInstance(id_connection).endGame();
 				isFinishMultiplayerGame = true;
 				sendAllFinish();
@@ -893,7 +893,7 @@ public class ServerMultiplayer extends Thread {
 				sendAllFinish();
 				closeConnection();
 			} catch (IOException e1) {
-				e1.printStackTrace();
+				// e1.printStackTrace();
 				GameManagerImpl.getInstance(id_connection).endGame();
 				isFinishMultiplayerGame = true;
 				sendAllFinish();
@@ -913,7 +913,7 @@ public class ServerMultiplayer extends Thread {
 			broadcastMessage.put(sentence);
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			// e.printStackTrace();
 		}
 	}
 
@@ -923,7 +923,7 @@ public class ServerMultiplayer extends Thread {
 			out.close();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			// e.printStackTrace();
 		}
 
 	}
@@ -934,7 +934,7 @@ public class ServerMultiplayer extends Thread {
 			outTwo.close();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			// e.printStackTrace();
 		}
 	}
 

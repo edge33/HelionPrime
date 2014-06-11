@@ -141,7 +141,7 @@ public class ClientManager {
 			outToServer.put(sentence);
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			// e.printStackTrace();
 		}
 	}
 
@@ -158,7 +158,7 @@ public class ClientManager {
 							sendMessage(sentence);
 					} catch (InterruptedException e) {
 						// TODO Auto-generated catch block
-						e.printStackTrace();
+						// e.printStackTrace();
 					}
 
 				}
@@ -274,7 +274,7 @@ public class ClientManager {
 							}
 						} catch (InterruptedException e1) {
 							// TODO Auto-generated catch block
-							e1.printStackTrace();
+							// e1.printStackTrace();
 						}
 
 				}
@@ -319,7 +319,7 @@ public class ClientManager {
 					client.sendMessage("finish");
 				} catch (IOException e) {
 					// TODO Auto-generated catch block
-					e.printStackTrace();
+					// e.printStackTrace();
 				}
 			}
 
@@ -359,7 +359,7 @@ public class ClientManager {
 					client.sendMessage("finish");
 				} catch (IOException e) {
 					// TODO Auto-generated catch block
-					e.printStackTrace();
+					// e.printStackTrace();
 				}
 			}
 			GameOverPanel gameOverPanel = new GameOverPanel(this,
@@ -419,7 +419,7 @@ public class ClientManager {
 			movementPlayer.put("finish");
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			// e.printStackTrace();
 		}
 
 	}
@@ -683,7 +683,7 @@ public class ClientManager {
 			client.sendMessage(c);
 		} catch (IOException e) {
 
-			e.printStackTrace();
+			// e.printStackTrace();
 			JOptionPane.showMessageDialog(gamePane,
 					"Impossibile Contattare Il server");
 
