@@ -160,7 +160,7 @@ public class ClientManagerMultiplayer extends ClientManager {
 									Integer.parseInt(movementSplitted[1]),
 									new BulletsClient(Integer
 											.parseInt(movementSplitted[3]),
-											getLogicX(), getLogicY()));
+											getLogicX(), getLogicY(),Integer.parseInt(movementSplitted[4])));
 
 							gamePane.getEastPanel().incrBulletState(
 									Integer.parseInt(movementSplitted[4]));
@@ -172,7 +172,7 @@ public class ClientManagerMultiplayer extends ClientManager {
 									new BulletsClient(Integer
 											.parseInt(movementSplitted[3]),
 											getLogicXPlayerTwo(),
-											getLogicYPlayerTwo()));
+											getLogicYPlayerTwo(),Integer.parseInt(movementSplitted[4])));
 
 							gamePane.getEastPanel().incrBulletState(
 									Integer.parseInt(movementSplitted[4]));
@@ -184,7 +184,7 @@ public class ClientManagerMultiplayer extends ClientManager {
 											new BulletsClient(
 													Integer.parseInt(movementSplitted[2]),
 													Integer.parseInt(movementSplitted[3]),
-													Integer.parseInt(movementSplitted[4])));
+													Integer.parseInt(movementSplitted[4]),5));
 						}
 
 						else if (movementSplitted[0].equals("sr")) {

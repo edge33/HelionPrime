@@ -732,11 +732,27 @@ public class GamePane extends JPanel {
 			// HeavyWeapon)
 			// sizeBulletForPrint = 25;
 			//
-			g.setColor(Color.BLACK);
-			// g.fillOval(bullets.get(i).getGraphicY(), bullets.get(i)
-			// .getGraphicX(), 10, 10);
-			g.fillOval(bulletClient.getGraphicY() + TILE_SIZE / 2,
-					bulletClient.getGraphicX() + TILE_SIZE / 2, 10, 10);
+			if (bulletClient.getWeaponType() == 0) {
+				g.setColor(Color.BLACK);
+				g.fillOval(bulletClient.getGraphicY() + TILE_SIZE / 2,
+						bulletClient.getGraphicX() + TILE_SIZE / 2, 5, 5);
+			} else if (bulletClient.getWeaponType() == 1) {
+				g.setColor(Color.MAGENTA);
+				g.fillOval(bulletClient.getGraphicY() + TILE_SIZE / 2,
+						bulletClient.getGraphicX() + TILE_SIZE / 2, 5, 5);
+			} else if (bulletClient.getWeaponType() == 2) {
+				g.setColor(Color.CYAN);
+				g.fillOval(bulletClient.getGraphicY() + TILE_SIZE / 2,
+						bulletClient.getGraphicX() + TILE_SIZE / 2, 12, 12);
+			} else if (bulletClient.getWeaponType() == 3) {
+				g.setColor(Color.RED);
+				g.fillOval(bulletClient.getGraphicY() + TILE_SIZE / 2,
+						bulletClient.getGraphicX() + TILE_SIZE / 2, 15, 15);
+			} else if (bulletClient.getWeaponType() == 5) {
+				g.setColor(Color.BLACK);
+				g.fillOval(bulletClient.getGraphicY() + TILE_SIZE / 2,
+						bulletClient.getGraphicX() + TILE_SIZE / 2, 10, 10);
+			}
 
 		}
 		//
@@ -1382,5 +1398,9 @@ public class GamePane extends JPanel {
 	public boolean isPaused() {
 
 		return isPaused;
+	}
+
+	public int getCurrentGun() {
+		return trapPanel.getCurrentGunSelected();
 	}
 }
