@@ -190,6 +190,8 @@ public class GamePane extends JPanel {
 
 		this.add(controllerInfo);
 
+		SoundTraker.getInstance().startClip(4);
+
 		if (gamePadController.isPadConnected()) {
 			startPolling();
 			// //System.out.println("c'è");

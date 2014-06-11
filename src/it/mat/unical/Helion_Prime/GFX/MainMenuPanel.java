@@ -60,6 +60,10 @@ public class MainMenuPanel extends JPanel {
 
 	public MainMenuPanel() {
 
+		SoundTraker.getInstance();
+
+		SoundTraker.getInstance().startClip(1);
+
 		this.setLayout(new BorderLayout());
 		centerPane = new JPanel();
 		centerPane.setLayout(null);
@@ -98,6 +102,8 @@ public class MainMenuPanel extends JPanel {
 			public void actionPerformed(ActionEvent e) {
 				modeSelect = new ModeSelectPanel();
 				MainMenuFrame.getInstance().switchTo(modeSelect);
+
+				SoundTraker.getInstance().startClip(0);
 
 			}
 		});
@@ -257,7 +263,7 @@ public class MainMenuPanel extends JPanel {
 			clip.open(audioInputStream);
 			clip.start();
 		} catch (Exception ex) {
-			//System.out.println("Error with playing sound.");
+			// System.out.println("Error with playing sound.");
 			ex.printStackTrace();
 		}
 
@@ -288,7 +294,7 @@ public class MainMenuPanel extends JPanel {
 			cursor = toolkit.createCustomCursor(image, hotSpot, "Pencil");
 		} else {
 			Point hotSpot = new Point(0, 0);
-			//System.out.println("sono nell'else");
+			// System.out.println("sono nell'else");
 			cursor = toolkit.createCustomCursor(img, hotSpot, "Pencil");
 		}
 

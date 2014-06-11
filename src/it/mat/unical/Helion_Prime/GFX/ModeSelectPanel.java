@@ -37,7 +37,7 @@ public class ModeSelectPanel extends JPanel {
 		this.centerPanel = new JPanel();
 		this.southPanel = new JPanel();
 		this.setLayout(new BorderLayout());
-		
+
 		this.layout = new GridBagLayout();
 		this.c = new GridBagConstraints();
 		this.centerPanel.setLayout(layout);
@@ -48,12 +48,14 @@ public class ModeSelectPanel extends JPanel {
 		this.freeMode = new JButton("Free Mode");
 		this.back = new JButton("Main Menu");
 
-		if ( !CommonProperties.getInstance().isPropertiesLoaded() ) {
+		if (!CommonProperties.getInstance().isPropertiesLoaded()) {
 			this.storyMode.setEnabled(false);
 		}
-		
-		this.storyDescr = new JLabel("Gioca tutti i livelli della campagna single player. Riuscirai a sopravvivere all'orda?");
-		this.freeDescr = new JLabel("Gioca il livello che più ti piace. Scala la classifica e centra il punteggio migliore!");
+
+		this.storyDescr = new JLabel(
+				"Gioca tutti i livelli della campagna single player. Riuscirai a sopravvivere all'orda?");
+		this.freeDescr = new JLabel(
+				"Gioca il livello che più ti piace. Scala la classifica e centra il punteggio migliore!");
 		this.storyDescr.setHorizontalAlignment(SwingConstants.CENTER);
 		this.freeDescr.setHorizontalAlignment(SwingConstants.CENTER);
 
@@ -61,20 +63,22 @@ public class ModeSelectPanel extends JPanel {
 		this.fillPanel();
 		this.createButton();
 
-		this.cursor = MainMenuFrame.getInstance().getMainMenuPanel().getCursor();
+		this.cursor = MainMenuFrame.getInstance().getMainMenuPanel()
+				.getCursor();
 		this.setCursor(cursor);
 
 		this.centerPanel.setBackground(Color.BLACK);
 		this.southPanel.setBackground(Color.BLACK);
-		this.add(centerPanel,BorderLayout.CENTER);
-		this.add(southPanel,BorderLayout.SOUTH);
+		this.add(centerPanel, BorderLayout.CENTER);
+		this.add(southPanel, BorderLayout.SOUTH);
 	}
 
 	public void createButton() {
 		storyMode.setBackground(Color.black);
 		storyMode.setForeground(Color.green);
 		storyMode.setOpaque(false);
-		storyMode.setFont(MainMenuFrame.getInstance().getMainMenuPanel().getFont());
+		storyMode.setFont(MainMenuFrame.getInstance().getMainMenuPanel()
+				.getFont());
 		storyMode.setFont(storyMode.getFont().deriveFont(25.0f));
 		storyMode.setBorderPainted(false);
 		storyMode.setFocusPainted(false);
@@ -82,11 +86,12 @@ public class ModeSelectPanel extends JPanel {
 		freeMode.setBackground(Color.black);
 		freeMode.setForeground(Color.green);
 		freeMode.setOpaque(false);
-		freeMode.setFont(MainMenuFrame.getInstance().getMainMenuPanel().getFont());
+		freeMode.setFont(MainMenuFrame.getInstance().getMainMenuPanel()
+				.getFont());
 		freeMode.setFont(freeMode.getFont().deriveFont(25.0f));
 		freeMode.setBorderPainted(false);
 		freeMode.setFocusPainted(false);
-		
+
 		back.setBackground(Color.black);
 		back.setForeground(Color.green);
 		back.setOpaque(false);
@@ -94,7 +99,7 @@ public class ModeSelectPanel extends JPanel {
 		back.setFont(back.getFont().deriveFont(25.0f));
 		back.setBorderPainted(false);
 		back.setFocusPainted(false);
-		
+
 	}
 
 	public void fillPanel() {
@@ -113,11 +118,10 @@ public class ModeSelectPanel extends JPanel {
 		c.insets = new Insets(0, 0, 0, 0);
 		this.layout.setConstraints(freeDescr, c);
 		this.centerPanel.add(freeDescr);
-		
+
 		c.insets = new Insets(200, 0, 0, 0);
 		c.gridwidth = 1;
-		
-		
+
 		this.southPanel.add(back);
 	}
 
@@ -127,6 +131,7 @@ public class ModeSelectPanel extends JPanel {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				SoundTraker.getInstance().startClip(0);
 				contenitorPanel = new LoginPanel();
 
 				MainMenuFrame.getInstance().getMainMenuPanel()
@@ -146,7 +151,7 @@ public class ModeSelectPanel extends JPanel {
 				MainMenuFrame.getInstance().switchTo(levelSwitchPanel);
 			}
 		});
-		
+
 		this.back.addActionListener(new ActionListener() {
 
 			@Override

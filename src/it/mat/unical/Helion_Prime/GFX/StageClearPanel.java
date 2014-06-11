@@ -152,16 +152,19 @@ public class StageClearPanel extends JLayeredPane {
 
 				@Override
 				public void actionPerformed(ActionEvent e) {
+
+					UserProfile.incrLevel();
+
 					String choosenLevel = profile.getLevels().get(
 							profile.getLastlevelComplete())
 							+ ".txt";
 
 					String name = "levels/" + choosenLevel;
-//					//System.out.println("LevelSwitchPanel.LevelSwitchPanel    "
-//							+ name);
+					// //System.out.println("LevelSwitchPanel.LevelSwitchPanel    "
+					// + name);
 					File level = new File(name);
-//					System.out
-//							.println("------------------------------------------------");
+					// System.out
+					// .println("------------------------------------------------");
 					MainGamePanel mainGamePanel = null;
 
 					if (!Server.isServerStarted)
@@ -189,7 +192,7 @@ public class StageClearPanel extends JLayeredPane {
 
 					if (recieveMessage().equals("ready")) {
 
-						//System.out.println("SIAMO READY INIZIA IL GIOCO");
+						// System.out.println("SIAMO READY INIZIA IL GIOCO");
 						mainGamePanel = new MainGamePanel(level, client,
 								profile);
 
@@ -199,12 +202,14 @@ public class StageClearPanel extends JLayeredPane {
 				}
 			});
 
-			if (!PlayerSaveState.getInstance().isSet() || !CommonProperties.getInstance().isPropertiesLoaded()) {
+			if (!PlayerSaveState.getInstance().isSet()
+					|| !CommonProperties.getInstance().isPropertiesLoaded()) {
 				this.saveLevel.setEnabled(false);
 			}
 		} else {
 			this.saveLevel.setText("Upload Score");
-			if (clientManager.isMultiplayerGame() || !CommonProperties.getInstance().isPropertiesLoaded() ) {
+			if (clientManager.isMultiplayerGame()
+					|| !CommonProperties.getInstance().isPropertiesLoaded()) {
 				this.saveLevel.setEnabled(false);
 			}
 		}
@@ -272,8 +277,8 @@ public class StageClearPanel extends JLayeredPane {
 
 					// StageClearPanel.this.clientManager.reset();
 
-//					System.err
-//							.println("SONO STAGE CLEAR SINGLE PLAYER DOPO RESET");
+					// System.err
+					// .println("SONO STAGE CLEAR SINGLE PLAYER DOPO RESET");
 
 					try {
 						server = new Server(7777);
@@ -290,7 +295,7 @@ public class StageClearPanel extends JLayeredPane {
 
 					if (recieveMessage().equals("ready")) {
 
-						//System.out.println("SIAMO READY INIZIA IL GIOCO");
+						// System.out.println("SIAMO READY INIZIA IL GIOCO");
 						if (MainMenuFrame.getInstance().getMainMenuPanel()
 								.isStoryModeOn())
 							mainGamePanel = new MainGamePanel(lastLevelPlayed,
@@ -312,7 +317,7 @@ public class StageClearPanel extends JLayeredPane {
 
 					StageClearPanel.this.clientManager.sendMessage("retry");
 
-					//System.out.println("ATTENDO MESSAGGIO DAL SERVER");
+					// System.out.println("ATTENDO MESSAGGIO DAL SERVER");
 
 					String responseFromServer = null;
 					try {
@@ -323,19 +328,19 @@ public class StageClearPanel extends JLayeredPane {
 						e.printStackTrace();
 					}
 
-//					//System.out.println("RESPONSE FROM SERVER "
-//							+ responseFromServer);
+					// //System.out.println("RESPONSE FROM SERVER "
+					// + responseFromServer);
 
 					if ((!responseFromServer.equals("PlayerOneOut"))
 							&& (!responseFromServer.equals("PlayerTwoOut"))) {
-//						//System.out.println("MESSAGGIO DAL SERVER ARRIVATO");
+						// //System.out.println("MESSAGGIO DAL SERVER ARRIVATO");
 
 						lastLevelPlayed = null;
 						lastLevelPlayed = new File("levels/"
 								+ responseFromServer + ".txt");
 
-//						//System.out.println("CLIENTTTTTTTTTT "
-//								+ responseFromServer);
+						// //System.out.println("CLIENTTTTTTTTTT "
+						// + responseFromServer);
 
 						MainGamePanel mgGamePanel = new MainGamePanel(
 								lastLevelPlayed,
@@ -381,7 +386,7 @@ public class StageClearPanel extends JLayeredPane {
 		this.overlay.add(retryButton);
 
 		if (MainMenuFrame.getInstance().getMainMenuPanel().isStoryModeOn()
-				&& PlayerSaveState.getInstance().getLastLevelCleared() != 5) {
+				&& profile.getLastlevelComplete() != 5) {
 			this.overlay.add(nextLevel);
 		}
 		this.add(overlay, BorderLayout.NORTH);
@@ -483,7 +488,7 @@ public class StageClearPanel extends JLayeredPane {
 							.valueOf(StageClearPanel.this.passField
 									.getPassword());
 
-					//System.out.println(username + " " + password);
+					// System.out.println(username + " " + password);
 
 					if (database.doLogin(username, password)) {
 						if (database
@@ -676,11 +681,16 @@ public class StageClearPanel extends JLayeredPane {
 	@Override
 	protected void paintComponent(Graphics g) {
 
-		if (isStoryModeOn
-				&& PlayerSaveState.getInstance().getLastLevelCleared() == 5) {
-			g.drawImage(finishCampain, 0, 0, this.getWidth(), this.getHeight(),
-					this);
-		} else
+		if (isStoryModeOn) {
+			if (profile.getLastlevelComplete() != 5) {
+				g.drawImage(stageClearImage, 0, 0, this.getWidth(),
+						this.getHeight(), this);
+			} else
+				g.drawImage(finishCampain, 0, 0, this.getWidth(),
+						this.getHeight(), this);
+		}
+
+		else
 			g.drawImage(stageClearImage, 0, 0, this.getWidth(),
 					this.getHeight(), this);
 	}
