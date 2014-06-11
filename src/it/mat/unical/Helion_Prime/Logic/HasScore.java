@@ -8,5 +8,7 @@ public interface HasScore {
 		 */
 		public abstract int getScore();
 		
+		public abstract void setScore(int score);
+		
 
 }

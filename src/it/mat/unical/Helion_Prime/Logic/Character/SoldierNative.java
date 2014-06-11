@@ -10,6 +10,8 @@ import it.mat.unical.Helion_Prime.Logic.Ability.Resistance;
 
 public class SoldierNative extends AbstractNative {
 
+	private static final int SCORE = 100;
+	
 	private int direction;
 	private int currentPosition = 1;
 	private final int type = 0;
@@ -21,6 +23,7 @@ public class SoldierNative extends AbstractNative {
 		super.setLife(100);
 		super.attackPower = 10;
 		this.direction = 0;
+		super.setScore(SCORE);
 		super.nativeAi = FindRoomAI.getInstance();
 		int resistanceSelector = (int) (Math.random() * 4);
 		switch (resistanceSelector) {
