@@ -57,7 +57,7 @@ public class ServerMultiplayer extends Thread {
 			// System.out.println("port server " + port);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+//			e.printStackTrace();
 		}
 
 		this.port = port;
