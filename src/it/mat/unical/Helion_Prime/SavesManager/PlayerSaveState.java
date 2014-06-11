@@ -16,13 +16,17 @@ public class PlayerSaveState {
 	private int score;
 
 	private boolean profileSet;
-	
+
 	private static PlayerSaveState instance;
 
 	public static PlayerSaveState getInstance() {
 		if (instance == null)
 			instance = new PlayerSaveState();
 		return instance;
+	}
+
+	public void destroy() {
+		instance = null;
 	}
 
 	private PlayerSaveState() {
@@ -49,7 +53,7 @@ public class PlayerSaveState {
 		this.timestamp = timestamp;
 		profileSet = true;
 		SaveManagerImpl.getInstance().loadGame(username, timestamp, this);
-		
+
 		return this;
 	}
 
@@ -135,7 +139,9 @@ public class PlayerSaveState {
 
 	@Override
 	public String toString() {
-		return new String(username + " " + timestamp.toString() + " " + gunBullets1 + " " + " " + gunBullets2 + " " + gunBullets3 + " " + gunBullets4 + " " + lastLevelCleared + " " + score);
+		return new String(username + " " + timestamp.toString() + " "
+				+ gunBullets1 + " " + " " + gunBullets2 + " " + gunBullets3
+				+ " " + gunBullets4 + " " + lastLevelCleared + " " + score);
 	}
 
 	public void setTimestamp(Timestamp newTimeStamp) {

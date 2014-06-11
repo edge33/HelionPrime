@@ -1,6 +1,7 @@
 package it.mat.unical.Helion_Prime.GFX;
 
 import it.mat.unical.Helion_Prime.Online.ClientManager;
+import it.mat.unical.Helion_Prime.SavesManager.PlayerSaveState;
 
 import java.awt.Color;
 import java.awt.event.ActionEvent;
@@ -59,6 +60,9 @@ public class WestGamePanel extends JPanel {
 					clientManager.isFinishRecieve = true;
 					clientManager.sendAllFinish();
 					clientManager.closeConnection();
+					if (PlayerSaveState.getInstance().isSet()) {
+						PlayerSaveState.getInstance().destroy();
+					}
 
 					MainMenuFrame.getInstance().switchTo(
 							MainMenuFrame.getInstance().getMainMenuPanel());

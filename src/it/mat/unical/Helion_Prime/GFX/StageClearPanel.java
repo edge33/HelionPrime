@@ -89,6 +89,8 @@ public class StageClearPanel extends JLayeredPane {
 
 	public StageClearPanel(ClientManager clientManager, File level) {
 
+		SoundTraker.getInstance().startClip(1);
+
 		this.hideButton = new JButton("Hide");
 		fromServer = new LinkedBlockingQueue<String>();
 		this.overlay = new JPanel();
@@ -198,8 +200,9 @@ public class StageClearPanel extends JLayeredPane {
 
 						MainMenuFrame.getInstance().switchTo(mainGamePanel);
 					}
-
+					SoundTraker.getInstance().stopClip(1);
 				}
+
 			});
 
 			if (!PlayerSaveState.getInstance().isSet()

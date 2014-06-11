@@ -123,8 +123,9 @@ public class GameOverPanel extends JLayeredPane {
 			this.pass = new JLabel("Password:");
 			this.userField = new JTextField(15);
 			this.passField = new JPasswordField(15);
-			
-			if ( manager.isMultiplayerGame() || !CommonProperties.getInstance().isPropertiesLoaded() ) {
+
+			if (manager.isMultiplayerGame()
+					|| !CommonProperties.getInstance().isPropertiesLoaded()) {
 				this.saveLevel.setEnabled(false);
 			}
 
@@ -163,6 +164,8 @@ public class GameOverPanel extends JLayeredPane {
 		this.overlay.add(backToMenuButton);
 		this.overlay.add(saveLevel);
 		this.overlay.add(retryButton);
+
+		SoundTraker.getInstance().startClip(1);
 
 	}
 
@@ -225,7 +228,7 @@ public class GameOverPanel extends JLayeredPane {
 
 					if (recieveMessage().equals("ready")) {
 
-						//System.out.println("SIAMO READY INIZIA IL GIOCO");
+						// System.out.println("SIAMO READY INIZIA IL GIOCO");
 						if (MainMenuFrame.getInstance().getMainMenuPanel()
 								.isStoryModeOn())
 							mainGamePanel = new MainGamePanel(lastlevelPlayed,
@@ -234,7 +237,7 @@ public class GameOverPanel extends JLayeredPane {
 							mainGamePanel = new MainGamePanel(lastlevelPlayed,
 									client);
 
-//						System.err.println("HO RICEVUTO IL READY");
+						// System.err.println("HO RICEVUTO IL READY");
 
 					}
 
@@ -243,7 +246,7 @@ public class GameOverPanel extends JLayeredPane {
 
 					GameOverPanel.this.manager.sendMessage("retry");
 
-					//System.out.println("ATTENDO MESSAGGIO DAL SERVER");
+					// System.out.println("ATTENDO MESSAGGIO DAL SERVER");
 
 					String responseFromServer = null;
 
@@ -257,13 +260,14 @@ public class GameOverPanel extends JLayeredPane {
 
 					if ((!responseFromServer.equals("PlayerOneOut"))
 							&& (!responseFromServer.equals("PlayerTwoOut"))) {
-//						//System.out.println("MESSAGGIO DAL SERVER ARRIVATO");
+						// //System.out.println("MESSAGGIO DAL SERVER ARRIVATO");
 
 						lastlevelPlayed = null;
-						lastlevelPlayed = new File("levels/" + responseFromServer + ".txt");
+						lastlevelPlayed = new File("levels/"
+								+ responseFromServer + ".txt");
 
-//						//System.out.println("CLIENTTTTTTTTTT "
-//								+ responseFromServer);
+						// //System.out.println("CLIENTTTTTTTTTT "
+						// + responseFromServer);
 
 						MainGamePanel mgGamePanel = new MainGamePanel(
 								lastlevelPlayed, GameOverPanel.this.manager
@@ -287,6 +291,8 @@ public class GameOverPanel extends JLayeredPane {
 								MainMenuFrame.getInstance().getMainMenuPanel());
 					}
 				}
+
+				SoundTraker.getInstance().stopClip(1);
 
 			}
 
@@ -349,7 +355,7 @@ public class GameOverPanel extends JLayeredPane {
 					String password = String
 							.valueOf(GameOverPanel.this.passField.getPassword());
 
-					//System.out.println(username + " " + password);
+					// System.out.println(username + " " + password);
 
 					if (database.doLogin(username, password)) {
 						if (database

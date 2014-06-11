@@ -11,6 +11,7 @@ import it.mat.unical.Helion_Prime.Logic.Trap.AbstractFactoryTrap;
 import it.mat.unical.Helion_Prime.Logic.Trap.AbstractTrap;
 import it.mat.unical.Helion_Prime.Logic.Trap.TrapPlacing;
 import it.mat.unical.Helion_Prime.Logic.Trap.TrapPower;
+import it.mat.unical.Helion_Prime.SavesManager.PlayerSaveState;
 
 import java.awt.Point;
 import java.util.ArrayList;
@@ -93,7 +94,13 @@ public class Player extends AbstractCharacter implements TrapPlacing {
 		super(x, y, world);
 
 		this.id = id;
-		this.money = 1000;
+
+		if (PlayerSaveState.getInstance().isSet())
+			this.money = PlayerSaveState.getInstance().getScore();
+		else {
+			this.money = 1000;
+		}
+
 		factoryTrap = new AbstractFactoryTrap(id);
 		// per ora assumiamo che abbiamo 10 tipi di
 		// trappole parte la revisionare
@@ -129,8 +136,8 @@ public class Player extends AbstractCharacter implements TrapPlacing {
 		AbstractTrap newTrap = null;
 		if (numberOfTrapInArray != 6) {
 			newTrap = factoryTrap.returnTrapForType(positionXonMap,
-					positionYonMap, numberOfTrapInArray); 
-			}
+					positionYonMap, numberOfTrapInArray);
+		}
 
 		if (newTrap.getCost() <= GameManagerImpl.getInstance(id).getMoney()) { // prendo
 																				// il
@@ -162,7 +169,7 @@ public class Player extends AbstractCharacter implements TrapPlacing {
 			GameManagerImpl.getInstance(this.id).dimMoney(newTrap.getCost());
 			if (newTrap instanceof TrapPower)
 				((TrapPower) newTrap).start();
-			//System.out.println("questa trappola costa " + newTrap.getCost());
+			// System.out.println("questa trappola costa " + newTrap.getCost());
 			this.hasPlacedTrap = true;
 			return true;
 		} else {
@@ -210,7 +217,7 @@ public class Player extends AbstractCharacter implements TrapPlacing {
 
 	public void SwitchGun(int TypeArmy) {
 		currentGunSelected = army.get(TypeArmy);
-		//System.out.println("Hai selezionato l'arma " + TypeArmy);
+		// System.out.println("Hai selezionato l'arma " + TypeArmy);
 
 	}
 
@@ -379,7 +386,7 @@ public class Player extends AbstractCharacter implements TrapPlacing {
 							// TODO Auto-generated catch block
 							e.printStackTrace();
 						}
-						//System.out.println("esco da thread shoot");
+						// System.out.println("esco da thread shoot");
 						threadAlive = false;
 
 					}
