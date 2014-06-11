@@ -735,11 +735,11 @@ public class GamePane extends JPanel {
 			if (bulletClient.getWeaponType() == 0) {
 				g.setColor(Color.BLACK);
 				g.fillOval(bulletClient.getGraphicY() + TILE_SIZE / 2,
-						bulletClient.getGraphicX() + TILE_SIZE / 2, 5, 5);
+						bulletClient.getGraphicX() + TILE_SIZE / 2, 7, 7);
 			} else if (bulletClient.getWeaponType() == 1) {
 				g.setColor(Color.MAGENTA);
 				g.fillOval(bulletClient.getGraphicY() + TILE_SIZE / 2,
-						bulletClient.getGraphicX() + TILE_SIZE / 2, 5, 5);
+						bulletClient.getGraphicX() + TILE_SIZE / 2, 7, 7);
 			} else if (bulletClient.getWeaponType() == 2) {
 				g.setColor(Color.CYAN);
 				g.fillOval(bulletClient.getGraphicY() + TILE_SIZE / 2,

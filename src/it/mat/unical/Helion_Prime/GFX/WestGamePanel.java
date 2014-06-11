@@ -63,7 +63,8 @@ public class WestGamePanel extends JPanel {
 					if (PlayerSaveState.getInstance().isSet()) {
 						PlayerSaveState.getInstance().destroy();
 					}
-
+					SoundTraker.getInstance().stopClip(4);
+					SoundTraker.getInstance().startClip(1);
 					MainMenuFrame.getInstance().switchTo(
 							MainMenuFrame.getInstance().getMainMenuPanel());
 				} else {
