@@ -52,7 +52,7 @@ public class MainMenuPanel extends JPanel {
 	private JButton serverMachine;
 	private Container menuPane;
 	private Cursor cursor;
-
+	public static boolean musicIsOn = true;
 	private Clip clip;
 	private Font font;
 
@@ -81,17 +81,18 @@ public class MainMenuPanel extends JPanel {
 
 		musicButton.addActionListener(new ActionListener() {
 
-			private boolean musicIsOn = true;
-
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 
 				if (!musicIsOn) {
-					clip.start();
+
 					musicIsOn = true;
+					SoundTraker.getInstance().startClip(1);
+
 				} else {
-					clip.stop();
+
 					musicIsOn = false;
+					SoundTraker.getInstance().stopAll();
 				}
 			}
 		});
@@ -112,6 +113,7 @@ public class MainMenuPanel extends JPanel {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				SoundTraker.getInstance().startClip(0);
 				MainMenuPanel.this.multiplayerPanel = new MultiplayerPanel(font);
 				MainMenuFrame.getInstance().switchTo(multiplayerPanel);
 			}
@@ -121,6 +123,7 @@ public class MainMenuPanel extends JPanel {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				SoundTraker.getInstance().startClip(0);
 				MacchinaServer macchinaServer = new MacchinaServer();
 				macchinaServer.startServers();
 				macchinaServer.start();
@@ -132,6 +135,7 @@ public class MainMenuPanel extends JPanel {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				SoundTraker.getInstance().startClip(0);
 				MainMenuPanel.this.editorMainPanel = new EditorMainPanel(
 						MainMenuPanel.this);
 				MainMenuFrame.getInstance().switchTo(editorMainPanel);
@@ -141,6 +145,7 @@ public class MainMenuPanel extends JPanel {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				SoundTraker.getInstance().startClip(0);
 				MainMenuPanel.this.enemyEditorPanel = new EnemyEditorPanel(font);
 				MainMenuFrame.getInstance().switchTo(enemyEditorPanel);
 			}
@@ -151,6 +156,7 @@ public class MainMenuPanel extends JPanel {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				SoundTraker.getInstance().startClip(0);
 				MainMenuFrame.getInstance().dispose();
 				System.exit(1);
 			}

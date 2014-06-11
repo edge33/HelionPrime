@@ -3,6 +3,7 @@ package it.mat.unical.Helion_Prime.Multiplayer;
 import it.mat.unical.Helion_Prime.GFX.GameOverPanel;
 import it.mat.unical.Helion_Prime.GFX.MainGamePanel;
 import it.mat.unical.Helion_Prime.GFX.MainMenuFrame;
+import it.mat.unical.Helion_Prime.GFX.SoundTraker;
 import it.mat.unical.Helion_Prime.Online.Client;
 import it.mat.unical.Helion_Prime.Online.ClientManager;
 
@@ -92,7 +93,7 @@ public class LevelSwitchPanelMultiplayer extends JPanel {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-
+				SoundTraker.getInstance().startClip(0);
 				ServerMultiplayer multiplayer = new ServerMultiplayer(7777, 0);
 
 				multiplayer
@@ -126,6 +127,7 @@ public class LevelSwitchPanelMultiplayer extends JPanel {
 				mainGamePanel = new MainGamePanel(choosenLevel, client);
 
 				MainMenuFrame.getInstance().switchTo(mainGamePanel);
+				SoundTraker.getInstance().stopClip(1);
 
 			}
 		});

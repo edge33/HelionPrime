@@ -33,6 +33,7 @@ public class ClientManager {
 	public static boolean isPlayerOne = true;
 	protected GamePane gamePane;
 	private UserProfile profile;
+	private int soundTrapPower;
 	private int logicXPlayerOne;
 	private int logicYPlayerOne;
 	private int movementOffset;
@@ -61,6 +62,7 @@ public class ClientManager {
 		gameOver = false;
 		lock = new ReentrantLock();
 		this.condition = lock.newCondition();
+		soundTrapPower = 0;
 
 		informations = new LinkedBlockingQueue<String>();
 		//
@@ -438,7 +440,7 @@ public class ClientManager {
 				// .parseInt(splitted[3]));
 				//
 				// this.setMoney(Integer.parseInt(splitted[3]));
-
+				SoundTraker.getInstance().startClip(5);
 			} else if (splittedMessage[0].equals("pr")) {
 
 				Point point = new Point(Integer.parseInt(splitted[1]),
@@ -572,10 +574,13 @@ public class ClientManager {
 									Integer.parseInt(movementSplitted[3]));
 
 							// if (currentGunSelected == 2)
-							// SoundTraker.getInstance().startClip(2);
+							SoundTraker.getInstance().startClip(3);
 							// else
 							// SoundTraker.getInstance().startClip(3);
 						} else if (movementSplitted[0].equals("srm")) {
+
+							soundTrapPower++;
+
 							gamePane.bullets
 									.put(Integer.parseInt(movementSplitted[1]),
 
@@ -584,6 +589,11 @@ public class ClientManager {
 													Integer.parseInt(movementSplitted[3]),
 													Integer.parseInt(movementSplitted[4]),
 													5));
+
+							if (soundTrapPower >= 4) {
+								SoundTraker.getInstance().startClip(6);
+								soundTrapPower = 0;
+							}
 						}
 
 						else if (movementSplitted[0].equals("sr")) {

@@ -90,8 +90,8 @@ public class ContenitorPanel extends JLayeredPane {
 		// if (lastLevelCleared.equals("null.txt"))
 		// lastLevelCleared = "bastion.txt";
 
-//		System.err.println(lastLevelCleared + " "
-//				+ PlayerSaveState.getInstance().getLastLevelCleared());
+		// System.err.println(lastLevelCleared + " "
+		// + PlayerSaveState.getInstance().getLastLevelCleared());
 	}
 
 	public void addListener() {
@@ -110,6 +110,8 @@ public class ContenitorPanel extends JLayeredPane {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 
+				SoundTraker.getInstance().stopClip(1);
+				SoundTraker.getInstance().startClip(0);
 				// String choosenLevel= profile.getLevels().get(
 				// profile.getLastlevelComplete())
 				// + ".txt";
@@ -122,11 +124,11 @@ public class ContenitorPanel extends JLayeredPane {
 				// profile.setLastlevelComplete(profile.getNumLevel(levelSelected));
 
 				String name = "levels/" + levelSelected;
-//				//System.out.println("LevelSwitchPanel.LevelSwitchPanel    "
-//						+ name);
+				// //System.out.println("LevelSwitchPanel.LevelSwitchPanel    "
+				// + name);
 				File level = new File(name);
-//				System.out
-//						.println("------------------------------------------------");
+				// System.out
+				// .println("------------------------------------------------");
 				MainGamePanel mainGamePanel = null;
 
 				if (!Server.isServerStarted)
@@ -155,7 +157,7 @@ public class ContenitorPanel extends JLayeredPane {
 
 				if (recieveMessage().equals("ready")) {
 
-					//System.out.println("SIAMO READY INIZIA IL GIOCO");
+					// System.out.println("SIAMO READY INIZIA IL GIOCO");
 					mainGamePanel = new MainGamePanel(level, client,
 							ContenitorPanel.this.profile);
 					MainMenuFrame.getInstance().switchTo(mainGamePanel);
@@ -229,7 +231,7 @@ public class ContenitorPanel extends JLayeredPane {
 		name = name.replace(".txt", "");
 		upperPanel.setLevelName(name);
 		upperPanel.repaint();
-		//System.out.println(name);
+		// System.out.println(name);
 	}
 
 	public void setLogicLevelName(String string) {
@@ -260,7 +262,7 @@ public class ContenitorPanel extends JLayeredPane {
 			y = 0;
 		}
 
-		//System.out.println("Sto cliccando " + frameWidth);
+		// System.out.println("Sto cliccando " + frameWidth);
 		previewPaneL = new PreviewPanel(this, name);
 		previewPaneL.setBorder(BorderFactory.createLineBorder(Color.GREEN, 1,
 				true));
