@@ -2,6 +2,7 @@ package it.mat.unical.Helion_Prime.Multiplayer;
 
 import it.mat.unical.Helion_Prime.GFX.MainGamePanel;
 import it.mat.unical.Helion_Prime.GFX.MainMenuFrame;
+import it.mat.unical.Helion_Prime.GFX.SoundTraker;
 import it.mat.unical.Helion_Prime.Online.Client;
 import it.mat.unical.Helion_Prime.Online.ClientManager;
 
@@ -301,7 +302,7 @@ public class WaitLobbyPanel extends JPanel {
 
 				MainGamePanel mainGamePanel = null;
 				mainGamePanel = new MainGamePanel(choosenLevel, client);
-
+				SoundTraker.getInstance().stopClip(1);
 				MainMenuFrame.getInstance().switchTo(mainGamePanel);
 
 			}

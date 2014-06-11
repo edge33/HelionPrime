@@ -2,6 +2,7 @@ package it.mat.unical.Helion_Prime.Multiplayer;
 
 import it.mat.unical.Helion_Prime.GFX.BulletsClient;
 import it.mat.unical.Helion_Prime.GFX.GamePane;
+import it.mat.unical.Helion_Prime.GFX.SoundTraker;
 import it.mat.unical.Helion_Prime.Online.Client;
 import it.mat.unical.Helion_Prime.Online.ClientManager;
 
@@ -156,27 +157,32 @@ public class ClientManagerMultiplayer extends ClientManager {
 
 						if (movementSplitted[0].equals("sh")
 								&& movementSplitted[2].equals("1")) {
-							gamePane.bullets.put(
-									Integer.parseInt(movementSplitted[1]),
-									new BulletsClient(Integer
-											.parseInt(movementSplitted[3]),
-											getLogicX(), getLogicY(),Integer.parseInt(movementSplitted[4])));
+							gamePane.bullets
+									.put(Integer.parseInt(movementSplitted[1]),
+											new BulletsClient(
+													Integer.parseInt(movementSplitted[3]),
+													getLogicX(),
+													getLogicY(),
+													Integer.parseInt(movementSplitted[4])));
 
 							gamePane.getEastPanel().incrBulletState(
 									Integer.parseInt(movementSplitted[4]));
+
+							SoundTraker.getInstance().startClip(3);
 
 						} else if (movementSplitted[0].equals("sh")
 								&& movementSplitted[2].equals("2")) {
-							gamePane.bullets.put(
-									Integer.parseInt(movementSplitted[1]),
-									new BulletsClient(Integer
-											.parseInt(movementSplitted[3]),
-											getLogicXPlayerTwo(),
-											getLogicYPlayerTwo(),Integer.parseInt(movementSplitted[4])));
+							gamePane.bullets
+									.put(Integer.parseInt(movementSplitted[1]),
+											new BulletsClient(
+													Integer.parseInt(movementSplitted[3]),
+													getLogicXPlayerTwo(),
+													getLogicYPlayerTwo(),
+													Integer.parseInt(movementSplitted[4])));
 
 							gamePane.getEastPanel().incrBulletState(
 									Integer.parseInt(movementSplitted[4]));
-
+							SoundTraker.getInstance().startClip(3);
 						} else if (movementSplitted[0].equals("srm")) {
 							gamePane.bullets
 									.put(Integer.parseInt(movementSplitted[1]),
@@ -184,7 +190,9 @@ public class ClientManagerMultiplayer extends ClientManager {
 											new BulletsClient(
 													Integer.parseInt(movementSplitted[2]),
 													Integer.parseInt(movementSplitted[3]),
-													Integer.parseInt(movementSplitted[4]),5));
+													Integer.parseInt(movementSplitted[4]),
+													5));
+							SoundTraker.getInstance().startClip(6);
 						}
 
 						else if (movementSplitted[0].equals("sr")) {

@@ -45,7 +45,8 @@ public class SoundTraker {
 			nameSong.add("Ost/uziGun.wav");
 			nameSong.add("Ost/shoot.wav");
 			nameSong.add("Ost/battleSong.wav");
-
+			nameSong.add("Ost/trap.wav");
+			nameSong.add("Ost/trapPower.wav");
 			for (int i = 0; i < nameSong.size(); i++) {
 				AudioInputStream audioInputStream = AudioSystem
 						.getAudioInputStream(new File(nameSong.get(i))
@@ -62,28 +63,39 @@ public class SoundTraker {
 
 		} catch (UnsupportedAudioFileException e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			// e.printStackTrace();
+			// continue;
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			// e.printStackTrace();
 		} catch (LineUnavailableException e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			// e.printStackTrace();
+
 		}
 
 	}
 
 	public void startClip(Integer integer) {
 
-		// track.get(integer).stop();
-		track.get(integer).setFramePosition(0);
-		track.get(integer).start();
-
+		if (MainMenuPanel.musicIsOn) {
+			track.get(integer).setFramePosition(0);
+			track.get(integer).start();
+		}
 		// startThreadClip(track.get(integer));
 	}
 
 	public void stopClip(Integer integer) {
-		track.get(integer).stop();
+		if (MainMenuPanel.musicIsOn)
+			track.get(integer).stop();
+
+	}
+
+	public void stopAll() {
+		for (Integer iterable_element : track.keySet()) {
+
+			track.get(iterable_element).stop();
+		}
 
 	}
 }

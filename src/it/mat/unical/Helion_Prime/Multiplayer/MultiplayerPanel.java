@@ -1,6 +1,7 @@
 package it.mat.unical.Helion_Prime.Multiplayer;
 
 import it.mat.unical.Helion_Prime.GFX.MainMenuFrame;
+import it.mat.unical.Helion_Prime.GFX.SoundTraker;
 import it.mat.unical.Helion_Prime.Online.ClientManager;
 
 import java.awt.BorderLayout;
@@ -128,7 +129,7 @@ public class MultiplayerPanel extends JPanel {
 			public void actionPerformed(ActionEvent e) {
 				LevelSwitchPanelMultiplayer levelSwitchPanelMultiplayer = new LevelSwitchPanelMultiplayer(
 						font, true);
-
+				SoundTraker.getInstance().startClip(0);
 				MainMenuFrame.getInstance().switchTo(
 						levelSwitchPanelMultiplayer);
 			}
@@ -138,6 +139,7 @@ public class MultiplayerPanel extends JPanel {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				SoundTraker.getInstance().startClip(0);
 				WaitLobbyPanel waitPanel = new WaitLobbyPanel();
 				ClientManager.isPlayerOne = false;
 				MainMenuFrame.getInstance().switchTo(waitPanel);
@@ -148,7 +150,7 @@ public class MultiplayerPanel extends JPanel {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-
+				SoundTraker.getInstance().startClip(0);
 				MainMenuFrame.getInstance().switchTo(
 						MainMenuFrame.getInstance().getMainMenuPanel());
 

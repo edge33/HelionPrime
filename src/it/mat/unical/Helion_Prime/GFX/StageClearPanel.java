@@ -272,7 +272,7 @@ public class StageClearPanel extends JLayeredPane {
 
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-
+				SoundTraker.getInstance().stopClip(1);
 				String name = lastLevelPlayed.getName();
 
 				if (!StageClearPanel.this.clientManager.isMultiplayerGame()) {

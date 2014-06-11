@@ -144,7 +144,7 @@ public class ModeSelectPanel extends JPanel {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-
+				SoundTraker.getInstance().startClip(0);
 				levelSwitchPanel = new LevelSwitchPanel();
 				MainMenuFrame.getInstance().getMainMenuPanel()
 						.setStoryModeOn(false);
@@ -156,7 +156,7 @@ public class ModeSelectPanel extends JPanel {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-
+				SoundTraker.getInstance().startClip(0);
 				MainMenuFrame.getInstance().switchTo(
 						MainMenuFrame.getInstance().getMainMenuPanel());
 
