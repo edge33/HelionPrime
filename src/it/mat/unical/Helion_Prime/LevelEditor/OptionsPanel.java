@@ -25,8 +25,8 @@ public class OptionsPanel extends JPanel {
 	private MainMenuPanel mainMenuPanel;
 	private static LookAndFeel originalLookAndFeel;
 
-	public OptionsPanel(EditorMainPanel editorMainPanel,MainMenuPanel mainMenuPanel)
-	{
+	public OptionsPanel(EditorMainPanel editorMainPanel,
+			MainMenuPanel mainMenuPanel) {
 		this.originalLookAndFeel = UIManager.getLookAndFeel();
 		this.editorMainPanel = editorMainPanel;
 		this.mainMenuPanel = mainMenuPanel;
@@ -70,6 +70,12 @@ public class OptionsPanel extends JPanel {
 
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
+				try {
+					UIManager.setLookAndFeel(originalLookAndFeel);
+				} catch (UnsupportedLookAndFeelException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 				MainMenuFrame.getInstance().switchTo(
 						OptionsPanel.this.mainMenuPanel);
 			}
@@ -88,26 +94,25 @@ public class OptionsPanel extends JPanel {
 		}
 
 	}
-	
-	public void createButton()
-	{
+
+	public void createButton() {
 		rowsComboBox.setBackground(Color.black);
 		rowsComboBox.setForeground(Color.green);
 		rowsComboBox.setFont(mainMenuPanel.getFont());
 		rowsComboBox.setFont(rowsComboBox.getFont().deriveFont(15.0f));
-		
+
 		colsComboBox.setBackground(Color.black);
 		colsComboBox.setForeground(Color.green);
 		colsComboBox.setFont(mainMenuPanel.getFont());
 		colsComboBox.setFont(rowsComboBox.getFont().deriveFont(15.0f));
-		
+
 		backButton.setBackground(Color.black);
 		backButton.setForeground(Color.green);
 		backButton.setFont(mainMenuPanel.getFont());
 		backButton.setFont(rowsComboBox.getFont().deriveFont(25.0f));
 		backButton.setBorderPainted(false);
 		backButton.setFocusPainted(false);
-		
+
 		okButton.setBackground(Color.black);
 		okButton.setForeground(Color.green);
 		okButton.setFont(mainMenuPanel.getFont());
@@ -120,7 +125,7 @@ public class OptionsPanel extends JPanel {
 	protected void paintComponent(Graphics g) {
 
 		super.paintComponent(g);
-		
+
 	}
 
 	public static LookAndFeel getOriginalLookAndFeel() {
