@@ -274,13 +274,19 @@ public class WaitLobbyPanel extends JPanel {
 			public void actionPerformed(ActionEvent arg0) {
 				setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
 
-				int port = Integer.parseInt(WaitLobbyPanel.this.port.getText());
+				int portNumber = 0;
+				if ( !WaitLobbyPanel.this.port.getText().equals("") )
+					portNumber = Integer.parseInt(WaitLobbyPanel.this.port.getText());
 				String ipAddress = f1.getText() + "." + f2.getText() + "."
 						+ f3.getText() + "." + f4.getText();
+				if ( portNumber == 0 &&  ipAddress.equals("...") ) {
+					portNumber = 10001;
+					ipAddress = new String("127.0.0.1");
+				}
 
 				// System.out.println("porta scelta dal client " + port);
 
-				client = new Client(ipAddress, port, true);
+				client = new Client(ipAddress, portNumber, true);
 
 				// sendMessage("Client 2 connesso");
 
