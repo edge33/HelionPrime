@@ -100,7 +100,7 @@ public class LevelSwitchPanel extends JPanel {
 				MainGamePanel mainGamePanel = null;
 
 				try {
-					server = new Server(7777);
+					server = new Server(10001);
 				} catch (IOException e2) {
 					// TODO Auto-generated catch block
 					e2.printStackTrace();

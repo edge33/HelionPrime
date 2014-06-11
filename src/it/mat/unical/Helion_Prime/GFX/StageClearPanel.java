@@ -171,14 +171,14 @@ public class StageClearPanel extends JLayeredPane {
 
 					if (!Server.isServerStarted)
 						try {
-							server = new Server(7777);
+							server = new Server(10001);
 						} catch (IOException e2) {
 							e2.printStackTrace();
 						}
 					else {
 						server = null;
 						try {
-							server = new Server(7777);
+							server = new Server(10001);
 						} catch (IOException e3) {
 							// TODO Auto-generated catch block
 							e3.printStackTrace();
@@ -284,7 +284,7 @@ public class StageClearPanel extends JLayeredPane {
 					// .println("SONO STAGE CLEAR SINGLE PLAYER DOPO RESET");
 
 					try {
-						server = new Server(7777);
+						server = new Server(10001);
 					} catch (IOException e2) {
 						// TODO Auto-generated catch block
 						e2.printStackTrace();

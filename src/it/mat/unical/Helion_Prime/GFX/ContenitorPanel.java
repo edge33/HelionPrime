@@ -133,14 +133,14 @@ public class ContenitorPanel extends JLayeredPane {
 
 				if (!Server.isServerStarted)
 					try {
-						server = new Server(7777);
+						server = new Server(10001);
 					} catch (IOException e2) {
 						e2.printStackTrace();
 					}
 				else {
 					server = null;
 					try {
-						server = new Server(7777);
+						server = new Server(10001);
 					} catch (IOException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
