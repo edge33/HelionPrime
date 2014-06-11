@@ -384,7 +384,6 @@ public class LoginPanel extends JPanel
 				
 				if ( userField.getText().length() > 0 ) {
 
-					skip.setEnabled(true);
 					savedGames.removeAllItems();
 					
 					String username = userField.getText();
@@ -419,12 +418,14 @@ public class LoginPanel extends JPanel
 					bulletsGun2.setText(String.valueOf( playerstate.getGunBullets2() ));
 					bulletsGun3.setText(String.valueOf( playerstate.getGunBullets3() ));
 					bulletsGun4.setText(String.valueOf( playerstate.getGunBullets4() ));
+					skip.setEnabled(true);
 				} else {
 					score.setText("0");
 					bulletsGun1.setText("0");
 					bulletsGun2.setText("0");
 					bulletsGun3.setText("0");
 					bulletsGun4.setText("0");
+					skip.setEnabled(false);
 				}
 			}
 		});

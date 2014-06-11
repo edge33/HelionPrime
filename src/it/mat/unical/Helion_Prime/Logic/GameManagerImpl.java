@@ -289,13 +289,7 @@ public class GameManagerImpl implements GameManager {
 
 				if (currentNative.getLife() <= 0) {
 
-					if (currentNative instanceof SaboteurNative) {
-						incrMoney(350);
-					} else if (currentNative instanceof BountyHunterNative) {
-						incrMoney(250);
-					} else if (currentNative instanceof SoldierNative) {
-						incrMoney(100);
-					}
+					checkNativeDamage(currentNative);
 
 					natives.remove(currentNative.getKey());
 					AbstractTrap currentTrap = (AbstractTrap) world
@@ -389,13 +383,7 @@ public class GameManagerImpl implements GameManager {
 
 				if (currentNative.getLife() <= 0) {
 
-					if (currentNative instanceof SaboteurNative) {
-						incrMoney(350);
-					} else if (currentNative instanceof BountyHunterNative) {
-						incrMoney(250);
-					} else if (currentNative instanceof SoldierNative) {
-						incrMoney(100);
-					}
+					checkNativeDamage(currentNative);
 
 					natives.remove(currentNative.getKey());
 					AbstractTrap currentTrap = (AbstractTrap) world
@@ -431,6 +419,16 @@ public class GameManagerImpl implements GameManager {
 			oldMoney = money;
 		}
 
+	}
+
+	private void checkNativeDamage(AbstractNative currentNative) {
+		if (currentNative instanceof SaboteurNative) {
+			incrMoney(currentNative.getScore());
+		} else if (currentNative instanceof BountyHunterNative) {
+			incrMoney(currentNative.getScore());
+		} else if (currentNative instanceof SoldierNative) {
+			incrMoney(currentNative.getScore());
+		}
 	}
 
 	@Override

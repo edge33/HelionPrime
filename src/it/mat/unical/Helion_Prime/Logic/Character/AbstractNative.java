@@ -1,6 +1,7 @@
 package it.mat.unical.Helion_Prime.Logic.Character;
 
 import it.mat.unical.Helion_Prime.Logic.GameManagerImpl;
+import it.mat.unical.Helion_Prime.Logic.HasScore;
 import it.mat.unical.Helion_Prime.Logic.MaintenanceRoom;
 import it.mat.unical.Helion_Prime.Logic.World;
 import it.mat.unical.Helion_Prime.Logic.Ability.Resistance;
@@ -10,7 +11,7 @@ import java.awt.Point;
 import java.util.Random;
 import java.util.concurrent.ConcurrentHashMap;
 
-public class AbstractNative extends AbstractCharacter implements Resistance {
+public class AbstractNative extends AbstractCharacter implements Resistance,HasScore {
 
 	private final int key;
 	private final int type;
@@ -24,6 +25,7 @@ public class AbstractNative extends AbstractCharacter implements Resistance {
 	protected Thread coolDownManager;
 	protected int currentPosition = 1;
 	protected boolean firstMove = false;
+	private int score;
 	private int id;
 
 	public AbstractNative(int x, int y, World world, int key, int id) {
@@ -189,6 +191,16 @@ public class AbstractNative extends AbstractCharacter implements Resistance {
 
 	public void setTrapToFind(AbstractTrap trapToFind) {
 		this.trapToFind = trapToFind;
+	}
+
+	@Override
+	public void setScore(int score) {
+		this.score = score;
+	}
+
+	@Override
+	public int getScore() {
+		return this.score;
 	}
 
 }

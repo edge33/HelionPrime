@@ -4,7 +4,7 @@ import it.mat.unical.Helion_Prime.Logic.HasScore;
 import it.mat.unical.Helion_Prime.Logic.Wall;
 import it.mat.unical.Helion_Prime.Logic.World;
 
-public abstract class AbstractCharacter implements Character, HasScore {
+public abstract class AbstractCharacter implements Character {
 
 	private int x;
 	private int y;
@@ -13,7 +13,6 @@ public abstract class AbstractCharacter implements Character, HasScore {
 	private int graphicY;
 
 	private int direction;
-	private int score;
 	protected int lifePoints;
 	protected World world;
 
@@ -23,7 +22,6 @@ public abstract class AbstractCharacter implements Character, HasScore {
 		this.x = x;
 		this.y = y;
 		this.world = world;
-		this.score = 0;
 		this.lifePoints = 100000;
 		this.alive = true;
 	}
@@ -50,11 +48,6 @@ public abstract class AbstractCharacter implements Character, HasScore {
 	@Override
 	public int getY() {
 		return y;
-	}
-
-	@Override
-	public int getScore() {
-		return score;
 	}
 
 	@Override

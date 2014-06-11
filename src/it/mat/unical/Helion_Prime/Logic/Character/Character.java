@@ -9,8 +9,6 @@ public interface Character extends DynamicObject {
 	public static final int RIGHT = 3;
 	public static final int LEFT = 2;
 
-	public abstract int getScore();
-
 	public abstract int getLife();
 
 	public abstract void setLife(int lifePoints);

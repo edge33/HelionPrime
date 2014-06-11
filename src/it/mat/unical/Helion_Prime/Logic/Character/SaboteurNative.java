@@ -4,6 +4,8 @@ import it.mat.unical.Helion_Prime.Logic.World;
 
 public class SaboteurNative extends AbstractNative {
 
+	private static final int SCORE = 350;
+	
 	private int direction;
 	private int currentPosition = 1;
 	private final int type = 2;
@@ -14,6 +16,7 @@ public class SaboteurNative extends AbstractNative {
 		super(x, y, world, nativeIndex, id);
 		this.id = id;
 		super.setLife(100);
+		super.setScore(SCORE);
 		super.attackPower = 10;
 		this.direction = 0;
 		super.nativeAi = FindTrapAI.getInstance();
