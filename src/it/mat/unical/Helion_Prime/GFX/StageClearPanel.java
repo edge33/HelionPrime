@@ -109,16 +109,13 @@ public class StageClearPanel extends JLayeredPane {
 		this.bulletsGun3 = new JLabel("0");
 		this.bulletsGun4 = new JLabel("0");
 
-		this.overrideSaveButton = new SaveGameInvokerButton(
-				"Overwrite Savegame", new OverrideSavegameCommand());
-		this.newSaveGameButton = new SaveGameInvokerButton("Save New Game",
-				new NewSavegameCommand());
+		this.overrideSaveButton = new SaveGameInvokerButton("Overwrite Savegame", new OverrideSavegameCommand());
+		this.newSaveGameButton = new SaveGameInvokerButton("Save New Game",new NewSavegameCommand());
 		this.hideButton = new JButton("Hide");
 
 		this.clientManager = clientManager;
 		this.profile = clientManager.getUserProfile();
-		this.isStoryModeOn = MainMenuFrame.getInstance().getMainMenuPanel()
-				.isStoryModeOn();
+		this.isStoryModeOn = MainMenuFrame.getInstance().getMainMenuPanel().isStoryModeOn();
 		if (isStoryModeOn) {
 			this.saveLevel = new JButton("Save Level");
 		} else {
@@ -173,7 +170,7 @@ public class StageClearPanel extends JLayeredPane {
 						try {
 							server = new Server(10001);
 						} catch (IOException e2) {
-							e2.printStackTrace();
+//							e2.printStackTrace();
 						}
 					else {
 						server = null;
@@ -181,7 +178,7 @@ public class StageClearPanel extends JLayeredPane {
 							server = new Server(10001);
 						} catch (IOException e3) {
 							// TODO Auto-generated catch block
-							e3.printStackTrace();
+//							e3.printStackTrace();
 						}
 
 					}
@@ -287,7 +284,7 @@ public class StageClearPanel extends JLayeredPane {
 						server = new Server(10001);
 					} catch (IOException e2) {
 						// TODO Auto-generated catch block
-						e2.printStackTrace();
+//						e2.printStackTrace();
 					}
 					server.setLevel(lastLevelPlayed.getName());
 					server.start();

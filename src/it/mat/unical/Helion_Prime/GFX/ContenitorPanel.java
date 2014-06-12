@@ -135,7 +135,7 @@ public class ContenitorPanel extends JLayeredPane {
 					try {
 						server = new Server(10001);
 					} catch (IOException e2) {
-						e2.printStackTrace();
+//						e2.printStackTrace();
 					}
 				else {
 					server = null;
@@ -143,7 +143,7 @@ public class ContenitorPanel extends JLayeredPane {
 						server = new Server(10001);
 					} catch (IOException e) {
 						// TODO Auto-generated catch block
-						e.printStackTrace();
+//						e.printStackTrace();
 					}
 
 				}

@@ -27,8 +27,7 @@ public class ThreadPoolBullet extends Thread {
 			if (bullets.size() > 0) {
 				for (Integer key : bullets.keySet()) {
 
-					if (bullets.get(key).ControllStopBullet()
-							|| bullets.get(key).getStopBullet()) {
+					if ( bullets != null && (bullets.get(key).ControllStopBullet() || bullets.get(key).getStopBullet() ) ) {
 						if (!gameManager.isMultiplayerGame()) {
 							gameManager.getServer().sendMessage("sr " + key);
 							// //System.out.println("dsdd");
@@ -51,6 +50,7 @@ public class ThreadPoolBullet extends Thread {
 			} catch (InterruptedException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
+				continue;
 			}
 
 		}

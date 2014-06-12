@@ -67,7 +67,6 @@ public class SaveManagerImpl extends AbstractDbManager implements SaveManager {
 			 
 			 
 		} catch (SQLException e) {
-			e.printStackTrace();
 			testException(e);
 			return false;
 		} finally {

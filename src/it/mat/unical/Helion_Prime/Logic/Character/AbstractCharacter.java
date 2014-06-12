@@ -21,7 +21,7 @@ public abstract class AbstractCharacter implements Character {
 		this.x = x;
 		this.y = y;
 		this.world = world;
-		this.lifePoints = 1000;
+		this.lifePoints = 100;
 		this.alive = true;
 	}
 

@@ -26,7 +26,7 @@ public class PlayerSaveState {
 	}
 
 	public void destroy() {
-		instance = null;
+		this.profileSet = false;
 	}
 
 	private PlayerSaveState() {
